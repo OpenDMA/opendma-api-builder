@@ -1,0 +1,102 @@
+package org.opendma.apibuilder;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.opendma.apibuilder.apiwriter.OdmaJavaApiWriter;
+import org.opendma.apibuilder.structure.ApiDescription;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
+public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
+{
+
+    public static void main(String[] args)
+    {
+        OdmaApiBuilder apiBuilder = new OdmaApiBuilder();
+        apiBuilder.run(args);
+    }
+
+    public void run(String[] args)
+    {
+        //-----< STEP 1: check arguments >-------------------------------------
+        if ((args == null) || (args.length != 2))
+        {
+            usage();
+            return;
+        }
+        //-----< STEP 2: read XML file >---------------------------------------
+        String descriptionFileName = args[0];
+        Element descriptionRootElement = null;
+        try
+        {
+            descriptionRootElement = readDescriptionFile(descriptionFileName);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error reading description file " + descriptionFileName + ": " + e);
+            e.printStackTrace(System.out);
+        }
+        //-----< STEP 3: read class hierarchy from XML DOM tree >--------------
+        ApiDescription odmaClassHierarchy = null;
+        try
+        {
+            odmaClassHierarchy = new ApiDescription(descriptionRootElement);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error loading class hierarchy from description file " + descriptionFileName + ": " + e);
+            e.printStackTrace(System.out);
+        }
+        //-----< STEP 4: validate the class hierarchy >------------------------
+        try
+        {
+            odmaClassHierarchy.checkUniqueness();
+            odmaClassHierarchy.checkReferences();
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error validating class hierarchy from description file " + descriptionFileName + ": " + e);
+            e.printStackTrace(System.out);
+        }
+        //-----< STEP 5: create API for each programming language >------------
+        String outputFolderRoot = args[1];
+        List odmaApiWriters = new ArrayList();
+        odmaApiWriters.add(new OdmaJavaApiWriter());
+        Iterator itOdmaApiWriters = odmaApiWriters.iterator();
+        while(itOdmaApiWriters.hasNext())
+        {
+            OdmaApiWriter apiWriter = (OdmaApiWriter)itOdmaApiWriters.next();
+            try
+            {
+                apiWriter.writeOdmaApi(odmaClassHierarchy, outputFolderRoot);
+            }
+            catch(Exception e)
+            {
+                System.out.println("Error executing api writer " + apiWriter.getClass().getName());
+                e.printStackTrace(System.out);
+            }
+        }
+    }
+
+    public void usage()
+    {
+        System.out.println("OdmaApiBuilder <descriptionFileName> <outputFolder>");
+    }
+
+    public Element readDescriptionFile(String descriptionFileName) throws ParserConfigurationException, SAXException, IOException
+    {
+        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document descriptionDocument = docBuilder.parse(new File(descriptionFileName));
+        return descriptionDocument.getDocumentElement();
+    }
+
+}
