@@ -346,7 +346,7 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
         ScalarTypeDescription scalarTypeDescription = ContainingClass.getContainingApiDescription().getScalarTypeDescription(value);
         if(scalarTypeDescription == null)
         {
-            throw new DescriptionFileSyntaxException("Invalid scalar type value in attribute "+attributeName+" of class "+this.ContainingClass.toString());
+            throw new DescriptionFileSyntaxException("Invalid scalar type value in attribute "+attributeName+" of property "+this.OdmaName.toString()+" in class "+this.ContainingClass.toString());
         }
         return scalarTypeDescription.getNumericID();
     }

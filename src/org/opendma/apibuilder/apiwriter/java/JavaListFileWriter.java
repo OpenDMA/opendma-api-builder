@@ -1,0 +1,61 @@
+package org.opendma.apibuilder.apiwriter.java;
+
+import java.io.PrintWriter;
+
+import org.opendma.apibuilder.OdmaApiWriter;
+import org.opendma.apibuilder.apiwriter.AbstractListFileWriter;
+import org.opendma.apibuilder.structure.ScalarTypeDescription;
+
+public class JavaListFileWriter extends AbstractListFileWriter
+{
+    
+    protected OdmaApiWriter apiWriter;
+    
+    public JavaListFileWriter(OdmaApiWriter writer)
+    {
+        apiWriter = writer;
+    }
+
+    protected void writeListFileHeader(ScalarTypeDescription scalarTypeDescription, PrintWriter out)
+    {
+        out.println("package org.opendma.api.collections;");
+        out.println("");
+        out.println("import java.util.List;");
+        out.println("");
+        out.println("/**");
+        out.println(" * Type safe version of the <code>List</code> interface for the <i>"+scalarTypeDescription.getName()+"</i>");
+        out.println(" * data type.");
+        out.println(" * ");
+        out.println(" * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board");
+        out.println(" */");
+        out.println("public interface "+apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID())+" extends List");
+        out.println("{");
+    }
+
+    protected void writeListFileMethods(ScalarTypeDescription scalarTypeDescription, PrintWriter out)
+    {
+        String singleValueDataType = apiWriter.getProgrammingLanguageSpecificScalarDataType(false,scalarTypeDescription.getNumericID());
+        out.println("");
+        out.println("    /**");
+        out.println("     * Returns the <code>"+singleValueDataType+"</code> element at the specified position in");
+        out.println("     * this list.");
+        out.println("     * ");
+        out.println("     * @param index");
+        out.println("     *            position of the element to return");
+        out.println("     * ");
+        out.println("     * @return the <code>"+singleValueDataType+"</code> element at the specified position in");
+        out.println("     *         this list.");
+        out.println("     * ");
+        out.println("     * @throws IndexOutOfBoundsException");
+        out.println("     *             if the index is out of range (index < 0 || index >= size()).");
+        out.println("     */");
+        out.println("    public "+singleValueDataType+" get"+scalarTypeDescription.getName()+"(int index);");
+    }
+
+    protected void writeListFileFooter(ScalarTypeDescription scalarTypeDescription, PrintWriter out)
+    {
+        out.println("");
+        out.println("}");
+    }
+
+}

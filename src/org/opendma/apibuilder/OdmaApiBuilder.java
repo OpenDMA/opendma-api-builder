@@ -10,7 +10,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.opendma.apibuilder.apiwriter.OdmaJavaApiWriter;
+import org.opendma.apibuilder.apiwriter.java.JavaApiWriter;
 import org.opendma.apibuilder.structure.ApiDescription;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -55,6 +55,7 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         {
             System.out.println("Error loading class hierarchy from description file " + descriptionFileName + ": " + e);
             e.printStackTrace(System.out);
+            return;
         }
         //-----< STEP 4: validate the class hierarchy >------------------------
         try
@@ -66,11 +67,11 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         {
             System.out.println("Error validating class hierarchy from description file " + descriptionFileName + ": " + e);
             e.printStackTrace(System.out);
+            return;
         }
         //-----< STEP 5: create API for each programming language >------------
         String outputFolderRoot = args[1];
-        List odmaApiWriters = new ArrayList();
-        odmaApiWriters.add(new OdmaJavaApiWriter());
+        List odmaApiWriters = getApiWriters();
         Iterator itOdmaApiWriters = odmaApiWriters.iterator();
         while(itOdmaApiWriters.hasNext())
         {
@@ -83,20 +84,29 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
             {
                 System.out.println("Error executing api writer " + apiWriter.getClass().getName());
                 e.printStackTrace(System.out);
+                return;
             }
         }
+        System.out.println("Successfully done.");
     }
 
-    public void usage()
+    protected void usage()
     {
         System.out.println("OdmaApiBuilder <descriptionFileName> <outputFolder>");
     }
 
-    public Element readDescriptionFile(String descriptionFileName) throws ParserConfigurationException, SAXException, IOException
+    protected Element readDescriptionFile(String descriptionFileName) throws ParserConfigurationException, SAXException, IOException
     {
         DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document descriptionDocument = docBuilder.parse(new File(descriptionFileName));
         return descriptionDocument.getDocumentElement();
+    }
+    
+    protected List getApiWriters()
+    {
+        List result = new ArrayList();
+        result.add(new JavaApiWriter());
+        return result;
     }
 
 }

@@ -45,6 +45,11 @@ public class ClassDescription implements DescriptionFileTypes
         this.ContainingApiDescription = containingApiDescription;
         parse(classDescriptionElement);
     }
+    
+    public String toString()
+    {
+        return OdmaName.toString();
+    }
 
     /**
      * Returns the qualified name of the described class.

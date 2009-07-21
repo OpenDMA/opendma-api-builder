@@ -16,6 +16,9 @@ public class ScalarTypeDescription implements DescriptionFileTypes
     /** wheather this scalar type is only used in the API */
     protected boolean Internal;
     
+    /** wheather this scalar type is a reference or not */
+    protected boolean Reference;
+    
     /**
      * Create a new ScalarTypeDescription by reading the definition from a W3C DOM tree.
      * This constructor only performs some basic syntax checks.
@@ -60,6 +63,11 @@ public class ScalarTypeDescription implements DescriptionFileTypes
     {
         return Internal;
     }
+    
+    public boolean isReference()
+    {
+        return Reference;
+    }
 
     /**
      * Read the definition of this scalar type from a W3C DOM tree and perform some
@@ -79,6 +87,7 @@ public class ScalarTypeDescription implements DescriptionFileTypes
         // read description
         String numericId = scalarTypeElement.getAttribute(DESCRIPTION_ATTRIBUTE_NUMERICID);
         String name = scalarTypeElement.getAttribute(DESCRIPTION_ATTRIBUTE_NAME);
+        String reference = scalarTypeElement.getAttribute(DESCRIPTION_ATTRIBUTE_REFERENCE);
         if((numericId==null) || (numericId.trim().length()==0) )
         {
             throw new DescriptionFileSyntaxException("Missing numericId of ScalarType");
@@ -86,6 +95,10 @@ public class ScalarTypeDescription implements DescriptionFileTypes
         if((name==null) || (name.trim().length()==0) )
         {
             throw new DescriptionFileSyntaxException("Missing name of ScalarType");
+        }
+        if((reference==null) || (reference.trim().length()==0) )
+        {
+            throw new DescriptionFileSyntaxException("Missing reference property of ScalarType");
         }
         Name = name;
         try
@@ -95,6 +108,18 @@ public class ScalarTypeDescription implements DescriptionFileTypes
         catch(Exception e)
         {
             throw new DescriptionFileSyntaxException("numericId of ScalarType is not an integer");
+        }
+        if(reference.equalsIgnoreCase("true"))
+        {
+            Reference = true;
+        }
+        else if(reference.equalsIgnoreCase("false"))
+        {
+            Reference = false;
+        }
+        else
+        {
+            throw new DescriptionFileSyntaxException("reference of ScalarType is not boolean (true/false)");
         }
     }
 
