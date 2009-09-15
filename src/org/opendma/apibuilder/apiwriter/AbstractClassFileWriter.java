@@ -16,6 +16,8 @@ public abstract class AbstractClassFileWriter
 
     protected abstract void writeClassFileFooter(ClassDescription classDescription, PrintWriter out);
 
+    protected abstract void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException;
+
     protected abstract void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out);
 
     protected abstract void writeClassPropertyAccess(PropertyDescription property, PrintWriter out);
@@ -26,6 +28,11 @@ public abstract class AbstractClassFileWriter
         PrintWriter out = new PrintWriter(classOutputStream);
         // write Header
         writeClassFileHeader(classDescription,out);
+        // write section for generic property access (if required)
+        if(classDescription.getExtendsOdmaName() == null)
+        {
+            writeClassGenericPropertyAccess(classDescription,out);
+        }
         // write Header of object specific property access section
         writeClassObjectSpecificPropertyAccessSectionHeader(classDescription,out);
         // write getter and setter for all properties

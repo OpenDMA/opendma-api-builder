@@ -1,9 +1,14 @@
 package org.opendma.apibuilder.apiwriter.java;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import org.opendma.apibuilder.OdmaApiWriter;
 import org.opendma.apibuilder.OdmaBasicTypes;
+import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
 import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
@@ -52,6 +57,21 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
     {
         out.println("");
         out.println("}");
+    }
+
+    protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
+    {
+        out.println("");
+        out.println("    // =============================================================================================");
+        out.println("    // Generic property access");
+        out.println("    // =============================================================================================");
+        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java/OdmaObject.GenericPropertyAccess.template");
+        BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
+        String templateLine = null;
+        while( (templateLine = templareReader.readLine()) != null)
+        {
+            out.println(templateLine);
+        }
     }
 
     protected void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out)
