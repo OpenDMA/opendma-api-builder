@@ -27,6 +27,8 @@ public interface DescriptionFileTypes
 
     public final static String DESCRIPTION_ATTRIBUTE_REFERENCE = "reference";
 
+    public final static String DESCRIPTION_ATTRIBUTE_BASESCALAR = "baseScalar";
+
     public final static String DESCRIPTION_ATTRIBUTE_EXTENDSQUALIFIER = "extendsQualifier";
 
     public final static String DESCRIPTION_ATTRIBUTE_EXTENDSNAME = "extendsName";

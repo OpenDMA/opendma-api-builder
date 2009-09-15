@@ -14,22 +14,22 @@ public class ClassDescription implements DescriptionFileTypes
 {
 
     /** the qualified name of the described class */
-    protected OdmaApiBuilderQName OdmaName;
+    protected OdmaApiBuilderQName odmaName;
 
     /** the qualified name of the class that is extended by this class. Can be null */
-    protected OdmaApiBuilderQName ExtendsName;
+    protected OdmaApiBuilderQName extendsOdmaName;
 
     /** the name of this class in the programmers API. This might differ from the name in ODMA due to naming conflicts (e.g. Class) */
-    protected String ApiName;
+    protected String apiName;
     
     /** the full description of this class. Can be null. */
-    protected String Description;
+    protected String descriptionComment;
 
     /** the List of declared properties in this class */
-    protected List PropertyDescriptions;
+    protected List propertyDescriptions;
     
     /** the ApiDescription this class description is part of */
-    protected ApiDescription ContainingApiDescription;
+    protected ApiDescription containingApiDescription;
     
     /**
      * Create a new ClassDescription by reading the definition from a W3C DOM tree.
@@ -42,13 +42,13 @@ public class ClassDescription implements DescriptionFileTypes
      */
     public ClassDescription(Element classDescriptionElement, ApiDescription containingApiDescription) throws DescriptionFileSyntaxException
     {
-        this.ContainingApiDescription = containingApiDescription;
+        this.containingApiDescription = containingApiDescription;
         parse(classDescriptionElement);
     }
     
     public String toString()
     {
-        return OdmaName.toString();
+        return odmaName.toString();
     }
 
     /**
@@ -58,7 +58,7 @@ public class ClassDescription implements DescriptionFileTypes
      */
     public OdmaApiBuilderQName getOdmaName()
     {
-        return OdmaName;
+        return odmaName;
     }
 
     /**
@@ -66,9 +66,9 @@ public class ClassDescription implements DescriptionFileTypes
      * 
      * @return the qualified name of the class that is extended by this class. Can be null
      */
-    public OdmaApiBuilderQName getExtendsName()
+    public OdmaApiBuilderQName getExtendsOdmaName()
     {
-        return ExtendsName;
+        return extendsOdmaName;
     }
 
     /**
@@ -79,7 +79,7 @@ public class ClassDescription implements DescriptionFileTypes
      */
     public String getApiName()
     {
-        return ApiName;
+        return apiName;
     }
     
     /**
@@ -90,7 +90,7 @@ public class ClassDescription implements DescriptionFileTypes
      */
     public String getExtendsApiName()
     {
-        return (ExtendsName == null) ? null : ContainingApiDescription.getDescribedClass(ExtendsName).getApiName();
+        return (extendsOdmaName == null) ? null : containingApiDescription.getDescribedClass(extendsOdmaName).getApiName();
     }
 
     /**
@@ -100,7 +100,7 @@ public class ClassDescription implements DescriptionFileTypes
      */
     public String getDescription()
     {
-        return Description;
+        return descriptionComment;
     }
     
 
@@ -111,7 +111,7 @@ public class ClassDescription implements DescriptionFileTypes
      */
     public List getPropertyDescriptions()
     {
-        return PropertyDescriptions;
+        return propertyDescriptions;
     }
     
     /**
@@ -121,7 +121,7 @@ public class ClassDescription implements DescriptionFileTypes
      */
     public ApiDescription getContainingApiDescription()
     {
-        return ContainingApiDescription;
+        return containingApiDescription;
     }
     
     /**
@@ -150,7 +150,7 @@ public class ClassDescription implements DescriptionFileTypes
         {
             throw new DescriptionFileSyntaxException("Missing name of class");
         }
-        OdmaName = new OdmaApiBuilderQName(qualifier,name);
+        odmaName = new OdmaApiBuilderQName(qualifier,name);
         String extendsQualifier = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_EXTENDSQUALIFIER);
         String extendsName = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_EXTENDSNAME);
         if(extendsQualifier.trim().length()==0)
@@ -163,16 +163,15 @@ public class ClassDescription implements DescriptionFileTypes
         }
         if( (extendsQualifier!=null) && (extendsName!=null) )
         {
-            ExtendsName = new OdmaApiBuilderQName(extendsQualifier,extendsName);
+            extendsOdmaName = new OdmaApiBuilderQName(extendsQualifier,extendsName);
         }
-        String apiname = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_APINAME);
-        if((apiname==null) || (apiname.trim().length()==0) )
+        apiName = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_APINAME);
+        if((apiName==null) || (apiName.trim().length()==0) )
         {
-            throw new DescriptionFileSyntaxException("Missing apiname of class "+OdmaName.toString());
+            throw new DescriptionFileSyntaxException("Missing apiname of class "+odmaName.toString());
         }
-        ApiName = apiname;
         // iterate through all elements below the <Class> Element
-        PropertyDescriptions = new ArrayList();
+        propertyDescriptions = new ArrayList();
         Element descriptionElement = null;
         NodeList pluginlist = classDescriptionElement.getChildNodes();
         for (int i = 0; i < pluginlist.getLength(); i++)
@@ -182,13 +181,13 @@ public class ClassDescription implements DescriptionFileTypes
             {
                 if (((Element) testchild).getTagName().equals(DESCRIPTION_ELEMENT_PROPERTY))
                 {
-                    PropertyDescriptions.add(new PropertyDescription((Element) testchild, this));
+                    propertyDescriptions.add(new PropertyDescription((Element) testchild, this));
                 }
                 else if (((Element) testchild).getTagName().equals(DESCRIPTION_ELEMENT_DESCRIPTION))
                 {
                     if(descriptionElement != null)
                     {
-                        throw new DescriptionFileSyntaxException("Multiple occurance of the "+DESCRIPTION_ELEMENT_DESCRIPTION+" element in class "+OdmaName.toString());
+                        throw new DescriptionFileSyntaxException("Multiple occurance of the "+DESCRIPTION_ELEMENT_DESCRIPTION+" element in class "+odmaName.toString());
                     }
                     descriptionElement = (Element)testchild;
                 }
@@ -196,14 +195,14 @@ public class ClassDescription implements DescriptionFileTypes
         }
         if(descriptionElement != null)
         {
-            Description = "";
+            descriptionComment = "";
             NodeList descriptionChilds = descriptionElement.getChildNodes();
             for(int i = 0; i < descriptionChilds.getLength(); i++)
             {
                 Node testchild = descriptionChilds.item(i);
                 if(testchild.getNodeType() == Node.TEXT_NODE)
                 {
-                    Description = Description + testchild.getNodeValue();
+                    descriptionComment = descriptionComment + testchild.getNodeValue();
                 }
             }
         }

@@ -8,16 +8,19 @@ public class ScalarTypeDescription implements DescriptionFileTypes
 {
 
     /** the name of the scalar type */
-    protected String Name;
+    protected String name;
 
     /** the numeric ID of this scalar type */
-    protected int NumericID;
+    protected int numericID;
     
     /** wheather this scalar type is only used in the API */
-    protected boolean Internal;
+    protected boolean internal;
     
     /** wheather this scalar type is a reference or not */
-    protected boolean Reference;
+    protected boolean reference;
+    
+    /** the base scalar type of this internal scalar type if this is an internal scalar type, <code>null</code> otherwise */
+    protected String baseScalar;
     
     /**
      * Create a new ScalarTypeDescription by reading the definition from a W3C DOM tree.
@@ -30,7 +33,7 @@ public class ScalarTypeDescription implements DescriptionFileTypes
      */
     public ScalarTypeDescription(Element scalarTypeElement, boolean internal) throws DescriptionFileSyntaxException
     {
-        this.Internal = internal;
+        this.internal = internal;
         parse(scalarTypeElement);
     }
 
@@ -41,7 +44,7 @@ public class ScalarTypeDescription implements DescriptionFileTypes
      */
     public String getName()
     {
-        return Name;
+        return name;
     }
 
     /**
@@ -51,7 +54,7 @@ public class ScalarTypeDescription implements DescriptionFileTypes
      */
     public int getNumericID()
     {
-        return NumericID;
+        return numericID;
     }
     
     /**
@@ -61,12 +64,27 @@ public class ScalarTypeDescription implements DescriptionFileTypes
      */
     public boolean isInternal()
     {
-        return Internal;
+        return internal;
     }
     
+    /**
+     * Returns wheather this scalar type is a reference or not.
+     * 
+     * @return wheather this scalar type is a reference or not
+     */
     public boolean isReference()
     {
-        return Reference;
+        return reference;
+    }
+    
+    /**
+     * Returns the base scalar type of this internal scalar type if this is an internal scalar type, <code>null</code> otherwise.
+     * 
+     * @return the base scalar type of this internal scalar type if this is an internal scalar type, <code>null</code> otherwise
+     */
+    public String getBaseScalar()
+    {
+        return baseScalar;
     }
 
     /**
@@ -85,10 +103,11 @@ public class ScalarTypeDescription implements DescriptionFileTypes
             throw new DescriptionFileSyntaxException("The name of a ScalarTypeDescription element must be "+DESCRIPTION_ELEMENT_SCALARTYPE+" or "+DESCRIPTION_ELEMENT_INTERNALSCALARTYPE);
         }
         // read description
-        String numericId = scalarTypeElement.getAttribute(DESCRIPTION_ATTRIBUTE_NUMERICID);
-        String name = scalarTypeElement.getAttribute(DESCRIPTION_ATTRIBUTE_NAME);
-        String reference = scalarTypeElement.getAttribute(DESCRIPTION_ATTRIBUTE_REFERENCE);
-        if((numericId==null) || (numericId.trim().length()==0) )
+        String numericIdString = scalarTypeElement.getAttribute(DESCRIPTION_ATTRIBUTE_NUMERICID);
+        name = scalarTypeElement.getAttribute(DESCRIPTION_ATTRIBUTE_NAME);
+        String referenceString = scalarTypeElement.getAttribute(DESCRIPTION_ATTRIBUTE_REFERENCE);
+        baseScalar = scalarTypeElement.getAttribute(DESCRIPTION_ATTRIBUTE_BASESCALAR);
+        if((numericIdString==null) || (numericIdString.trim().length()==0) )
         {
             throw new DescriptionFileSyntaxException("Missing numericId of ScalarType");
         }
@@ -96,26 +115,32 @@ public class ScalarTypeDescription implements DescriptionFileTypes
         {
             throw new DescriptionFileSyntaxException("Missing name of ScalarType");
         }
-        if((reference==null) || (reference.trim().length()==0) )
+        if((referenceString==null) || (referenceString.trim().length()==0) )
         {
             throw new DescriptionFileSyntaxException("Missing reference property of ScalarType");
         }
-        Name = name;
+        if(internal)
+        {
+            if((baseScalar==null) || (baseScalar.trim().length()==0) )
+            {
+                throw new DescriptionFileSyntaxException("Missing baseScalar of internal ScalarType");
+            }
+        }
         try
         {
-            NumericID = Integer.parseInt(numericId);
+            numericID = Integer.parseInt(numericIdString);
         }
         catch(Exception e)
         {
             throw new DescriptionFileSyntaxException("numericId of ScalarType is not an integer");
         }
-        if(reference.equalsIgnoreCase("true"))
+        if(referenceString.equalsIgnoreCase("true"))
         {
-            Reference = true;
+            reference = true;
         }
-        else if(reference.equalsIgnoreCase("false"))
+        else if(referenceString.equalsIgnoreCase("false"))
         {
-            Reference = false;
+            reference = false;
         }
         else
         {

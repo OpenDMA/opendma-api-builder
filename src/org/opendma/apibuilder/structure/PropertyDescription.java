@@ -15,31 +15,31 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
     protected OdmaApiBuilderQName OdmaName;
 
     /** the name of this property in the programmers API. This might differ from the name in ODMA due to naming conflicts (e.g. Class) */
-    protected String ApiName;
+    protected String apiName;
 
     /** the ReadOnly attribute of this property */
-    protected boolean ReadOnly;
+    protected boolean readOnly;
 
     /** the data type of this property */
-    protected int DataType;
+    protected int dataType;
 
     /** the multi value attribute of this property */
-    protected boolean MultiValue;
+    protected boolean multiValue;
 
     /** the Required attribute of this property */
-    protected boolean Required;
+    protected boolean required;
     
     /** the required class of the target object if this is a reference property, null otherwise */
-    protected OdmaApiBuilderQName ReferenceClassName;
+    protected OdmaApiBuilderQName referenceClassName;
 
     /** the ClassDescription this property has been declared in */
     protected ClassDescription ContainingClass;
     
     /** the short description of this property */
-    protected String Abstract;
+    protected String abstractComment;
     
     /** the full description of this property */
-    protected String Description;
+    protected String descriptionComment;
     
     /**
      * Create a new PropertyDescription by reading the definition from a W3C DOM tree.
@@ -74,7 +74,7 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public String getApiName()
     {
-        return ApiName;
+        return apiName;
     }
 
     /**
@@ -84,7 +84,7 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public boolean isReadOnly()
     {
-        return ReadOnly;
+        return readOnly;
     }
 
     /**
@@ -94,7 +94,7 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public int getDataType()
     {
-        return DataType;
+        return dataType;
     }
     
     /**
@@ -104,7 +104,7 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public boolean getMultiValue()
     {
-        return MultiValue;
+        return multiValue;
     }
     
     /**
@@ -114,7 +114,7 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public boolean getRequired()
     {
-        return Required;
+        return required;
     }
 
     /**
@@ -124,7 +124,7 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public OdmaApiBuilderQName getReferenceClassName()
     {
-        return ReferenceClassName;
+        return referenceClassName;
     }
     
     /**
@@ -144,7 +144,7 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public String getAbstract()
     {
-        return Abstract;
+        return abstractComment;
     }
     
     /**
@@ -154,7 +154,7 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public String getDescription()
     {
-        return Description;
+        return descriptionComment;
     }
     
     /**
@@ -184,41 +184,40 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
             throw new DescriptionFileSyntaxException("Missing name of property in class "+this.ContainingClass.getOdmaName().toString());
         }
         OdmaName = new OdmaApiBuilderQName(qualifier,name);
-        String apiname = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_APINAME);
-        String readonly = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_READONLY);
-        String datatype = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_DATATYPE);
-        String multivalue = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_MULTIVALUE);
-        String required = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_REQUIRED);
-        if((apiname==null) || (apiname.trim().length()==0) )
+        apiName = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_APINAME);
+        String readOnlyString = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_READONLY);
+        String dataTypeString = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_DATATYPE);
+        String multiValueString = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_MULTIVALUE);
+        String requiredString = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_REQUIRED);
+        if((apiName==null) || (apiName.trim().length()==0) )
         {
             throw new DescriptionFileSyntaxException("Missing apiname of property "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
         }
-        if((readonly==null) || (readonly.trim().length()==0) )
+        if((readOnlyString==null) || (readOnlyString.trim().length()==0) )
         {
             throw new DescriptionFileSyntaxException("Missing readonly of property "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
         }
-        if((datatype==null) || (datatype.trim().length()==0) )
+        if((dataTypeString==null) || (dataTypeString.trim().length()==0) )
         {
             throw new DescriptionFileSyntaxException("Missing readonly of property "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
         }
-        if((multivalue==null) || (multivalue.trim().length()==0) )
+        if((multiValueString==null) || (multiValueString.trim().length()==0) )
         {
             throw new DescriptionFileSyntaxException("Missing multivalue of property "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
         }
-        if((required==null) || (required.trim().length()==0) )
+        if((requiredString==null) || (requiredString.trim().length()==0) )
         {
             throw new DescriptionFileSyntaxException("Missing required of property "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
         }
-        ApiName = apiname;
-        ReadOnly = parseBoolean(readonly,DESCRIPTION_ATTRIBUTE_READONLY);
-        DataType = parseDataType(datatype,DESCRIPTION_ATTRIBUTE_DATATYPE);
-        MultiValue = parseBoolean(multivalue,DESCRIPTION_ATTRIBUTE_MULTIVALUE);
-        Required = parseBoolean(multivalue,DESCRIPTION_ATTRIBUTE_REQUIRED);
+        readOnly = parseBoolean(readOnlyString,DESCRIPTION_ATTRIBUTE_READONLY);
+        dataType = parseDataType(dataTypeString,DESCRIPTION_ATTRIBUTE_DATATYPE);
+        multiValue = parseBoolean(multiValueString,DESCRIPTION_ATTRIBUTE_MULTIVALUE);
+        required = parseBoolean(requiredString,DESCRIPTION_ATTRIBUTE_REQUIRED);
         String referenceQualifier = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_REFERENCEQUALIFIER);
         String referenceName = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_REFERENCENAME);
         boolean referenceQualifierEmpty = ((referenceQualifier==null) || (referenceQualifier.trim().length()==0) );
         boolean referenceNameEmpty = ((referenceName==null) || (referenceName.trim().length()==0) );
-        if(DataType == TYPE_REFERENCE)
+        if(dataType == TYPE_REFERENCE)
         {
             if(referenceQualifierEmpty)
             {
@@ -228,7 +227,7 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
             {
                 throw new DescriptionFileSyntaxException("The attribute referenceName is required for dataType reference in property "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
             }
-            ReferenceClassName = new OdmaApiBuilderQName(referenceQualifier,referenceName);
+            referenceClassName = new OdmaApiBuilderQName(referenceQualifier,referenceName);
         }
         else
         {
@@ -269,35 +268,35 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
         }
         if(abstractElement != null)
         {
-            Abstract = "";
+            abstractComment = "";
             NodeList abstractChilds = abstractElement.getChildNodes();
             for(int i = 0; i < abstractChilds.getLength(); i++)
             {
                 Node testchild = abstractChilds.item(i);
                 if(testchild.getNodeType() == Node.TEXT_NODE)
                 {
-                    Abstract = Abstract + testchild.getNodeValue();
+                    abstractComment = abstractComment + testchild.getNodeValue();
                 }
             }
         }
         if(descriptionElement != null)
         {
-            Description = "";
+            descriptionComment = "";
             NodeList descriptionChilds = descriptionElement.getChildNodes();
             for(int i = 0; i < descriptionChilds.getLength(); i++)
             {
                 Node testchild = descriptionChilds.item(i);
                 if(testchild.getNodeType() == Node.TEXT_NODE)
                 {
-                    Description = Description + testchild.getNodeValue();
+                    descriptionComment = descriptionComment + testchild.getNodeValue();
                 }
             }
         }
-        if( (Abstract == null) || (Abstract.trim().length() == 0))
+        if( (abstractComment == null) || (abstractComment.trim().length() == 0))
         {
             throw new DescriptionFileSyntaxException("No "+DESCRIPTION_ELEMENT_ABSTRACT+" defined for property description "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
         }
-        if( (Description == null) || (Description.trim().length() == 0))
+        if( (descriptionComment == null) || (descriptionComment.trim().length() == 0))
         {
             throw new DescriptionFileSyntaxException("No "+DESCRIPTION_ELEMENT_DESCRIPTION+" defined for property description "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
         }

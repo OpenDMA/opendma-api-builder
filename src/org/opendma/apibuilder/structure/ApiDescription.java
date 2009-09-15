@@ -19,19 +19,19 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
 {
     
     /** the List of all described classes */
-    protected List DescribedClasses = new ArrayList();
+    protected List describedClasses = new ArrayList();
     
     /** the Map between the qualified class name and a ClassDescription */
-    protected Map ClassNameMap = new HashMap();
+    protected Map classNameMap = new HashMap();
     
     /** the List of all defined scalar types */
-    protected List ScalarTypes = new ArrayList();
+    protected List scalarTypes = new ArrayList();
     
     /** the Map between the scalar type names and the scalar type descriptions */
-    protected Map ScalarTypesNameToDescriptionMap = new HashMap();
+    protected Map scalarTypesNameToDescriptionMap = new HashMap();
     
     /** the Map between the scalar type IDs and the scalar type descriptions */
-    protected Map ScalarTypesIdToDescriptionMap = new HashMap();
+    protected Map scalarTypesIdToDescriptionMap = new HashMap();
 
     /**
      * Create a new ApiDescription by reading the definition from a W3C DOM tree.
@@ -54,7 +54,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public List getDescribedClasses()
     {
-        return DescribedClasses;
+        return describedClasses;
     }
     
     /**
@@ -68,7 +68,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public ClassDescription getDescribedClass(OdmaApiBuilderQName name)
     {
-        return (ClassDescription)ClassNameMap.get(name);
+        return (ClassDescription)classNameMap.get(name);
     }
     
     /**
@@ -78,7 +78,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public List getScalarTypes()
     {
-        return ScalarTypes;
+        return scalarTypes;
     }
     
     /**
@@ -90,7 +90,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public ScalarTypeDescription getScalarTypeDescription(String scalarTypeName)
     {
-        return (ScalarTypeDescription)ScalarTypesNameToDescriptionMap.get(scalarTypeName.toLowerCase());
+        return (ScalarTypeDescription)scalarTypesNameToDescriptionMap.get(scalarTypeName.toLowerCase());
     }
     
     /**
@@ -102,7 +102,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public ScalarTypeDescription getScalarTypeDescription(int scalarTypeId)
     {
-        return (ScalarTypeDescription)ScalarTypesNameToDescriptionMap.get(new Integer(scalarTypeId));
+        return (ScalarTypeDescription)scalarTypesNameToDescriptionMap.get(new Integer(scalarTypeId));
     }
 
     /**
@@ -149,8 +149,8 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
             if ((testchild.getNodeType() == Node.ELEMENT_NODE) && ((Element) testchild).getTagName().equals(DESCRIPTION_ELEMENT_CLASS))
             {
                 ClassDescription classDescription = new ClassDescription((Element) testchild, this);
-                DescribedClasses.add(classDescription);
-                ClassNameMap.put(classDescription.getOdmaName(),classDescription);
+                describedClasses.add(classDescription);
+                classNameMap.put(classDescription.getOdmaName(),classDescription);
             }
         }
     }
@@ -175,17 +175,39 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
             if ((testchild.getNodeType() == Node.ELEMENT_NODE) && ( ((Element) testchild).getTagName().equals(DESCRIPTION_ELEMENT_INTERNALSCALARTYPE) || ((Element) testchild).getTagName().equals(DESCRIPTION_ELEMENT_SCALARTYPE) ) )
             {
                 ScalarTypeDescription scalarTypeDescription = new ScalarTypeDescription((Element) testchild,((Element) testchild).getTagName().equals(DESCRIPTION_ELEMENT_INTERNALSCALARTYPE));
-                if(ScalarTypesNameToDescriptionMap.containsKey(scalarTypeDescription.getName().toLowerCase()))
+                if(scalarTypesNameToDescriptionMap.containsKey(scalarTypeDescription.getName().toLowerCase()))
                 {
                     throw new DescriptionFileSemanticException("Multiple definitions of scalar type name "+scalarTypeDescription.getName());
                 }
-                if(ScalarTypesIdToDescriptionMap.containsKey(new Integer(scalarTypeDescription.getNumericID())))
+                if(scalarTypesIdToDescriptionMap.containsKey(new Integer(scalarTypeDescription.getNumericID())))
                 {
                     throw new DescriptionFileSemanticException("Multiple definitions of scalar type ID "+scalarTypeDescription.getNumericID());
                 }
-                ScalarTypes.add(scalarTypeDescription);
-                ScalarTypesNameToDescriptionMap.put(scalarTypeDescription.getName().toLowerCase(),scalarTypeDescription);
-                ScalarTypesIdToDescriptionMap.put(new Integer(scalarTypeDescription.getNumericID()),scalarTypeDescription);
+                scalarTypes.add(scalarTypeDescription);
+                scalarTypesNameToDescriptionMap.put(scalarTypeDescription.getName().toLowerCase(),scalarTypeDescription);
+                scalarTypesIdToDescriptionMap.put(new Integer(scalarTypeDescription.getNumericID()),scalarTypeDescription);
+            }
+        }
+    }
+    
+    /**
+     * Validates that the base scalar of all internal scalar types exists.
+     * 
+     * @throws DescriptionFileSemanticException if a uniqueness constraint is violated
+     */
+    public void checkInternalScalarBaseTypes() throws DescriptionFileSemanticException
+    {
+        Iterator itScalarTypes = scalarTypes.iterator();
+        while(itScalarTypes.hasNext())
+        {
+            ScalarTypeDescription scalarTypeToCheck = (ScalarTypeDescription)itScalarTypes.next();
+            if(scalarTypeToCheck.isInternal())
+            {
+                String baseScalarTypeName = scalarTypeToCheck.getBaseScalar();
+                if(getScalarTypeDescription(baseScalarTypeName) == null)
+                {
+                    throw new DescriptionFileSemanticException("The internal scalar type "+scalarTypeToCheck.getName()+" references the non-existing base scalar type "+baseScalarTypeName+".");
+                }
             }
         }
     }
@@ -193,7 +215,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
     /**
      * Validates the uniqueness of (a) all qualified class names in this hierarchy
      * and (b) all declared properties within each class for all declared classes.<br>
-     * DOES NOT yet validate the uniqueness between declared and inherited propertoes!
+     * DOES NOT yet validate the uniqueness between declared and inherited properties!
      * 
      * @throws DescriptionFileSemanticException if a uniqueness constraint is violated
      */
@@ -202,7 +224,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
         // map for the uniqueness test of the class names
         Map uniqueClassnameTestMap = new HashMap();
         // iterate through all described classes
-        Iterator itAllClasses = DescribedClasses.iterator();
+        Iterator itAllClasses = describedClasses.iterator();
         while(itAllClasses.hasNext())
         {
             ClassDescription classDescription = (ClassDescription)itAllClasses.next();
@@ -238,21 +260,21 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
     public void checkReferences() throws DescriptionFileSemanticException
     {
         //-----< check all extends relations >---------------------------------
-        Iterator itAllClasses = DescribedClasses.iterator();
+        Iterator itAllClasses = describedClasses.iterator();
         while(itAllClasses.hasNext())
         {
             ClassDescription classDescription = (ClassDescription)itAllClasses.next();
-            OdmaApiBuilderQName extendsName = classDescription.getExtendsName();
+            OdmaApiBuilderQName extendsName = classDescription.getExtendsOdmaName();
             if(extendsName != null)
             {
-                if(!ClassNameMap.containsKey(extendsName))
+                if(!classNameMap.containsKey(extendsName))
                 {
                     throw new DescriptionFileSemanticException("The class "+classDescription.getOdmaName()+" extends the class "+extendsName+" that does not exist in the description file");
                 }
             }
         }
         //-----< check all reference properties >------------------------------
-        itAllClasses = DescribedClasses.iterator();
+        itAllClasses = describedClasses.iterator();
         while(itAllClasses.hasNext())
         {
             ClassDescription classDescription = (ClassDescription)itAllClasses.next();
@@ -263,7 +285,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
                 PropertyDescription propertyDescription = (PropertyDescription)itPropertyDescriptions.next();
                 if(propertyDescription.getDataType() == TYPE_REFERENCE)
                 {
-                    if(!ClassNameMap.containsKey(propertyDescription.getReferenceClassName()))
+                    if(!classNameMap.containsKey(propertyDescription.getReferenceClassName()))
                     {
                         throw new DescriptionFileSemanticException("The property "+propertyDescription.getOdmaName()+" in the class "+classDescription.getOdmaName()+" references the class "+propertyDescription.getReferenceClassName()+" that does not exist in the description file");
                     }
