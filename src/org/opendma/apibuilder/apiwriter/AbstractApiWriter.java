@@ -136,7 +136,13 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
     protected abstract void createGuidFile(ApiDescription apiDescription, String outputFolder) throws IOException;
 
     protected abstract void createContentFile(ApiDescription apiDescription, String outputFolder) throws IOException;
-    
+
+    //-------------------------------------------------------------------------
+    // P R O P E R T Y   F I L E
+    //-------------------------------------------------------------------------
+
+    protected abstract void createPropertyFile(ScalarTypeDescription scalarTypeDescription, String outputFolder) throws IOException;
+
     //-------------------------------------------------------------------------
     // C L A S S   F I L E S
     //-------------------------------------------------------------------------
