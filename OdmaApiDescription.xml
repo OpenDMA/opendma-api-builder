@@ -3,31 +3,31 @@
 
     <ScalarTypes>
 
-        <ScalarType name="String" numericId="1" />
+        <ScalarType name="String" numericId="1" reference="false" />
 
-        <ScalarType name="Integer" numericId="2" />
+        <ScalarType name="Integer" numericId="2" reference="false" />
 
-        <ScalarType name="Short" numericId="3" />
+        <ScalarType name="Short" numericId="3" reference="false" />
 
-        <ScalarType name="Long" numericId="4" />
+        <ScalarType name="Long" numericId="4" reference="false" />
 
-        <ScalarType name="Float" numericId="5" />
+        <ScalarType name="Float" numericId="5" reference="false" />
 
-        <ScalarType name="Double" numericId="6" />
+        <ScalarType name="Double" numericId="6" reference="false" />
 
-        <ScalarType name="Boolean" numericId="7" />
+        <ScalarType name="Boolean" numericId="7" reference="false" />
 
-        <ScalarType name="DateTime" numericId="8" />
+        <ScalarType name="DateTime" numericId="8" reference="false" />
 
-        <ScalarType name="Blob" numericId="9" />
+        <ScalarType name="Blob" numericId="9" reference="false" />
 
-        <ScalarType name="Reference" numericId="10" />
+        <ScalarType name="Reference" numericId="10" reference="true" />
 
-        <ScalarType name="Content" numericId="11" />
+        <ScalarType name="Content" numericId="11" reference="false" />
 
-        <InternalScalarType name="Id" numericId="100" />
+        <InternalScalarType name="Id" numericId="100" reference="false" />
 
-        <InternalScalarType name="Guid" numericId="101" />
+        <InternalScalarType name="Guid" numericId="101" reference="false" />
 
     </ScalarTypes>
 
@@ -212,61 +212,6 @@
     </Class>
 
 
-    <Class qualifier="opendma.org" name="Repository" apiName="OdmaRepository" extendsQualifier="opendma.org" extendsName="Object">
-
-        <Description>Full description follows.</Description>
-
-        <Property qualifier="opendma.org"
-                  name="Name"
-                  apiName="Name"
-                  readOnly="false"
-                  required="true"
-                  dataType="string"
-                  multiValue="false">
-            <Abstract>the internal (technical) &lt;i&gt;name&lt;/i&gt; of this &lt;code&gt;Repository&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="DisplayName"
-                  apiName="DisplayName"
-                  readOnly="false"
-                  required="true"
-                  dataType="string"
-                  multiValue="false">
-            <Abstract>the &lt;i&gt;display name&lt;/i&gt; of this &lt;code&gt;Repository&lt;/code&gt; to be displayed to end users</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="RootClass"
-                  apiName="RootClass"
-                  readOnly="true"
-                  required="true"
-                  dataType="reference"
-                  multiValue="false"
-                  referenceQualifier="opendma.org"
-                  referenceName="Class">
-            <Abstract>the &lt;i&gt;root&lt;/i&gt; &lt;code&gt;Class&lt;/code&gt; of the class hierarchy in this &lt;code&gt;Repository&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="RootFolder"
-                  apiName="RootFolder"
-                  readOnly="true"
-                  required="false"
-                  dataType="reference"
-                  multiValue="false"
-                  referenceQualifier="opendma.org"
-                  referenceName="Folder">
-            <Abstract>the &lt;i&gt;root&lt;/i&gt; &lt;code&gt;Folder&lt;/code&gt; of a dedicated folder tree in this &lt;code&gt;Repository&lt;/code&gt; (if any)</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-    </Class>
-
-
     <Class qualifier="opendma.org" name="PropertyInfo" apiName="OdmaPropertyInfo" extendsQualifier="opendma.org" extendsName="Object">
 
         <Description>Full description follows.</Description>
@@ -386,6 +331,61 @@
     </Class>
 
 
+    <Class qualifier="opendma.org" name="Repository" apiName="OdmaRepository" extendsQualifier="opendma.org" extendsName="Object">
+
+        <Description>Full description follows.</Description>
+
+        <Property qualifier="opendma.org"
+                  name="Name"
+                  apiName="Name"
+                  readOnly="false"
+                  required="true"
+                  dataType="string"
+                  multiValue="false">
+            <Abstract>the internal (technical) &lt;i&gt;name&lt;/i&gt; of this &lt;code&gt;Repository&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property qualifier="opendma.org"
+                  name="DisplayName"
+                  apiName="DisplayName"
+                  readOnly="false"
+                  required="true"
+                  dataType="string"
+                  multiValue="false">
+            <Abstract>the &lt;i&gt;display name&lt;/i&gt; of this &lt;code&gt;Repository&lt;/code&gt; to be displayed to end users</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property qualifier="opendma.org"
+                  name="RootClass"
+                  apiName="RootClass"
+                  readOnly="true"
+                  required="true"
+                  dataType="reference"
+                  multiValue="false"
+                  referenceQualifier="opendma.org"
+                  referenceName="Class">
+            <Abstract>the &lt;i&gt;root&lt;/i&gt; &lt;code&gt;Class&lt;/code&gt; of the class hierarchy in this &lt;code&gt;Repository&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property qualifier="opendma.org"
+                  name="RootFolder"
+                  apiName="RootFolder"
+                  readOnly="true"
+                  required="false"
+                  dataType="reference"
+                  multiValue="false"
+                  referenceQualifier="opendma.org"
+                  referenceName="Folder">
+            <Abstract>the &lt;i&gt;root&lt;/i&gt; &lt;code&gt;Folder&lt;/code&gt; of a dedicated folder tree in this &lt;code&gt;Repository&lt;/code&gt; (if any)</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+    </Class>
+
+
     <Class qualifier="opendma.org" name="Association" apiName="OdmaAssociation" extendsQualifier="opendma.org" extendsName="Object">
 
         <Description>Full description follows.</Description>
@@ -432,7 +432,7 @@
                   apiName="CreatedAt"
                   readOnly="true"
                   required="true"
-                  dataType="DateTime"
+                  dataType="datetime"
                   multiValue="false">
             <Abstract>the date when this &lt;code&gt;Association&lt;/code&gt; has been created</Abstract>
             <Description>Full description follows.</Description>
@@ -443,7 +443,7 @@
                   apiName="LastModifiedAt"
                   readOnly="true"
                   required="true"
-                  dataType="DateTime"
+                  dataType="datetime"
                   multiValue="false">
             <Abstract>the date when this &lt;code&gt;Association&lt;/code&gt; has been modified the last time</Abstract>
             <Description>Full description follows.</Description>
@@ -547,7 +547,7 @@
                   required="true"
                   dataType="guid"
                   multiValue="false">
-            <Abstract>the &lt;i&gt;global unique object identifier&lt;/i&gt; globally identifying this &lt;i&gt;version&lt;/i&gt; of this &lt;code&gt;Object&lt;/code&gt;</Abstract>
+            <Abstract>the &lt;i&gt;global unique object identifier&lt;/i&gt; globally identifying this &lt;i&gt;version&lt;/i&gt; of this &lt;code&gt;Object&lt;/code&gt; inside its &lt;code&gt;Repository&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -626,7 +626,7 @@
                   apiName="CreatedAt"
                   readOnly="true"
                   required="true"
-                  dataType="DateTime"
+                  dataType="datetime"
                   multiValue="false">
             <Abstract>the date when this &lt;code&gt;Document&lt;/code&gt; has been created</Abstract>
             <Description>Full description follows.</Description>
@@ -637,7 +637,7 @@
                   apiName="LastModifiedAt"
                   readOnly="true"
                   required="true"
-                  dataType="DateTime"
+                  dataType="datetime"
                   multiValue="false">
             <Abstract>the date when this &lt;code&gt;Document&lt;/code&gt; has been modified the last time</Abstract>
             <Description>Full description follows.</Description>
@@ -648,7 +648,7 @@
                   apiName="CheckedOutAt"
                   readOnly="true"
                   required="true"
-                  dataType="DateTime"
+                  dataType="datetime"
                   multiValue="false">
             <Abstract>the date when this &lt;code&gt;Document&lt;/code&gt; has been checked out</Abstract>
             <Description>Full description follows.</Description>
@@ -736,7 +736,7 @@
                   apiName="CreatedAt"
                   readOnly="true"
                   required="true"
-                  dataType="DateTime"
+                  dataType="datetime"
                   multiValue="false">
             <Abstract>the date when this &lt;code&gt;Folder&lt;/code&gt; has been created</Abstract>
             <Description>Full description follows.</Description>
@@ -747,7 +747,7 @@
                   apiName="LastModifiedAt"
                   readOnly="true"
                   required="true"
-                  dataType="DateTime"
+                  dataType="datetime"
                   multiValue="false">
             <Abstract>the date when this &lt;code&gt;Folder&lt;/code&gt; has been modified the last time</Abstract>
             <Description>Full description follows.</Description>
