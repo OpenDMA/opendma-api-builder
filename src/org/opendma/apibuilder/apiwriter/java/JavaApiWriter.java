@@ -67,6 +67,8 @@ public class JavaApiWriter extends AbstractApiWriter
                 return "OdmaIdList";
             case OdmaBasicTypes.TYPE_GUID:
                 return "OdmaGuidList";
+            case OdmaBasicTypes.TYPE_QNAME:
+                return "OdmaQNameList";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -101,6 +103,8 @@ public class JavaApiWriter extends AbstractApiWriter
                 return "OdmaId";
             case OdmaBasicTypes.TYPE_GUID:
                 return "OdmaGuid";
+            case OdmaBasicTypes.TYPE_QNAME:
+                return "OdmaQName";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }

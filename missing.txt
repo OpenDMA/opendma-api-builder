@@ -1,8 +1,4 @@
-- claculated methods
-- getQName bei OdmaObject als calculated method
-- getProperties bei OdmaClass als calculated method
 - exceptions
-- setter
 
 
 Later:

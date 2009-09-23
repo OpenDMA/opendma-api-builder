@@ -25,9 +25,11 @@
 
         <ScalarType name="Content" numericId="11" reference="false" />
 
-        <InternalScalarType name="Id" numericId="100" reference="false" />
+        <InternalScalarType name="Id" numericId="100" reference="false" baseScalar="String" />
 
-        <InternalScalarType name="Guid" numericId="101" reference="false" />
+        <InternalScalarType name="Guid" numericId="101" reference="false" baseScalar="String" />
+
+        <InternalScalarType name="QName" numericId="102" reference="false" baseScalar="String" />
 
     </ScalarTypes>
 
@@ -114,6 +116,17 @@
         </Property>
 
         <Property qualifier="opendma.org"
+                  name="QName"
+                  apiName="QName"
+                  readOnly="false"
+                  required="true"
+                  dataType="qname"
+                  multiValue="false">
+            <Abstract>the qualified name of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property qualifier="opendma.org"
                   name="DisplayName"
                   apiName="DisplayName"
                   readOnly="false"
@@ -160,6 +173,19 @@
                   referenceQualifier="opendma.org"
                   referenceName="PropertyInfo">
             <Abstract>the list of &lt;i&gt;properties&lt;/i&gt; that are desclared by this &lt;code&gt;Class&lt;/code&gt; (does not contain inherited properties).</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property qualifier="opendma.org"
+                  name="Properties"
+                  apiName="Properties"
+                  readOnly="false"
+                  required="false"
+                  dataType="reference"
+                  multiValue="true"
+                  referenceQualifier="opendma.org"
+                  referenceName="PropertyInfo">
+            <Abstract>the list of &lt;i&gt;properties&lt;/i&gt; that are effective for objects of this &lt;code&gt;Class&lt;/code&gt;. Contains inherited and declared properties.</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 

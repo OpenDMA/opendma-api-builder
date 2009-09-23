@@ -174,9 +174,10 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
 
     protected void writeClassPropertyAccess(PropertyDescription property, PrintWriter out)
     {
-        // getter
+        // generate names
         String javaDataType = getReturnDataType(property);
         String constantPropertyName = "PROPERTY_" + property.getOdmaName().getName().toUpperCase();
+        // getter
         out.println("");
         out.println("    /**");
         out.println("     * Returns "+property.getAbstract()+".<br>");
@@ -186,6 +187,17 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         out.println("     * @return "+property.getAbstract());
         out.println("     */");
         out.println("    public "+javaDataType+" get"+property.getApiName()+"();");
+        // setter
+        if( (!property.isReadOnly()) && (!property.getMultiValue()) )
+        {
+            out.println("");
+            out.println("    /**");
+            out.println("     * Sets "+property.getAbstract()+".<br>");
+            String standardSetterName = "set" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? javaDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
+            out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value)</code>.");
+            out.println("     */");
+            out.println("    public void set"+property.getApiName()+"("+javaDataType+" value);");
+        }
     }
 
 }
