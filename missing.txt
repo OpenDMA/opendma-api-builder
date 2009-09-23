@@ -1,9 +1,0 @@
-- exceptions
-
-
-Later:
-- ContentElements als List
-- Base types (Integer, Boolean, Long) als skalare in java (int, boolean, long) ?
-- getter für boolean properties als isXXX() anstat getXXX()
-- create property file from skalar type definitions
-- java API description for basic OdmaObject class
