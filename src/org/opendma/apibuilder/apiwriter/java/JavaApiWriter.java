@@ -175,7 +175,7 @@ public class JavaApiWriter extends AbstractApiWriter
     // P R O P E R T Y   F I L E
     //-------------------------------------------------------------------------
 
-    protected void createPropertyFile(ScalarTypeDescription scalarTypeDescription, String outputFolder) throws IOException
+    protected void createPropertyFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("OdmaProperty",outputFolder);
         InputStream from = getResourceAsStream("/templates/java/OdmaProperty.template");

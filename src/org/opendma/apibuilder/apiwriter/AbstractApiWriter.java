@@ -57,6 +57,8 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         createIdFile(apiDescription,baseFolder);
         createGuidFile(apiDescription,baseFolder);
         createContentFile(apiDescription,baseFolder);
+        // create the properties file
+        createPropertyFile(apiDescription,baseFolder);
         // create class files
         List classes = apiDescription.getDescribedClasses();
         Iterator itClasses = classes.iterator();
@@ -141,7 +143,7 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
     // P R O P E R T Y   F I L E
     //-------------------------------------------------------------------------
 
-    protected abstract void createPropertyFile(ScalarTypeDescription scalarTypeDescription, String outputFolder) throws IOException;
+    protected abstract void createPropertyFile(ApiDescription apiDescription, String outputFolder) throws IOException;
 
     //-------------------------------------------------------------------------
     // C L A S S   F I L E S
