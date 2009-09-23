@@ -123,7 +123,7 @@ public class ScalarTypeDescription implements DescriptionFileTypes
         {
             if((baseScalar==null) || (baseScalar.trim().length()==0) )
             {
-                throw new DescriptionFileSyntaxException("Missing baseScalar of internal ScalarType");
+                throw new DescriptionFileSyntaxException("Missing baseScalar of internal ScalarType \""+name+"\"");
             }
         }
         try
