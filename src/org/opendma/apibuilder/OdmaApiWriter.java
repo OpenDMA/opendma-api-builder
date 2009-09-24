@@ -11,5 +11,7 @@ public interface OdmaApiWriter
     public void writeOdmaApi(ApiDescription classHierarchy, String outputFolderRoot) throws IOException, ApiWriterException;
     
     public String getProgrammingLanguageSpecificScalarDataType(boolean multiValue, int dataType);
+    
+    public String getRequiredScalarDataTypeImport(boolean multiValue, int dataType);
 
 }

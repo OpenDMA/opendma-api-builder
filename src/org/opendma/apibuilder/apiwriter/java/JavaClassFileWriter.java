@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
 import org.opendma.apibuilder.OdmaBasicTypes;
@@ -23,12 +25,17 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         apiWriter = writer;
     }
 
-    protected void writeClassFileHeader(ClassDescription classDescription, PrintWriter out)
+    protected void writeClassFileHeader(ClassDescription classDescription, List requiredImports, PrintWriter out)
     {
         String extendsApiName = classDescription.getExtendsApiName();
         out.println("package org.opendma.api;");
         out.println("");
-        out.println("import org.opendma.api.OdmaQName;");
+        Iterator itRequiredImports = requiredImports.iterator();
+        while(itRequiredImports.hasNext())
+        {
+            String importPackage = (String)itRequiredImports.next();
+            out.println("import "+importPackage+";");
+        }
         out.println("");
         out.println("/**");
         if(extendsApiName != null)
@@ -59,6 +66,11 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         out.println("}");
     }
 
+    protected void appendRequiredImportsGlobal(List requiredImports)
+    {
+        // we do not have any globally required imports
+    }
+
     protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
     {
         out.println("");
@@ -74,6 +86,18 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         }
     }
 
+    protected void appendRequiredImportsGenericPropertyAccess(List requiredImports)
+    {
+        if(!requiredImports.contains("org.opendma.exceptions.OdmaObjectNotFoundException"))
+        {
+            requiredImports.add("org.opendma.exceptions.OdmaObjectNotFoundException");
+        }
+        if(!requiredImports.contains("org.opendma.exceptions.OdmaInvalidDataTypeException"))
+        {
+            requiredImports.add("org.opendma.exceptions.OdmaInvalidDataTypeException");
+        }
+    }
+
     protected void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out)
     {
         out.println("");
@@ -82,7 +106,7 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         out.println("    // =============================================================================================");
     }
 
-    private String getReturnDataType(PropertyDescription property)
+    protected String getReturnDataType(PropertyDescription property)
     {
         if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
         {
@@ -99,77 +123,26 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         {
             return apiWriter.getProgrammingLanguageSpecificScalarDataType(property.getMultiValue(),property.getDataType());
         }
-        
-        /*
-        if(property.getMultiValue())
+    }
+    
+    protected String getRequiredImport(PropertyDescription property)
+    {
+        if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
         {
-            switch(property.getDataType())
+            if(property.getMultiValue())
             {
-            case OdmaBasicTypes.TYPE_STRING:
-                return "StringList";
-            case OdmaBasicTypes.TYPE_INTEGER:
-                return "IntegerList";
-            case OdmaBasicTypes.TYPE_SHORT:
-                return "ShortList";
-            case OdmaBasicTypes.TYPE_LONG:
-                return "LongList";
-            case OdmaBasicTypes.TYPE_FLOAT:
-                return "FloatList";
-            case OdmaBasicTypes.TYPE_DOUBLE:
-                return "DoubleList";
-            case OdmaBasicTypes.TYPE_BOOLEAN:
-                return "BooleanList";
-            case OdmaBasicTypes.TYPE_DATETIME:
-                return "DateTimeList";
-            case OdmaBasicTypes.TYPE_BLOB:
-                return "BlobList";
-            case OdmaBasicTypes.TYPE_REFERENCE:
-                return property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration";
-            case OdmaBasicTypes.TYPE_CONTENT:
-                return "OdmaContentList";
-            case OdmaBasicTypes.TYPE_ID:
-                return "OdmaIdList";
-            case OdmaBasicTypes.TYPE_GUID:
-                return "OdmaGuidList";
-            default:
-                throw new ApiCreationException("Unhandled data type "+Integer.toString(property.getDataType())+" for property "+property.getOdmaName());
+                return "org.opendma.api.collections."+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration";
+            }
+            else
+            {
+                // located in the same package. no import required
+                return null;
             }
         }
         else
         {
-            switch(property.getDataType())
-            {
-            case OdmaBasicTypes.TYPE_STRING:
-                return "String";
-            case OdmaBasicTypes.TYPE_INTEGER:
-                return "Integer";
-            case OdmaBasicTypes.TYPE_SHORT:
-                return "Short";
-            case OdmaBasicTypes.TYPE_LONG:
-                return "Long";
-            case OdmaBasicTypes.TYPE_FLOAT:
-                return "Float";
-            case OdmaBasicTypes.TYPE_DOUBLE:
-                return "Double";
-            case OdmaBasicTypes.TYPE_BOOLEAN:
-                return "Boolean";
-            case OdmaBasicTypes.TYPE_DATETIME:
-                return "DateTime";
-            case OdmaBasicTypes.TYPE_BLOB:
-                return "byte[]";
-            case OdmaBasicTypes.TYPE_REFERENCE:
-                return property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
-            case OdmaBasicTypes.TYPE_CONTENT:
-                return "OdmaContent";
-            case OdmaBasicTypes.TYPE_ID:
-                return "OdmaId";
-            case OdmaBasicTypes.TYPE_GUID:
-                return "OdmaGuid";
-            default:
-                throw new ApiCreationException("Unhandled data type "+Integer.toString(property.getDataType())+" for property "+property.getOdmaName());
-            }
+            return apiWriter.getRequiredScalarDataTypeImport(property.getMultiValue(),property.getDataType());
         }
-        */
     }
 
     protected void writeClassPropertyAccess(PropertyDescription property, PrintWriter out)
@@ -197,6 +170,18 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
             out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value)</code>.");
             out.println("     */");
             out.println("    public void set"+property.getApiName()+"("+javaDataType+" value);");
+        }
+    }
+
+    protected void appendRequiredImportsClassPropertyAccess(List requiredImports, PropertyDescription property)
+    {
+        String importPackage = getRequiredImport(property);
+        if(importPackage != null)
+        {
+            if(!requiredImports.contains(importPackage))
+            {
+                requiredImports.add(importPackage);
+            }
         }
     }
 

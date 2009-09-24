@@ -1,6 +1,8 @@
 package org.opendma.apibuilder.apiwriter.java;
 
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractListFileWriter;
@@ -16,11 +18,32 @@ public class JavaListFileWriter extends AbstractListFileWriter
         apiWriter = writer;
     }
 
-    protected void writeListFileHeader(ScalarTypeDescription scalarTypeDescription, PrintWriter out)
+    protected void appendRequiredImportsGlobal(ScalarTypeDescription scalarTypeDescription, List requiredImports)
+    {
+        if(!requiredImports.contains("java.util.List"))
+        {
+            requiredImports.add("java.util.List");
+        }
+        String singleValueDataTypeImport = apiWriter.getRequiredScalarDataTypeImport(false,scalarTypeDescription.getNumericID());
+        if(singleValueDataTypeImport != null)
+        {
+            if(!requiredImports.contains(singleValueDataTypeImport))
+            {
+                requiredImports.add(singleValueDataTypeImport);
+            }
+        }
+    }
+
+    protected void writeListFileHeader(ScalarTypeDescription scalarTypeDescription, List requiredImports, PrintWriter out)
     {
         out.println("package org.opendma.api.collections;");
         out.println("");
-        out.println("import java.util.List;");
+        Iterator itRequiredImports = requiredImports.iterator();
+        while(itRequiredImports.hasNext())
+        {
+            String importPackage = (String)itRequiredImports.next();
+            out.println("import "+importPackage+";");
+        }
         out.println("");
         out.println("/**");
         out.println(" * Type safe version of the <code>List</code> interface for the <i>"+scalarTypeDescription.getName()+"</i>");

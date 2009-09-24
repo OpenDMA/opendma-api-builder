@@ -3,6 +3,7 @@ package org.opendma.apibuilder.apiwriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import org.opendma.apibuilder.structure.PropertyDescription;
 public abstract class AbstractClassFileWriter
 {
 
-    protected abstract void writeClassFileHeader(ClassDescription classDescription, PrintWriter out);
+    protected abstract void writeClassFileHeader(ClassDescription classDescription, List requiredImports, PrintWriter out);
 
     protected abstract void writeClassFileFooter(ClassDescription classDescription, PrintWriter out);
 
@@ -21,13 +22,33 @@ public abstract class AbstractClassFileWriter
     protected abstract void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out);
 
     protected abstract void writeClassPropertyAccess(PropertyDescription property, PrintWriter out);
+    
+    protected abstract void appendRequiredImportsGlobal(List requiredImports);
+    
+    protected abstract void appendRequiredImportsGenericPropertyAccess(List requiredImports);
+    
+    protected abstract void appendRequiredImportsClassPropertyAccess(List requiredImports, PropertyDescription property);
 
     public void createClassFile(ClassDescription classDescription, OutputStream classOutputStream) throws IOException
     {
         // create output Writer
         PrintWriter out = new PrintWriter(classOutputStream);
+        // collect required imports
+        ArrayList requiredImports = new ArrayList();
+        appendRequiredImportsGlobal(requiredImports);
+        if(classDescription.getExtendsOdmaName() == null)
+        {
+            appendRequiredImportsGenericPropertyAccess(requiredImports);
+        }
+        List propertyDescriptions = classDescription.getPropertyDescriptions();
+        Iterator itPropertyDescriptions = propertyDescriptions.iterator();
+        while(itPropertyDescriptions.hasNext())
+        {
+            PropertyDescription property = (PropertyDescription)itPropertyDescriptions.next();
+            appendRequiredImportsClassPropertyAccess(requiredImports,property);
+        }
         // write Header
-        writeClassFileHeader(classDescription,out);
+        writeClassFileHeader(classDescription,requiredImports,out);
         // write section for generic property access (if required)
         if(classDescription.getExtendsOdmaName() == null)
         {
@@ -36,8 +57,7 @@ public abstract class AbstractClassFileWriter
         // write Header of object specific property access section
         writeClassObjectSpecificPropertyAccessSectionHeader(classDescription,out);
         // write getter and setter for all properties
-        List propertyDescriptions = classDescription.getPropertyDescriptions();
-        Iterator itPropertyDescriptions = propertyDescriptions.iterator();
+        itPropertyDescriptions = propertyDescriptions.iterator();
         while(itPropertyDescriptions.hasNext())
         {
             PropertyDescription property = (PropertyDescription)itPropertyDescriptions.next();
