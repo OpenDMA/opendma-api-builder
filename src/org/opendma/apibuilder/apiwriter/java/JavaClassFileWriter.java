@@ -14,6 +14,7 @@ import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
 import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
+import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
 public class JavaClassFileWriter extends AbstractClassFileWriter
 {
@@ -157,6 +158,16 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         String standardGetterName = "get" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? javaDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
         out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</code>.");
         out.println("     * ");
+        ScalarTypeDescription scalarTypeDescription = property.getContainingClass().getContainingApiDescription().getScalarTypeDescription(property.getDataType());
+        String dataTypeName = scalarTypeDescription.isInternal() ? scalarTypeDescription.getBaseScalar() : scalarTypeDescription.getName();
+        if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
+        {
+            dataTypeName = dataTypeName + " to " + property.getReferenceClassName().getName() + " ("+property.getReferenceClassName().getQualifier()+")";
+        }
+        out.println("     * <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getQualifier()+"): <b>"+dataTypeName+"</b><br>");
+        out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[Nullable]")+"<br>");
+        out.println("     * "+property.getDescription()+"</p>");
+        out.println("     * ");
         out.println("     * @return "+property.getAbstract());
         out.println("     */");
         out.println("    public "+javaDataType+" get"+property.getApiName()+"();");
@@ -168,6 +179,10 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
             out.println("     * Sets "+property.getAbstract()+".<br>");
             String standardSetterName = "set" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? javaDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
             out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value)</code>.");
+            out.println("     * ");
+            out.println("     * <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getQualifier()+"): <b>"+dataTypeName+"</b><br>");
+            out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[Nullable]")+"<br>");
+            out.println("     * "+property.getDescription()+"</p>");
             out.println("     */");
             out.println("    public void set"+property.getApiName()+"("+javaDataType+" value);");
         }

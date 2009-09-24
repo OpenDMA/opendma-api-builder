@@ -102,7 +102,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public ScalarTypeDescription getScalarTypeDescription(int scalarTypeId)
     {
-        return (ScalarTypeDescription)scalarTypesNameToDescriptionMap.get(new Integer(scalarTypeId));
+        return (ScalarTypeDescription)scalarTypesIdToDescriptionMap.get(new Integer(scalarTypeId));
     }
 
     /**
