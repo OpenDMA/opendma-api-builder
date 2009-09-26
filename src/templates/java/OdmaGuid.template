@@ -2,7 +2,7 @@ package org.opendma.api;
 
 /**
  * Representation of the <i>global unique object identifier<i> that can be used
- * to globally identify an <ocde>OdmaObject</code>. A reference to the containing
+ * to globally identify an <code>OdmaObject</code>. A reference to the containing
  * <code>OdmaRepository</code> is included in this ID.<br>
  * To identify an object only inside an <code>OdmaRepository</code>, you can
  * use the <code>OdmaId</code>.
@@ -13,7 +13,7 @@ public interface OdmaGuid
 {
 
     /**
-     * Returns true if the given Object is a <code>OdmaId</code> or an
+     * Returns true if the given Object is a <code>OdmaGuid</code> or an
      * <code>OdmaGuid</code> identifying the same object.
      * 
      * @param obj
