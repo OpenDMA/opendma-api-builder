@@ -1,32 +1,20 @@
-package org.opendma.api;
-
-/**
- * Representation of the <i>unique object identifier<i> that can be used to
- * identify an <ocde>OdmaObject</code> inside a <code>OdmaRepository</code>.<br>
- * To globally identify an object you have to use the <code>OdmaGuid</code>.
- * 
- * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
- */
-public interface OdmaId
+namespace OpenDMA.Api
 {
 
-    /**
-     * Returns true if the given Object is a <code>OdmaId</code> or an
-     * <code>OdmaGuid</code> identifying the same object.
-     * 
-     * @param obj
-     *            The object to compare this Id to
-     * 
-     * @return true if and only if the given Object is a <code>OdmaId</code>
-     *         or an <code>OdmaGuid</code> identifying the same object.
-     */
-    public boolean equals(Object obj);
+    /// <summary>Representation of the <i>unique object identifier<i> that can be used
+    /// to identify an <c>OdmaObject</c> inside a <code>OdmaRepository</code>.<br>
+    /// To globally identify an object you have to use the <c>OdmaGuid</c>.
+    public interface OdmaId
+    {
 
-    /**
-     * Returns the <code>String</code> representation of this Identifier.
-     * 
-     * @return the <code>String</code> representation of this Identifier.
-     */
-    public String toString();
+        /// <summary>Returns true if the given Object is a <c>OdmaId</c> or an
+        /// <c>OdmaGuid</c> identifying the same object.</summary>
+        public bool equals(Object obj);
+
+        /// <summary>Returns the <c>String</c> representation of this Identifier.</summary>
+        /// <returns>Returns the <c>String</c> representation of this Identifier.</returns>
+        public string ToString();
+
+    }
 
 }

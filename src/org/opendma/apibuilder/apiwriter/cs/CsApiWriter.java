@@ -78,21 +78,21 @@ public class CsApiWriter extends AbstractApiWriter
             switch(dataType)
             {
             case OdmaBasicTypes.TYPE_STRING:
-                return "String";
+                return "string";
             case OdmaBasicTypes.TYPE_INTEGER:
-                return "Integer";
+                return "int";
             case OdmaBasicTypes.TYPE_SHORT:
-                return "Short";
+                return "short";
             case OdmaBasicTypes.TYPE_LONG:
-                return "Long";
+                return "long";
             case OdmaBasicTypes.TYPE_FLOAT:
-                return "Float";
+                return "float";
             case OdmaBasicTypes.TYPE_DOUBLE:
-                return "Double";
+                return "double";
             case OdmaBasicTypes.TYPE_BOOLEAN:
-                return "Boolean";
+                return "bool";
             case OdmaBasicTypes.TYPE_DATETIME:
-                return "Date";
+                return "DateTime";
             case OdmaBasicTypes.TYPE_BLOB:
                 return "byte[]";
             case OdmaBasicTypes.TYPE_REFERENCE:
@@ -118,33 +118,33 @@ public class CsApiWriter extends AbstractApiWriter
             switch(dataType)
             {
             case OdmaBasicTypes.TYPE_STRING:
-                return "org.opendma.api.collections.StringList";
+                return "OpenDMA.Api.Collections.StringList";
             case OdmaBasicTypes.TYPE_INTEGER:
-                return "org.opendma.api.collections.IntegerList";
+                return "OpenDMA.Api.Collections.IntegerList";
             case OdmaBasicTypes.TYPE_SHORT:
-                return "org.opendma.api.collections.ShortList";
+                return "OpenDMA.Api.Collections.ShortList";
             case OdmaBasicTypes.TYPE_LONG:
-                return "org.opendma.api.collections.LongList";
+                return "OpenDMA.Api.Collections.LongList";
             case OdmaBasicTypes.TYPE_FLOAT:
-                return "org.opendma.api.collections.FloatList";
+                return "OpenDMA.Api.Collections.FloatList";
             case OdmaBasicTypes.TYPE_DOUBLE:
-                return "org.opendma.api.collections.DoubleList";
+                return "OpenDMA.Api.Collections.DoubleList";
             case OdmaBasicTypes.TYPE_BOOLEAN:
-                return "org.opendma.api.collections.BooleanList";
+                return "OpenDMA.Api.Collections.BooleanList";
             case OdmaBasicTypes.TYPE_DATETIME:
-                return "org.opendma.api.collections.DateList";
+                return "OpenDMA.Api.Collections.DateList";
             case OdmaBasicTypes.TYPE_BLOB:
-                return "org.opendma.api.collections.BlobList";
+                return "OpenDMA.Api.Collections.BlobList";
             case OdmaBasicTypes.TYPE_REFERENCE:
                 throw new ApiCreationException("REFERENCE data type is not scalar");
             case OdmaBasicTypes.TYPE_CONTENT:
-                return "org.opendma.api.collections.OdmaContentList";
+                return "OpenDMA.Api.Collections.OdmaContentList";
             case OdmaBasicTypes.TYPE_ID:
-                return "org.opendma.api.collections.OdmaIdList";
+                return "OpenDMA.Api.Collections.OdmaIdList";
             case OdmaBasicTypes.TYPE_GUID:
-                return "org.opendma.api.collections.OdmaGuidList";
+                return "OpenDMA.Api.Collections.OdmaGuidList";
             case OdmaBasicTypes.TYPE_QNAME:
-                return "org.opendma.api.collections.OdmaQNameList";
+                return "OpenDMA.Api.Collections.OdmaQNameList";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -168,19 +168,19 @@ public class CsApiWriter extends AbstractApiWriter
             case OdmaBasicTypes.TYPE_BOOLEAN:
                 return null;
             case OdmaBasicTypes.TYPE_DATETIME:
-                return "java.util.Date";
+                return "System.DateTime";
             case OdmaBasicTypes.TYPE_BLOB:
                 return null;
             case OdmaBasicTypes.TYPE_REFERENCE:
                 throw new ApiCreationException("REFERENCE data type is not scalar");
             case OdmaBasicTypes.TYPE_CONTENT:
-                return "org.opendma.api.OdmaContent";
+                return "OpenDMA.Api.OdmaContent";
             case OdmaBasicTypes.TYPE_ID:
-                return "org.opendma.api.OdmaId";
+                return "OpenDMA.Api.OdmaId";
             case OdmaBasicTypes.TYPE_GUID:
-                return "org.opendma.api.OdmaGuid";
+                return "OpenDMA.Api.OdmaGuid";
             case OdmaBasicTypes.TYPE_QNAME:
-                return "org.opendma.api.OdmaQName";
+                return "OpenDMA.Api.OdmaQName";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }

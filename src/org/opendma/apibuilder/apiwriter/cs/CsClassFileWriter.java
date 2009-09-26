@@ -36,22 +36,22 @@ public class CsClassFileWriter extends AbstractClassFileWriter
             out.println("using "+importPackage+";");
         }
         out.println("");
-        out.println("namespace OpenDMA.Api;");
+        out.println("namespace OpenDMA.Api");
         out.println("{");
         out.println("");
+        out.println("    /// <summary>");
         if(extendsApiName != null)
         {
-            out.println("    // The <i>"+classDescription.getOdmaName().getName()+"</i> specific version of the <code>{@link "+extendsApiName+"}</code> interface");
-            out.println("    // that offers short cuts to all defined OpenDMA properties.<p>");
-            out.println("    //");
+            out.println("    /// The <i>"+classDescription.getOdmaName().getName()+"</i> specific version of the <see cref=\""+extendsApiName+"\"/> interface");
+            out.println("    /// that offers short cuts to all defined OpenDMA properties.<p>");
+            out.println("    ///");
         }
         String classComment = classDescription.getDescription();
-        out.println("    // "+((classComment==null)?"No description of this class available.":classComment));
-        out.println("    //");
-        out.println("    // @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board");
+        out.println("    /// "+((classComment==null)?"No description of this class available.":classComment));
+        out.println("    /// </summary>");
         if(extendsApiName != null)
         {
-            out.println("    public interface I"+classDescription.getApiName()+" : "+extendsApiName);
+            out.println("    public interface I"+classDescription.getApiName()+" : I"+extendsApiName);
         }
         else
         {
@@ -154,9 +154,10 @@ public class CsClassFileWriter extends AbstractClassFileWriter
         String constantPropertyName = "PROPERTY_" + property.getOdmaName().getName().toUpperCase();
         // getter
         out.println("");
-        out.println("        // Returns "+property.getAbstract()+".<br>");
+        out.println("        /// <summary>Property for "+property.getAbstract()+".<br>");
         String standardGetterName = "get" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? csDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
-        out.println("        // Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</code>.");
+        String standardSetterName = "set" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? csDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
+        out.println("        /// Shortcut for <c>getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</c> or <c>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"()</c>.");
         out.println("        // ");
         ScalarTypeDescription scalarTypeDescription = property.getContainingClass().getContainingApiDescription().getScalarTypeDescription(property.getDataType());
         String dataTypeName = scalarTypeDescription.isInternal() ? scalarTypeDescription.getBaseScalar() : scalarTypeDescription.getName();
@@ -164,11 +165,10 @@ public class CsClassFileWriter extends AbstractClassFileWriter
         {
             dataTypeName = dataTypeName + " to " + property.getReferenceClassName().getName() + " ("+property.getReferenceClassName().getQualifier()+")";
         }
-        out.println("        // <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getQualifier()+"): <b>"+dataTypeName+"</b><br>");
-        out.println("        // "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[Nullable]")+"<br>");
-        out.println("        // "+property.getDescription()+"</p>");
-        out.println("        // ");
-        out.println("        // @return "+property.getAbstract());
+        out.println("        /// <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getQualifier()+"): <b>"+dataTypeName+"</b><br>");
+        out.println("        /// "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[Nullable]")+"<br>");
+        out.println("        /// "+property.getDescription()+"</p>");
+        out.println("        /// </summary>");
         String getset = ( (!property.isReadOnly()) && (!property.getMultiValue()) ) ? "get; set;" : "get;";
         out.println("        "+csDataType+" "+property.getApiName()+" { "+getset+" }");
     }
