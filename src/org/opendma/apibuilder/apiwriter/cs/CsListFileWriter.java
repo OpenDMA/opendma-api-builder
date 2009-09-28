@@ -20,9 +20,25 @@ public class CsListFileWriter extends AbstractListFileWriter
 
     protected void appendRequiredImportsGlobal(ScalarTypeDescription scalarTypeDescription, List requiredImports)
     {
-        if(!requiredImports.contains("System.Collection.IList"))
+        if(!requiredImports.contains("System"))
         {
-            requiredImports.add("System.Collection.IList");
+            requiredImports.add("System");
+        }
+        if(!requiredImports.contains("System.Collections.Generic"))
+        {
+            requiredImports.add("System.Collections.Generic");
+        }
+        if(!requiredImports.contains("System.Linq"))
+        {
+            requiredImports.add("System.Linq");
+        }
+        if(!requiredImports.contains("System.Text"))
+        {
+            requiredImports.add("System.Text");
+        }
+        if(!requiredImports.contains("System.Collections"))
+        {
+            requiredImports.add("System.Collections");
         }
         String singleValueDataTypeImport = apiWriter.getRequiredScalarDataTypeImport(false,scalarTypeDescription.getNumericID());
         if(singleValueDataTypeImport != null)
@@ -40,22 +56,23 @@ public class CsListFileWriter extends AbstractListFileWriter
         while(itRequiredImports.hasNext())
         {
             String importPackage = (String)itRequiredImports.next();
-            out.println("import "+importPackage+";");
+            out.println("using "+importPackage+";");
         }
         out.println("");
         out.println("namespace OpenDMA.Api.Collections");
         out.println("{");
         out.println("");
-        out.println("    // Type safe version of the <code>List</code> interface for the <i>"+scalarTypeDescription.getName()+"</i>");
-        out.println("    // data type.");
-        out.println("    // ");
-        out.println("    // @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board");
+        out.println("    /// <summary>");
+        out.println("    /// Type safe version of the <code>List</code> interface for the <i>"+scalarTypeDescription.getName()+"</i>");
+        out.println("    /// data type.");
+        out.println("    /// </summary>");
         out.println("    public interface I"+apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID())+" : IList");
         out.println("    {");
     }
 
     protected void writeListFileMethods(ScalarTypeDescription scalarTypeDescription, PrintWriter out)
     {
+        /*
         String singleValueDataType = apiWriter.getProgrammingLanguageSpecificScalarDataType(false,scalarTypeDescription.getNumericID());
         out.println("");
         out.println("        // Returns the <code>"+singleValueDataType+"</code> element at the specified position in");
@@ -70,6 +87,7 @@ public class CsListFileWriter extends AbstractListFileWriter
         out.println("        // @throws IndexOutOfBoundsException");
         out.println("        //             if the index is out of range (index < 0 || index >= size()).");
         out.println("        public "+singleValueDataType+" get"+scalarTypeDescription.getName()+"(int index);");
+        */
     }
 
     protected void writeListFileFooter(ScalarTypeDescription scalarTypeDescription, PrintWriter out)

@@ -1,6 +1,8 @@
 package org.opendma.apibuilder.apiwriter.java;
 
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
 
 import org.opendma.apibuilder.apiwriter.AbstractEnumerationFileWriter;
 import org.opendma.apibuilder.structure.ClassDescription;
@@ -8,11 +10,24 @@ import org.opendma.apibuilder.structure.ClassDescription;
 public class JavaEnumerationFileWriter extends AbstractEnumerationFileWriter
 {
 
-    protected void writeEnumerationFileHeader(ClassDescription classDescription, PrintWriter out)
+    protected void appendRequiredImportsGlobal(ClassDescription classDescription, List requiredImports)
+    {
+        if(!requiredImports.contains("java.util.Iterator"))
+        {
+            requiredImports.add("java.util.Iterator");
+        }
+    }
+
+    protected void writeEnumerationFileHeader(ClassDescription classDescription, List requiredImports, PrintWriter out)
     {
         out.println("package org.opendma.api.collections;");
         out.println("");
-        out.println("import java.util.Iterator;");
+        Iterator itRequiredImports = requiredImports.iterator();
+        while(itRequiredImports.hasNext())
+        {
+            String importPackage = (String)itRequiredImports.next();
+            out.println("import "+importPackage+";");
+        }
         out.println("");
         out.println("/**");
         out.println(" * The content of a multi-valued <code>reference</code> property in OpenDMA.<br>");

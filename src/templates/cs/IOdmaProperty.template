@@ -1,0 +1,76 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace OpenDMA.Api
+{
+
+    interface IOdmaProperty
+    {
+
+        public OdmaQName getName();
+
+        public object getValue();
+
+        public int getType();
+
+        public void setValue(object newValue);
+
+        public bool isMultiValue();
+
+        public bool isDirty();
+
+        public bool isReadOnly();
+
+
+
+        public string getString();
+
+        public int getInteger();
+
+        public short getShort();
+
+        public long getLong();
+
+        public float getFloat();
+
+        public double getDouble();
+
+        public bool getBoolean();
+
+        public DateTime getDateTime();
+
+        public byte[] getBlob();
+
+        public IOdmaObject getObject();
+
+        public IOdmaContent getContent();
+
+
+
+        public IStringList getStringList();
+
+        public IIntegerList getIntegerList();
+
+        public IShortList getShortList();
+
+        public ILongList getLongList();
+
+        public IFloatList getFloatList();
+
+        public IDoubleList getDoubleList();
+
+        public IBooleanList getBooleanList();
+
+        public IDateTimeList getDateTimeList();
+
+        public IBlobList getBlobList();
+
+        public IObjectList getObjectList();
+
+        public IContentList getContentList();
+
+    }
+
+}

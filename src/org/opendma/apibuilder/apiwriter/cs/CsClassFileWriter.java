@@ -70,7 +70,22 @@ public class CsClassFileWriter extends AbstractClassFileWriter
 
     protected void appendRequiredImportsGlobal(List requiredImports)
     {
-        // we do not have any globally required imports
+        if(!requiredImports.contains("System"))
+        {
+            requiredImports.add("System");
+        }
+        if(!requiredImports.contains("System.Collections.Generic"))
+        {
+            requiredImports.add("System.Collections.Generic");
+        }
+        if(!requiredImports.contains("System.Linq"))
+        {
+            requiredImports.add("System.Linq");
+        }
+        if(!requiredImports.contains("System.Text"))
+        {
+            requiredImports.add("System.Text");
+        }
     }
 
     protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
@@ -79,7 +94,7 @@ public class CsClassFileWriter extends AbstractClassFileWriter
         out.println("        // =============================================================================================");
         out.println("        // Generic property access");
         out.println("        // =============================================================================================");
-        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/cs/OdmaObject.GenericPropertyAccess.template");
+        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/cs/IOdmaObject.GenericPropertyAccess.template");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)
@@ -90,14 +105,6 @@ public class CsClassFileWriter extends AbstractClassFileWriter
 
     protected void appendRequiredImportsGenericPropertyAccess(List requiredImports)
     {
-        if(!requiredImports.contains("OpenDMA.Exceptions.OdmaObjectNotFoundException"))
-        {
-            requiredImports.add("OpenDMA.Exceptions.OdmaObjectNotFoundException");
-        }
-        if(!requiredImports.contains("OpenDMA.Exceptions.OdmaInvalidDataTypeException"))
-        {
-            requiredImports.add("OpenDMA.Exceptions.OdmaInvalidDataTypeException");
-        }
     }
 
     protected void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out)
@@ -114,11 +121,11 @@ public class CsClassFileWriter extends AbstractClassFileWriter
         {
             if(property.getMultiValue())
             {
-                return property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration";
+                return "I"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration";
             }
             else
             {
-                return property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
+                return "I"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
             }
         }
         else
@@ -154,7 +161,8 @@ public class CsClassFileWriter extends AbstractClassFileWriter
         String constantPropertyName = "PROPERTY_" + property.getOdmaName().getName().toUpperCase();
         // getter
         out.println("");
-        out.println("        /// <summary>Property for "+property.getAbstract()+".<br>");
+        out.println("        /// <summary>");
+        out.println("        /// Property for "+property.getAbstract()+".<br>");
         String standardGetterName = "get" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? csDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
         String standardSetterName = "set" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? csDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
         out.println("        /// Shortcut for <c>getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</c> or <c>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"()</c>.");

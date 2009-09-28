@@ -118,33 +118,21 @@ public class CsApiWriter extends AbstractApiWriter
             switch(dataType)
             {
             case OdmaBasicTypes.TYPE_STRING:
-                return "OpenDMA.Api.Collections.StringList";
             case OdmaBasicTypes.TYPE_INTEGER:
-                return "OpenDMA.Api.Collections.IntegerList";
             case OdmaBasicTypes.TYPE_SHORT:
-                return "OpenDMA.Api.Collections.ShortList";
             case OdmaBasicTypes.TYPE_LONG:
-                return "OpenDMA.Api.Collections.LongList";
             case OdmaBasicTypes.TYPE_FLOAT:
-                return "OpenDMA.Api.Collections.FloatList";
             case OdmaBasicTypes.TYPE_DOUBLE:
-                return "OpenDMA.Api.Collections.DoubleList";
             case OdmaBasicTypes.TYPE_BOOLEAN:
-                return "OpenDMA.Api.Collections.BooleanList";
             case OdmaBasicTypes.TYPE_DATETIME:
-                return "OpenDMA.Api.Collections.DateList";
             case OdmaBasicTypes.TYPE_BLOB:
-                return "OpenDMA.Api.Collections.BlobList";
+            case OdmaBasicTypes.TYPE_CONTENT:
+            case OdmaBasicTypes.TYPE_ID:
+            case OdmaBasicTypes.TYPE_GUID:
+            case OdmaBasicTypes.TYPE_QNAME:
+                return "OpenDMA.Api.Collections";
             case OdmaBasicTypes.TYPE_REFERENCE:
                 throw new ApiCreationException("REFERENCE data type is not scalar");
-            case OdmaBasicTypes.TYPE_CONTENT:
-                return "OpenDMA.Api.Collections.OdmaContentList";
-            case OdmaBasicTypes.TYPE_ID:
-                return "OpenDMA.Api.Collections.OdmaIdList";
-            case OdmaBasicTypes.TYPE_GUID:
-                return "OpenDMA.Api.Collections.OdmaGuidList";
-            case OdmaBasicTypes.TYPE_QNAME:
-                return "OpenDMA.Api.Collections.OdmaQNameList";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -168,19 +156,19 @@ public class CsApiWriter extends AbstractApiWriter
             case OdmaBasicTypes.TYPE_BOOLEAN:
                 return null;
             case OdmaBasicTypes.TYPE_DATETIME:
-                return "System.DateTime";
+                return null;
             case OdmaBasicTypes.TYPE_BLOB:
                 return null;
             case OdmaBasicTypes.TYPE_REFERENCE:
                 throw new ApiCreationException("REFERENCE data type is not scalar");
             case OdmaBasicTypes.TYPE_CONTENT:
-                return "OpenDMA.Api.OdmaContent";
+                return "OpenDMA.Api";
             case OdmaBasicTypes.TYPE_ID:
-                return "OpenDMA.Api.OdmaId";
+                return "OpenDMA.Api";
             case OdmaBasicTypes.TYPE_GUID:
-                return "OpenDMA.Api.OdmaGuid";
+                return "OpenDMA.Api";
             case OdmaBasicTypes.TYPE_QNAME:
-                return "OpenDMA.Api.OdmaQName";
+                return "OpenDMA.Api";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -222,8 +210,8 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createIdFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("OdmaId",outputFolder);
-        InputStream from = getResourceAsStream("/templates/cs/OdmaId.template");
+        OutputStream to = getBasicFileStream("IOdmaId",outputFolder);
+        InputStream from = getResourceAsStream("/templates/cs/IOdmaId.template");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -231,8 +219,8 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createGuidFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("OdmaGuid",outputFolder);
-        InputStream from = getResourceAsStream("/templates/cs/OdmaGuid.template");
+        OutputStream to = getBasicFileStream("IOdmaGuid",outputFolder);
+        InputStream from = getResourceAsStream("/templates/cs/IOdmaGuid.template");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -240,8 +228,8 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createContentFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("OdmaContent",outputFolder);
-        InputStream from = getResourceAsStream("/templates/cs/OdmaContent.template");
+        OutputStream to = getBasicFileStream("IOdmaContent",outputFolder);
+        InputStream from = getResourceAsStream("/templates/cs/IOdmaContent.template");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -268,8 +256,8 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createPropertyFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("OdmaProperty",outputFolder);
-        InputStream from = getResourceAsStream("/templates/cs/OdmaProperty.template");
+        OutputStream to = getBasicFileStream("IOdmaProperty",outputFolder);
+        InputStream from = getResourceAsStream("/templates/cs/IOdmaProperty.template");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -281,7 +269,7 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected OutputStream getClassFileStream(String outputFolder, ClassDescription classDescription) throws IOException
     {
-        return createCsFile(outputFolder,"OpenDMA.Api",classDescription.getApiName());
+        return createCsFile(outputFolder,"OpenDMA.Api","I"+classDescription.getApiName());
     }
 
     protected void createClassFile(ClassDescription classDescription, String outputFolder) throws IOException
@@ -314,6 +302,12 @@ public class CsApiWriter extends AbstractApiWriter
     {
         CsListFileWriter listFileWriter = new CsListFileWriter(this);
         listFileWriter.createListFile(scalarTypeDescription, getListFileStream(baseFolder,scalarTypeDescription));
+    }
+
+    protected void createBuildFile(ApiDescription apiDescription) throws IOException
+    {
+        // TODO Auto-generated method stub
+        
     }
 
 }
