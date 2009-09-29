@@ -268,11 +268,8 @@ public class JavaApiWriter extends AbstractApiWriter
 
     protected void createPropertyFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("OdmaProperty",outputFolder);
-        InputStream from = getResourceAsStream("/templates/java/OdmaProperty.template");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        JavaPropertyFileWriter javaPropertyFileWriter = new JavaPropertyFileWriter(this);
+        javaPropertyFileWriter.createPropertyFile(apiDescription, getBasicFileStream("OdmaProperty",outputFolder));
     }
 
     //-------------------------------------------------------------------------
