@@ -8,8 +8,8 @@
     <ProjectGuid>{78591F89-B422-4729-8331-1532E26BFFF4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenDMA_API</RootNamespace>
-    <AssemblyName>OpenDMA API</AssemblyName>
+    <RootNamespace></RootNamespace>
+    <AssemblyName>OpenDMA.Api</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

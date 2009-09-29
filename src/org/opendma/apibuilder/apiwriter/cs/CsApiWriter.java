@@ -314,7 +314,7 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createBuildFile(ApiDescription apiDescription, String baseFolder) throws IOException
     {
-        OutputStream to = new FileOutputStream(baseFolder+"OpenDMA API.csproj");
+        OutputStream to = new FileOutputStream(baseFolder+"OpenDMA.Api.csproj");
         InputStream headerFrom = getResourceAsStream("/templates/cs/CsprojFileHeader.template");
         streamCopy(headerFrom, to);
         headerFrom.close();
@@ -329,6 +329,12 @@ public class CsApiWriter extends AbstractApiWriter
         InputStream footerFrom = getResourceAsStream("/templates/cs/CsprojFileFoot.template");
         streamCopy(footerFrom, to);
         footerFrom.close();
+        to.close();
+        // create Properties file
+        to = createCsFile(baseFolder,"Properties","AssemblyInfo");
+        InputStream assemblyInfoFrom = getResourceAsStream("/templates/cs/AssemblyInfo.template");
+        streamCopy(assemblyInfoFrom, to);
+        assemblyInfoFrom.close();
         to.close();
    }
 
