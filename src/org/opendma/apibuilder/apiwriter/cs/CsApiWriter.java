@@ -292,7 +292,7 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected OutputStream getEnumerationFileStream(String baseFolder, ClassDescription classDescription) throws IOException
     {
-        return createCsFile(baseFolder,"OpenDMA.Api.Collections",classDescription.getApiName()+"Enumeration");
+        return createCsFile(baseFolder,"OpenDMA.Api.Collections","I"+classDescription.getApiName()+"Enumeration");
     }
     
     protected void createEnumerationFile(ClassDescription classDescription, String baseFolder) throws IOException
@@ -303,7 +303,7 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected OutputStream getListFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
     {
-        return createCsFile(baseFolder,"OpenDMA.Api.Collections",getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()));
+        return createCsFile(baseFolder,"OpenDMA.Api.Collections","I"+getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()));
     }
 
     protected void createListFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
