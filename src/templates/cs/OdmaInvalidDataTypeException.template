@@ -43,7 +43,7 @@ namespace OpenDMA.Exceptions
         /// </summary>
         /// <param name="expectedDataType">the data type expected by the user</param>
         /// <param name="expectedMultivalue">the multi-value / single-value property expected by the user</param>
-        public OdmaInvalidDataTypeException(int expectedDataType, boolean expectedMultivalue)
+        public OdmaInvalidDataTypeException(int expectedDataType, bool expectedMultivalue)
         {
             this.expectedDataType = expectedDataType;
             this.expectedMultivalue = expectedMultivalue;
@@ -57,7 +57,7 @@ namespace OpenDMA.Exceptions
         /// <param name="expectedMultivalue">the multi-value / single-value property expected by the user</param>
         /// <param name="foundDataType">the data type that has been found</param>
         /// <param name="foundMultivalue">the multi-value / single-value property that has been found</param>
-        public OdmaInvalidDataTypeException(int expectedDataType, boolean expectedMultivalue, int foundDataType, bool foundMultivalue)
+        public OdmaInvalidDataTypeException(int expectedDataType, bool expectedMultivalue, int foundDataType, bool foundMultivalue)
         {
             this.expectedDataType = expectedDataType;
             this.expectedMultivalue = expectedMultivalue;
