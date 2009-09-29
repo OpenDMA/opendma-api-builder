@@ -44,6 +44,7 @@ public class CsEnumerationFileWriter extends AbstractEnumerationFileWriter
         }
         out.println("");
         out.println("namespace OpenDMA.Api.Collections");
+        out.println("{");
         out.println("");
         out.println("    /// <summary>");
         out.println("    /// The content of a multi-valued <c>reference</c> property in OpenDMA.<br>");
