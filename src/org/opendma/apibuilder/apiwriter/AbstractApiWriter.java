@@ -85,7 +85,8 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
                 createListFile(scalarTypeDescription,baseFolder);
             }
         }
-        
+        // create build file
+        createBuildFile(apiDescription,baseFolder);
     }
 
     public static InputStream getResourceAsStream(String resource)
@@ -162,4 +163,9 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
 
     protected abstract void createListFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException;
     
+    //-------------------------------------------------------------------------
+    // B U I L D   F I L E
+    //-------------------------------------------------------------------------
+    
+    protected abstract void createBuildFile(ApiDescription apiDescription, String baseFolder) throws IOException;
 }

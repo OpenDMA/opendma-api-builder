@@ -316,4 +316,9 @@ public class JavaApiWriter extends AbstractApiWriter
         listFileWriter.createListFile(scalarTypeDescription, getListFileStream(baseFolder,scalarTypeDescription));
     }
 
+    protected void createBuildFile(ApiDescription apiDescription, String baseFolder) throws IOException
+    {
+        // we do not create a build file for now. We use Eclipse.
+    }
+
 }

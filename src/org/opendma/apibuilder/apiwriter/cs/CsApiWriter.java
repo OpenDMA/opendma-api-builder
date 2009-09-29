@@ -5,6 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.opendma.apibuilder.OdmaBasicTypes;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
@@ -15,6 +19,9 @@ import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
 public class CsApiWriter extends AbstractApiWriter
 {
+    
+    /** List of files that need to be compiled by the build file */
+    protected List compileFileList = new ArrayList();
     
     private OutputStream createCsFile(String outputFolder, String packageName, String className) throws IOException
     {
@@ -27,6 +34,7 @@ public class CsApiWriter extends AbstractApiWriter
                 throw new IOException("Can not create package directory");
             }
         }
+        compileFileList.add(packageName+File.separator+className+".cs");
         return new FileOutputStream(packageDirectory+File.separator+className+".cs");
     }
     
@@ -98,11 +106,11 @@ public class CsApiWriter extends AbstractApiWriter
             case OdmaBasicTypes.TYPE_REFERENCE:
                 throw new ApiCreationException("REFERENCE data type is not scalar");
             case OdmaBasicTypes.TYPE_CONTENT:
-                return "OdmaContent";
+                return "IOdmaContent";
             case OdmaBasicTypes.TYPE_ID:
-                return "OdmaId";
+                return "IOdmaId";
             case OdmaBasicTypes.TYPE_GUID:
-                return "OdmaGuid";
+                return "IOdmaGuid";
             case OdmaBasicTypes.TYPE_QNAME:
                 return "OdmaQName";
             default:
@@ -304,10 +312,24 @@ public class CsApiWriter extends AbstractApiWriter
         listFileWriter.createListFile(scalarTypeDescription, getListFileStream(baseFolder,scalarTypeDescription));
     }
 
-    protected void createBuildFile(ApiDescription apiDescription) throws IOException
+    protected void createBuildFile(ApiDescription apiDescription, String baseFolder) throws IOException
     {
-        // TODO Auto-generated method stub
-        
-    }
+        OutputStream to = new FileOutputStream(baseFolder+"OpenDMA API.csproj");
+        InputStream headerFrom = getResourceAsStream("/templates/cs/CsprojFileHeader.template");
+        streamCopy(headerFrom, to);
+        headerFrom.close();
+        PrintWriter out = new PrintWriter(to);
+        Iterator itCompileFileList = compileFileList.iterator();
+        while(itCompileFileList.hasNext())
+        {
+            String fileName = (String)itCompileFileList.next();
+            out.println("    <Compile Include=\""+fileName+"\" />");
+        }
+        out.flush();
+        InputStream footerFrom = getResourceAsStream("/templates/cs/CsprojFileFoot.template");
+        streamCopy(footerFrom, to);
+        footerFrom.close();
+        to.close();
+   }
 
 }
