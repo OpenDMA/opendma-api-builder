@@ -1,0 +1,46 @@
+
+        /// <summary>
+        /// Returns the qualified name of this property.
+        /// </summary>
+        /// <returns>Returns the qualified name of this property.</returns>
+        OdmaQName getName();
+
+        /// <summary>
+        /// Returns the value of this property.<br>
+        /// The concrete <c>object</c> returned by this method depends on the
+        /// data type of this property.
+        /// </summary>
+        /// <returns>Returns the value of this property.</returns>
+        object getValue();
+
+        /// <summary>
+        /// Returns the numeric identifier of the data type of this property.<br>
+        /// You can find a list of all data types in the <c>OdmaTypes</c> class.
+        /// </summary>
+        /// <returns>Returns the numeric identifier of the data type of this property.</returns>
+        int getType();
+
+        /// <summary>
+        /// Set the value of this property to the given new value. The
+        /// <c>Class</c> of the given <c>object</c> has to match the
+        /// data type of this property.
+        /// </summary>
+        void setValue(object newValue);
+
+        /// <summary>
+        /// Returns <c>true</c> if and only if this property is a multi value property.
+        /// </summary>
+        /// <returns>Returns <c>true</c> if and only if this property is a multi value property.</returns>
+        bool isMultiValue();
+
+        /// <summary>
+        /// Returns <c>true</c> if and only if this property has been changed and these changes have not yet been saved.
+        /// </summary>
+        /// <returns>Returns <c>true</c> if and only if this property has been changed and these changes have not yet been saved.</returns>
+        bool isDirty();
+
+        /// <summary>
+        /// Returns <c>true</c> if and only if this property must not be changed.
+        /// </summary>
+        /// <returns>Returns <c>true</c> if and only if this property must not be changed.</returns>
+        bool isReadOnly();

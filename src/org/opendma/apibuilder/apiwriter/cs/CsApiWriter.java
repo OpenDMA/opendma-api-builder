@@ -50,33 +50,33 @@ public class CsApiWriter extends AbstractApiWriter
             switch(dataType)
             {
             case OdmaBasicTypes.TYPE_STRING:
-                return "StringList";
+                return "IStringList";
             case OdmaBasicTypes.TYPE_INTEGER:
-                return "IntegerList";
+                return "IIntegerList";
             case OdmaBasicTypes.TYPE_SHORT:
-                return "ShortList";
+                return "IShortList";
             case OdmaBasicTypes.TYPE_LONG:
-                return "LongList";
+                return "ILongList";
             case OdmaBasicTypes.TYPE_FLOAT:
-                return "FloatList";
+                return "IFloatList";
             case OdmaBasicTypes.TYPE_DOUBLE:
-                return "DoubleList";
+                return "IDoubleList";
             case OdmaBasicTypes.TYPE_BOOLEAN:
-                return "BooleanList";
+                return "IBooleanList";
             case OdmaBasicTypes.TYPE_DATETIME:
-                return "DateTimeList";
+                return "IDateTimeList";
             case OdmaBasicTypes.TYPE_BLOB:
-                return "BlobList";
+                return "IBlobList";
             case OdmaBasicTypes.TYPE_REFERENCE:
                 throw new ApiCreationException("REFERENCE data type is not scalar");
             case OdmaBasicTypes.TYPE_CONTENT:
-                return "OdmaContentList";
+                return "IOdmaContentList";
             case OdmaBasicTypes.TYPE_ID:
-                return "OdmaIdList";
+                return "IOdmaIdList";
             case OdmaBasicTypes.TYPE_GUID:
-                return "OdmaGuidList";
+                return "IOdmaGuidList";
             case OdmaBasicTypes.TYPE_QNAME:
-                return "OdmaQNameList";
+                return "IOdmaQNameList";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -264,11 +264,8 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createPropertyFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("IOdmaProperty",outputFolder);
-        InputStream from = getResourceAsStream("/templates/cs/IOdmaProperty.template");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        CsPropertyFileWriter csPropertyFileWriter = new CsPropertyFileWriter(this);
+        csPropertyFileWriter.createPropertyFile(apiDescription, getBasicFileStream("IOdmaProperty",outputFolder));
     }
 
     //-------------------------------------------------------------------------

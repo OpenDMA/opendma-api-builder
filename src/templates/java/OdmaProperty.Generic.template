@@ -41,24 +41,24 @@
     public void setValue(Object newValue) throws OdmaInvalidDataTypeException;
 
     /**
-     * Returns true if and only if this property is a multio-value property.
+     * Returns <code>true</code> if and only if this property is a multi value property.
      * 
-     * @return true if and only if this property is a multio-value property.
+     * @return <code>true</code> if and only if this property is a multi value property.
      */
     public boolean isMultiValue();
 
     /**
-     * Returns true if and only if this property has been changed and these
+     * Returns <code>true</code> if and only if this property has been changed and these
      * changes have not yet been saved.
      * 
-     * @return true true if and only if this property has been changed and these
+     * @return <code>true</code> true if and only if this property has been changed and these
      *         changes have not yet been saved
      */
     public boolean isDirty();
 
     /**
-     * Returns true if and only if this property must not be changed.
+     * Returns <code>true</code> if and only if this property must not be changed.
      * 
-     * @return true if and only if this property must not be changed.
+     * @return <code>true</code> if and only if this property must not be changed.
      */
     public boolean isReadOnly();

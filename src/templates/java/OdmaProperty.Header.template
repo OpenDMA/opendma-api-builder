@@ -5,7 +5,7 @@
  * <code>{@link #isReadOnly()}</code> returns <code>false</code>), it can
  * change its value by calling the <code>{@link #setValue(Object)}</code>
  * method. Changes are only persisted in the repository after a call to the
- * save() mathod of the containing object.
+ * <code>{@link #save()}</code> method of the containing object.
  * 
  * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
  */
