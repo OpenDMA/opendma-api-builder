@@ -63,14 +63,14 @@ public class CsConstantsFileWriter extends AbstractConstantsFileWriter
     {
         out.println("");
         out.println("        /// <summary>qualified name of the OpenDMA system class <c>"+classDescription.getOdmaName().getName()+"</c></summary>");
-        out.println("        public const OdmaQName "+constantName+" = new OdmaQName(\""+classDescription.getOdmaName().getQualifier()+"\", \""+classDescription.getOdmaName().getName()+"\");");
+        out.println("        public static OdmaQName "+constantName+" = new OdmaQName(\""+classDescription.getOdmaName().getQualifier()+"\", \""+classDescription.getOdmaName().getName()+"\");");
     }
 
     protected void writeConstantsPropertynameConstant(PropertyDescription propertyDescription, String constantName, PrintWriter out)
     {
         out.println("");
         out.println("        /// <summary>qualified name of the OpenDMA system property <c>"+propertyDescription.getOdmaName().getName()+"</c><summary>");
-        out.println("        public const OdmaQName "+constantName+" = new OdmaQName(\""+propertyDescription.getOdmaName().getQualifier()+"\", \""+propertyDescription.getOdmaName().getName()+"\");");
+        out.println("        public static OdmaQName "+constantName+" = new OdmaQName(\""+propertyDescription.getOdmaName().getQualifier()+"\", \""+propertyDescription.getOdmaName().getName()+"\");");
     }
 
     protected void writeConstantsBackrefPropertynameHint(PropertyDescription propertyDescription, String propertyName, PrintWriter out)
