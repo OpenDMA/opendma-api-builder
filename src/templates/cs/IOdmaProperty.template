@@ -68,9 +68,9 @@ namespace OpenDMA.Api
 
         IBlobList getBlobList();
 
-        IObjectList getObjectList();
+        IOdmaObjectEnumeration getObjectList();
 
-        IContentList getContentList();
+        IOdmaContentList getContentList();
 
     }
 
