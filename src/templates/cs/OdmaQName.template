@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OpenDMA.Api
 {
-    class OdmaQName
+    public class OdmaQName
     {
         /// <summary>
         /// the name <i>qualifier</i> of this qualified name

@@ -2,74 +2,75 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OpenDMA.Api.Collections;
 
 namespace OpenDMA.Api
 {
 
-    interface IOdmaProperty
+    public interface IOdmaProperty
     {
 
-        public OdmaQName getName();
+        OdmaQName getName();
 
-        public object getValue();
+        object getValue();
 
-        public int getType();
+        int getType();
 
-        public void setValue(object newValue);
+        void setValue(object newValue);
 
-        public bool isMultiValue();
+        bool isMultiValue();
 
-        public bool isDirty();
+        bool isDirty();
 
-        public bool isReadOnly();
-
-
-
-        public string getString();
-
-        public int getInteger();
-
-        public short getShort();
-
-        public long getLong();
-
-        public float getFloat();
-
-        public double getDouble();
-
-        public bool getBoolean();
-
-        public DateTime getDateTime();
-
-        public byte[] getBlob();
-
-        public IOdmaObject getObject();
-
-        public IOdmaContent getContent();
+        bool isReadOnly();
 
 
 
-        public IStringList getStringList();
+        string getString();
 
-        public IIntegerList getIntegerList();
+        int getInteger();
 
-        public IShortList getShortList();
+        short getShort();
 
-        public ILongList getLongList();
+        long getLong();
 
-        public IFloatList getFloatList();
+        float getFloat();
 
-        public IDoubleList getDoubleList();
+        double getDouble();
 
-        public IBooleanList getBooleanList();
+        bool getBoolean();
 
-        public IDateTimeList getDateTimeList();
+        DateTime getDateTime();
 
-        public IBlobList getBlobList();
+        byte[] getBlob();
 
-        public IObjectList getObjectList();
+        IOdmaObject getObject();
 
-        public IContentList getContentList();
+        IOdmaContent getContent();
+
+
+
+        IStringList getStringList();
+
+        IIntegerList getIntegerList();
+
+        IShortList getShortList();
+
+        ILongList getLongList();
+
+        IFloatList getFloatList();
+
+        IDoubleList getDoubleList();
+
+        IBooleanList getBooleanList();
+
+        IDateTimeList getDateTimeList();
+
+        IBlobList getBlobList();
+
+        IObjectList getObjectList();
+
+        IContentList getContentList();
 
     }
 

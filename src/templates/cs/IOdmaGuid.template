@@ -13,7 +13,7 @@ namespace OpenDMA.Api
     /// To identify an object only inside an <c>OdmaRepository</c>, you can
     /// use the <see cref="IOdmaId"/>.
     /// </summary>
-    interface IOdmaGuid
+    public interface IOdmaGuid
     {
 
         /// <summary>
@@ -21,13 +21,13 @@ namespace OpenDMA.Api
         /// </summary>
         /// <param name="obj">The object to compare this Guid to</param>
         /// <returns>Returns true if the given Object is a <c>OdmaGuid</c> or a <c>OdmaId</c> identifying the same object.</returns>
-        public bool Equals(object obj);
+        bool Equals(object obj);
 
         /// <summary>
         /// Returns the <c>string</c> representation of this Identifier.
         /// </summary>
         /// <returns>Returns the <c>string</c> representation of this Identifier.</returns>
-        public string ToString();
+        string ToString();
 
     }
 

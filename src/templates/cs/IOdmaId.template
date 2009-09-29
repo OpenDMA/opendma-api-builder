@@ -11,7 +11,7 @@ namespace OpenDMA.Api
     /// to identify an <c>OdmaObject</c> inside a <code>OdmaRepository</code>.<br>
     /// To globally identify an object you have to use the <c>OdmaGuid</c>.
     /// </summary>
-    interface IOdmaId
+    public interface IOdmaId
     {
 
         /// <summary>
@@ -19,13 +19,13 @@ namespace OpenDMA.Api
         /// </summary>
         /// <param name="obj">The object to compare this Guid to</param>
         /// <returns>Returns true if the given Object is a <c>OdmaGuid</c> or a <c>OdmaId</c> identifying the same object.</returns>
-        public bool Equals(object obj);
+        bool Equals(object obj);
 
         /// <summary>
         /// Returns the <c>string</c> representation of this Identifier.
         /// </summary>
         /// <returns>Returns the <c>string</c> representation of this Identifier.</returns>
-        public string ToString();
+        string ToString();
 
     }
 

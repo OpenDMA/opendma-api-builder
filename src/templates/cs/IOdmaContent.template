@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace OpenDMA.Api
 {
@@ -9,7 +10,7 @@ namespace OpenDMA.Api
     /// <summary>
     /// Represents the <c>Conent</c> data type in OpenDMA.
     /// </summary>
-    interface IOdmaContent
+    public interface IOdmaContent
     {
 
         /// <summary>
@@ -18,13 +19,13 @@ namespace OpenDMA.Api
         /// the data.</b>
         /// <summary>
         /// <returns>Returns the data as <c>InputStream</c>.</returns>
-        public Stream getStream();
+        Stream getStream();
 
         /// <summary>
         /// Returns the size of the data in octests.
         /// </summary>
         /// <returns>Returns the size of the data in octests.</returns>
-        public long getSize();
+        long getSize();
 
     }
 
