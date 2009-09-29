@@ -140,7 +140,7 @@ public class CsClassFileWriter extends AbstractClassFileWriter
         {
             if(property.getMultiValue())
             {
-                return "OpenDMA.Api.Collections."+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration";
+                return "OpenDMA.Api.Collections";
             }
             else
             {

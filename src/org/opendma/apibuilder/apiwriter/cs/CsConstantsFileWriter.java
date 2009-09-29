@@ -12,6 +12,8 @@ public class CsConstantsFileWriter extends AbstractConstantsFileWriter
 {
     protected void writeConstantsFileHeader(ApiDescription apiDescription, PrintWriter out)
     {
+        out.println("using OpenDMA.Api;");
+        out.println("");
         out.println("namespace OpenDMA");
         out.println("{");
         out.println("");
