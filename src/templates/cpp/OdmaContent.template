@@ -1,0 +1,32 @@
+#ifndef _OdmaContent_h_
+#define _OdmaContent_h_
+
+/**
+ * Represents the <code>Content</code> data type in OpenDMA.
+ * 
+ * \author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ */
+class OdmaContent
+{
+
+public:
+
+    /**
+     * Returns the data as <code>InputStream</code>.<br>
+     * <b>The caller has to close this stream after she/he has finished reading
+     * the data.</b>
+     * 
+     * \return the data as <code>InputStream</code>.
+     */
+    virtual InputStream getStream(void) = 0;
+
+    /**
+     * Returns the size of the data in octests.
+     * 
+     * \return the size of the data in octests.
+     */
+    virtual long getSize(void);
+
+}
+
+#endif

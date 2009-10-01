@@ -1,0 +1,104 @@
+#ifndef _OdmaObjectNotFoundException_h_
+#define _OdmaObjectNotFoundException_h_
+
+/**
+ * Exception thrown whenever an OpenDMA implementation is unable to locate an
+ * object requested by the user. This could be a class or property identified by
+ * a qualified name or a Object identified by ID.<br>
+ * This Exception is able to hold the qualified name or ID that caused it.
+ * 
+ * \author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ */
+class OdmaObjectNotFoundException
+{
+
+private:
+
+    private std::wstring message;
+
+    /** the qualified name of the object that could not be found. Can be null */
+    private OdmaQName unknownObject;
+
+    /** the ID of the object that could not be found. Can be null */
+    private OdmaId unknownId;
+
+public:
+
+    /**
+     * Create a new <code>OdmaObjectNotFoundException</code> with the given
+     * parameters.
+     * 
+     * \param unknownObject
+     *            the qualified name of the object that could not be found
+     */
+    OdmaObjectNotFoundException(const OdmaQName& unknownObject_)
+    {
+        this.unknownObject = unknownObject_;
+    }
+
+    /**
+     * Create a new <code>OdmaObjectNotFoundException</code> with the given
+     * parameters.
+     * 
+     * \param msg
+     *            a message string for the user
+     * \param unknownObject
+     *            the qualified name of the object that could not be found
+     */
+    OdmaObjectNotFoundException(const std::wstring& msg_, const OdmaQName& unknownObject_)
+    {
+        message = msg_;
+        unknownObject = unknownObject_;
+    }
+
+    /**
+     * Create a new <code>OdmaObjectNotFoundException</code> with the given
+     * parameters.
+     * 
+     * @param unknownId
+     *            the ID of the object that could not be found
+     */
+    OdmaObjectNotFoundException(OdmaId unknownId)
+    {
+        super((unknownId != null) ? "Unknown object " + unknownId.toString() : "Unknown object");
+        this.unknownId = unknownId;
+    }
+
+    /**
+     * Create a new <code>OdmaObjectNotFoundException</code> with the given
+     * parameters.
+     * 
+     * @param msg
+     *            a message string for the user
+     * @param unknownId
+     *            the ID of the object that could not be found
+     */
+    OdmaObjectNotFoundException(String msg, OdmaId unknownId)
+    {
+        super(msg);
+        this.unknownId = unknownId;
+    }
+
+    /**
+     * Returns the qualified name of the object that could not be found.
+     * 
+     * \return the qualified name of the object that could not be found
+     */
+    OdmaQName& getUnknownName()
+    {
+        return unknownObject;
+    }
+
+    /**
+     * Returns the ID of the object that could not be found.
+     * 
+     * \return the ID of the object that could not be found
+     */
+    OdmaId& getUnknownId()
+    {
+        return unknownId;
+    }
+
+}
+
+#endif

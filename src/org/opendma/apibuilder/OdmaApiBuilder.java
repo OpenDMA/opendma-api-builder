@@ -10,6 +10,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.opendma.apibuilder.apiwriter.cpp.CppApiWriter;
 import org.opendma.apibuilder.apiwriter.cs.CsApiWriter;
 import org.opendma.apibuilder.apiwriter.java.JavaApiWriter;
 import org.opendma.apibuilder.structure.ApiDescription;
@@ -108,6 +109,7 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         List result = new ArrayList();
         result.add(new JavaApiWriter());
         result.add(new CsApiWriter());
+        result.add(new CppApiWriter());
         return result;
     }
 
