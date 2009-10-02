@@ -15,13 +15,31 @@
 class OdmaQName
 {
 
+private:
+
+	static int cmp_nocase(const string& s1, const string& s2)
+	{
+		string::const_iterator p1 = s1.begin();
+		string::const_iterator p2 = s2.begin();
+		while( (p1 != s1.end()) && (p2 != s2.end()) )
+		{
+			if( toupper(*p1) != toupper(*p2) )
+			{
+				return (toupper(*p1)<toupper(*p2)) ? -1 : +1;
+			}
+			++p1;
+			++p2;
+		}
+		return(s2.size()==s1.size()) ? 0 : (s1.size()<s2.size())?-1:+1;
+	}
+
 protected:
 
     /** the name <i>qualifier</i> of this qualified name */
-    std::wstring qualifier;
+    std::string qualifier;
 
     /** the <i>name</i> of this qualified name */
-    std::wstring name;
+    std::string name;
 
 public:
 
@@ -35,18 +53,8 @@ public:
      * @throws IllegalArgumentException
      *             if the name is null or empty
      */
-    OdmaQName(const wstring& name_)
+    OdmaQName(const string& name_)
     {
-        /*
-        if(name == null)
-        {
-            throw new IllegalArgumentException("The name of a OdmaQName must not be null.");
-        }
-        if(name.empty())
-        {
-            throw new IllegalArgumentException("The name of a OdmaQName must have at least 1 character.");
-        }
-        */
         name = name_;
     }
 
@@ -65,22 +73,8 @@ public:
      *             if the name is null or empty or if the qualifier is not null
      *             and empty
      */
-    OdmaQName(const wstring& qualifier_, const wstring& name_)
+    OdmaQName(const string& qualifier_, const string& name_)
     {
-        /*
-        if (name == null)
-        {
-            throw new IllegalArgumentException("The name of a OdmaQName may not be null.");
-        }
-        if ((qualifier != null) && (qualifier.length() == 0))
-        {
-            throw new IllegalArgumentException("The qualifier of a OdmaQName must have at least 1 character.");
-        }
-        if (name.length() == 0)
-        {
-            throw new IllegalArgumentException("The name of a OdmaQName must have at least 1 character.");
-        }
-        */
         qualifier = qualifier_;
         name = name_;
     }
@@ -90,7 +84,7 @@ public:
      * 
      * \return the qualifier of this qualified name.
      */
-    const std::wstring& getQualifier()
+    const std::string& getQualifier()
     {
         return qualifier;
     }
@@ -100,7 +94,7 @@ public:
      * 
      * \return the name of this qualified name.
      */
-    const std::wstring& getName()
+    const std::string& getName()
     {
         return name;
     }
@@ -121,14 +115,12 @@ public:
      * \return true if and only if this <code>OdmaQName</code> equals the
      *         given object
      */
-    bool equals(OdmaQName& qn)
-    {
-        /*
-        return (qn != null) && (qn instanceof OdmaQName) && ((((qualifier == null) || (((OdmaQName) qn).qualifier == null)) && name.equals(((OdmaQName) qn).name)) || ((qualifier != null) && qualifier
-                .equals(((OdmaQName) qn).qualifier) && name.equals(((OdmaQName) qn).name)));
-        */
-        return false;
-    }
+	bool equals(const OdmaQName& qn)
+	{
+		return ( (qualifier.empty() || qn.qualifier.empty()) && (name == qn.name) )
+			   ||
+			   ( (qualifier == qn.qualifier) && (name == qn.name) );
+	}
 
     /**
      * Compares this <code>OdmaQName</code> to the given object and returns
@@ -148,15 +140,13 @@ public:
      * \return true if and only if this <code>OdmaQName</code> equals the
      *         given object
      */
-    bool equalsIgnoreCase(OdmaQName& qn)
+    bool equalsIgnoreCase(const OdmaQName& qn)
     {
-        /*
-        return (qn != null) && (qn instanceof OdmaQName) && ((((qualifier == null) || (((OdmaQName) qn).qualifier == null)) && this.name.equalsIgnoreCase(qn.name)) || ((qualifier != null) && this.qualifier
-                .equalsIgnoreCase(qn.qualifier) && this.name.equalsIgnoreCase(qn.name)));
-        */
-        return false;
-    }
+        return ( (qualifier.empty() || qn.qualifier.empty()) && (cmp_nocase(name,qn.name) == 0) )
+               ||
+               ( (cmp_nocase(qualifier,qn.qualifier) == 0) && (cmp_nocase(name,qn.name) == 0) );
+	}
 
-}
+};
 
 #endif
