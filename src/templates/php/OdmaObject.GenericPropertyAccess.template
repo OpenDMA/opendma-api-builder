@@ -1,0 +1,63 @@
+
+    /**
+     * Returns an <code>{@link OdmaProperty}</code> for the property identified by the given qualified name. The named
+     * property is automatically retrieved from the server if it is not yet in the local cache. So it is wise to call
+     * the method <code>{@link #prepareProperties(OdmaQName[], boolean)}</code> at first if you are interested in
+     * multiple properties to reduce the number of round trips to the server.
+     * 
+     * @param OpenDMA_Api_OdmaQName $propertyName
+     *            the qualified name of the property to return
+     * 
+     * @return OpenDMA_Api_OdmaProperty the property identified by the given qualified name.
+     * 
+     * @throws OpenDMA_Exceptions_OdmaObjectNotFoundException
+     *             if and only if the given qualified name does not identify a property in the list of effective
+     *             properties of the class of this object
+     */
+    public function getProperty($propertyName);
+
+    /**
+     * Checks if the named properties are already in the local cache and performs one single round trip to the server to
+     * retrieve all properties that are not yet in the cache. If the flag <code>refresh</code> is set to
+     * <code>true</code>, the proerties are always retrieved from the server. Such a refresh will reset unsaved
+     * changes of properties to the current value.<br>
+     * If a given qualified name does not identify a property, it is silently ignored.
+     * 
+     * @param OpenDMA_Api_OdmaQName[] $propertyNames
+     *            array of qualified property names to retrieve from the server or <code>null</code> to retrieve all
+     * 
+     * @param boolean $refresh
+     *            flag to indicate if the properties should also be retrieved if they are already in the local cache.
+     */
+    public function prepareProperties($propertyNames,$refresh);
+
+    /**
+     * Set the property identified by the given qualified name to the new value.<br>
+     * This method is a shortcut for <code>getProperty(propertyName).setValue(newValue)</code> that can avoid the
+     * retrieval of the property in the <code>getProperty(propertyName)</code> method if the property is not yet in
+     * the local cache.
+     * 
+     * @param OpenDMA_Api_OdmaQName $propertyName
+     *            the qualified name of the property to be changed
+     * @param $newValue
+     *            the new value to set the named property to
+     * 
+     * @throws OpenDMA_Exceptions_OdmaObjectNotFoundException
+     *             if and only if the given qualified name does not identify a property in the list of effective
+     *             properties of the class of this object
+     * @throws OpenDMA_Exceptions_OdmaInvalidDataTypeException
+     *             if and only if the Class of the given Object does not match the data type of the named property
+     */
+    public void setProperty($propertyName, $newValue);
+
+    /**
+     * Returns true if there are some pending changes to properties that have not yet been persisted to the server.
+     * 
+     * @return boolean true if there are pending changes that have not yet been persisted
+     */
+    public boolean isDirty();
+
+    /**
+     * Persist the current pending changes to properties at the server.
+     */
+    public void save();

@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * Exception thrown whenever an OpenDMA implementation is unable to locate an
+ * object requested by the user. This could be a class or property identified by
+ * a qualified name or a Object identified by ID.<br>
+ * This Exception is able to hold the qualified name or ID that caused it.
+ * 
+ * @category   OpenDMA
+ * @package    OpenDMA_Exceptions
+ * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ */
+class OpenDMA_Exceptions_OdmaObjectNotFoundException extends Exception
+{
+}

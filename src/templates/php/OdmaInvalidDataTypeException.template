@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * Exception thrown whenever the data type accessed by the user does not match
+ * the real data type in OpenDMA.
+ * 
+ * @category OpenDMA
+ * @package OpenDMA_Exceptions
+ * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ */
+class OpenDMA_Exceptions_OdmaInvalidDataTypeException extends Exception
+{
+}
