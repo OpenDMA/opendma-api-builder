@@ -1,0 +1,7 @@
+/**
+ * Description follows
+ * 
+ * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ */
+public class OdmaPropertyImpl implements OdmaProperty
+{

@@ -251,6 +251,7 @@ public class JavaApiWriter extends AbstractApiWriter
     {
         internalCreateExceptionFile(outputFolder,"OdmaObjectNotFoundException");
         internalCreateExceptionFile(outputFolder,"OdmaInvalidDataTypeException");
+        internalCreateExceptionFile(outputFolder,"OdmaAccessDeniedException");
     }
     
     protected void internalCreateExceptionFile(String outputFolder, String exceptionClassName) throws IOException
@@ -312,7 +313,21 @@ public class JavaApiWriter extends AbstractApiWriter
         JavaListFileWriter listFileWriter = new JavaListFileWriter(this);
         listFileWriter.createListFile(scalarTypeDescription, getListFileStream(baseFolder,scalarTypeDescription));
     }
+    
+    //-------------------------------------------------------------------------
+    // I M P L E M E N T A T I O N   F I L E S
+    //-------------------------------------------------------------------------
 
+    protected void createPropertyImplementationFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    {
+        JavaPropertyImplementationFileWriter javaPropertyImplementationFileWriter = new JavaPropertyImplementationFileWriter(this);
+        javaPropertyImplementationFileWriter.createPropertyFile(apiDescription, createJavaFile(outputFolder,"org.opendma.impl","OdmaProperty"));
+    }
+    
+    //-------------------------------------------------------------------------
+    // B U I L D   F I L E
+    //-------------------------------------------------------------------------
+    
     protected void createBuildFile(ApiDescription apiDescription, String baseFolder) throws IOException
     {
         // we do not create a build file for now. We use Eclipse.

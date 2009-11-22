@@ -1,0 +1,114 @@
+    
+    /** the name of this property */
+    protected OdmaQName name;
+    
+    /** the data type of this property */
+    protected int dataType;
+    
+    /** flag indicating if this property is multivalue or not */
+    protected boolean multivalue;
+    
+    /** the value of this property */
+    protected Object value;
+    
+    /** flag indicating if the value of this property has changed */
+    protected boolean dirty;
+    
+    /** flag indicating if this property is read only or not */
+    protected boolean readonly;
+    
+    /**
+     * Create a new <code>OdmaPropertyImpl</code> with the given data.
+     * 
+     * @param name
+     *     The name of this property.
+     *     
+     * @param value
+     *     The value of this property.
+     *     
+     * @param dataType
+     *     The data type of this property
+     *     
+     * @param multivalue
+     *     Flag if this property is a multi value property
+     *     
+     * @param readonly
+     *     Flag if this property is read only.
+     */
+    public OdmaPropertyImpl(OdmaQName name, Object value, int dataType, boolean multivalue, boolean readonly)
+    {
+        this.name = name;
+        this.dataType = dateType;
+        this.multivalue = multivalue;
+        setValue(value);
+        this.readonly = readonly;
+        this.dirty = false;
+    }
+
+    /**
+     * Returns the qualified name of this property.
+     * 
+     * @return the qualified name of this property.
+     */
+    public OdmaQName getName()
+    {
+        return name;
+    }
+
+    /**
+     * Returns the numeric identifier of the data type of this property.<br>
+     * You can find a list of all data types in the <code>OdmaTypes</code>
+     * class.
+     * 
+     * @return the numeric identifier of the data type of this property.
+     * 
+     * @see org.opendma.OdmaTypes
+     */
+    public int getType()
+    {
+        return dataType;
+    }
+
+    /**
+     * Returns the value of this property.<br>
+     * The concrete <code>Object</code> returned by this method depends on the
+     * data type of this property.
+     * 
+     * @return the value of this property.
+     */
+    public Object getValue()
+    {
+        return value;
+    }
+
+    /**
+     * Returns <code>true</code> if and only if this property has been changed and these
+     * changes have not yet been saved.
+     * 
+     * @return <code>true</code> true if and only if this property has been changed and these
+     *         changes have not yet been saved
+     */
+    public boolean isDirty()
+    {
+        return dirty;
+    }
+
+    /**
+     * Returns <code>true</code> if and only if this property is a multi value property.
+     * 
+     * @return <code>true</code> if and only if this property is a multi value property.
+     */
+    public boolean isMultiValue()
+    {
+        return multivalue;
+    }
+
+    /**
+     * Returns <code>true</code> if and only if this property must not be changed.
+     * 
+     * @return <code>true</code> if and only if this property must not be changed.
+     */
+    public boolean isReadOnly()
+    {
+        return readonly;
+    }

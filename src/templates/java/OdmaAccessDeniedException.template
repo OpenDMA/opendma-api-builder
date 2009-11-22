@@ -1,0 +1,25 @@
+package org.opendma.exceptions;
+
+import org.opendma.api.OdmaId;
+import org.opendma.api.OdmaQName;
+
+/**
+ * Description follows.
+ * 
+ * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ */
+public class OdmaObjectNotFoundException extends Exception
+{
+
+    /** the serial version ID required for serialization */
+    private static final long serialVersionUID = -;
+
+    /**
+     * Create a new <code>OdmaAccessDeniedException</code>.
+     */
+    public OdmaObjectNotFoundException()
+    {
+        super();
+    }
+
+}

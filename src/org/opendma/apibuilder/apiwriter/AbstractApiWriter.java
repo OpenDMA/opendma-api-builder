@@ -85,6 +85,8 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
                 createListFile(scalarTypeDescription,baseFolder);
             }
         }
+        // create properties implementation file
+        createPropertyImplementationFile(apiDescription,baseFolder);
         // create build file
         createBuildFile(apiDescription,baseFolder);
     }
@@ -162,6 +164,12 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
     protected abstract void createEnumerationFile(ClassDescription classDescription, String outputFolder) throws IOException;
 
     protected abstract void createListFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException;
+    
+    //-------------------------------------------------------------------------
+    // I M P L E M E N T A T I O N   F I L E S
+    //-------------------------------------------------------------------------
+
+    protected abstract void createPropertyImplementationFile(ApiDescription apiDescription, String outputFolder) throws IOException;
     
     //-------------------------------------------------------------------------
     // B U I L D   F I L E

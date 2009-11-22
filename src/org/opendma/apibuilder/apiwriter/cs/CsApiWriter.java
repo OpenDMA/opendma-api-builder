@@ -247,6 +247,7 @@ public class CsApiWriter extends AbstractApiWriter
     {
         internalCreateExceptionFile(outputFolder,"OdmaObjectNotFoundException");
         internalCreateExceptionFile(outputFolder,"OdmaInvalidDataTypeException");
+        internalCreateExceptionFile(outputFolder,"OdmaAccessDeniedException");
     }
     
     protected void internalCreateExceptionFile(String outputFolder, String exceptionClassName) throws IOException
@@ -308,7 +309,23 @@ public class CsApiWriter extends AbstractApiWriter
         CsListFileWriter listFileWriter = new CsListFileWriter(this);
         listFileWriter.createListFile(scalarTypeDescription, getListFileStream(baseFolder,scalarTypeDescription));
     }
+    
+    //-------------------------------------------------------------------------
+    // I M P L E M E N T A T I O N   F I L E S
+    //-------------------------------------------------------------------------
 
+    protected void createPropertyImplementationFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    {
+        /*
+        CsPropertyImplementationFileWriter csPropertyImplementationFileWriter = new CsPropertyImplementationFileWriter(this);
+        csPropertyImplementationFileWriter.createPropertyFile(apiDescription, createCsFile(outputFolder,"org.opendma.impl","OdmaProperty"));
+        */
+    }
+    
+    //-------------------------------------------------------------------------
+    // B U I L D   F I L E
+    //-------------------------------------------------------------------------
+    
     protected void createBuildFile(ApiDescription apiDescription, String baseFolder) throws IOException
     {
         OutputStream to = new FileOutputStream(baseFolder+"OpenDMA.Api.csproj");
