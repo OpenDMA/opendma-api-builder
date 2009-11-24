@@ -101,13 +101,28 @@ public class JavaPropertyFileWriter extends AbstractPropertyFileWriter
 
     protected void appendRequiredImportsGlobal(List requiredImports)
     {
-        // no global imports required
+        if(!requiredImports.contains("org.opendma.exceptions.OdmaInvalidDataTypeException"))
+        {
+            requiredImports.add("org.opendma.exceptions.OdmaInvalidDataTypeException");
+        }
+        if(!requiredImports.contains("org.opendma.exceptions.OdmaAccessDeniedException"))
+        {
+            requiredImports.add("org.opendma.exceptions.OdmaAccessDeniedException");
+        }
     }
 
     protected void appendRequiredImportsScalarAccess(List requiredImports, ScalarTypeDescription scalarTypeDescription)
     {
         if(scalarTypeDescription.isReference())
         {
+            if(!requiredImports.contains("org.opendma.api.OdmaObject"))
+            {
+                requiredImports.add("org.opendma.api.OdmaObject");
+            }
+            if(!requiredImports.contains("org.opendma.api.collections.OdmaObjectEnumeration"))
+            {
+                requiredImports.add("org.opendma.api.collections.OdmaObjectEnumeration");
+            }
             return;
         }
         String requiredImportSingleValue = apiWriter.getRequiredScalarDataTypeImport(false,scalarTypeDescription.getNumericID());

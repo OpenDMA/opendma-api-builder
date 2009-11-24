@@ -37,8 +37,11 @@
      * @throws OdmaInvalidDataTypeException
      *             if and only if the Class of the given Object does not match
      *             the data type of this property
+     * 
+     * @throws OdmaAccessDeniedException
+     *             if this property can not be set by the current user
      */
-    public void setValue(Object newValue) throws OdmaInvalidDataTypeException;
+    public void setValue(Object newValue) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException;
 
     /**
      * Returns <code>true</code> if and only if this property is a multi value property.

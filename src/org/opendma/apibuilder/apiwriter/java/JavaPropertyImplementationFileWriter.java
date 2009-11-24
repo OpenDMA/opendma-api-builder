@@ -26,7 +26,7 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
 
     protected void writePropertyImplementationFileHeader(ApiDescription apiDescription, List requiredImports, PrintWriter out) throws IOException
     {
-        out.println("package org.opendma.api.impl;");
+        out.println("package org.opendma.impl;");
         out.println("");
         Iterator itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
@@ -71,8 +71,11 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         out.println("     * @throws OdmaInvalidDataTypeException");
         out.println("     *             if and only if the Class of the given Object does not match");
         out.println("     *             the data type of this property");
+        out.println("     * ");
+        out.println("     * @throws OdmaAccessDeniedException");
+        out.println("     *             if this property can not be set by the current user");
         out.println("     */");
-        out.println("    public void setValue(Object newValue) throws OdmaInvalidDataTypeException");
+        out.println("    public void setValue(Object newValue) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
         out.println("    {");
         out.println("        if(readonly)");
         out.println("        {");
@@ -92,7 +95,7 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
     protected void writeGenericSectionSwitch(ApiDescription apiDescription, PrintWriter out, boolean multivalue) throws IOException
     {
         List scalarTypes = apiDescription.getScalarTypes();
-        out.println("            switch(datatype)");
+        out.println("            switch(dataType)");
         out.println("            {");
         Iterator itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
@@ -170,7 +173,7 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         out.println("     *             if and only if this property is not a multi valued <i>"+scalarName+"</i>");
         out.println("     *             property");
         out.println("     */");
-        out.println("    public "+javaReturnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Enumeration":"List")+"() throws OdmaInvalidDataTypeException;");
+        out.println("    public "+javaReturnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Enumeration":"List")+"() throws OdmaInvalidDataTypeException");
         out.println("    {");
         String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
         out.println("        if( (multivalue == true) && (dataType == OdmaTypes."+constantScalarTypeName+") )");
@@ -190,9 +193,25 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         {
             requiredImports.add("org.opendma.OdmaTypes");
         }
+        if(!requiredImports.contains("org.opendma.api.OdmaQName"))
+        {
+            requiredImports.add("org.opendma.api.OdmaQName");
+        }
         if(!requiredImports.contains("org.opendma.api.OdmaProperty"))
         {
             requiredImports.add("org.opendma.api.OdmaProperty");
+        }
+        if(!requiredImports.contains("org.opendma.exceptions.OdmaInvalidDataTypeException"))
+        {
+            requiredImports.add("org.opendma.exceptions.OdmaInvalidDataTypeException");
+        }
+        if(!requiredImports.contains("org.opendma.exceptions.OdmaAccessDeniedException"))
+        {
+            requiredImports.add("org.opendma.exceptions.OdmaAccessDeniedException");
+        }
+        if(!requiredImports.contains("org.opendma.exceptions.OdmaEngineRuntimeException"))
+        {
+            requiredImports.add("org.opendma.exceptions.OdmaEngineRuntimeException");
         }
     }
 
@@ -200,6 +219,14 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
     {
         if(scalarTypeDescription.isReference())
         {
+            if(!requiredImports.contains("org.opendma.api.OdmaObject"))
+            {
+                requiredImports.add("org.opendma.api.OdmaObject");
+            }
+            if(!requiredImports.contains("org.opendma.api.collections.OdmaObjectEnumeration"))
+            {
+                requiredImports.add("org.opendma.api.collections.OdmaObjectEnumeration");
+            }
             return;
         }
         String requiredImportSingleValue = apiWriter.getRequiredScalarDataTypeImport(false,scalarTypeDescription.getNumericID());

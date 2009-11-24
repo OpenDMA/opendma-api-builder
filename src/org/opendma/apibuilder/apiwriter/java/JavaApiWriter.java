@@ -132,7 +132,7 @@ public class JavaApiWriter extends AbstractApiWriter
             case OdmaBasicTypes.TYPE_BOOLEAN:
                 return "org.opendma.api.collections.BooleanList";
             case OdmaBasicTypes.TYPE_DATETIME:
-                return "org.opendma.api.collections.DateList";
+                return "org.opendma.api.collections.DateTimeList";
             case OdmaBasicTypes.TYPE_BLOB:
                 return "org.opendma.api.collections.BlobList";
             case OdmaBasicTypes.TYPE_REFERENCE:
@@ -252,6 +252,7 @@ public class JavaApiWriter extends AbstractApiWriter
         internalCreateExceptionFile(outputFolder,"OdmaObjectNotFoundException");
         internalCreateExceptionFile(outputFolder,"OdmaInvalidDataTypeException");
         internalCreateExceptionFile(outputFolder,"OdmaAccessDeniedException");
+        internalCreateExceptionFile(outputFolder,"OdmaEngineRuntimeException");
     }
     
     protected void internalCreateExceptionFile(String outputFolder, String exceptionClassName) throws IOException
@@ -321,7 +322,7 @@ public class JavaApiWriter extends AbstractApiWriter
     protected void createPropertyImplementationFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         JavaPropertyImplementationFileWriter javaPropertyImplementationFileWriter = new JavaPropertyImplementationFileWriter(this);
-        javaPropertyImplementationFileWriter.createPropertyFile(apiDescription, createJavaFile(outputFolder,"org.opendma.impl","OdmaProperty"));
+        javaPropertyImplementationFileWriter.createPropertyFile(apiDescription, createJavaFile(outputFolder,"org.opendma.impl","OdmaPropertyImpl"));
     }
     
     //-------------------------------------------------------------------------
