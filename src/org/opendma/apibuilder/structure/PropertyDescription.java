@@ -158,6 +158,17 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
     }
     
     /**
+     * Returns wheather this property is a reference or not.
+     * 
+     * @return wheather this property is a reference or not
+     */
+    public boolean isReference()
+    {
+        ScalarTypeDescription scalarTypeDescription = ContainingClass.getContainingApiDescription().getScalarTypeDescription(dataType);
+        return scalarTypeDescription.isReference();
+    }
+    
+    /**
      * Read the definition of this property from a W3C DOM tree and perform some
      * basic syntax checks (e.g. missing elements, ...).
      * 
