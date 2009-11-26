@@ -39,10 +39,10 @@ public abstract class AbstractPropertyImplementationFileWriter
         while(itScalarTypes.hasNext())
         {
             ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
-            if(!scalarTypeDescription.isInternal())
-            {
+            //if(!scalarTypeDescription.isInternal())
+            //{
                 appendRequiredImportsScalarAccess(requiredImports,scalarTypeDescription);
-            }
+            //}
         }
         // write Header
         writePropertyImplementationFileHeader(apiDescription,requiredImports,out);
@@ -53,19 +53,19 @@ public abstract class AbstractPropertyImplementationFileWriter
         while(itScalarTypes.hasNext())
         {
             ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
-            if(!scalarTypeDescription.isInternal())
-            {
+            //if(!scalarTypeDescription.isInternal())
+            //{
                 writeSingleValueScalarAccess(scalarTypeDescription,out);
-            }
+            //}
         }
         itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
         {
             ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
-            if(!scalarTypeDescription.isInternal())
-            {
+            //if(!scalarTypeDescription.isInternal())
+            //{
                 writeMultiValueScalarAccess(scalarTypeDescription,out);
-            }
+            //}
         }
         // write Footer
         writePropertyImplementationFileFooter(apiDescription,out);
