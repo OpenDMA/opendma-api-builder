@@ -22,6 +22,12 @@ public class ClassDescription implements DescriptionFileTypes
     /** the name of this class in the programmers API. This might differ from the name in ODMA due to naming conflicts (e.g. Class) */
     protected String apiName;
     
+    protected boolean instantiable;
+    
+    protected boolean hidden;
+    
+    protected boolean system;
+    
     /** the full description of this class. Can be null. */
     protected String descriptionComment;
 
@@ -80,6 +86,21 @@ public class ClassDescription implements DescriptionFileTypes
     public String getApiName()
     {
         return apiName;
+    }
+
+    public boolean getInstantiable()
+    {
+        return instantiable;
+    }
+
+    public boolean getHidden()
+    {
+        return hidden;
+    }
+
+    public boolean getSystem()
+    {
+        return system;
     }
     
     /**

@@ -28,6 +28,12 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
 
     /** the Required attribute of this property */
     protected boolean required;
+
+    /** the Hidden attribute of this property */
+    protected boolean hidden;
+
+    /** the System attribute of this property */
+    protected boolean system;
     
     /** the required class of the target object if this is a reference property, null otherwise */
     protected OdmaApiBuilderQName referenceClassName;
@@ -115,6 +121,26 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
     public boolean getRequired()
     {
         return required;
+    }
+
+    /**
+     * Returns the Hidden attribute of this property.
+     * 
+     * @return the Hidden attribute of this property
+     */
+    public boolean getHidden()
+    {
+        return hidden;
+    }
+
+    /**
+     * Returns the System attribute of this property.
+     * 
+     * @return the System attribute of this property
+     */
+    public boolean getSystem()
+    {
+        return system;
     }
 
     /**
