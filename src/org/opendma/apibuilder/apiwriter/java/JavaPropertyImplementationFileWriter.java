@@ -101,8 +101,8 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         while(itScalarTypes.hasNext())
         {
             ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
-            if(!scalarTypeDescription.isInternal())
-            {
+            //if(!scalarTypeDescription.isInternal())
+            //{
                 String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
                 String javaReturnType = multivalue
                                         ?
@@ -120,7 +120,7 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
                 out.println("                    throw new OdmaInvalidDataTypeException(dataType,multivalue);");
                 out.println("                }");
                 out.println("                break;");
-            }
+            //}
         }
         out.println("            default:");
         out.println("                throw new OdmaEngineRuntimeException(\"OdmaProperty initialized with unknown data type \"+Integer.toString(dataType));");

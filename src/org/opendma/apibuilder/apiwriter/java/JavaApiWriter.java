@@ -324,7 +324,22 @@ public class JavaApiWriter extends AbstractApiWriter
         JavaPropertyImplementationFileWriter javaPropertyImplementationFileWriter = new JavaPropertyImplementationFileWriter(this);
         javaPropertyImplementationFileWriter.createPropertyFile(apiDescription, createJavaFile(outputFolder,"org.opendma.impl","OdmaPropertyImpl"));
     }
-    
+
+    //-------------------------------------------------------------------------
+    // C L A S S   T E M P L A T E S
+    //-------------------------------------------------------------------------
+
+    protected OutputStream getClassTemplateFileStream(String outputFolder, ClassDescription classDescription) throws IOException
+    {
+        return createJavaFile(outputFolder,"org.opendma.templates",classDescription.getApiName()+"Template");
+    }
+
+    protected void createClassTemplateFile(ClassDescription classDescription, String outputFolder) throws IOException
+    {
+       JavaClassTemplateFileWriter classtemplateFileWriter = new JavaClassTemplateFileWriter(this);
+       classtemplateFileWriter.createClassFile(classDescription, getClassTemplateFileStream(outputFolder,classDescription));
+    }
+   
     //-------------------------------------------------------------------------
     // B U I L D   F I L E
     //-------------------------------------------------------------------------

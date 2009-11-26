@@ -14,7 +14,11 @@
      *             if and only if the given qualified name does not identify a property in the list of effective
      *             properties of the class of this object
      */
-    public OdmaProperty getProperty(OdmaQName propertyName) throws OdmaObjectNotFoundException;
+    public OdmaProperty getProperty(OdmaQName propertyName) throws OdmaObjectNotFoundException
+    {
+        // TODO: implement me
+        return null;
+    }
 
     /**
      * Checks if the named properties are already in the local cache and performs one single round trip to the server to
@@ -29,7 +33,10 @@
      * @param refresh
      *            flag to indicate if the properties should also be retrieved if they are already in the local cache.
      */
-    public void prepareProperties(OdmaQName[] propertyNames, boolean refresh);
+    public void prepareProperties(OdmaQName[] propertyNames, boolean refresh)
+    {
+        // TODO: implement me
+    }
 
     /**
      * Set the property identified by the given qualified name to the new value.<br>
@@ -50,16 +57,26 @@
      * @throws OdmaAccessDeniedException
      *             if this property can not be set by the current user
      */
-    public void setProperty(OdmaQName propertyName, Object newValue) throws OdmaObjectNotFoundException, OdmaInvalidDataTypeException, OdmaAccessDeniedException;
+    public void setProperty(OdmaQName propertyName, Object newValue) throws OdmaObjectNotFoundException, OdmaInvalidDataTypeException, OdmaAccessDeniedException
+    {
+        // TODO: implement me
+    }
 
     /**
      * Returns true if there are some pending changes to properties that have not yet been persisted to the server.
      * 
      * @return true if there are pending changes that have not yet been persisted
      */
-    public boolean isDirty();
+    public boolean isDirty()
+    {
+        // TODO: implement me
+        return false;
+    }
 
     /**
      * Persist the current pending changes to properties at the server.
      */
-    public void save();
+    public void save()
+    {
+        // TODO: implement me
+    }

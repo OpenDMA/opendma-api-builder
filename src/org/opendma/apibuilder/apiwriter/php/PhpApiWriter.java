@@ -333,7 +333,22 @@ public class PhpApiWriter extends AbstractApiWriter
         phpPropertyImplementationFileWriter.createPropertyFile(apiDescription, createPhpFile(outputFolder,"org.opendma.impl","OdmaProperty"));
         */
     }
-    
+
+    //-------------------------------------------------------------------------
+    // C L A S S   T E M P L A T E S
+    //-------------------------------------------------------------------------
+
+    protected OutputStream getClassTemplateFileStream(String outputFolder, ClassDescription classDescription) throws IOException
+    {
+        return createPhpFile(outputFolder,"OpenDMA/Templates",classDescription.getApiName());
+    }
+
+    protected void createClassTemplateFile(ClassDescription classDescription, String outputFolder) throws IOException
+    {
+        PhpClassTemplateFileWriter classTemplateFileWriter = new PhpClassTemplateFileWriter(this);
+        classTemplateFileWriter.createClassFile(classDescription, getClassTemplateFileStream(outputFolder,classDescription));
+    }
+   
     //-------------------------------------------------------------------------
     // B U I L D   F I L E
     //-------------------------------------------------------------------------

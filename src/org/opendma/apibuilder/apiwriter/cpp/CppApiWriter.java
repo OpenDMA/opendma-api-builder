@@ -35,6 +35,11 @@ public class CppApiWriter extends AbstractApiWriter
         return new FileOutputStream(outputFolder+headerName+".h");
     }
     
+    private OutputStream createCppFile(String outputFolder, String headerName) throws IOException
+    {
+        return new FileOutputStream(outputFolder+headerName+".cpp");
+    }
+    
     protected String getProgrammingLanguageSpecificFolderName()
     {
         return "cpp";
@@ -333,7 +338,17 @@ public class CppApiWriter extends AbstractApiWriter
         cppPropertyImplementationFileWriter.createPropertyFile(apiDescription, createCppFile(outputFolder,"org.opendma.impl","OdmaProperty"));
         */
     }
-    
+
+    //-------------------------------------------------------------------------
+    // C L A S S   T E M P L A T E S
+    //-------------------------------------------------------------------------
+
+    protected void createClassTemplateFile(ClassDescription classDescription, String outputFolder) throws IOException
+    {
+        CppClassTemplateFileWriter classTemplateFileWriter = new CppClassTemplateFileWriter(this);
+        classTemplateFileWriter.createClassFile(classDescription, createCppFile(outputFolder, classDescription.getApiName()));
+    }
+   
     //-------------------------------------------------------------------------
     // B U I L D   F I L E
     //-------------------------------------------------------------------------
