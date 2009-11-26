@@ -56,10 +56,10 @@ public abstract class AbstractConstantsFileWriter
         {
             ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
             String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
-            if(!scalarTypeDescription.isInternal())
-            {
+            //if(!scalarTypeDescription.isInternal())
+            //{
                 writeConstantsScalarTypeConstant(scalarTypeDescription,constantScalarTypeName,out);
-            }
+            //}
         }
         // write Header of class section
         writeConstantsClassesSectionHeader(apiDescription,out);
