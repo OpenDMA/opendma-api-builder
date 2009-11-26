@@ -68,7 +68,7 @@ public class CsClassFileWriter extends AbstractClassFileWriter
         out.println("}");
     }
 
-    protected void appendRequiredImportsGlobal(List requiredImports)
+    protected void appendRequiredImportsGlobal(ClassDescription classDescription, List requiredImports)
     {
         if(!requiredImports.contains("System"))
         {

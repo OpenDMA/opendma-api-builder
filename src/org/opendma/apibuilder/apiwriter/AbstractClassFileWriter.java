@@ -23,7 +23,7 @@ public abstract class AbstractClassFileWriter
 
     protected abstract void writeClassPropertyAccess(PropertyDescription property, PrintWriter out);
     
-    protected abstract void appendRequiredImportsGlobal(List requiredImports);
+    protected abstract void appendRequiredImportsGlobal(ClassDescription classDescription, List requiredImports);
     
     protected abstract void appendRequiredImportsGenericPropertyAccess(List requiredImports);
     
@@ -35,7 +35,7 @@ public abstract class AbstractClassFileWriter
         PrintWriter out = new PrintWriter(classOutputStream);
         // collect required imports
         ArrayList requiredImports = new ArrayList();
-        appendRequiredImportsGlobal(requiredImports);
+        appendRequiredImportsGlobal(classDescription,requiredImports);
         if(classDescription.getExtendsOdmaName() == null)
         {
             appendRequiredImportsGenericPropertyAccess(requiredImports);

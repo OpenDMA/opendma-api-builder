@@ -72,7 +72,7 @@ public class CppClassFileWriter extends AbstractClassFileWriter
         out.println("#endif");
     }
 
-    protected void appendRequiredImportsGlobal(List requiredImports)
+    protected void appendRequiredImportsGlobal(ClassDescription classDescription, List requiredImports)
     {
         // we do not have any globally required imports
     }

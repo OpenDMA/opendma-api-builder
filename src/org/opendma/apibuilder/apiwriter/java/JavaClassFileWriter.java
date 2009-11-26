@@ -67,7 +67,7 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         out.println("}");
     }
 
-    protected void appendRequiredImportsGlobal(List requiredImports)
+    protected void appendRequiredImportsGlobal(ClassDescription classDescription, List requiredImports)
     {
         // we do not have any globally required imports
     }
@@ -96,6 +96,10 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         if(!requiredImports.contains("org.opendma.exceptions.OdmaInvalidDataTypeException"))
         {
             requiredImports.add("org.opendma.exceptions.OdmaInvalidDataTypeException");
+        }
+        if(!requiredImports.contains("org.opendma.exceptions.OdmaAccessDeniedException"))
+        {
+            requiredImports.add("org.opendma.exceptions.OdmaAccessDeniedException");
         }
     }
 
@@ -150,12 +154,13 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
     {
         // generate names
         String javaDataType = getReturnDataType(property);
+        ScalarTypeDescription scalarType = property.getContainingClass().getContainingApiDescription().getScalarTypeDescription(property.getDataType());
         String constantPropertyName = "PROPERTY_" + property.getOdmaName().getName().toUpperCase();
         // getter
         out.println("");
         out.println("    /**");
         out.println("     * Returns "+property.getAbstract()+".<br>");
-        String standardGetterName = "get" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? javaDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
+        String standardGetterName = "get" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceEnumeration" : "Reference"));
         out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</code>.");
         out.println("     * ");
         ScalarTypeDescription scalarTypeDescription = property.getContainingClass().getContainingApiDescription().getScalarTypeDescription(property.getDataType());
@@ -177,14 +182,17 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
             out.println("");
             out.println("    /**");
             out.println("     * Sets "+property.getAbstract()+".<br>");
-            String standardSetterName = "set" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? javaDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
+            String standardSetterName = "setValue";
             out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value)</code>.");
             out.println("     * ");
             out.println("     * <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getQualifier()+"): <b>"+dataTypeName+"</b><br>");
             out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[Nullable]")+"<br>");
             out.println("     * "+property.getDescription()+"</p>");
+            out.println("     * ");
+            out.println("     * @throws OdmaAccessDeniedException");
+            out.println("     *             if this property can not be set by the current user");
             out.println("     */");
-            out.println("    public void set"+property.getApiName()+"("+javaDataType+" value);");
+            out.println("    public void set"+property.getApiName()+"("+javaDataType+" value) throws OdmaAccessDeniedException;");
         }
     }
 
@@ -196,6 +204,14 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
             if(!requiredImports.contains(importPackage))
             {
                 requiredImports.add(importPackage);
+            }
+        }
+        if( (!property.isReadOnly()) && (!property.getMultiValue()) )
+        {
+            String importException = "org.opendma.exceptions.OdmaAccessDeniedException";
+            if(!requiredImports.contains(importException))
+            {
+                requiredImports.add(importException);
             }
         }
     }
