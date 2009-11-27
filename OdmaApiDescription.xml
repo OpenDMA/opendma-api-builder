@@ -34,7 +34,7 @@
     </ScalarTypes>
 
 
-    <Class qualifier="opendma.org" name="Object" apiName="OdmaObject">
+    <Class qualifier="opendma.org" name="Object" apiName="OdmaObject" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
@@ -45,6 +45,8 @@
                   required="true"
                   dataType="reference"
                   multiValue="false"
+                  hidden="false"
+                  system="true"
                   referenceQualifier="opendma.org"
                   referenceName="Class">
             <Abstract>the OpenDMA &lt;code&gt;Class&lt;/code&gt; describing this &lt;code&gt;Object&lt;/code&gt;</Abstract>
@@ -57,7 +59,9 @@
                   readOnly="true"
                   required="true"
                   dataType="id"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the &lt;i&gt;unique object identifier&lt;/i&gt; identifying this &lt;code&gt;Object&lt;/code&gt; inside its &lt;code&gt;Repository&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -68,7 +72,9 @@
                   readOnly="true"
                   required="true"
                   dataType="guid"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the &lt;i&gt;global unique object identifier&lt;/i&gt; globally identifying this &lt;code&gt;Object&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -80,6 +86,8 @@
                   required="true"
                   dataType="reference"
                   multiValue="false"
+                  hidden="false"
+                  system="true"
                   referenceQualifier="opendma.org"
                   referenceName="Repository">
             <Abstract>the OpenDMA &lt;code&gt;Repository&lt;/code&gt; where this &lt;code&gt;Object&lt;/code&gt; resides</Abstract>
@@ -89,7 +97,7 @@
     </Class>
 
 
-    <Class qualifier="opendma.org" name="Class" apiName="OdmaClass" extendsQualifier="opendma.org" extendsName="Object">
+    <Class qualifier="opendma.org" name="Class" apiName="OdmaClass" extendsQualifier="opendma.org" extendsName="Object" instantiable="false" hidden="false" system="true">
 
         <Description>The &lt;i&gt;Class&lt;/i&gt; specific version of the &lt;code&gt;{@link OdmaObject}&lt;/code&gt; interface that offers short cuts to all defined OpenDMA properties.</Description>
 
@@ -99,7 +107,9 @@
                   readOnly="false"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the internal (technical) &lt;i&gt;name&lt;/i&gt; of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -110,7 +120,9 @@
                   readOnly="false"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the name &lt;i&gt;qualifier&lt;/i&gt; of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -121,7 +133,9 @@
                   readOnly="false"
                   required="true"
                   dataType="qname"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the qualified name of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -132,7 +146,9 @@
                   readOnly="false"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the &lt;i&gt;display name&lt;/i&gt; of this &lt;code&gt;Class&lt;/code&gt; to be displayed to end users</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -144,6 +160,8 @@
                   required="false"
                   dataType="reference"
                   multiValue="false"
+                  hidden="false"
+                  system="true"
                   referenceQualifier="opendma.org"
                   referenceName="Class">
             <Abstract>the &lt;i&gt;parent&lt;/i&gt; &lt;code&gt;Class&lt;/code&gt; that is extended by this &lt;code&gt;Class&lt;/code&gt;</Abstract>
@@ -157,6 +175,8 @@
                   required="false"
                   dataType="reference"
                   multiValue="true"
+                  hidden="false"
+                  system="true"
                   referenceQualifier="opendma.org"
                   referenceName="Class">
             <Abstract>the list of &lt;i&gt;aspects&lt;/i&gt; that are implemented by this &lt;code&gt;Class&lt;/code&gt;</Abstract>
@@ -170,6 +190,8 @@
                   required="false"
                   dataType="reference"
                   multiValue="true"
+                  hidden="false"
+                  system="true"
                   referenceQualifier="opendma.org"
                   referenceName="PropertyInfo">
             <Abstract>the list of &lt;i&gt;properties&lt;/i&gt; that are desclared by this &lt;code&gt;Class&lt;/code&gt; (does not contain inherited properties).</Abstract>
@@ -183,6 +205,8 @@
                   required="false"
                   dataType="reference"
                   multiValue="true"
+                  hidden="false"
+                  system="true"
                   referenceQualifier="opendma.org"
                   referenceName="PropertyInfo">
             <Abstract>the list of &lt;i&gt;properties&lt;/i&gt; that are effective for objects of this &lt;code&gt;Class&lt;/code&gt;. Contains inherited and declared properties.</Abstract>
@@ -195,7 +219,9 @@
                   readOnly="false"
                   required="true"
                   dataType="boolean"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>wheather &lt;code&gt;Object&lt;/code&gt;s of this &lt;code&gt;Class&lt;/code&gt; can be created or not</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -206,7 +232,9 @@
                   readOnly="false"
                   required="true"
                   dataType="boolean"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>wheather this &lt;code&gt;Class&lt;/code&gt; should be displayed to end users or not</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -217,7 +245,9 @@
                   readOnly="false"
                   required="true"
                   dataType="boolean"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>wheather this &lt;code&gt;Class&lt;/code&gt; is defined by the system (true) or by users (false)</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -229,6 +259,8 @@
                   required="false"
                   dataType="reference"
                   multiValue="true"
+                  hidden="false"
+                  system="true"
                   referenceQualifier="opendma.org"
                   referenceName="Class">
             <Abstract>the list of &lt;code&gt;Class&lt;/code&gt;es that extend this class (i.e. that contain a reference to this &lt;code&gt;Class&lt;/code&gt; in their &lt;i&gt;parent&lt;/i&gt; property)</Abstract>
@@ -238,7 +270,7 @@
     </Class>
 
 
-    <Class qualifier="opendma.org" name="PropertyInfo" apiName="OdmaPropertyInfo" extendsQualifier="opendma.org" extendsName="Object">
+    <Class qualifier="opendma.org" name="PropertyInfo" apiName="OdmaPropertyInfo" extendsQualifier="opendma.org" extendsName="Object" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
@@ -248,7 +280,9 @@
                   readOnly="false"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the internal (technical) &lt;i&gt;name&lt;/i&gt; of this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -259,7 +293,9 @@
                   readOnly="false"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the name &lt;i&gt;qualifier&lt;/i&gt; of this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -270,7 +306,9 @@
                   readOnly="false"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the &lt;i&gt;display name&lt;/i&gt; of this &lt;code&gt;PropertyInfo&lt;/code&gt; to be displayed to end users</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -281,7 +319,9 @@
                   readOnly="false"
                   required="true"
                   dataType="integer"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the numeric ID of the data type described by this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -293,6 +333,8 @@
                   required="false"
                   dataType="reference"
                   multiValue="false"
+                  hidden="false"
+                  system="true"
                   referenceQualifier="opendma.org"
                   referenceName="Class">
             <Abstract>the required &lt;code&gt;Class&lt;/code&gt; of the object referenced by this property if this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
@@ -305,7 +347,9 @@
                   readOnly="false"
                   required="true"
                   dataType="boolean"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>wheather &lt;code&gt;Object&lt;/code&gt;s of this &lt;code&gt;Class&lt;/code&gt; can be created or not</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -316,7 +360,9 @@
                   readOnly="false"
                   required="true"
                   dataType="boolean"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>wheather &lt;code&gt;Object&lt;/code&gt;s of this &lt;code&gt;Class&lt;/code&gt; can be created or not</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -327,7 +373,9 @@
                   readOnly="false"
                   required="true"
                   dataType="boolean"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>wheather this &lt;code&gt;Class&lt;/code&gt; should be displayed to end users or not</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -338,7 +386,9 @@
                   readOnly="false"
                   required="true"
                   dataType="boolean"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>wheather this &lt;code&gt;Class&lt;/code&gt; should be displayed to end users or not</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -349,7 +399,9 @@
                   readOnly="false"
                   required="true"
                   dataType="boolean"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>wheather this &lt;code&gt;Class&lt;/code&gt; is defined by the system (true) or by users (false)</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -357,7 +409,7 @@
     </Class>
 
 
-    <Class qualifier="opendma.org" name="Repository" apiName="OdmaRepository" extendsQualifier="opendma.org" extendsName="Object">
+    <Class qualifier="opendma.org" name="Repository" apiName="OdmaRepository" extendsQualifier="opendma.org" extendsName="Object" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
@@ -367,7 +419,9 @@
                   readOnly="false"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the internal (technical) &lt;i&gt;name&lt;/i&gt; of this &lt;code&gt;Repository&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -378,7 +432,9 @@
                   readOnly="false"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the &lt;i&gt;display name&lt;/i&gt; of this &lt;code&gt;Repository&lt;/code&gt; to be displayed to end users</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -390,6 +446,8 @@
                   required="true"
                   dataType="reference"
                   multiValue="false"
+                  hidden="false"
+                  system="true"
                   referenceQualifier="opendma.org"
                   referenceName="Class">
             <Abstract>the &lt;i&gt;root&lt;/i&gt; &lt;code&gt;Class&lt;/code&gt; of the class hierarchy in this &lt;code&gt;Repository&lt;/code&gt;</Abstract>
@@ -403,6 +461,8 @@
                   required="false"
                   dataType="reference"
                   multiValue="false"
+                  hidden="false"
+                  system="true"
                   referenceQualifier="opendma.org"
                   referenceName="Folder">
             <Abstract>the &lt;i&gt;root&lt;/i&gt; &lt;code&gt;Folder&lt;/code&gt; of a dedicated folder tree in this &lt;code&gt;Repository&lt;/code&gt; (if any)</Abstract>
@@ -412,7 +472,7 @@
     </Class>
 
 
-    <Class qualifier="opendma.org" name="Association" apiName="OdmaAssociation" extendsQualifier="opendma.org" extendsName="Object">
+    <Class qualifier="opendma.org" name="Association" apiName="OdmaAssociation" extendsQualifier="opendma.org" extendsName="Object" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
@@ -422,7 +482,9 @@
                   readOnly="false"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the &lt;i&gt;name&lt;/i&gt; of this &lt;code&gt;Association&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -434,6 +496,8 @@
                   required="true"
                   dataType="reference"
                   multiValue="false"
+                  hidden="false"
+                  system="true"
                   referenceQualifier="opendma.org"
                   referenceName="Folder">
             <Abstract>the &lt;i&gt;container&lt;/i&gt; of this &lt;code&gt;Association&lt;/code&gt; in which the containment is said to be contained</Abstract>
@@ -447,6 +511,8 @@
                   required="true"
                   dataType="reference"
                   multiValue="false"
+                  hidden="false"
+                  system="true"
                   referenceQualifier="opendma.org"
                   referenceName="Object">
             <Abstract>the &lt;i&gt;conatinment&lt;/i&gt; of this &lt;code&gt;Association&lt;/code&gt; which is said to be contained in the container</Abstract>
@@ -459,7 +525,9 @@
                   readOnly="true"
                   required="true"
                   dataType="datetime"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the date when this &lt;code&gt;Association&lt;/code&gt; has been created</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -470,7 +538,9 @@
                   readOnly="true"
                   required="true"
                   dataType="datetime"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the date when this &lt;code&gt;Association&lt;/code&gt; has been modified the last time</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -481,7 +551,9 @@
                   readOnly="true"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the user who has created this &lt;code&gt;Association&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -492,7 +564,9 @@
                   readOnly="true"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the user who has modified this &lt;code&gt;Association&lt;/code&gt; the last time</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -500,7 +574,7 @@
     </Class>
 
 
-    <Class qualifier="opendma.org" name="ContentElement" apiName="OdmaContentElement" extendsQualifier="opendma.org" extendsName="Object">
+    <Class qualifier="opendma.org" name="ContentElement" apiName="OdmaContentElement" extendsQualifier="opendma.org" extendsName="Object" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
@@ -510,7 +584,9 @@
                   readOnly="false"
                   required="true"
                   dataType="content"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the binary content of this &lt;code&gt;ContentElement&lt;/code&gt; as octets</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -521,7 +597,9 @@
                   readOnly="true"
                   required="true"
                   dataType="long"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the binary content of this &lt;code&gt;ContentElement&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -532,7 +610,9 @@
                   readOnly="false"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the mime type describing how the &lt;code&gt;Content&lt;/code&gt; of this &lt;code&gt;ContentElement&lt;/code&gt; has to be interpreted</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -543,7 +623,9 @@
                   readOnly="false"
                   required="false"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the optional file name of this &lt;code&gt;ContentElement&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -551,7 +633,7 @@
     </Class>
 
 
-    <Class qualifier="opendma.org" name="Document" apiName="OdmaDocument" extendsQualifier="opendma.org" extendsName="Object">
+    <Class qualifier="opendma.org" name="Document" apiName="OdmaDocument" extendsQualifier="opendma.org" extendsName="Object" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
@@ -561,7 +643,9 @@
                   readOnly="true"
                   required="true"
                   dataType="id"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the &lt;i&gt;unique object identifier&lt;/i&gt; identifying this &lt;i&gt;version&lt;/i&gt; of this &lt;code&gt;Document&lt;/code&gt; inside its &lt;code&gt;Repository&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -572,7 +656,9 @@
                   readOnly="true"
                   required="true"
                   dataType="guid"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the &lt;i&gt;global unique object identifier&lt;/i&gt; globally identifying this &lt;i&gt;version&lt;/i&gt; of this &lt;code&gt;Object&lt;/code&gt; inside its &lt;code&gt;Repository&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -583,7 +669,9 @@
                   readOnly="false"
                   required="false"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the &lt;i&gt;title&lt;/i&gt; of this &lt;code&gt;Document&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -594,7 +682,9 @@
                   readOnly="true"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the &lt;i&gt;version string&lt;/i&gt; describing this &lt;i&gt;version&lt;/i&gt; of this &lt;code&gt;Document&lt;/code&gt; (e.g. 1.0, 1.1, 1.2, 2.0)</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -606,6 +696,8 @@
                   required="true"
                   dataType="reference"
                   multiValue="true"
+                  hidden="false"
+                  system="true"
                   referenceQualifier="opendma.org"
                   referenceName="Document">
             <Abstract>the collection of all &lt;i&gt;versions&lt;/i&gt; of this &lt;code&gt;Document&lt;/code&gt;</Abstract>
@@ -619,6 +711,8 @@
                   required="false"
                   dataType="reference"
                   multiValue="true"
+                  hidden="false"
+                  system="true"
                   referenceQualifier="opendma.org"
                   referenceName="ContentElement">
             <Abstract>the collection of all &lt;code&gt;ContentElement&lt;/code&gt;s this &lt;code&gt;Document&lt;/code&gt; consists of</Abstract>
@@ -631,7 +725,9 @@
                   readOnly="false"
                   required="false"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the combined mime type that has been build over all &lt;code&gt;ContentElement&lt;/code&gt;s this &lt;code&gt;Document&lt;/code&gt; consists of</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -642,7 +738,9 @@
                   readOnly="false"
                   required="true"
                   dataType="boolean"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>&lt;code&gt;true&lt;/code&gt; if and only if this &lt;code&gt;Document&lt;/code&gt; is checked out</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -653,7 +751,9 @@
                   readOnly="true"
                   required="true"
                   dataType="datetime"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the date when this &lt;code&gt;Document&lt;/code&gt; has been created</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -664,7 +764,9 @@
                   readOnly="true"
                   required="true"
                   dataType="datetime"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the date when this &lt;code&gt;Document&lt;/code&gt; has been modified the last time</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -675,7 +777,9 @@
                   readOnly="true"
                   required="true"
                   dataType="datetime"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the date when this &lt;code&gt;Document&lt;/code&gt; has been checked out</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -686,7 +790,9 @@
                   readOnly="true"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the user who has created this &lt;code&gt;Document&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -697,7 +803,9 @@
                   readOnly="true"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the user who has modified this &lt;code&gt;Document&lt;/code&gt; the last time</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -708,7 +816,9 @@
                   readOnly="true"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the user who has checked out this &lt;code&gt;Document&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -716,7 +826,7 @@
     </Class>
 
 
-    <Class qualifier="opendma.org" name="Folder" apiName="OdmaFolder" extendsQualifier="opendma.org" extendsName="Object">
+    <Class qualifier="opendma.org" name="Folder" apiName="OdmaFolder" extendsQualifier="opendma.org" extendsName="Object" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
@@ -726,7 +836,9 @@
                   readOnly="false"
                   required="false"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the &lt;i&gt;title&lt;/i&gt; of this &lt;code&gt;Folder&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -738,6 +850,8 @@
                   required="true"
                   dataType="reference"
                   multiValue="true"
+                  hidden="false"
+                  system="true"
                   referenceQualifier="opendma.org"
                   referenceName="Object">
             <Abstract>the collection of all &lt;code&gt;Object&lt;/code&gt;s that are contained in this &lt;code&gt;Folder&lt;/code&gt;</Abstract>
@@ -751,6 +865,8 @@
                   required="true"
                   dataType="reference"
                   multiValue="true"
+                  hidden="false"
+                  system="true"
                   referenceQualifier="opendma.org"
                   referenceName="Association">
             <Abstract>the collection of all &lt;code&gt;Association&lt;/code&gt;s between this &lt;code&gt;Folder&lt;/code&gt; and its containees</Abstract>
@@ -763,7 +879,9 @@
                   readOnly="true"
                   required="true"
                   dataType="datetime"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the date when this &lt;code&gt;Folder&lt;/code&gt; has been created</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -774,7 +892,9 @@
                   readOnly="true"
                   required="true"
                   dataType="datetime"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the date when this &lt;code&gt;Folder&lt;/code&gt; has been modified the last time</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -785,7 +905,9 @@
                   readOnly="true"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the user who has created this &lt;code&gt;Folder&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
@@ -796,7 +918,9 @@
                   readOnly="true"
                   required="true"
                   dataType="string"
-                  multiValue="false">
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
             <Abstract>the user who has modified this &lt;code&gt;Folder&lt;/code&gt; the last time</Abstract>
             <Description>Full description follows.</Description>
         </Property>

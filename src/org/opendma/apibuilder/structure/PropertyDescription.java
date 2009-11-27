@@ -226,6 +226,8 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
         String dataTypeString = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_DATATYPE);
         String multiValueString = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_MULTIVALUE);
         String requiredString = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_REQUIRED);
+        String hiddenString = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_HIDDEN);
+        String systemString = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_SYSTEM);
         if((apiName==null) || (apiName.trim().length()==0) )
         {
             throw new DescriptionFileSyntaxException("Missing apiname of property "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
@@ -246,10 +248,20 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
         {
             throw new DescriptionFileSyntaxException("Missing required of property "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
         }
+        if((hiddenString==null) || (hiddenString.trim().length()==0) )
+        {
+            throw new DescriptionFileSyntaxException("Missing hidden of property "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
+        }
+        if((systemString==null) || (systemString.trim().length()==0) )
+        {
+            throw new DescriptionFileSyntaxException("Missing system of property "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
+        }
         readOnly = parseBoolean(readOnlyString,DESCRIPTION_ATTRIBUTE_READONLY);
         dataType = parseDataType(dataTypeString,DESCRIPTION_ATTRIBUTE_DATATYPE);
         multiValue = parseBoolean(multiValueString,DESCRIPTION_ATTRIBUTE_MULTIVALUE);
         required = parseBoolean(requiredString,DESCRIPTION_ATTRIBUTE_REQUIRED);
+        hidden = parseBoolean(hiddenString,DESCRIPTION_ATTRIBUTE_HIDDEN);
+        system = parseBoolean(systemString,DESCRIPTION_ATTRIBUTE_SYSTEM);
         String referenceQualifier = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_REFERENCEQUALIFIER);
         String referenceName = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_REFERENCENAME);
         boolean referenceQualifierEmpty = ((referenceQualifier==null) || (referenceQualifier.trim().length()==0) );

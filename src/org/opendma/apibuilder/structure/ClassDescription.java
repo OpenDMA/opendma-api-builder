@@ -191,6 +191,24 @@ public class ClassDescription implements DescriptionFileTypes
         {
             throw new DescriptionFileSyntaxException("Missing apiname of class "+odmaName.toString());
         }
+        String hiddenString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_HIDDEN);
+        String systemString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_SYSTEM);
+        String instantiableString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_SYSTEM);
+        if((hiddenString==null) || (hiddenString.trim().length()==0) )
+        {
+            throw new DescriptionFileSyntaxException("Missing hidden of property in class "+odmaName.toString());
+        }
+        if((systemString==null) || (systemString.trim().length()==0) )
+        {
+            throw new DescriptionFileSyntaxException("Missing system of property in class "+odmaName.toString());
+        }
+        if((instantiableString==null) || (instantiableString.trim().length()==0) )
+        {
+            throw new DescriptionFileSyntaxException("Missing instantiable of property in class "+odmaName.toString());
+        }
+        hidden = parseBoolean(hiddenString,DESCRIPTION_ATTRIBUTE_HIDDEN);
+        system = parseBoolean(systemString,DESCRIPTION_ATTRIBUTE_SYSTEM);
+        instantiable = parseBoolean(instantiableString,DESCRIPTION_ATTRIBUTE_SYSTEM);
         // iterate through all elements below the <Class> Element
         propertyDescriptions = new ArrayList();
         Element descriptionElement = null;
@@ -226,6 +244,33 @@ public class ClassDescription implements DescriptionFileTypes
                     descriptionComment = descriptionComment + testchild.getNodeValue();
                 }
             }
+        }
+    }
+
+    /**
+     * Returns the boolean value expressed by the given String. Throws a DescriptionFileSyntaxError
+     * if the given String does not represent a boolean value.
+     * 
+     * @param String that represents a boolean Value
+     * @param attributeName the attribute name used in the Exception message if this fails
+     * 
+     * @return the boolean value expressed by the given String
+     * 
+     * @throws DescriptionFileSyntaxException if the given String does not represent a boolean value
+     */
+    protected boolean parseBoolean(String value, String attributeName) throws DescriptionFileSyntaxException
+    {
+        if(value.equalsIgnoreCase("true"))
+        {
+            return true;
+        }
+        else if(value.equalsIgnoreCase("false"))
+        {
+            return false;
+        }
+        else
+        {
+            throw new DescriptionFileSyntaxException("Invalid boolean value in attribute "+attributeName+" of class "+odmaName.toString());
         }
     }
 

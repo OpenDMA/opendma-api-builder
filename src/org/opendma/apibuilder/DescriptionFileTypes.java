@@ -43,6 +43,12 @@ public interface DescriptionFileTypes
 
     public final static String DESCRIPTION_ATTRIBUTE_REQUIRED = "required";
 
+    public final static String DESCRIPTION_ATTRIBUTE_HIDDEN = "hidden";
+
+    public final static String DESCRIPTION_ATTRIBUTE_SYSTEM = "system";
+
+    public final static String DESCRIPTION_ATTRIBUTE_INSTANTIABLE = "instantiable";
+
     public final static String DESCRIPTION_ATTRIBUTE_REFERENCEQUALIFIER = "referenceQualifier";
 
     public final static String DESCRIPTION_ATTRIBUTE_REFERENCENAME = "referenceName";
