@@ -7,7 +7,11 @@
         /// </summary>
         /// <param name="propertyName">the qualified name of the property to return</param>
         /// <returns>Returns an <see cref="IOdmaProperty"/> for the property identified by the given qualified name.</returns>
-        IOdmaProperty getProperty(OdmaQName propertyName);
+        public IOdmaProperty getProperty(OdmaQName propertyName)
+        {
+            // TODO: implement me
+            return null;
+        }
 
         /// <summary>
         /// Checks if the named properties are already in the local cache and performs one single round trip to the server to
@@ -18,7 +22,10 @@
         /// </summary>
         /// <param name="propertyNames">array of qualified property names to retrieve from the server or <c>null</c> to retrieve all</param>
         /// <param name="refresh">flag to indicate if the properties should also be retrieved if they are already in the local cache</param>
-        void prepareProperties(OdmaQName[] propertyNames, bool refresh);
+        public void prepareProperties(OdmaQName[] propertyNames, bool refresh)
+        {
+            // TODO: implement me
+        }
 
         /// <summary>
         /// Set the property identified by the given qualified name to the new value.<br>
@@ -28,15 +35,25 @@
         /// </summary>
         /// <param name="propertyName">the qualified name of the property to be changed</param>
         /// <param name="newValue">the new value to set the named property to</param>
-        void setProperty(OdmaQName propertyName, object newValue);
+        public void setProperty(OdmaQName propertyName, object newValue)
+        {
+            // TODO: implement me
+        }
 
         /// <summary>
         /// Returns <c>true</c> if there are some pending changes to properties that have not yet been persisted to the server.
         /// </summary>
         /// <returns>Returns <c>true</c> if there are some pending changes to properties that have not yet been persisted to the server.</returns>
-        bool isDirty();
+        public bool isDirty()
+        {
+            // TODO: implement me
+            return false;
+        }
 
         /// <summary>
         /// Persist the current pending changes to properties at the server.
         /// </summary>
-        void save();
+        public void save()
+        {
+            // TODO: implement me
+        }

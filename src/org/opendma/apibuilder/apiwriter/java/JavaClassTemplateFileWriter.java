@@ -48,11 +48,11 @@ public class JavaClassTemplateFileWriter extends AbstractClassFileWriter
         out.println(" */");
         if(extendsApiName != null)
         {
-            out.println("public class "+classDescription.getApiName()+"Template extends "+extendsApiName+"Template");
+            out.println("public class "+classDescription.getApiName()+"Template extends "+extendsApiName+"Template implements "+classDescription.getApiName());
         }
         else
         {
-            out.println("public class "+classDescription.getApiName()+"Template");
+            out.println("public class "+classDescription.getApiName()+"Template implements "+classDescription.getApiName());
         }
         out.println("{");
     }

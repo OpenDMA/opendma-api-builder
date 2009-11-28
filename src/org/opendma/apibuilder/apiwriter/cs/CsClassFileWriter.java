@@ -158,13 +158,14 @@ public class CsClassFileWriter extends AbstractClassFileWriter
     {
         // generate names
         String csDataType = getReturnDataType(property);
+        ScalarTypeDescription scalarType = property.getContainingClass().getContainingApiDescription().getScalarTypeDescription(property.getDataType());
         String constantPropertyName = "PROPERTY_" + property.getOdmaName().getName().toUpperCase();
         // getter
         out.println("");
         out.println("        /// <summary>");
         out.println("        /// Property for "+property.getAbstract()+".<br>");
-        String standardGetterName = "get" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? csDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
-        String standardSetterName = "set" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? csDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
+        String standardGetterName = "get" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? scalarType.getName() : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
+        String standardSetterName = "set" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? scalarType.getName() : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
         out.println("        /// Shortcut for <c>getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</c> or <c>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"()</c>.");
         out.println("        // ");
         ScalarTypeDescription scalarTypeDescription = property.getContainingClass().getContainingApiDescription().getScalarTypeDescription(property.getDataType());

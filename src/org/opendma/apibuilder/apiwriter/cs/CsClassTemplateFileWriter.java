@@ -49,7 +49,14 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         String classComment = classDescription.getDescription();
         out.println("    /// "+((classComment==null)?"No description of this class available.":classComment));
         out.println("    /// </summary>");
-        out.println("    public class "+classDescription.getApiName()+" : I"+classDescription.getApiName());
+        if(extendsApiName != null)
+        {
+            out.println("    public class "+classDescription.getApiName()+"Template : "+extendsApiName+"Template, I"+classDescription.getApiName());
+        }
+        else
+        {
+            out.println("    public class "+classDescription.getApiName()+"Template : I"+classDescription.getApiName());
+        }
         out.println("    {");
     }
 
@@ -78,6 +85,10 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         if(!requiredImports.contains("System.Text"))
         {
             requiredImports.add("System.Text");
+        }
+        if(!requiredImports.contains("OpenDMA.Api"))
+        {
+            requiredImports.add("OpenDMA.Api");
         }
     }
 
@@ -151,14 +162,13 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
     {
         // generate names
         String csDataType = getReturnDataType(property);
+        ScalarTypeDescription scalarType = property.getContainingClass().getContainingApiDescription().getScalarTypeDescription(property.getDataType());
         String constantPropertyName = "PROPERTY_" + property.getOdmaName().getName().toUpperCase();
         // getter
         out.println("");
         out.println("        /// <summary>");
         out.println("        /// Property for "+property.getAbstract()+".<br>");
-        String standardGetterName = "get" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? csDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
-        String standardSetterName = "set" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? csDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
-        out.println("        /// Shortcut for <c>getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</c> or <c>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"()</c>.");
+        String standardGetterName = "get" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceEnumeration" : "Reference"));
         out.println("        // ");
         ScalarTypeDescription scalarTypeDescription = property.getContainingClass().getContainingApiDescription().getScalarTypeDescription(property.getDataType());
         String dataTypeName = scalarTypeDescription.isInternal() ? scalarTypeDescription.getBaseScalar() : scalarTypeDescription.getName();
@@ -170,17 +180,18 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         out.println("        /// "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[Nullable]")+"<br>");
         out.println("        /// "+property.getDescription()+"</p>");
         out.println("        /// </summary>");
-        out.println("        "+csDataType+" "+property.getApiName());
+        out.println("        public "+csDataType+" "+property.getApiName());
         out.println("        {");
         out.println("            get");
         out.println("            {");
-        out.println("                getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"();");
+        out.println("                return "+(property.isReference()?"("+csDataType+")":"")+"getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"();");
         out.println("            }");
         if( (!property.isReadOnly()) && (!property.getMultiValue()) )
         {
+            String standardSetterName = "setValue";
             out.println("            set");
             out.println("            {");
-            out.println("                getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"();");
+            out.println("                getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value);");
             out.println("            }");
         }
         out.println("        }");

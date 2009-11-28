@@ -12,7 +12,7 @@
         /// <summary>
         /// flag indicating if this property is multivalue or not
         /// </summary>
-        protected boolean multivalue;
+        protected bool multivalue;
     
         /// <summary>
         /// the value of this property
@@ -22,18 +22,18 @@
         /// <summary>
         /// flag indicating if the value of this property has changed
         /// </summary>
-        protected boolean dirty;
+        protected bool dirty;
     
         /// <summary>
         /// flag indicating if this property is read only or not
         /// </summary>
-        protected boolean readOnly;
+        protected bool readOnly;
 
         /// <summary>
         /// Returns the qualified name of this property.
         /// </summary>
         /// <returns>Returns the qualified name of this property.</returns>
-        OdmaQName getName()
+        public OdmaQName getName()
         {
             return name;
         }
@@ -44,7 +44,7 @@
         /// data type of this property.
         /// </summary>
         /// <returns>Returns the value of this property.</returns>
-        object getValue()
+        public object getValue()
         {
             return value;
         }
@@ -54,7 +54,7 @@
         /// You can find a list of all data types in the <c>OdmaTypes</c> class.
         /// </summary>
         /// <returns>Returns the numeric identifier of the data type of this property.</returns>
-        int getType()
+        public int getType()
         {
             return dataType;
         }
@@ -63,7 +63,7 @@
         /// Returns <c>true</c> if and only if this property is a multi value property.
         /// </summary>
         /// <returns>Returns <c>true</c> if and only if this property is a multi value property.</returns>
-        bool isMultiValue()
+        public bool isMultiValue()
         {
             return multivalue;
         }
@@ -72,7 +72,7 @@
         /// Returns <c>true</c> if and only if this property has been changed and these changes have not yet been saved.
         /// </summary>
         /// <returns>Returns <c>true</c> if and only if this property has been changed and these changes have not yet been saved.</returns>
-        bool isDirty()
+        public bool isDirty()
         {
             return dirty;
         }
@@ -81,7 +81,7 @@
         /// Returns <c>true</c> if and only if this property must not be changed.
         /// </summary>
         /// <returns>Returns <c>true</c> if and only if this property must not be changed.</returns>
-        bool isReadOnly()
+        public bool isReadOnly()
         {
             return readOnly;
         }

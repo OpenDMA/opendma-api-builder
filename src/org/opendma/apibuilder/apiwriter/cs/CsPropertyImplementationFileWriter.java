@@ -68,7 +68,7 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
         out.println("        /// <c>Class</c> of the given <c>object</c> has to match the");
         out.println("        /// data type of this property.");
         out.println("        /// </summary>");
-        out.println("        void setValue(object newValue)");
+        out.println("        public void setValue(object newValue)");
         out.println("        {");
         out.println("            if(readOnly)");
         out.println("            {");
