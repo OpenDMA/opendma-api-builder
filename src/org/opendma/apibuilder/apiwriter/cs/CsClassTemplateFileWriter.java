@@ -36,7 +36,7 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
             out.println("using "+importPackage+";");
         }
         out.println("");
-        out.println("namespace OpenDMA.Api");
+        out.println("namespace OpenDMA.Templates");
         out.println("{");
         out.println("");
         out.println("    /// <summary>");
@@ -49,14 +49,7 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         String classComment = classDescription.getDescription();
         out.println("    /// "+((classComment==null)?"No description of this class available.":classComment));
         out.println("    /// </summary>");
-        if(extendsApiName != null)
-        {
-            out.println("    public interface I"+classDescription.getApiName()+" : I"+extendsApiName);
-        }
-        else
-        {
-            out.println("    public interface I"+classDescription.getApiName());
-        }
+        out.println("    public class "+classDescription.getApiName()+" : I"+classDescription.getApiName());
         out.println("    {");
     }
 
@@ -94,7 +87,7 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         out.println("        // =============================================================================================");
         out.println("        // Generic property access");
         out.println("        // =============================================================================================");
-        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/cs/IOdmaObject.GenericPropertyAccess.template");
+        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/cs/OdmaObject.GenericPropertyAccess.template");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)
@@ -177,8 +170,21 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         out.println("        /// "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[Nullable]")+"<br>");
         out.println("        /// "+property.getDescription()+"</p>");
         out.println("        /// </summary>");
-        String getset = ( (!property.isReadOnly()) && (!property.getMultiValue()) ) ? "get; set;" : "get;";
-        out.println("        "+csDataType+" "+property.getApiName()+" { "+getset+" }");
+        out.println("        "+csDataType+" "+property.getApiName());
+        out.println("        {");
+        out.println("            get");
+        out.println("            {");
+        out.println("                getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"();");
+        out.println("            }");
+        if( (!property.isReadOnly()) && (!property.getMultiValue()) )
+        {
+            out.println("            set");
+            out.println("            {");
+            out.println("                getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"();");
+            out.println("            }");
+        }
+        out.println("        }");
+        
     }
 
     protected void appendRequiredImportsClassPropertyAccess(List requiredImports, PropertyDescription property)

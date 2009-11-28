@@ -66,7 +66,7 @@ public class CsListFileWriter extends AbstractListFileWriter
         out.println("    /// Type safe version of the <code>List</code> interface for the <i>"+scalarTypeDescription.getName()+"</i>");
         out.println("    /// data type.");
         out.println("    /// </summary>");
-        out.println("    public interface I"+apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID())+" : IList");
+        out.println("    public interface "+apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID())+" : IList");
         out.println("    {");
     }
 

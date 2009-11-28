@@ -247,6 +247,7 @@ public class CsApiWriter extends AbstractApiWriter
     {
         internalCreateExceptionFile(outputFolder,"OdmaObjectNotFoundException");
         internalCreateExceptionFile(outputFolder,"OdmaInvalidDataTypeException");
+        internalCreateExceptionFile(outputFolder,"OdmaEngineRuntimeException");
         internalCreateExceptionFile(outputFolder,"OdmaAccessDeniedException");
     }
     
@@ -301,7 +302,7 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected OutputStream getListFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
     {
-        return createCsFile(baseFolder,"OpenDMA.Api.Collections","I"+getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()));
+        return createCsFile(baseFolder,"OpenDMA.Api.Collections",getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()));
     }
 
     protected void createListFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
@@ -316,10 +317,8 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createPropertyImplementationFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        /*
         CsPropertyImplementationFileWriter csPropertyImplementationFileWriter = new CsPropertyImplementationFileWriter(this);
-        csPropertyImplementationFileWriter.createPropertyFile(apiDescription, createCsFile(outputFolder,"org.opendma.impl","OdmaProperty"));
-        */
+        csPropertyImplementationFileWriter.createPropertyFile(apiDescription, createCsFile(outputFolder,"OpenDMA.Impl","OdmaProperty"));
     }
 
     //-------------------------------------------------------------------------
@@ -365,6 +364,12 @@ public class CsApiWriter extends AbstractApiWriter
         InputStream assemblyInfoFrom = getResourceAsStream("/templates/cs/AssemblyInfo.template");
         streamCopy(assemblyInfoFrom, to);
         assemblyInfoFrom.close();
+        to.close();
+        // create solution file
+        to = new FileOutputStream(baseFolder+"OpenDMA.Api.sln");
+        InputStream solutionFrom = getResourceAsStream("/templates/cs/OpenDMA.Api.template");
+        streamCopy(solutionFrom, to);
+        solutionFrom.close();
         to.close();
    }
 

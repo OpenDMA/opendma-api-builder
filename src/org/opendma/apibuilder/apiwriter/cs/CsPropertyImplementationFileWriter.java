@@ -14,12 +14,12 @@ import org.opendma.apibuilder.apiwriter.AbstractPropertyFileWriter;
 import org.opendma.apibuilder.structure.ApiDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
-public class CsPropertyFileWriter extends AbstractPropertyFileWriter
+public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWriter
 {
     
     protected OdmaApiWriter apiWriter;
     
-    public CsPropertyFileWriter(OdmaApiWriter writer)
+    public CsPropertyImplementationFileWriter(OdmaApiWriter writer)
     {
         apiWriter = writer;
     }
@@ -36,7 +36,7 @@ public class CsPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("namespace OpenDMA.Api");
         out.println("{");
         out.println("");
-        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/cs/IOdmaProperty.Header.template");
+        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/cs/OdmaProperty.Header.template");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)
@@ -55,13 +55,72 @@ public class CsPropertyFileWriter extends AbstractPropertyFileWriter
 
     protected void writeGenericSection(ApiDescription apiDescription, PrintWriter out) throws IOException
     {
-        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/cs/IOdmaProperty.Generic.template");
+        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/cs/OdmaProperty.Generic.template");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)
         {
             out.println(templateLine);
         }
+        out.println("");
+        out.println("        /// <summary>");
+        out.println("        /// Set the value of this property to the given new value. The");
+        out.println("        /// <c>Class</c> of the given <c>object</c> has to match the");
+        out.println("        /// data type of this property.");
+        out.println("        /// </summary>");
+        out.println("        void setValue(object newValue)");
+        out.println("        {");
+        out.println("            if(readOnly)");
+        out.println("            {");
+        out.println("                throw new OdmaAccessDeniedException();");
+        out.println("            }");
+        out.println("            if(multivalue)");
+        out.println("            {");
+        writeGenericSectionSwitch(apiDescription,out,true);
+        out.println("            }");
+        out.println("            else");
+        out.println("            {");
+        writeGenericSectionSwitch(apiDescription,out,false);
+        out.println("            }");
+        out.println("        }");
+    }
+
+    protected void writeGenericSectionSwitch(ApiDescription apiDescription, PrintWriter out, boolean multivalue) throws IOException
+    {
+        List scalarTypes = apiDescription.getScalarTypes();
+        out.println("                switch(dataType)");
+        out.println("                {");
+        Iterator itScalarTypes = scalarTypes.iterator();
+        while(itScalarTypes.hasNext())
+        {
+            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+            //if(!scalarTypeDescription.isInternal())
+            //{
+                String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
+                String csReturnType;
+                if(multivalue)
+                {
+                    csReturnType = scalarTypeDescription.isReference() ? "IOdmaObjectEnumeration" : apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID());
+                }
+                else
+                {
+                    csReturnType = scalarTypeDescription.isReference() ? "IOdmaObject" : apiWriter.getProgrammingLanguageSpecificScalarDataType(false,scalarTypeDescription.getNumericID());
+                }
+                out.println("                case OdmaTypes."+constantScalarTypeName+":");
+                out.println("                    if(newValue is "+csReturnType+")");
+                out.println("                    {");
+                out.println("                        value = newValue;");
+                out.println("                    }");
+                out.println("                    else");
+                out.println("                    {");
+                out.println("                        throw new OdmaInvalidDataTypeException(dataType,multivalue);");
+                out.println("                    }");
+                out.println("                    break;");
+            //}
+        }
+        out.println("                default:");
+        out.println("                    throw new OdmaEngineRuntimeException(\"OdmaProperty initialized with unknown data type \"+dataType);");
+        out.println("                }");
     }
 
     protected void writeSingleValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
@@ -75,7 +134,18 @@ public class CsPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("        /// an <code>OdmaInvalidDataTypeException</code> otherwise.");
         out.println("        /// </summary>");
         out.println("        /// <returns>Returns the <c>"+csReturnType+"</c> value of this property</returns>");
-        out.println("        "+csReturnType+" get"+scalarName+"();");
+        out.println("        public virtual "+csReturnType+" get"+scalarName+"()");
+        out.println("        {");
+        String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
+        out.println("            if( (multivalue == false) && (dataType == OdmaTypes."+constantScalarTypeName+") )");
+        out.println("            {");
+        out.println("                return ("+csReturnType+")value;");
+        out.println("            }");
+        out.println("            else");
+        out.println("            {");
+        out.println("                throw new OdmaInvalidDataTypeException(OdmaTypes."+constantScalarTypeName+",false,dataType,multivalue);");
+        out.println("            }");
+        out.println("        }");
     }
 
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
@@ -89,7 +159,18 @@ public class CsPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("        /// an <code>OdmaInvalidDataTypeException</code> otherwise.");
         out.println("        /// </summary>");
         out.println("        /// <returns>Returns the <c>"+csReturnType+"</c> value of this property</returns>");
-        out.println("        "+csReturnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Enumeration":"List")+"();");
+        out.println("        public virtual "+csReturnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Enumeration":"List")+"()");
+        out.println("        {");
+        String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
+        out.println("            if( (multivalue == true) && (dataType == OdmaTypes."+constantScalarTypeName+") )");
+        out.println("            {");
+        out.println("                return ("+csReturnType+")value;");
+        out.println("            }");
+        out.println("            else");
+        out.println("            {");
+        out.println("                throw new OdmaInvalidDataTypeException(OdmaTypes."+constantScalarTypeName+",false,dataType,multivalue);");
+        out.println("            }");
+        out.println("        }");
     }
 
     protected void appendRequiredImportsGlobal(List requiredImports)
@@ -109,6 +190,10 @@ public class CsPropertyFileWriter extends AbstractPropertyFileWriter
         if(!requiredImports.contains("System.Text"))
         {
             requiredImports.add("System.Text");
+        }
+        if(!requiredImports.contains("OpenDMA.Exceptions"))
+        {
+            requiredImports.add("OpenDMA.Exceptions");
         }
     }
 
