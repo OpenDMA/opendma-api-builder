@@ -27,7 +27,7 @@ public class PhpApiWriter extends AbstractApiWriter
                 throw new IOException("Can not create package directory");
             }
         }
-        return new FileOutputStream(packageDirectory+(packageName.isEmpty()?"":File.separator)+className+".php");
+        return new FileOutputStream(packageDirectory+(packageName.length()==0?"":File.separator)+className+".php");
     }
     
     protected String getProgrammingLanguageSpecificFolderName()
