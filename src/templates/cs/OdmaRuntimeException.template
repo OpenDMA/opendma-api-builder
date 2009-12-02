@@ -7,10 +7,10 @@ using OpenDMA.Api;
 namespace OpenDMA.Exceptions
 {
 
-    public class OdmaEngineRuntimeException : ApplicationException
+    public class OdmaRuntimeException : ApplicationException
     {
     
-        public OdmaEngineRuntimeException(string message)
+        public OdmaRuntimeException(string message)
         {
             base(message);
         }

@@ -11,38 +11,38 @@ package org.opendma.exceptions;
  * 
  * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
  */
-public class OdmaEngineRuntimeException extends RuntimeException
+public class OdmaRuntimeException extends RuntimeException
 {
 
     /** the serial version ID required for serialization */
     private static final long serialVersionUID = -6153080123751360870L;
 
     /**
-     * Create a new <code>OdmaEngineRuntimeException</code> with the given
+     * Create a new <code>OdmaRuntimeException</code> with the given
      * parameters.
      * 
      * @param msg
      *            a message string for the user
      */
-    public OdmaEngineRuntimeException(String msg)
+    public OdmaRuntimeException(String msg)
     {
         super(msg);
     }
 
     /**
-     * Create a new <code>OdmaEngineRuntimeException</code> with the given
+     * Create a new <code>OdmaRuntimeException</code> with the given
      * parameters.
      * 
      * @param t
      *            the <code>Throwable</code> that caused this Exception
      */
-    public OdmaEngineRuntimeException(Throwable t)
+    public OdmaRuntimeException(Throwable t)
     {
         super(t);
     }
 
     /**
-     * Create a new <code>OdmaEngineRuntimeException</code> with the given
+     * Create a new <code>OdmaRuntimeException</code> with the given
      * parameters.
      * 
      * @param msg
@@ -50,7 +50,7 @@ public class OdmaEngineRuntimeException extends RuntimeException
      * @param t
      *            the <code>Throwable</code> that caused this Exception
      */
-    public OdmaEngineRuntimeException(String msg, Throwable t)
+    public OdmaRuntimeException(String msg, Throwable t)
     {
         super(msg, t);
     }

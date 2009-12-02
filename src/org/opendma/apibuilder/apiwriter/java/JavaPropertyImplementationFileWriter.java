@@ -123,7 +123,7 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
             //}
         }
         out.println("            default:");
-        out.println("                throw new OdmaEngineRuntimeException(\"OdmaProperty initialized with unknown data type \"+Integer.toString(dataType));");
+        out.println("                throw new OdmaRuntimeException(\"OdmaProperty initialized with unknown data type \"+Integer.toString(dataType));");
         out.println("            }");
     }
 
@@ -209,9 +209,9 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         {
             requiredImports.add("org.opendma.exceptions.OdmaAccessDeniedException");
         }
-        if(!requiredImports.contains("org.opendma.exceptions.OdmaEngineRuntimeException"))
+        if(!requiredImports.contains("org.opendma.exceptions.OdmaRuntimeException"))
         {
-            requiredImports.add("org.opendma.exceptions.OdmaEngineRuntimeException");
+            requiredImports.add("org.opendma.exceptions.OdmaRuntimeException");
         }
     }
 

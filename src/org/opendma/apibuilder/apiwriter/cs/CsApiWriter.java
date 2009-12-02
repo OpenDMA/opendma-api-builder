@@ -247,7 +247,7 @@ public class CsApiWriter extends AbstractApiWriter
     {
         internalCreateExceptionFile(outputFolder,"OdmaObjectNotFoundException");
         internalCreateExceptionFile(outputFolder,"OdmaInvalidDataTypeException");
-        internalCreateExceptionFile(outputFolder,"OdmaEngineRuntimeException");
+        internalCreateExceptionFile(outputFolder,"OdmaRuntimeException");
         internalCreateExceptionFile(outputFolder,"OdmaAccessDeniedException");
     }
     

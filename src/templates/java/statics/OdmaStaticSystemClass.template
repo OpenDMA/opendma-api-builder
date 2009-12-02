@@ -10,7 +10,7 @@ import org.opendma.api.OdmaQName;
 import org.opendma.api.collections.OdmaClassEnumeration;
 import org.opendma.api.collections.OdmaPropertyInfoEnumeration;
 import org.opendma.exceptions.OdmaAccessDeniedException;
-import org.opendma.exceptions.OdmaEngineRuntimeException;
+import org.opendma.exceptions.OdmaRuntimeException;
 import org.opendma.exceptions.OdmaInvalidDataTypeException;
 import org.opendma.exceptions.OdmaObjectNotFoundException;
 
@@ -81,11 +81,11 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -107,11 +107,11 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -132,11 +132,11 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -158,11 +158,11 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -183,11 +183,11 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -209,11 +209,11 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -234,11 +234,11 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -260,11 +260,11 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -285,15 +285,15 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(ClassCastException cce)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",cce);
+            throw new OdmaRuntimeException("Invalid data type of system property",cce);
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -314,15 +314,15 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(ClassCastException cce)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",cce);
+            throw new OdmaRuntimeException("Invalid data type of system property",cce);
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -343,15 +343,15 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(ClassCastException cce)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",cce);
+            throw new OdmaRuntimeException("Invalid data type of system property",cce);
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -372,15 +372,15 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(ClassCastException cce)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",cce);
+            throw new OdmaRuntimeException("Invalid data type of system property",cce);
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -401,11 +401,11 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -427,11 +427,11 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -452,11 +452,11 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -478,11 +478,11 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -503,11 +503,11 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -529,11 +529,11 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 
@@ -554,15 +554,15 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         }
         catch(ClassCastException cce)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",cce);
+            throw new OdmaRuntimeException("Invalid data type of system property",cce);
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
-            throw new OdmaEngineRuntimeException("Invalid data type of system property",oidte);
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
         }
         catch(OdmaObjectNotFoundException oonfe)
         {
-            throw new OdmaEngineRuntimeException("Predefined system property missing",oonfe);
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
     }
 

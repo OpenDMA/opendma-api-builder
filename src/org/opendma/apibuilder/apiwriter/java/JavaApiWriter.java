@@ -501,7 +501,7 @@ public class JavaApiWriter extends AbstractApiWriter
         internalCreateExceptionFile(outputFolder,"OdmaObjectNotFoundException");
         internalCreateExceptionFile(outputFolder,"OdmaInvalidDataTypeException");
         internalCreateExceptionFile(outputFolder,"OdmaAccessDeniedException");
-        internalCreateExceptionFile(outputFolder,"OdmaEngineRuntimeException");
+        internalCreateExceptionFile(outputFolder,"OdmaRuntimeException");
     }
     
     protected void internalCreateExceptionFile(String outputFolder, String exceptionClassName) throws IOException

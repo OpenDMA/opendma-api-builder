@@ -85,7 +85,7 @@ public class JavaClassTemplateFileWriter extends AbstractClassFileWriter
         {
             requiredImports.add(reqImp);
         }
-        reqImp = "org.opendma.exceptions.OdmaEngineRuntimeException";
+        reqImp = "org.opendma.exceptions.OdmaRuntimeException";
         if(!requiredImports.contains(reqImp))
         {
             requiredImports.add(reqImp);
@@ -211,16 +211,16 @@ public class JavaClassTemplateFileWriter extends AbstractClassFileWriter
         {
             out.println("        catch(ClassCastException cce)");
             out.println("        {");
-            out.println("            throw new OdmaEngineRuntimeException(\"Invalid data type of system property\",cce);");
+            out.println("            throw new OdmaRuntimeException(\"Invalid data type of system property\",cce);");
             out.println("        }");
         }
         out.println("        catch(OdmaInvalidDataTypeException oidte)");
         out.println("        {");
-        out.println("            throw new OdmaEngineRuntimeException(\"Invalid data type of system property\",oidte);");
+        out.println("            throw new OdmaRuntimeException(\"Invalid data type of system property\",oidte);");
         out.println("        }");
         out.println("        catch(OdmaObjectNotFoundException oonfe)");
         out.println("        {");
-        out.println("            throw new OdmaEngineRuntimeException(\"Predefined system property missing\",oonfe);");
+        out.println("            throw new OdmaRuntimeException(\"Predefined system property missing\",oonfe);");
         out.println("        }");
         out.println("    }");
         // setter
@@ -246,11 +246,11 @@ public class JavaClassTemplateFileWriter extends AbstractClassFileWriter
             out.println("        }");
             out.println("        catch(OdmaInvalidDataTypeException oidte)");
             out.println("        {");
-            out.println("            throw new OdmaEngineRuntimeException(\"Invalid data type of system property\",oidte);");
+            out.println("            throw new OdmaRuntimeException(\"Invalid data type of system property\",oidte);");
             out.println("        }");
             out.println("        catch(OdmaObjectNotFoundException oonfe)");
             out.println("        {");
-            out.println("            throw new OdmaEngineRuntimeException(\"Predefined system property missing\",oonfe);");
+            out.println("            throw new OdmaRuntimeException(\"Predefined system property missing\",oonfe);");
             out.println("        }");
             out.println("    }");
         }

@@ -119,7 +119,7 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
             //}
         }
         out.println("                default:");
-        out.println("                    throw new OdmaEngineRuntimeException(\"OdmaProperty initialized with unknown data type \"+dataType);");
+        out.println("                    throw new OdmaRuntimeException(\"OdmaProperty initialized with unknown data type \"+dataType);");
         out.println("                }");
     }
 
