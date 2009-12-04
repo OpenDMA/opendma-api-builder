@@ -81,6 +81,11 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         out.println("        {");
         out.println("            throw new OdmaAccessDeniedException();");
         out.println("        }");
+        out.println("        if(newValue == null)");
+        out.println("        {");
+        out.println("            value = null;");
+        out.println("            return;");
+        out.println("        }");
         out.println("        if(multivalue)");
         out.println("        {");
         writeGenericSectionSwitch(apiDescription,out,true);
