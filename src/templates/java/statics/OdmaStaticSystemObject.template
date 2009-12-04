@@ -26,32 +26,32 @@ import org.opendma.api.OdmaRepository;
 public class OdmaStaticSystemObject
 {
 
-        protected Map properties = new HashMap();
+    protected Map properties = new HashMap();
 
-        protected OdmaStaticSystemObject()
-        {
-                // properties of opendma.org Object
-                properties.put(OdmaTypes.PROPERTY_CLASS,null);
-                properties.put(OdmaTypes.PROPERTY_ID,null);
-                properties.put(OdmaTypes.PROPERTY_GUID,null);
-                properties.put(OdmaTypes.PROPERTY_REPOSITORY,null);
-        }
+    protected OdmaStaticSystemObject()
+    {
+        // properties of opendma.org Object
+        properties.put(OdmaTypes.PROPERTY_CLASS,null);
+        properties.put(OdmaTypes.PROPERTY_ID,null);
+        properties.put(OdmaTypes.PROPERTY_GUID,null);
+        properties.put(OdmaTypes.PROPERTY_REPOSITORY,null);
+    }
 
-        protected void patchClass(OdmaClass newClass)
-        {
-                properties.put(OdmaTypes.PROPERTY_CLASS,newClass);
-        }
+    protected void patchClass(OdmaClass newClass) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
+    {
+        properties.put(OdmaTypes.PROPERTY_CLASS,new OdmaPropertyImpl(OdmaTypes.PROPERTY_CLASS,newClass,OdmaTypes.TYPE_REFERENCE,false,true));
+    }
 
-        protected void patchIds(OdmaId newId, OdmaGuid newGuid)
-        {
-                properties.put(OdmaTypes.PROPERTY_ID,newId);
-                properties.put(OdmaTypes.PROPERTY_GUID,newGuid);
-        }
+    protected void patchIds(OdmaId newId, OdmaGuid newGuid) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
+    {
+        properties.put(OdmaTypes.PROPERTY_ID,new OdmaPropertyImpl(OdmaTypes.PROPERTY_ID,newId,OdmaTypes.TYPE_ID,false,true));
+        properties.put(OdmaTypes.PROPERTY_GUID,new OdmaPropertyImpl(OdmaTypes.PROPERTY_GUID,newGuid,OdmaTypes.TYPE_GUID,false,true));
+    }
 
-        protected void patchRepository(OdmaRepository newRepository)
-        {
-                properties.put(OdmaTypes.PROPERTY_REPOSITORY,newRepository);
-        }
+    protected void patchRepository(OdmaRepository newRepository) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
+    {
+        properties.put(OdmaTypes.PROPERTY_REPOSITORY,new OdmaPropertyImpl(OdmaTypes.PROPERTY_REPOSITORY,newRepository,OdmaTypes.TYPE_REFERENCE,false,true));
+    }
 
     // =============================================================================================
     // Generic property access
@@ -74,10 +74,10 @@ public class OdmaStaticSystemObject
      */
     public OdmaProperty getProperty(OdmaQName propertyName) throws OdmaObjectNotFoundException
     {
-            OdmaProperty p = (OdmaProperty)properties.get(propertyName);
-            if(p == null)
-                    throw new OdmaObjectNotFoundException(propertyName);
-            return p;
+        OdmaProperty p = (OdmaProperty)properties.get(propertyName);
+        if(p == null)
+            throw new OdmaObjectNotFoundException(propertyName);
+        return p;
     }
 
     /**
@@ -95,7 +95,7 @@ public class OdmaStaticSystemObject
      */
     public void prepareProperties(OdmaQName[] propertyNames, boolean refresh)
     {
-            // do nothing here. We are static and all static properties are already in the Map
+        // do nothing here. We are static and all static properties are already in the Map
     }
 
     /**
@@ -119,7 +119,7 @@ public class OdmaStaticSystemObject
      */
     public void setProperty(OdmaQName propertyName, Object newValue) throws OdmaObjectNotFoundException, OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
-            // we are static. properties can not be changed.
+        // we are static. properties can not be changed.
         throw new OdmaAccessDeniedException();
     }
 
@@ -130,7 +130,7 @@ public class OdmaStaticSystemObject
      */
     public boolean isDirty()
     {
-            // we are static. properties can not be changed.
+        // we are static. properties can not be changed.
         return false;
     }
 
@@ -139,7 +139,7 @@ public class OdmaStaticSystemObject
      */
     public void save()
     {
-            // we are not dirty, and will never be. Nothing to do here.
+        // we are not dirty, and will never be. Nothing to do here.
     }
 
     // =============================================================================================

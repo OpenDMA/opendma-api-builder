@@ -255,18 +255,22 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("package org.opendma.staticclasses;");
         out.println("");
         out.println("import org.opendma.OdmaTypes;");
+        out.println("import org.opendma.exceptions.OdmaAccessDeniedException;");
+        out.println("import org.opendma.exceptions.OdmaInvalidDataTypeException;");
+        out.println("import org.opendma.impl.OdmaPropertyImpl;");
         out.println("");
         out.println("public class OdmaStaticSystemPropertyInfo"+propName+" extends OdmaStaticSystemPropertyInfo");
         out.println("{");
         out.println("");
-        out.println("    public OdmaStaticSystemPropertyInfo"+propName+"()");
+        out.println("    public OdmaStaticSystemPropertyInfo"+propName+"() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
         out.println("    {");
         String constantPropertyName = "PROPERTY_" + propName.toUpperCase();
-        out.println("        properties.put(OdmaTypes.PROPERTY_NAME,OdmaTypes."+constantPropertyName+".getName());");
-        out.println("        properties.put(OdmaTypes.PROPERTY_NAMEQUALIFIER,OdmaTypes."+constantPropertyName+".getQualifier());");
-        out.println("        properties.put(OdmaTypes.PROPERTY_DISPLAYNAME,OdmaTypes."+constantPropertyName+".getName());");
         ScalarTypeDescription scalarTypeDescription = apiDescription.getScalarTypeDescription(propertyDescription.getDataType());
         String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
+/*
+        out.println("        properties.put(OdmaTypes.PROPERTY_NAME,new OdmaPropertyImpl(OdmaTypes.PROPERTY_NAME,OdmaTypes."+constantPropertyName+".getName(),OdmaTypes.TYPE_STRING,false,true));");
+        out.println("        properties.put(OdmaTypes.PROPERTY_NAMEQUALIFIER,OdmaTypes."+constantPropertyName+".getQualifier());");
+        out.println("        properties.put(OdmaTypes.PROPERTY_DISPLAYNAME,OdmaTypes."+constantPropertyName+".getName());");
         out.println("        properties.put(OdmaTypes.PROPERTY_DATATYPE,new Integer(OdmaTypes."+constantScalarTypeName+"));");
         out.println("        properties.put(OdmaTypes.PROPERTY_REFERENCECLASS,null);");
         out.println("        properties.put(OdmaTypes.PROPERTY_MULTIVALUE,"+(propertyDescription.getMultiValue()?"Boolean.TRUE":"Boolean.FALSE")+");");
@@ -274,12 +278,35 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("        properties.put(OdmaTypes.PROPERTY_READONLY,"+(propertyDescription.isReadOnly()?"Boolean.TRUE":"Boolean.FALSE")+");");
         out.println("        properties.put(OdmaTypes.PROPERTY_HIDDEN,"+(propertyDescription.getHidden()?"Boolean.TRUE":"Boolean.FALSE")+");");
         out.println("        properties.put(OdmaTypes.PROPERTY_SYSTEM,"+(propertyDescription.getSystem()?"Boolean.TRUE":"Boolean.FALSE")+");");
+*/
+        printX(out,"NAME","OdmaTypes."+constantPropertyName+".getName()","STRING");
+        printX(out,"NAMEQUALIFIER","OdmaTypes."+constantPropertyName+".getQualifier()","STRING");
+        printX(out,"DISPLAYNAME","OdmaTypes."+constantPropertyName+".getName()","STRING");
+        printX(out,"DATATYPE","new Integer(OdmaTypes."+constantScalarTypeName+")","INTEGER");
+        printX(out,"REFERENCECLASS","null","REFERENCE");
+        printX(out,"MULTIVALUE",(propertyDescription.getMultiValue()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        printX(out,"REQUIRED",(propertyDescription.getRequired()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        printX(out,"READONLY",(propertyDescription.isReadOnly()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        printX(out,"HIDDEN",(propertyDescription.getHidden()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        printX(out,"SYSTEM",(propertyDescription.getSystem()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        
+        
         out.println("    }");
         out.println("");
         out.println("}");
         // close writer and streams
         out.close();
         staticPropertyInfoStream.close();
+    }
+    
+    private void printX(PrintWriter out, String propertyNameConstant, String value, String typeConstantName)
+    {
+        out.println("        properties.put(OdmaTypes.PROPERTY_"+propertyNameConstant+",new OdmaPropertyImpl(OdmaTypes.PROPERTY_"+propertyNameConstant+","+value+",OdmaTypes.TYPE_"+typeConstantName+",false,true));");        
+    }
+    
+    private void printX2(PrintWriter out, String propertyNameConstant, String value, String typeConstantName)
+    {
+        out.println("        properties.put(OdmaTypes.PROPERTY_"+propertyNameConstant+",new OdmaPropertyImpl(OdmaTypes.PROPERTY_"+propertyNameConstant+","+value+",OdmaTypes.TYPE_"+typeConstantName+",true,true));");        
     }
 
     protected void createStaticClassHierarchyHelperClass(ClassDescription classDescription, String outputFolder) throws IOException
@@ -292,14 +319,18 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("import org.opendma.OdmaTypes;");
         out.println("import org.opendma.api.collections.OdmaClassEnumeration;");
         out.println("import org.opendma.api.collections.OdmaPropertyInfoEnumeration;");
+        out.println("import org.opendma.exceptions.OdmaAccessDeniedException;");
+        out.println("import org.opendma.exceptions.OdmaInvalidDataTypeException;");
+        out.println("import org.opendma.impl.OdmaPropertyImpl;");
         out.println("");
         out.println("public class OdmaStaticSystemClass"+className+" extends OdmaStaticSystemClass");
         out.println("{");
         out.println("");
-        out.println("    public OdmaStaticSystemClass"+className+"(OdmaStaticSystemClass parent, OdmaClassEnumeration aspects, OdmaPropertyInfoEnumeration declaredProperties)");
+        out.println("    public OdmaStaticSystemClass"+className+"(OdmaStaticSystemClass parent, OdmaClassEnumeration aspects, OdmaPropertyInfoEnumeration declaredProperties) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
         out.println("    {");
         out.println("        super(parent);");
         String constantClassName = "CLASS_" + className.toUpperCase();
+        /*
         out.println("        properties.put(OdmaTypes.PROPERTY_NAME,OdmaTypes."+constantClassName+".getName());");
         out.println("        properties.put(OdmaTypes.PROPERTY_NAMEQUALIFIER,OdmaTypes."+constantClassName+".getQualifier());");
         out.println("        properties.put(OdmaTypes.PROPERTY_QNAME,OdmaTypes."+constantClassName+");");
@@ -310,6 +341,17 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("        properties.put(OdmaTypes.PROPERTY_INSTANTIABLE,"+(classDescription.getInstantiable()?"Boolean.TRUE":"Boolean.FALSE")+");");
         out.println("        properties.put(OdmaTypes.PROPERTY_HIDDEN,"+(classDescription.getHidden()?"Boolean.TRUE":"Boolean.FALSE")+");");
         out.println("        properties.put(OdmaTypes.PROPERTY_SYSTEM,"+(classDescription.getSystem()?"Boolean.TRUE":"Boolean.FALSE")+");");
+        */
+        printX(out,"NAME","OdmaTypes."+constantClassName+".getName()","STRING");
+        printX(out,"NAMEQUALIFIER","OdmaTypes."+constantClassName+".getQualifier()","STRING");
+        printX(out,"QNAME","OdmaTypes."+constantClassName,"QNAME");
+        printX(out,"DISPLAYNAME","OdmaTypes."+constantClassName+".getName()","STRING");
+        printX(out,"PARENT","parent","REFERENCE");
+        printX2(out,"ASPECTS","aspects","REFERENCE");
+        printX2(out,"DECLAREDPROPERTIES","declaredProperties","REFERENCE");
+        printX(out,"INSTANTIABLE",(classDescription.getInstantiable()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        printX(out,"HIDDEN",(classDescription.getHidden()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        printX(out,"SYSTEM",(classDescription.getSystem()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
         out.println("        buildProperties();");
         out.println("    }");
         out.println("");
@@ -332,30 +374,30 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("import org.opendma.OdmaTypes;");
         out.println("import org.opendma.api.OdmaClass;");
         out.println("import org.opendma.api.OdmaQName;");
-        //out.println("import org.opendma.api.collections.OdmaClassEnumeration;");
-        //out.println("import org.opendma.api.collections.OdmaPropertyInfoEnumeration;");
+        out.println("import org.opendma.exceptions.OdmaAccessDeniedException;");
+        out.println("import org.opendma.exceptions.OdmaInvalidDataTypeException;");
         out.println("");
         out.println("public class OdmaStaticClassHierarchy");
         out.println("{");
         out.println("");
-        out.println("   protected Map propertyInfos = new HashMap();");
+        out.println("    protected Map propertyInfos = new HashMap();");
         out.println("");
-        out.println("   protected Map classInfos = new HashMap();");
+        out.println("    protected Map classInfos = new HashMap();");
         out.println("");
-        out.println("   public OdmaStaticSystemPropertyInfoClass getPropertyInfo(OdmaQName name)");
-        out.println("   {");
-        out.println("       return(OdmaStaticSystemPropertyInfoClass)propertyInfos.get(name);");
-        out.println("   }");
+        out.println("    public OdmaStaticSystemPropertyInfo getPropertyInfo(OdmaQName name)");
+        out.println("    {");
+        out.println("        return(OdmaStaticSystemPropertyInfo)propertyInfos.get(name);");
+        out.println("    }");
         out.println("");
-        out.println("   public OdmaStaticSystemClassClass getClassInfo(OdmaQName name)");
-        out.println("   {");
-        out.println("       return(OdmaStaticSystemClassClass)classInfos.get(name);");
-        out.println("   }");
+        out.println("    public OdmaStaticSystemClass getClassInfo(OdmaQName name)");
+        out.println("    {");
+        out.println("        return(OdmaStaticSystemClass)classInfos.get(name);");
+        out.println("    }");
         out.println("");
-        out.println("   public void buildClassHierarchy()");
-        out.println("   {");
-        out.println("       OdmaArrayListClassEnumeration declaredAspects;");
-        out.println("       OdmaArrayListPropertyInfoEnumeration declaredProperties;");
+        out.println("    public void buildClassHierarchy() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
+        out.println("    {");
+        out.println("        OdmaArrayListClassEnumeration declaredAspects;");
+        out.println("        OdmaArrayListPropertyInfoEnumeration declaredProperties;");
         out.println("");
         Iterator itClassDescriptions = apiDescription.getDescribedClasses().iterator();
         HashMap uniquePropMap = new HashMap();
@@ -371,7 +413,7 @@ public class JavaApiWriter extends AbstractApiWriter
                 if(uniquePropMap.containsKey(constantPropertyName))
                     continue;
                 uniquePropMap.put(constantPropertyName,Boolean.TRUE);
-                out.println("       propertyInfos.put(OdmaTypes."+constantPropertyName+", new OdmaStaticSystemPropertyInfo"+propName+"());");
+                out.println("        propertyInfos.put(OdmaTypes."+constantPropertyName+", new OdmaStaticSystemPropertyInfo"+propName+"());");
             }
         }
         itClassDescriptions = apiDescription.getDescribedClasses().iterator();
@@ -396,16 +438,16 @@ public class JavaApiWriter extends AbstractApiWriter
         }
         out.println("");
         out.println("       OdmaClass classClass = getClassInfo(OdmaTypes.CLASS_CLASS);");
-        out.println("       Iterator itPropertyInfos = propertyInfos.entrySet().iterator();");
+        out.println("       Iterator itPropertyInfos = propertyInfos.values().iterator();");
         out.println("       while(itPropertyInfos.hasNext())");
         out.println("       {");
-        out.println("           OdmaStaticSystemPropertyInfoClass pi = (OdmaStaticSystemPropertyInfoClass)itPropertyInfos.next();");
+        out.println("           OdmaStaticSystemPropertyInfo pi = (OdmaStaticSystemPropertyInfo)itPropertyInfos.next();");
         out.println("           pi.patchClass(classClass);");
         out.println("       }");
-        out.println("       Iterator itClassInfos = classInfos.entrySet().iterator();");
+        out.println("       Iterator itClassInfos = classInfos.values().iterator();");
         out.println("       while(itClassInfos.hasNext())");
         out.println("       {");
-        out.println("           OdmaStaticSystemClassClass ci = (OdmaStaticSystemClassClass)itClassInfos.next();");
+        out.println("           OdmaStaticSystemClass ci = (OdmaStaticSystemClass)itClassInfos.next();");
         out.println("           ci.patchClass(classClass);");
         out.println("       }");
         out.println("");

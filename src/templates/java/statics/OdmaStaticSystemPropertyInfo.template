@@ -15,15 +15,15 @@ import org.opendma.exceptions.OdmaObjectNotFoundException;
  *
  * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
  */
-public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject
+public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject implements OdmaPropertyInfo
 {
 
-        protected void patchReferenceClass(OdmaClass newReferenceClass)
-        {
-                properties.put(OdmaTypes.PROPERTY_REFERENCECLASS,newReferenceClass);
-        }
+    protected void patchReferenceClass(OdmaClass newReferenceClass) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
+    {
+        properties.put(OdmaTypes.PROPERTY_REFERENCECLASS,new OdmaPropertyImpl(OdmaTypes.PROPERTY_CLASS,newReferenceClass,OdmaTypes.TYPE_REFERENCE,false,true));
+    }
 
-        // =============================================================================================
+    // =============================================================================================
     // Object specific property access
     // =============================================================================================
 

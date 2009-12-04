@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import org.opendma.api.collections.OdmaPropertyInfoEnumeration;
 
-public class OdmaArrayListPropertyInfoEnumeration extends ArrayList implements OdmaPropertyInfoEnumeration
+public class OdmaArrayListPropertyInfoEnumeration extends OdmaArrayListObjectEnumeration implements OdmaPropertyInfoEnumeration
 {
 
-        private static final long serialVersionUID = 6737938545094057964L;
+    private static final long serialVersionUID = 6737938545094057964L;
 
 }

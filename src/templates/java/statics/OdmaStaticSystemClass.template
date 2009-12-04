@@ -24,41 +24,52 @@ import org.opendma.exceptions.OdmaObjectNotFoundException;
 public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject implements OdmaClass
 {
 
-        protected OdmaArrayListClassEnumeration subClasses = new OdmaArrayListClassEnumeration();
+    protected OdmaArrayListClassEnumeration subClasses = new OdmaArrayListClassEnumeration();
 
-        protected OdmaStaticSystemClass(OdmaStaticSystemClass parent)
+    protected OdmaStaticSystemClass(OdmaStaticSystemClass parent) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
+    {
+        properties.put(OdmaTypes.PROPERTY_SUBCLASSES,new OdmaPropertyImpl(OdmaTypes.PROPERTY_SUBCLASSES,subClasses,OdmaTypes.TYPE_REFERENCE,true,true));
+        if(parent != null)
         {
-                properties.put(OdmaTypes.PROPERTY_SUBCLASSES,subClasses);
-                if(parent != null)
-                {
-                        parent.addSubClass(this);
-                }
+            parent.addSubClass(this);
         }
+    }
 
-        protected void addSubClass(OdmaClass cls)
-        {
-                subClasses.add(cls);
-        }
+    protected void addSubClass(OdmaClass cls)
+    {
+        subClasses.add(cls);
+    }
 
-        protected void buildProperties()
+    protected void buildProperties()
+    {
+        OdmaArrayListPropertyInfoEnumeration props = new OdmaArrayListPropertyInfoEnumeration();
+        if(getParent() != null)
         {
-                OdmaArrayListPropertyInfoEnumeration props = new OdmaArrayListPropertyInfoEnumeration();
-                if(getParent() != null)
-                {
-                        OdmaPropertyInfoEnumeration parentProps = getParent().getProperties();
-                        Iterator itParentProps = parentProps.iterator();
-                        while(itParentProps.hasNext())
-                        {
-                                props.add((OdmaPropertyInfo)itParentProps.next());
-                        }
-                }
-                Iterator itDeclaredProperties = getDeclaredProperties().iterator();
-                while(itDeclaredProperties.hasNext())
-                {
-                        props.add((OdmaPropertyInfo)itDeclaredProperties.next());
-                }
-                properties.put(OdmaTypes.PROPERTY_PROPERTIES,props);
+            OdmaPropertyInfoEnumeration parentProps = getParent().getProperties();
+            Iterator itParentProps = parentProps.iterator();
+            while(itParentProps.hasNext())
+            {
+                props.add((OdmaPropertyInfo)itParentProps.next());
+            }
         }
+        Iterator itDeclaredProperties = getDeclaredProperties().iterator();
+        while(itDeclaredProperties.hasNext())
+        {
+            props.add((OdmaPropertyInfo)itDeclaredProperties.next());
+        }
+        try
+        {
+            properties.put(OdmaTypes.PROPERTY_PROPERTIES,new OdmaPropertyImpl(OdmaTypes.PROPERTY_DECLAREDPROPERTIES,props,OdmaTypes.TYPE_REFERENCE,true,true));
+        }
+        catch(OdmaInvalidDataTypeException oidte)
+        {
+            throw new KamostoreEngineRuntimeException("Implementation error",oidte);
+        }
+        catch(OdmaAccessDeniedException oade)
+        {
+            throw new KamostoreEngineRuntimeException("Implementation error",oade);
+        }
+    }
 
     // =============================================================================================
     // Object specific property access
