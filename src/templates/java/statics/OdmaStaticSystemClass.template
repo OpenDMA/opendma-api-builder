@@ -13,6 +13,7 @@ import org.opendma.exceptions.OdmaAccessDeniedException;
 import org.opendma.exceptions.OdmaRuntimeException;
 import org.opendma.exceptions.OdmaInvalidDataTypeException;
 import org.opendma.exceptions.OdmaObjectNotFoundException;
+import org.opendma.impl.OdmaPropertyImpl;
 
 /**
  * Template implementation of the interface <code>{@link OdmaClass}</code>.<p>
@@ -40,7 +41,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         subClasses.add(cls);
     }
 
-    protected void buildProperties()
+    protected void buildProperties() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
         OdmaArrayListPropertyInfoEnumeration props = new OdmaArrayListPropertyInfoEnumeration();
         if(getParent() != null)
@@ -57,18 +58,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         {
             props.add((OdmaPropertyInfo)itDeclaredProperties.next());
         }
-        try
-        {
-            properties.put(OdmaTypes.PROPERTY_PROPERTIES,new OdmaPropertyImpl(OdmaTypes.PROPERTY_DECLAREDPROPERTIES,props,OdmaTypes.TYPE_REFERENCE,true,true));
-        }
-        catch(OdmaInvalidDataTypeException oidte)
-        {
-            throw new KamostoreEngineRuntimeException("Implementation error",oidte);
-        }
-        catch(OdmaAccessDeniedException oade)
-        {
-            throw new KamostoreEngineRuntimeException("Implementation error",oade);
-        }
+        properties.put(OdmaTypes.PROPERTY_PROPERTIES,new OdmaPropertyImpl(OdmaTypes.PROPERTY_DECLAREDPROPERTIES,props,OdmaTypes.TYPE_REFERENCE,true,true));
     }
 
     // =============================================================================================

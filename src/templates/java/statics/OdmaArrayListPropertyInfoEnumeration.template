@@ -1,7 +1,5 @@
 package org.opendma.staticclasses;
 
-import java.util.ArrayList;
-
 import org.opendma.api.collections.OdmaPropertyInfoEnumeration;
 
 public class OdmaArrayListPropertyInfoEnumeration extends OdmaArrayListObjectEnumeration implements OdmaPropertyInfoEnumeration

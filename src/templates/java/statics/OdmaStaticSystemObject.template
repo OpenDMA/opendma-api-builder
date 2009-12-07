@@ -15,6 +15,7 @@ import org.opendma.api.OdmaClass;
 import org.opendma.api.OdmaId;
 import org.opendma.api.OdmaGuid;
 import org.opendma.api.OdmaRepository;
+import org.opendma.impl.OdmaPropertyImpl;
 
 /**
  * Template implementation of the interface <code>{@link OdmaObject}</code>.<p>
