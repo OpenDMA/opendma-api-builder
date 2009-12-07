@@ -45,6 +45,7 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         {
             System.out.println("Error reading description file " + descriptionFileName + ": " + e);
             e.printStackTrace(System.out);
+            return;
         }
         //-----< STEP 3: read class hierarchy from XML DOM tree >--------------
         ApiDescription odmaClassHierarchy = null;
