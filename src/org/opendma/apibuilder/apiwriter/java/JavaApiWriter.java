@@ -267,18 +267,6 @@ public class JavaApiWriter extends AbstractApiWriter
         String constantPropertyName = "PROPERTY_" + propName.toUpperCase();
         ScalarTypeDescription scalarTypeDescription = apiDescription.getScalarTypeDescription(propertyDescription.getDataType());
         String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
-/*
-        out.println("        properties.put(OdmaTypes.PROPERTY_NAME,new OdmaPropertyImpl(OdmaTypes.PROPERTY_NAME,OdmaTypes."+constantPropertyName+".getName(),OdmaTypes.TYPE_STRING,false,true));");
-        out.println("        properties.put(OdmaTypes.PROPERTY_NAMEQUALIFIER,OdmaTypes."+constantPropertyName+".getQualifier());");
-        out.println("        properties.put(OdmaTypes.PROPERTY_DISPLAYNAME,OdmaTypes."+constantPropertyName+".getName());");
-        out.println("        properties.put(OdmaTypes.PROPERTY_DATATYPE,new Integer(OdmaTypes."+constantScalarTypeName+"));");
-        out.println("        properties.put(OdmaTypes.PROPERTY_REFERENCECLASS,null);");
-        out.println("        properties.put(OdmaTypes.PROPERTY_MULTIVALUE,"+(propertyDescription.getMultiValue()?"Boolean.TRUE":"Boolean.FALSE")+");");
-        out.println("        properties.put(OdmaTypes.PROPERTY_REQUIRED,"+(propertyDescription.getRequired()?"Boolean.TRUE":"Boolean.FALSE")+");");
-        out.println("        properties.put(OdmaTypes.PROPERTY_READONLY,"+(propertyDescription.isReadOnly()?"Boolean.TRUE":"Boolean.FALSE")+");");
-        out.println("        properties.put(OdmaTypes.PROPERTY_HIDDEN,"+(propertyDescription.getHidden()?"Boolean.TRUE":"Boolean.FALSE")+");");
-        out.println("        properties.put(OdmaTypes.PROPERTY_SYSTEM,"+(propertyDescription.getSystem()?"Boolean.TRUE":"Boolean.FALSE")+");");
-*/
         printX(out,"NAME","OdmaTypes."+constantPropertyName+".getName()","STRING");
         printX(out,"NAMEQUALIFIER","OdmaTypes."+constantPropertyName+".getQualifier()","STRING");
         printX(out,"DISPLAYNAME","OdmaTypes."+constantPropertyName+".getName()","STRING");
@@ -289,8 +277,6 @@ public class JavaApiWriter extends AbstractApiWriter
         printX(out,"READONLY",(propertyDescription.isReadOnly()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
         printX(out,"HIDDEN",(propertyDescription.getHidden()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
         printX(out,"SYSTEM",(propertyDescription.getSystem()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-        
-        
         out.println("    }");
         out.println("");
         out.println("}");
@@ -330,18 +316,6 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("    {");
         out.println("        super(parent);");
         String constantClassName = "CLASS_" + className.toUpperCase();
-        /*
-        out.println("        properties.put(OdmaTypes.PROPERTY_NAME,OdmaTypes."+constantClassName+".getName());");
-        out.println("        properties.put(OdmaTypes.PROPERTY_NAMEQUALIFIER,OdmaTypes."+constantClassName+".getQualifier());");
-        out.println("        properties.put(OdmaTypes.PROPERTY_QNAME,OdmaTypes."+constantClassName+");");
-        out.println("        properties.put(OdmaTypes.PROPERTY_DISPLAYNAME,OdmaTypes."+constantClassName+".getName());");
-        out.println("        properties.put(OdmaTypes.PROPERTY_PARENT,parent);");
-        out.println("        properties.put(OdmaTypes.PROPERTY_ASPECTS,aspects);");
-        out.println("        properties.put(OdmaTypes.PROPERTY_DECLAREDPROPERTIES,declaredProperties);");
-        out.println("        properties.put(OdmaTypes.PROPERTY_INSTANTIABLE,"+(classDescription.getInstantiable()?"Boolean.TRUE":"Boolean.FALSE")+");");
-        out.println("        properties.put(OdmaTypes.PROPERTY_HIDDEN,"+(classDescription.getHidden()?"Boolean.TRUE":"Boolean.FALSE")+");");
-        out.println("        properties.put(OdmaTypes.PROPERTY_SYSTEM,"+(classDescription.getSystem()?"Boolean.TRUE":"Boolean.FALSE")+");");
-        */
         printX(out,"NAME","OdmaTypes."+constantClassName+".getName()","STRING");
         printX(out,"NAMEQUALIFIER","OdmaTypes."+constantClassName+".getQualifier()","STRING");
         printX(out,"QNAME","OdmaTypes."+constantClassName,"QNAME");
@@ -437,13 +411,14 @@ public class JavaApiWriter extends AbstractApiWriter
             out.println("       classInfos.put(OdmaTypes."+constantClassName+", new OdmaStaticSystemClass"+className+"("+parentClassExpression+",declaredAspects,declaredProperties));");
         }
         out.println("");
-        out.println("       OdmaClass classClass = getClassInfo(OdmaTypes.CLASS_CLASS);");
+        out.println("       OdmaClass propertyInfoClass = getClassInfo(OdmaTypes.CLASS_PROPERTYINFO);");
         out.println("       Iterator itPropertyInfos = propertyInfos.values().iterator();");
         out.println("       while(itPropertyInfos.hasNext())");
         out.println("       {");
         out.println("           OdmaStaticSystemPropertyInfo pi = (OdmaStaticSystemPropertyInfo)itPropertyInfos.next();");
-        out.println("           pi.patchClass(classClass);");
+        out.println("           pi.patchClass(propertyInfoClass);");
         out.println("       }");
+        out.println("       OdmaClass classClass = getClassInfo(OdmaTypes.CLASS_CLASS);");
         out.println("       Iterator itClassInfos = classInfos.values().iterator();");
         out.println("       while(itClassInfos.hasNext())");
         out.println("       {");
