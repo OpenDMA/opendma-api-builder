@@ -87,6 +87,16 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         }
         // create properties implementation file
         createPropertyImplementationFile(apiDescription,baseFolder);
+        // create list implementation files
+        itScalarTypes = scalarTypes.iterator();
+        while(itScalarTypes.hasNext())
+        {
+            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+            if(!scalarTypeDescription.isReference())
+            {
+                createListImplementationFile(scalarTypeDescription,baseFolder);
+            }
+        }
         // create class template files
         itClasses = classes.iterator();
         while(itClasses.hasNext())
@@ -177,6 +187,8 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
     //-------------------------------------------------------------------------
 
     protected abstract void createPropertyImplementationFile(ApiDescription apiDescription, String outputFolder) throws IOException;
+
+    protected abstract void createListImplementationFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException;
 
     //-------------------------------------------------------------------------
     // C L A S S   T E M P L A T E S

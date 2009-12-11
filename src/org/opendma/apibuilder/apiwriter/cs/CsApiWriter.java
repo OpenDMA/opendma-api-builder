@@ -321,6 +321,17 @@ public class CsApiWriter extends AbstractApiWriter
         csPropertyImplementationFileWriter.createPropertyFile(apiDescription, createCsFile(outputFolder,"OpenDMA.Impl","OdmaProperty"));
     }
 
+    protected OutputStream getListImplementationFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
+    {
+        return createCsFile(baseFolder,"OpenDMA.Impl.Collections",getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()));
+    }
+
+    protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
+    {
+        CsListImplementationFileWriter listImplementationFileWriter = new CsListImplementationFileWriter(this);
+        listImplementationFileWriter.createListFile(scalarTypeDescription, getListImplementationFileStream(baseFolder,scalarTypeDescription));
+    }
+
     //-------------------------------------------------------------------------
     // C L A S S   T E M P L A T E S
     //-------------------------------------------------------------------------

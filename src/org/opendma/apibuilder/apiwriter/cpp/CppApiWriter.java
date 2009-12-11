@@ -339,6 +339,19 @@ public class CppApiWriter extends AbstractApiWriter
         */
     }
 
+    protected OutputStream getListImplementationFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
+    {
+        return createJavaFile(baseFolder,"org.opendma.impl.collections",getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()));
+    }
+
+    protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
+    {
+        /*
+        JavaListFileWriter listFileWriter = new JavaListFileWriter(this);
+        listFileWriter.createListFile(scalarTypeDescription, getListImplementationFileStream(baseFolder,scalarTypeDescription));
+        */
+    }
+
     //-------------------------------------------------------------------------
     // C L A S S   T E M P L A T E S
     //-------------------------------------------------------------------------

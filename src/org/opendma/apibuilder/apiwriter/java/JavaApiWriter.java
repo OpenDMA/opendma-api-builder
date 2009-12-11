@@ -591,6 +591,17 @@ public class JavaApiWriter extends AbstractApiWriter
         javaPropertyImplementationFileWriter.createPropertyFile(apiDescription, createJavaFile(outputFolder,"org.opendma.impl","OdmaPropertyImpl"));
     }
 
+    protected OutputStream getListImplementationFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
+    {
+        return createJavaFile(baseFolder,"org.opendma.impl.collections","Array"+getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()));
+    }
+
+    protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
+    {
+        JavaListImplementationFileWriter listImplementationFileWriter = new JavaListImplementationFileWriter(this);
+        listImplementationFileWriter.createListFile(scalarTypeDescription, getListImplementationFileStream(baseFolder,scalarTypeDescription));
+    }
+
     //-------------------------------------------------------------------------
     // C L A S S   T E M P L A T E S
     //-------------------------------------------------------------------------
