@@ -1,9 +1,11 @@
 package org.opendma.apibuilder.apiwriter.java;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -212,6 +214,9 @@ public class JavaApiWriter extends AbstractApiWriter
         copyStaticClassHelperTemplate("OdmaStaticSystemObject",baseFolder);
         copyStaticClassHelperTemplate("OdmaStaticSystemPropertyInfo",baseFolder);
         copyStaticClassHelperTemplate("OdmaStaticSystemClass",baseFolder);
+        copyStaticClassHelperTemplate("OdmaStaticSystemRepository",baseFolder);
+        copyStaticClassHelperTemplate("OdmaCoreId",baseFolder);
+        copyStaticClassHelperTemplate("OdmaCoreGuid",baseFolder);
         // additionally create static class hierarchy helper files
         List classes = apiDescription.getDescribedClasses();
         // property
@@ -240,7 +245,7 @@ public class JavaApiWriter extends AbstractApiWriter
 
     private void copyStaticClassHelperTemplate(String className, String outputFolder) throws IOException
     {
-        OutputStream to = createJavaFile(outputFolder,"org.opendma.staticclasses",className);
+        OutputStream to = createJavaFile(outputFolder,"org.opendma.impl.core",className);
         InputStream from = getResourceAsStream("/templates/java/statics/"+className+".template");
         streamCopy(from, to);
         from.close();
@@ -250,9 +255,9 @@ public class JavaApiWriter extends AbstractApiWriter
     private void createStaticClassHierarchyHelperProperty(ApiDescription apiDescription, PropertyDescription propertyDescription, String outputFolder) throws IOException
     {
         String propName = propertyDescription.getOdmaName().getName();
-        OutputStream staticPropertyInfoStream = createJavaFile(outputFolder,"org.opendma.staticclasses","OdmaStaticSystemPropertyInfo"+propName);
+        OutputStream staticPropertyInfoStream = createJavaFile(outputFolder,"org.opendma.impl.core","OdmaStaticSystemPropertyInfo"+propName);
         PrintWriter out = new PrintWriter(staticPropertyInfoStream);
-        out.println("package org.opendma.staticclasses;");
+        out.println("package org.opendma.impl.core;");
         out.println("");
         out.println("import org.opendma.OdmaTypes;");
         out.println("import org.opendma.exceptions.OdmaAccessDeniedException;");
@@ -298,9 +303,9 @@ public class JavaApiWriter extends AbstractApiWriter
     protected void createStaticClassHierarchyHelperClass(ClassDescription classDescription, String outputFolder) throws IOException
     {
         String className = classDescription.getOdmaName().getName();
-        OutputStream staticClassStream = createJavaFile(outputFolder,"org.opendma.staticclasses","OdmaStaticSystemClass"+className);
+        OutputStream staticClassStream = createJavaFile(outputFolder,"org.opendma.impl.core","OdmaStaticSystemClass"+className);
         PrintWriter out = new PrintWriter(staticClassStream);
-        out.println("package org.opendma.staticclasses;");
+        out.println("package org.opendma.impl.core;");
         out.println("");
         out.println("import org.opendma.OdmaTypes;");
         out.println("import org.opendma.api.collections.OdmaClassEnumeration;");
@@ -337,9 +342,10 @@ public class JavaApiWriter extends AbstractApiWriter
     
     private void createStaticClassHierarchyHelper(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream staticClassStream = createJavaFile(outputFolder,"org.opendma.staticclasses","OdmaStaticClassHierarchy");
+        OutputStream staticClassStream = createJavaFile(outputFolder,"org.opendma.impl.core","OdmaStaticClassHierarchy");
         PrintWriter out = new PrintWriter(staticClassStream);
-        out.println("package org.opendma.staticclasses;");
+        /*
+        out.println("package org.opendma.impl.core;");
         out.println("");
         out.println("import java.util.HashMap;");
         out.println("import java.util.Iterator;");
@@ -358,6 +364,8 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("");
         out.println("    protected Map classInfos = new HashMap();");
         out.println("");
+        out.println("    protected Map allAvailableObjects = new HashMap();");
+        out.println("");
         out.println("    public OdmaStaticSystemPropertyInfo getPropertyInfo(OdmaQName name)");
         out.println("    {");
         out.println("        return(OdmaStaticSystemPropertyInfo)propertyInfos.get(name);");
@@ -368,6 +376,24 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("        return(OdmaStaticSystemClass)classInfos.get(name);");
         out.println("    }");
         out.println("");
+        out.println("    public OdmaObject getObjectById(KamostoreId id) throws OdmaObjectNotFoundException");
+        out.println("    {");
+        out.println("        OdmaObject o = (OdmaObject)allAvailableObjects.get(id);");
+        out.println("        if(o == null)");
+        out.println("        {");
+        out.println("            throw new OdmaObjectNotFoundException(id);");
+        out.println("        }");
+        out.println("        return o;");
+        out.println("    }");
+        out.println("");
+        */
+        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java/statics/OdmaStaticClassHierarchy.head.template");
+        BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
+        String templateLine = null;
+        while( (templateLine = templareReader.readLine()) != null)
+        {
+            out.println(templateLine);
+        }
         out.println("    public void buildClassHierarchy() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
         out.println("    {");
         out.println("        OdmaArrayListClassEnumeration declaredAspects;");

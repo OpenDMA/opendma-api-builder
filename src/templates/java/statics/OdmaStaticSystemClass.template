@@ -1,4 +1,4 @@
-package org.opendma.staticclasses;
+package org.opendma.impl.core;
 
 import java.util.Iterator;
 

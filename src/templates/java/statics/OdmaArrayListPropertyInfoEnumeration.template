@@ -1,4 +1,4 @@
-package org.opendma.staticclasses;
+package org.opendma.impl.core;
 
 import org.opendma.api.collections.OdmaPropertyInfoEnumeration;
 
