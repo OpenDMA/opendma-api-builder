@@ -32,11 +32,11 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         properties.put(OdmaTypes.PROPERTY_SUBCLASSES,new OdmaPropertyImpl(OdmaTypes.PROPERTY_SUBCLASSES,subClasses,OdmaTypes.TYPE_REFERENCE,true,true));
         if(parent != null)
         {
-            parent.addSubClass(this);
+            parent.registerSubClass(this);
         }
     }
 
-    protected void addSubClass(OdmaClass cls)
+    public void registerSubClass(OdmaClass cls)
     {
         subClasses.add(cls);
     }
