@@ -38,16 +38,20 @@
      * @throws OdmaInvalidDataTypeException
      *             if and only if the Class of the given Object does not match
      *             the data type of this property
-     * 
-     * @throws OdmaAccessDeniedException
-     *             if this property can not be set by the current user
      */
-    public OdmaPropertyImpl(OdmaQName name, Object value, int dataType, boolean multivalue, boolean readonly) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
+    public OdmaPropertyImpl(OdmaQName name, Object value, int dataType, boolean multivalue, boolean readonly) throws OdmaInvalidDataTypeException
     {
         this.name = name;
         this.dataType = dataType;
         this.multivalue = multivalue;
-        setValue(value);
+        try
+        {
+            setValue(value);
+        }
+        catch(OdmaAccessDeniedException e)
+        {
+            throw new OdmaRuntimeException("Implementation error.");
+        }
         this.readonly = readonly;
         this.dirty = false;
     }
