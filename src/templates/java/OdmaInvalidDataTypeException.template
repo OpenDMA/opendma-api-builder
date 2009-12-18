@@ -254,6 +254,18 @@ public class OdmaInvalidDataTypeException extends Exception
         case OdmaTypes.TYPE_CONTENT:
             msgBuffer.append("content");
             break;
+        case OdmaTypes.TYPE_ID:
+            msgBuffer.append("id");
+            break;
+        case OdmaTypes.TYPE_GUID:
+            msgBuffer.append("guid");
+            break;
+        case OdmaTypes.TYPE_QNAME:
+            msgBuffer.append("qname");
+            break;
+        default:
+            msgBuffer.append("<unknown>");
+            break;
         }
         return (msgBuffer.toString());
     }
@@ -315,6 +327,18 @@ public class OdmaInvalidDataTypeException extends Exception
         case OdmaTypes.TYPE_CONTENT:
             msgBuffer.append("content");
             break;
+        case OdmaTypes.TYPE_ID:
+            msgBuffer.append("id");
+            break;
+        case OdmaTypes.TYPE_GUID:
+            msgBuffer.append("guid");
+            break;
+        case OdmaTypes.TYPE_QNAME:
+            msgBuffer.append("qname");
+            break;
+        default:
+            msgBuffer.append("<unknown>");
+            break;
         }
         msgBuffer.append(" but found ");
         if (foundMultivalue)
@@ -359,6 +383,18 @@ public class OdmaInvalidDataTypeException extends Exception
             break;
         case OdmaTypes.TYPE_CONTENT:
             msgBuffer.append("content");
+            break;
+        case OdmaTypes.TYPE_ID:
+            msgBuffer.append("id");
+            break;
+        case OdmaTypes.TYPE_GUID:
+            msgBuffer.append("guid");
+            break;
+        case OdmaTypes.TYPE_QNAME:
+            msgBuffer.append("qname");
+            break;
+        default:
+            msgBuffer.append("<unknown>");
             break;
         }
         return (msgBuffer.toString());
