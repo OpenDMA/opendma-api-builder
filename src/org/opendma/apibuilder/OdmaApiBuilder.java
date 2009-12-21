@@ -39,6 +39,7 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         Element descriptionRootElement = null;
         try
         {
+            System.out.println("Reading description file...");
             descriptionRootElement = readDescriptionFile(descriptionFileName);
         }
         catch (Exception e)
@@ -51,6 +52,7 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         ApiDescription odmaClassHierarchy = null;
         try
         {
+            System.out.println("Building OpenDMA class hierarchy...");
             odmaClassHierarchy = new ApiDescription(descriptionRootElement);
         }
         catch (Exception e)
@@ -62,6 +64,7 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         //-----< STEP 4: validate the class hierarchy >------------------------
         try
         {
+            System.out.println("Validating uniqueness and references...");
             odmaClassHierarchy.checkUniqueness();
             odmaClassHierarchy.checkReferences();
         }
@@ -80,6 +83,7 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
             OdmaApiWriter apiWriter = (OdmaApiWriter)itOdmaApiWriters.next();
             try
             {
+                System.out.println("Writing API...");
                 apiWriter.writeOdmaApi(odmaClassHierarchy, outputFolderRoot);
             }
             catch(Exception e)
