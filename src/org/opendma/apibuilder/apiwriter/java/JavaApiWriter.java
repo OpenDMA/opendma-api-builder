@@ -317,9 +317,9 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("public class OdmaStaticSystemClass"+className+" extends OdmaStaticSystemClass");
         out.println("{");
         out.println("");
-        out.println("    public OdmaStaticSystemClass"+className+"(OdmaStaticSystemClass parent, OdmaClassEnumeration aspects, OdmaPropertyInfoEnumeration declaredProperties) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
+        out.println("    public OdmaStaticSystemClass"+className+"(OdmaStaticSystemClass parent, OdmaClassEnumeration subClasses, OdmaClassEnumeration aspects, OdmaPropertyInfoEnumeration declaredProperties) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
         out.println("    {");
-        out.println("        super(parent);");
+        out.println("        super(parent,subClasses);");
         String constantClassName = "CLASS_" + className.toUpperCase();
         printX(out,"NAME","OdmaTypes."+constantClassName+".getName()","STRING");
         printX(out,"NAMEQUALIFIER","OdmaTypes."+constantClassName+".getQualifier()","STRING");
@@ -398,7 +398,8 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("    {");
         out.println("        OdmaArrayListClassEnumeration declaredAspects;");
         out.println("        OdmaArrayListPropertyInfoEnumeration declaredProperties;");
-        out.println("");
+        out.println("        OdmaStaticSystemClass ssc;");
+       out.println("");
         Iterator itClassDescriptions = apiDescription.getDescribedClasses().iterator();
         HashMap uniquePropMap = new HashMap();
         while(itClassDescriptions.hasNext())
@@ -423,34 +424,39 @@ public class JavaApiWriter extends AbstractApiWriter
             String className = classDescription.getOdmaName().getName();
             String constantClassName = "CLASS_" + className.toUpperCase();
             out.println("");
-            out.println("       declaredAspects = new OdmaArrayListClassEnumeration();");
-            out.println("       declaredProperties = new OdmaArrayListPropertyInfoEnumeration();");
+            out.println("        declaredAspects = new OdmaArrayListClassEnumeration();");
+            out.println("        declaredProperties = new OdmaArrayListPropertyInfoEnumeration();");
             Iterator itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
             while(itPropertyDescriptions.hasNext())
             {
                 PropertyDescription propertyDescription = (PropertyDescription)itPropertyDescriptions.next();
                 String propName = propertyDescription.getOdmaName().getName();
                 String constantPropertyName = "PROPERTY_" + propName.toUpperCase();
-                out.println("       declaredProperties.add(getPropertyInfo(OdmaTypes."+constantPropertyName+"));");
+                out.println("        declaredProperties.add(getPropertyInfo(OdmaTypes."+constantPropertyName+"));");
             }
             String parentClassExpression = (classDescription.getExtendsOdmaName()==null) ? "null" : "getClassInfo(OdmaTypes.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+")";
-            out.println("       classInfos.put(OdmaTypes."+constantClassName+", new OdmaStaticSystemClass"+className+"("+parentClassExpression+",declaredAspects,declaredProperties));");
+            out.println("        ssc = new OdmaStaticSystemClass"+className+"("+parentClassExpression+",getSubClassesEnumeration(OdmaTypes."+constantClassName+"),declaredAspects,declaredProperties);");
+            if(classDescription.getExtendsOdmaName() != null)
+            {
+                out.println("        registerSubClass(OdmaTypes.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+", ssc);");
+            }
+            out.println("        classInfos.put(OdmaTypes."+constantClassName+", ssc);");
         }
         out.println("");
-        out.println("       OdmaClass propertyInfoClass = getClassInfo(OdmaTypes.CLASS_PROPERTYINFO);");
-        out.println("       Iterator itPropertyInfos = propertyInfos.values().iterator();");
-        out.println("       while(itPropertyInfos.hasNext())");
-        out.println("       {");
-        out.println("           OdmaStaticSystemPropertyInfo pi = (OdmaStaticSystemPropertyInfo)itPropertyInfos.next();");
-        out.println("           pi.patchClass(propertyInfoClass);");
-        out.println("       }");
-        out.println("       OdmaClass classClass = getClassInfo(OdmaTypes.CLASS_CLASS);");
-        out.println("       Iterator itClassInfos = classInfos.values().iterator();");
-        out.println("       while(itClassInfos.hasNext())");
-        out.println("       {");
-        out.println("           OdmaStaticSystemClass ci = (OdmaStaticSystemClass)itClassInfos.next();");
-        out.println("           ci.patchClass(classClass);");
-        out.println("       }");
+        out.println("        OdmaClass propertyInfoClass = getClassInfo(OdmaTypes.CLASS_PROPERTYINFO);");
+        out.println("        Iterator itPropertyInfos = propertyInfos.values().iterator();");
+        out.println("        while(itPropertyInfos.hasNext())");
+        out.println("        {");
+        out.println("            OdmaStaticSystemPropertyInfo pi = (OdmaStaticSystemPropertyInfo)itPropertyInfos.next();");
+        out.println("            pi.patchClass(propertyInfoClass);");
+        out.println("        }");
+        out.println("        OdmaClass classClass = getClassInfo(OdmaTypes.CLASS_CLASS);");
+        out.println("        Iterator itClassInfos = classInfos.values().iterator();");
+        out.println("        while(itClassInfos.hasNext())");
+        out.println("        {");
+        out.println("            OdmaStaticSystemClass ci = (OdmaStaticSystemClass)itClassInfos.next();");
+        out.println("            ci.patchClass(classClass);");
+        out.println("        }");
         out.println("");
         itClassDescriptions = apiDescription.getDescribedClasses().iterator();
         uniquePropMap.clear();
@@ -468,7 +474,7 @@ public class JavaApiWriter extends AbstractApiWriter
                 if(uniquePropMap.containsKey(constantPropertyName))
                     continue;
                 uniquePropMap.put(constantPropertyName,Boolean.TRUE);
-                out.println("       getPropertyInfo(OdmaTypes."+constantPropertyName+").patchReferenceClass(getClassInfo(OdmaTypes.CLASS_"+propertyDescription.getReferenceClassName().getName().toUpperCase()+"));");
+                out.println("        getPropertyInfo(OdmaTypes."+constantPropertyName+").patchReferenceClass(getClassInfo(OdmaTypes.CLASS_"+propertyDescription.getReferenceClassName().getName().toUpperCase()+"));");
             }
         }
         out.println("    }");

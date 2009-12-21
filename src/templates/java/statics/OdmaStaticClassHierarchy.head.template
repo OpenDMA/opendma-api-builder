@@ -10,9 +10,11 @@ import org.opendma.api.OdmaGuid;
 import org.opendma.api.OdmaId;
 import org.opendma.api.OdmaObject;
 import org.opendma.api.OdmaQName;
+import org.opendma.api.collections.OdmaClassEnumeration;
 import org.opendma.exceptions.OdmaAccessDeniedException;
 import org.opendma.exceptions.OdmaInvalidDataTypeException;
 import org.opendma.exceptions.OdmaObjectNotFoundException;
+import org.opendma.exceptions.OdmaRuntimeException;
 
 public class OdmaStaticClassHierarchy
 {
@@ -37,7 +39,7 @@ public class OdmaStaticClassHierarchy
 
     public OdmaObject getObjectById(OdmaId id) throws OdmaObjectNotFoundException
     {
-        OdmaObject o = (OdmaObject)allAvailableObjects.get(id);
+        OdmaObject o = (OdmaObject)allAvailableObjects.get(id.toString());
         if(o == null)
         {
             throw new OdmaObjectNotFoundException(id);
@@ -70,17 +72,17 @@ public class OdmaStaticClassHierarchy
         while(itPropertyInfos.hasNext())
         {
             OdmaStaticSystemPropertyInfo pi = (OdmaStaticSystemPropertyInfo)itPropertyInfos.next();
-            allAvailableObjects.put(pi.getId(),pi);
+            allAvailableObjects.put(pi.getId().toString(),pi);
         }
         // all classes
         Iterator itClassInfos = classInfos.values().iterator();
         while(itClassInfos.hasNext())
         {
             OdmaStaticSystemClass ci = (OdmaStaticSystemClass)itClassInfos.next();
-            allAvailableObjects.put(ci.getId(),ci);
+            allAvailableObjects.put(ci.getId().toString(),ci);
         }
         // the repository
-        allAvailableObjects.put(repositoryObject.getId(),repositoryObject);
+        allAvailableObjects.put(repositoryObject.getId().toString(),repositoryObject);
     }
 
     protected void buildRepositoryObject(String name, String displayName, OdmaId id, OdmaGuid guid) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
@@ -98,6 +100,45 @@ public class OdmaStaticClassHierarchy
         {
             OdmaStaticSystemClass ci = (OdmaStaticSystemClass)itClassInfos.next();
             ci.patchRepository(repositoryObject);
+        }
+    }
+    
+    protected HashMap subClassesEnumerations = new HashMap();
+    
+    public OdmaClassEnumeration getSubClassesEnumeration(OdmaQName className)
+    {
+        OdmaClassEnumeration result = (OdmaClassEnumeration)subClassesEnumerations.get(className);
+        if(result != null)
+        {
+            return result;
+        }
+        synchronized(subClassesEnumerations)
+        {
+            result = (OdmaClassEnumeration)subClassesEnumerations.get(className);
+            if(result != null)
+            {
+                return result;
+            }
+            result = new OdmaArrayListClassEnumeration();
+            subClassesEnumerations.put(className,result);
+            return result;
+        }
+    }
+    
+    public void registerSubClass(OdmaQName parentName, OdmaClass subClass)
+    {
+        OdmaQName pn = new OdmaQName(subClass.getParent().getNameQualifier(),subClass.getParent().getName());
+        if(!parentName.equals(pn))
+        {
+            throw new OdmaRuntimeException("Name of parent class does not equal regsitered parent");
+        }
+        OdmaArrayListClassEnumeration subClasses = (OdmaArrayListClassEnumeration)getSubClassesEnumeration(parentName);
+        synchronized(subClasses)
+        {
+            if(!subClasses.contains(subClass))
+            {
+                subClasses.add(subClass);
+            }
         }
     }
 
@@ -121,3 +162,4 @@ public class OdmaStaticClassHierarchy
             ci.patchIds(ciId,ciGuid);
         }
     }
+    

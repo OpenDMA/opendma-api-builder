@@ -25,21 +25,25 @@ import org.opendma.impl.OdmaPropertyImpl;
 public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject implements OdmaClass
 {
 
-    protected OdmaArrayListClassEnumeration subClasses = new OdmaArrayListClassEnumeration();
+    // protected OdmaArrayListClassEnumeration subClasses = new OdmaArrayListClassEnumeration();
 
-    protected OdmaStaticSystemClass(OdmaStaticSystemClass parent) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
+    protected OdmaStaticSystemClass(OdmaStaticSystemClass parent, OdmaClassEnumeration subClasses) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
         properties.put(OdmaTypes.PROPERTY_SUBCLASSES,new OdmaPropertyImpl(OdmaTypes.PROPERTY_SUBCLASSES,subClasses,OdmaTypes.TYPE_REFERENCE,true,true));
+        /*
         if(parent != null)
         {
             parent.registerSubClass(this);
         }
+        */
     }
 
+    /*
     public void registerSubClass(OdmaClass cls)
     {
         subClasses.add(cls);
     }
+    */
 
     protected void buildProperties() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
