@@ -22,8 +22,9 @@ import org.opendma.impl.OdmaPropertyImpl;
 public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implements OdmaRepository
 {
 
-    protected OdmaStaticSystemRepository(String name, String displayName, OdmaId id, OdmaGuid guid, OdmaClass rootClass) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
+    protected OdmaStaticSystemRepository(Map externalProperties, String name, String displayName, OdmaId id, OdmaGuid guid, OdmaClass rootClass) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
+        properties = externalProperties;
         properties.put(OdmaTypes.PROPERTY_NAME,new OdmaPropertyImpl(OdmaTypes.PROPERTY_NAME,name,OdmaTypes.TYPE_STRING,false,true));
         properties.put(OdmaTypes.PROPERTY_DISPLAYNAME,new OdmaPropertyImpl(OdmaTypes.PROPERTY_DISPLAYNAME,displayName,OdmaTypes.TYPE_STRING,false,true));
         properties.put(OdmaTypes.PROPERTY_ROOTCLASS,new OdmaPropertyImpl(OdmaTypes.PROPERTY_ROOTCLASS,rootClass,OdmaTypes.TYPE_REFERENCE,false,true));
