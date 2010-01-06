@@ -28,6 +28,8 @@ public class ClassDescription implements DescriptionFileTypes
     
     protected boolean system;
     
+    protected boolean isabstract;
+    
     /** the full description of this class. Can be null. */
     protected String descriptionComment;
 
@@ -101,6 +103,11 @@ public class ClassDescription implements DescriptionFileTypes
     public boolean getSystem()
     {
         return system;
+    }
+    
+    public boolean getIsAbstract()
+    {
+        return isabstract;
     }
     
     /**
@@ -194,21 +201,27 @@ public class ClassDescription implements DescriptionFileTypes
         String hiddenString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_HIDDEN);
         String systemString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_SYSTEM);
         String instantiableString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_SYSTEM);
+        String abstractString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_ABSTRACT);
         if((hiddenString==null) || (hiddenString.trim().length()==0) )
         {
-            throw new DescriptionFileSyntaxException("Missing hidden of property in class "+odmaName.toString());
+            throw new DescriptionFileSyntaxException("Missing hidden attribute in class "+odmaName.toString());
         }
         if((systemString==null) || (systemString.trim().length()==0) )
         {
-            throw new DescriptionFileSyntaxException("Missing system of property in class "+odmaName.toString());
+            throw new DescriptionFileSyntaxException("Missing system attribute in class "+odmaName.toString());
         }
         if((instantiableString==null) || (instantiableString.trim().length()==0) )
         {
-            throw new DescriptionFileSyntaxException("Missing instantiable of property in class "+odmaName.toString());
+            throw new DescriptionFileSyntaxException("Missing instantiable attribute in class "+odmaName.toString());
+        }
+        if((abstractString==null) || (abstractString.trim().length()==0) )
+        {
+            throw new DescriptionFileSyntaxException("Missing abstract attribute in class "+odmaName.toString());
         }
         hidden = parseBoolean(hiddenString,DESCRIPTION_ATTRIBUTE_HIDDEN);
         system = parseBoolean(systemString,DESCRIPTION_ATTRIBUTE_SYSTEM);
         instantiable = parseBoolean(instantiableString,DESCRIPTION_ATTRIBUTE_SYSTEM);
+        isabstract = parseBoolean(abstractString,DESCRIPTION_ATTRIBUTE_ABSTRACT);
         // iterate through all elements below the <Class> Element
         propertyDescriptions = new ArrayList();
         Element descriptionElement = null;

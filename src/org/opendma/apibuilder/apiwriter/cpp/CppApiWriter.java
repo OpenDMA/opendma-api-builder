@@ -15,6 +15,11 @@ import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
 public class CppApiWriter extends AbstractApiWriter
 {
+
+    public String getName()
+    {
+        return "C++";
+    }
     
     private OutputStream createJavaFile(String outputFolder, String packageName, String className) throws IOException
     {

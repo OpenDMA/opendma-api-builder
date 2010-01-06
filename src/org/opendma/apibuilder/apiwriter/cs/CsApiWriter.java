@@ -19,6 +19,11 @@ import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
 public class CsApiWriter extends AbstractApiWriter
 {
+
+    public String getName()
+    {
+        return "C#";
+    }
     
     /** List of files that need to be compiled by the build file */
     protected List compileFileList = new ArrayList();

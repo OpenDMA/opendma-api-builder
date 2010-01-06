@@ -83,7 +83,7 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
             OdmaApiWriter apiWriter = (OdmaApiWriter)itOdmaApiWriters.next();
             try
             {
-                System.out.println("Writing API...");
+                System.out.println("Writing "+apiWriter.getName()+" API...");
                 apiWriter.writeOdmaApi(odmaClassHierarchy, outputFolderRoot);
             }
             catch(Exception e)

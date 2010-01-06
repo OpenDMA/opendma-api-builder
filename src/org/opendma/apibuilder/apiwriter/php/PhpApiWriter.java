@@ -15,6 +15,11 @@ import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
 public class PhpApiWriter extends AbstractApiWriter
 {
+
+    public String getName()
+    {
+        return "PHP";
+    }
     
     private OutputStream createPhpFile(String outputFolder, String packageName, String className) throws IOException
     {
