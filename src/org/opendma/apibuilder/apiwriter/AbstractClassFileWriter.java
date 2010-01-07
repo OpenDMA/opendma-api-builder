@@ -36,7 +36,7 @@ public abstract class AbstractClassFileWriter
         // collect required imports
         ArrayList requiredImports = new ArrayList();
         appendRequiredImportsGlobal(classDescription,requiredImports);
-        if(classDescription.getExtendsOdmaName() == null)
+        if( (!classDescription.getAspect()) && (classDescription.getExtendsOdmaName() == null) )
         {
             appendRequiredImportsGenericPropertyAccess(requiredImports);
         }
@@ -50,7 +50,7 @@ public abstract class AbstractClassFileWriter
         // write Header
         writeClassFileHeader(classDescription,requiredImports,out);
         // write section for generic property access (if required)
-        if(classDescription.getExtendsOdmaName() == null)
+        if( (!classDescription.getAspect()) && (classDescription.getExtendsOdmaName() == null) )
         {
             writeClassGenericPropertyAccess(classDescription,out);
         }

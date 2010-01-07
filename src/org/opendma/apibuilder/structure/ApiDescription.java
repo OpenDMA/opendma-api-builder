@@ -271,6 +271,12 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
                 {
                     throw new DescriptionFileSemanticException("The class "+classDescription.getOdmaName()+" extends the class "+extendsName+" that does not exist in the description file");
                 }
+                boolean thisAspect = classDescription.getAspect();
+                boolean extendsAspect = getDescribedClass(extendsName).getAspect();
+                if(thisAspect != extendsAspect)
+                {
+                    throw new DescriptionFileSemanticException("The "+(thisAspect?"aspect":"class")+" "+classDescription.getOdmaName()+" must only extend another "+(thisAspect?"aspect":"class")+", but it extends a "+(extendsAspect?"aspect":"class"));
+                }
             }
         }
         //-----< check all reference properties >------------------------------

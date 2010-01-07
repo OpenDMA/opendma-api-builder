@@ -55,6 +55,15 @@ public class JavaClassTemplateFileWriter extends AbstractClassFileWriter
             out.println("public class "+classDescription.getApiName()+"Template implements "+classDescription.getApiName());
         }
         out.println("{");
+        if(classDescription.getAspect())
+        {
+            out.println("");
+            out.println("    public OdmaProperty getProperty(OdmaQName propertyName) throws OdmaObjectNotFoundException");
+            out.println("    {");
+            out.println("        // TODO: implement me");
+            out.println("        return null;");
+            out.println("    }");
+        }
     }
 
     protected void writeClassFileFooter(ClassDescription classDescription, PrintWriter out)
@@ -89,6 +98,17 @@ public class JavaClassTemplateFileWriter extends AbstractClassFileWriter
         if(!requiredImports.contains(reqImp))
         {
             requiredImports.add(reqImp);
+        }
+        if(classDescription.getAspect())
+        {
+            if(!requiredImports.contains("org.opendma.api.OdmaProperty"))
+            {
+                requiredImports.add("org.opendma.api.OdmaProperty");
+            }
+            if(!requiredImports.contains("org.opendma.api.OdmaQName"))
+            {
+                requiredImports.add("org.opendma.api.OdmaQName");
+            }
         }
     }
 

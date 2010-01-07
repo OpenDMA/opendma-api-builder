@@ -58,6 +58,9 @@ public class JavaListImplementationFileWriter extends AbstractListFileWriter
         out.println(" */");
         out.println("public class Array"+interfaceName+" extends ArrayList implements "+interfaceName);
         out.println("{");
+        out.println("");
+        out.println("    /** serial version ID */");
+        out.println("    private static final long serialVersionUID = -3190299231469094574L;");
     }
 
     protected void writeListFileMethods(ScalarTypeDescription scalarTypeDescription, PrintWriter out)

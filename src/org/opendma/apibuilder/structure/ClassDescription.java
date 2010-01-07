@@ -28,7 +28,7 @@ public class ClassDescription implements DescriptionFileTypes
     
     protected boolean system;
     
-    protected boolean isabstract;
+    protected boolean aspect;
     
     /** the full description of this class. Can be null. */
     protected String descriptionComment;
@@ -105,9 +105,9 @@ public class ClassDescription implements DescriptionFileTypes
         return system;
     }
     
-    public boolean getIsAbstract()
+    public boolean getAspect()
     {
-        return isabstract;
+        return aspect;
     }
     
     /**
@@ -201,7 +201,7 @@ public class ClassDescription implements DescriptionFileTypes
         String hiddenString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_HIDDEN);
         String systemString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_SYSTEM);
         String instantiableString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_SYSTEM);
-        String abstractString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_ABSTRACT);
+        String aspectString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_ASPECT);
         if((hiddenString==null) || (hiddenString.trim().length()==0) )
         {
             throw new DescriptionFileSyntaxException("Missing hidden attribute in class "+odmaName.toString());
@@ -214,14 +214,14 @@ public class ClassDescription implements DescriptionFileTypes
         {
             throw new DescriptionFileSyntaxException("Missing instantiable attribute in class "+odmaName.toString());
         }
-        if((abstractString==null) || (abstractString.trim().length()==0) )
+        if((aspectString==null) || (aspectString.trim().length()==0) )
         {
-            throw new DescriptionFileSyntaxException("Missing abstract attribute in class "+odmaName.toString());
+            throw new DescriptionFileSyntaxException("Missing aspect attribute in class "+odmaName.toString());
         }
         hidden = parseBoolean(hiddenString,DESCRIPTION_ATTRIBUTE_HIDDEN);
         system = parseBoolean(systemString,DESCRIPTION_ATTRIBUTE_SYSTEM);
         instantiable = parseBoolean(instantiableString,DESCRIPTION_ATTRIBUTE_SYSTEM);
-        isabstract = parseBoolean(abstractString,DESCRIPTION_ATTRIBUTE_ABSTRACT);
+        aspect = parseBoolean(aspectString,DESCRIPTION_ATTRIBUTE_ASPECT);
         // iterate through all elements below the <Class> Element
         propertyDescriptions = new ArrayList();
         Element descriptionElement = null;

@@ -34,7 +34,7 @@
     </ScalarTypes>
 
 
-    <Class qualifier="opendma.org" name="Object" apiName="OdmaObject" instantiable="false" hidden="false" system="true">
+    <Class qualifier="opendma.org" name="Object" apiName="OdmaObject" aspect="false" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
@@ -97,7 +97,7 @@
     </Class>
 
 
-    <Class qualifier="opendma.org" name="Class" apiName="OdmaClass" extendsQualifier="opendma.org" extendsName="Object" instantiable="false" hidden="false" system="true">
+    <Class qualifier="opendma.org" name="Class" apiName="OdmaClass" extendsQualifier="opendma.org" extendsName="Object" aspect="false" instantiable="false" hidden="false" system="true">
 
         <Description>The &lt;i&gt;Class&lt;/i&gt; specific version of the &lt;code&gt;{@link OdmaObject}&lt;/code&gt; interface that offers short cuts to all defined OpenDMA properties.</Description>
 
@@ -270,7 +270,7 @@
     </Class>
 
 
-    <Class qualifier="opendma.org" name="PropertyInfo" apiName="OdmaPropertyInfo" extendsQualifier="opendma.org" extendsName="Object" instantiable="false" hidden="false" system="true">
+    <Class qualifier="opendma.org" name="PropertyInfo" apiName="OdmaPropertyInfo" extendsQualifier="opendma.org" extendsName="Object" aspect="false" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
@@ -409,7 +409,7 @@
     </Class>
 
 
-    <Class qualifier="opendma.org" name="Repository" apiName="OdmaRepository" extendsQualifier="opendma.org" extendsName="Object" instantiable="false" hidden="false" system="true">
+    <Class qualifier="opendma.org" name="Repository" apiName="OdmaRepository" extendsQualifier="opendma.org" extendsName="Object" aspect="false" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
@@ -472,7 +472,7 @@
     </Class>
 
 
-    <Class qualifier="opendma.org" name="Association" apiName="OdmaAssociation" extendsQualifier="opendma.org" extendsName="Object" instantiable="false" hidden="false" system="true">
+    <Class qualifier="opendma.org" name="Association" apiName="OdmaAssociation" aspect="true" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
@@ -574,7 +574,7 @@
     </Class>
 
 
-    <Class qualifier="opendma.org" name="ContentElement" apiName="OdmaContentElement" extendsQualifier="opendma.org" extendsName="Object" instantiable="false" hidden="false" system="true">
+    <Class qualifier="opendma.org" name="ContentElement" apiName="OdmaContentElement" aspect="true" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
@@ -633,7 +633,7 @@
     </Class>
 
 
-    <Class qualifier="opendma.org" name="Document" apiName="OdmaDocument" extendsQualifier="opendma.org" extendsName="Object" instantiable="false" hidden="false" system="true">
+    <Class qualifier="opendma.org" name="Document" apiName="OdmaDocument" aspect="true" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
@@ -826,7 +826,7 @@
     </Class>
 
 
-    <Class qualifier="opendma.org" name="Folder" apiName="OdmaFolder" extendsQualifier="opendma.org" extendsName="Object" instantiable="false" hidden="false" system="true">
+    <Class qualifier="opendma.org" name="Folder" apiName="OdmaFolder" aspect="true" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
