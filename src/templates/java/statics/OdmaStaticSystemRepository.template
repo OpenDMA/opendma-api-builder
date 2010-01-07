@@ -1,5 +1,7 @@
 package org.opendma.impl.core;
 
+import java.util.Map;
+
 import org.opendma.OdmaTypes;
 import org.opendma.api.OdmaClass;
 import org.opendma.api.OdmaFolder;
