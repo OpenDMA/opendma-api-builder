@@ -156,6 +156,11 @@ public class OdmaStaticClassHierarchy
             }
         }
     }
+    
+    public OdmaArrayListClassEnumeration getRootAspects()
+    {
+        return rootAspects;
+    }
 
     public void updateRepositoryObject(Map properties)
     {
