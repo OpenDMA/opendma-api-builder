@@ -143,6 +143,19 @@ public class OdmaStaticClassHierarchy
             }
         }
     }
+    
+    protected OdmaArrayListClassEnumeration rootAspects = new OdmaArrayListClassEnumeration();
+    
+    public void registerRootAspect(OdmaClass aspect)
+    {
+        synchronized(rootAspects)
+        {
+            if(!rootAspects.contains(aspect))
+            {
+                rootAspects.add(aspect);
+            }
+        }
+    }
 
     public void updateRepositoryObject(Map properties)
     {
