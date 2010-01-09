@@ -89,7 +89,7 @@ public class OdmaStaticClassHierarchy
 
     protected void buildRepositoryObject(String name, String displayName, OdmaId id, OdmaGuid guid) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
-        repositoryObject = new OdmaStaticSystemRepository(repositoryObjectProperties,name,displayName,id,guid,getClassInfo(OdmaTypes.CLASS_OBJECT));
+        repositoryObject = new OdmaStaticSystemRepository(repositoryObjectProperties,name,displayName,id,guid,getClassInfo(OdmaTypes.CLASS_OBJECT),rootAspects);
         repositoryObject.patchClass(getClassInfo(OdmaTypes.CLASS_REPOSITORY));
         Iterator itPropertyInfos = propertyInfos.values().iterator();
         while(itPropertyInfos.hasNext())
@@ -160,6 +160,47 @@ public class OdmaStaticClassHierarchy
     public OdmaArrayListClassEnumeration getRootAspects()
     {
         return rootAspects;
+    }
+    
+    public boolean isOrIsAncestorOf(OdmaClass c, OdmaQName testAgainst)
+    {
+        OdmaClass test = c;
+        HashMap noLoopTest = new HashMap();
+        while(test != null)
+        {
+            noLoopTest.put(test.getQName(),Boolean.TRUE);
+            if(test.getQName().equals(testAgainst))
+            {
+                return true;
+            }
+            test = test.getParent();
+            if((test != null)&&(noLoopTest.containsKey(test.getQName())))
+            {
+                throw new OdmaRuntimeException("Loop in class hierarchy of "+c.getQName());
+            }
+        }
+        return false;
+    }
+    
+    public boolean isOrIsExtending(OdmaClass c, OdmaQName testAgainst)
+    {
+        // test parent relationsship
+        if(isOrIsAncestorOf(c,testAgainst))
+        {
+            return true;
+        }
+        // test aspects
+        OdmaClassEnumeration aspects = c.getAspects();
+        Iterator itAspects = aspects.iterator();
+        while(itAspects.hasNext())
+        {
+            OdmaClass aspect = (OdmaClass)itAspects.next();
+            if(isOrIsAncestorOf(aspect,testAgainst))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void updateRepositoryObject(Map properties)

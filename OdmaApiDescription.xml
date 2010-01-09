@@ -455,6 +455,21 @@
         </Property>
 
         <Property qualifier="opendma.org"
+                  name="RootAspects"
+                  apiName="RootAspects"
+                  readOnly="true"
+                  required="false"
+                  dataType="reference"
+                  multiValue="true"
+                  hidden="false"
+                  system="true"
+                  referenceQualifier="opendma.org"
+                  referenceName="Class">
+            <Abstract>the list of &lt;code&gt;Class&lt;/code&gt;es that represent an &lt;i&gt;Aspect&lt;/i&gt; and that do not inherit another aspect</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property qualifier="opendma.org"
                   name="RootFolder"
                   apiName="RootFolder"
                   readOnly="true"

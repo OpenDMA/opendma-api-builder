@@ -8,6 +8,7 @@ import org.opendma.api.OdmaFolder;
 import org.opendma.api.OdmaGuid;
 import org.opendma.api.OdmaId;
 import org.opendma.api.OdmaRepository;
+import org.opendma.api.collections.OdmaClassEnumeration;
 import org.opendma.exceptions.OdmaAccessDeniedException;
 import org.opendma.exceptions.OdmaInvalidDataTypeException;
 import org.opendma.exceptions.OdmaObjectNotFoundException;
@@ -24,12 +25,13 @@ import org.opendma.impl.OdmaPropertyImpl;
 public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implements OdmaRepository
 {
 
-    protected OdmaStaticSystemRepository(Map externalProperties, String name, String displayName, OdmaId id, OdmaGuid guid, OdmaClass rootClass) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
+    protected OdmaStaticSystemRepository(Map externalProperties, String name, String displayName, OdmaId id, OdmaGuid guid, OdmaClass rootClass, OdmaClassEnumeration rootAspects) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
         properties = externalProperties;
         properties.put(OdmaTypes.PROPERTY_NAME,new OdmaPropertyImpl(OdmaTypes.PROPERTY_NAME,name,OdmaTypes.TYPE_STRING,false,true));
         properties.put(OdmaTypes.PROPERTY_DISPLAYNAME,new OdmaPropertyImpl(OdmaTypes.PROPERTY_DISPLAYNAME,displayName,OdmaTypes.TYPE_STRING,false,true));
         properties.put(OdmaTypes.PROPERTY_ROOTCLASS,new OdmaPropertyImpl(OdmaTypes.PROPERTY_ROOTCLASS,rootClass,OdmaTypes.TYPE_REFERENCE,false,true));
+        properties.put(OdmaTypes.PROPERTY_ROOTASPECTS,new OdmaPropertyImpl(OdmaTypes.PROPERTY_ROOTASPECTS,rootAspects,OdmaTypes.TYPE_REFERENCE,true,true));
         properties.put(OdmaTypes.PROPERTY_ROOTFOLDER,new OdmaPropertyImpl(OdmaTypes.PROPERTY_ROOTFOLDER,null,OdmaTypes.TYPE_REFERENCE,false,true));
         properties.put(OdmaTypes.PROPERTY_ID,new OdmaPropertyImpl(OdmaTypes.PROPERTY_ID,id,OdmaTypes.TYPE_ID,false,true));
         properties.put(OdmaTypes.PROPERTY_GUID,new OdmaPropertyImpl(OdmaTypes.PROPERTY_GUID,guid,OdmaTypes.TYPE_GUID,false,true));
@@ -156,6 +158,35 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
         try
         {
             return (OdmaClass)getProperty(OdmaTypes.PROPERTY_ROOTCLASS).getReference();
+        }
+        catch(ClassCastException cce)
+        {
+            throw new OdmaRuntimeException("Invalid data type of system property",cce);
+        }
+        catch(OdmaInvalidDataTypeException oidte)
+        {
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
+        }
+        catch(OdmaObjectNotFoundException oonfe)
+        {
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
+        }
+    }
+
+    /**
+     * Returns the list of <code>Class</code>es that represent an <i>Aspect</i> and that do not inherit another aspect.<br>
+     * 
+     * <p>Property <b>RootAspects</b> (opendma.org): <b>Reference to Class (opendma.org)</b><br>
+     * [MultiValue] [ReadOnly] [Nullable]<br>
+     * Full description follows.</p>
+     * 
+     * @return the list of <code>Class</code>es that represent an <i>Aspect</i> and that do not inherit another aspect
+     */
+    public OdmaClassEnumeration getRootAspects()
+    {
+        try
+        {
+            return (OdmaClassEnumeration)getProperty(OdmaTypes.PROPERTY_ROOTASPECTS).getReferenceEnumeration();
         }
         catch(ClassCastException cce)
         {
