@@ -59,6 +59,11 @@ public class OdmaStaticClassHierarchy
         return classInfos;
     }
     
+    public Map getRepositoryObjectProperties()
+    {
+        return repositoryObjectProperties;
+    }
+    
     public OdmaStaticClassHierarchy(String repoName, String repoDisplayName, OdmaId repoId, OdmaGuid repoGuid) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
         buildClassHierarchy();
@@ -129,8 +134,7 @@ public class OdmaStaticClassHierarchy
     
     public void registerSubClass(OdmaQName parentName, OdmaClass subClass)
     {
-        OdmaQName pn = new OdmaQName(subClass.getParent().getNameQualifier(),subClass.getParent().getName());
-        if(!parentName.equals(pn))
+        if(!parentName.equals(subClass.getParent().getQName()))
         {
             throw new OdmaRuntimeException("Name of parent class does not equal regsitered parent");
         }
@@ -140,6 +144,18 @@ public class OdmaStaticClassHierarchy
             if(!subClasses.contains(subClass))
             {
                 subClasses.add(subClass);
+            }
+        }
+    }
+    
+    public void registerAspectUsage(OdmaQName aspectName, OdmaClass usingClass)
+    {
+        OdmaArrayListClassEnumeration subClasses = (OdmaArrayListClassEnumeration)getSubClassesEnumeration(aspectName);
+        synchronized(subClasses)
+        {
+            if(!subClasses.contains(usingClass))
+            {
+                subClasses.add(usingClass);
             }
         }
     }
@@ -205,14 +221,19 @@ public class OdmaStaticClassHierarchy
 
     public void updateRepositoryObject(Map properties)
     {
+        // remove id from map
+        allAvailableObjects.remove(repositoryObject.getId().toString());
         // copy all system values that must not be changed
         properties.put(OdmaTypes.PROPERTY_ID, repositoryObjectProperties.get(OdmaTypes.PROPERTY_ID));
         properties.put(OdmaTypes.PROPERTY_GUID, repositoryObjectProperties.get(OdmaTypes.PROPERTY_GUID));
         properties.put(OdmaTypes.PROPERTY_REPOSITORY, repositoryObjectProperties.get(OdmaTypes.PROPERTY_REPOSITORY));
         properties.put(OdmaTypes.PROPERTY_ROOTCLASS, repositoryObjectProperties.get(OdmaTypes.PROPERTY_ROOTCLASS));
+        properties.put(OdmaTypes.PROPERTY_ROOTASPECTS, repositoryObjectProperties.get(OdmaTypes.PROPERTY_ROOTASPECTS));
         // replace properties
         repositoryObjectProperties.clear();
         repositoryObjectProperties.putAll(properties);
+        // put back in map
+        allAvailableObjects.put(repositoryObject.getId().toString(),repositoryObject);
     }
 
     protected void generateIds() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
