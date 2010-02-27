@@ -1,0 +1,25 @@
+#ifndef _OdmaAccessDeniedException_h_
+#define _OdmaAccessDeniedException_h_
+
+/**
+ * Description follows.
+ * 
+ * \author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ */
+class OdmaAccessDeniedException
+{
+
+private:
+
+public:
+
+    /**
+     * Create a new <code>OdmaAccessDeniedException</code>.
+     */
+    OdmaAccessDeniedException()
+    {
+    }
+
+}
+
+#endif

@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * Description follows
+ * 
+ * @category   OpenDMA
+ * @package    OpenDMA_Exceptions
+ * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ */
+class OpenDMA_Exceptions_OdmaAccessDeniedException extends Exception
+{
+}
