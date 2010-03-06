@@ -349,49 +349,6 @@ public class JavaApiWriter extends AbstractApiWriter
     {
         OutputStream staticClassStream = createJavaFile(outputFolder,"org.opendma.impl.core","OdmaStaticClassHierarchy");
         PrintWriter out = new PrintWriter(staticClassStream);
-        /*
-        out.println("package org.opendma.impl.core;");
-        out.println("");
-        out.println("import java.util.HashMap;");
-        out.println("import java.util.Iterator;");
-        out.println("import java.util.Map;");
-        out.println("");
-        out.println("import org.opendma.OdmaTypes;");
-        out.println("import org.opendma.api.OdmaClass;");
-        out.println("import org.opendma.api.OdmaQName;");
-        out.println("import org.opendma.exceptions.OdmaAccessDeniedException;");
-        out.println("import org.opendma.exceptions.OdmaInvalidDataTypeException;");
-        out.println("");
-        out.println("public class OdmaStaticClassHierarchy");
-        out.println("{");
-        out.println("");
-        out.println("    protected Map propertyInfos = new HashMap();");
-        out.println("");
-        out.println("    protected Map classInfos = new HashMap();");
-        out.println("");
-        out.println("    protected Map allAvailableObjects = new HashMap();");
-        out.println("");
-        out.println("    public OdmaStaticSystemPropertyInfo getPropertyInfo(OdmaQName name)");
-        out.println("    {");
-        out.println("        return(OdmaStaticSystemPropertyInfo)propertyInfos.get(name);");
-        out.println("    }");
-        out.println("");
-        out.println("    public OdmaStaticSystemClass getClassInfo(OdmaQName name)");
-        out.println("    {");
-        out.println("        return(OdmaStaticSystemClass)classInfos.get(name);");
-        out.println("    }");
-        out.println("");
-        out.println("    public OdmaObject getObjectById(KamostoreId id) throws OdmaObjectNotFoundException");
-        out.println("    {");
-        out.println("        OdmaObject o = (OdmaObject)allAvailableObjects.get(id);");
-        out.println("        if(o == null)");
-        out.println("        {");
-        out.println("            throw new OdmaObjectNotFoundException(id);");
-        out.println("        }");
-        out.println("        return o;");
-        out.println("    }");
-        out.println("");
-        */
         InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java/statics/OdmaStaticClassHierarchy.head.template");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
@@ -444,6 +401,14 @@ public class JavaApiWriter extends AbstractApiWriter
             if(classDescription.getExtendsOdmaName() != null)
             {
                 out.println("        registerSubClass(OdmaTypes.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+", ssc);");
+            }
+            else
+            {
+                // only register root aspects
+                if(classDescription.getAspect())
+                {
+                    out.println("        registerRootAspect(ssc);");
+                }
             }
             out.println("        classInfos.put(OdmaTypes."+constantClassName+", ssc);");
         }
