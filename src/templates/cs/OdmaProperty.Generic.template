@@ -78,6 +78,14 @@
         }
 
         /// <summary>
+        /// Mark this property as dirty meaning that the value has been changed and not yet persisted.
+        /// </summary>
+        public setDirty()
+        {
+            dirty = true;
+        }
+
+        /// <summary>
         /// Returns <c>true</c> if and only if this property must not be changed.
         /// </summary>
         /// <returns>Returns <c>true</c> if and only if this property must not be changed.</returns>

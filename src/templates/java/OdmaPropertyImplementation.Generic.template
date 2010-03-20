@@ -105,6 +105,14 @@
     }
 
     /**
+     * Mark this property as dirty meaning that the value has been changed and not yet persisted.
+     */
+    public void setDirty()
+    {
+        dirty = true;
+    }
+
+    /**
      * Returns <code>true</code> if and only if this property is a multi value property.
      * 
      * @return <code>true</code> if and only if this property is a multi value property.

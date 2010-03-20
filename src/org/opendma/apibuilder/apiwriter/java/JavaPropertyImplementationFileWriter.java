@@ -94,6 +94,7 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         out.println("        {");
         writeGenericSectionSwitch(apiDescription,out,false);
         out.println("        }");
+        out.println("        dirty = true;");
         out.println("    }");
     }
 
