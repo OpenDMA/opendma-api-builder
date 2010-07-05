@@ -216,9 +216,13 @@ public class JavaApiWriter extends AbstractApiWriter
         copyStaticClassHelperTemplate("OdmaArrayListClassEnumeration",baseFolder);
         copyStaticClassHelperTemplate("OdmaArrayListObjectEnumeration",baseFolder);
         copyStaticClassHelperTemplate("OdmaArrayListPropertyInfoEnumeration",baseFolder);
+        // CHECKTEMPLATE: OdmaObjectTemplate
         copyStaticClassHelperTemplate("OdmaStaticSystemObject",baseFolder);
+        // CHECKTEMPLATE: OdmaPropertyInfoTemplate
         copyStaticClassHelperTemplate("OdmaStaticSystemPropertyInfo",baseFolder);
+        // CHECKTEMPLATE: OdmaClassTemplate
         copyStaticClassHelperTemplate("OdmaStaticSystemClass",baseFolder);
+        // CHECKTEMPLATE: OdmaRepositoryTemplate
         copyStaticClassHelperTemplate("OdmaStaticSystemRepository",baseFolder);
         copyStaticClassHelperTemplate("OdmaCoreId",baseFolder);
         copyStaticClassHelperTemplate("OdmaCoreGuid",baseFolder);
@@ -242,7 +246,7 @@ public class JavaApiWriter extends AbstractApiWriter
         while(itClasses.hasNext())
         {
             ClassDescription classDescription = (ClassDescription)itClasses.next();
-            createStaticClassHierarchyHelperClass(classDescription,baseFolder);
+            createStaticClassHierarchyHelperClass(apiDescription,classDescription,baseFolder);
         }
         // hierarchy
         createStaticClassHierarchyHelper(apiDescription,baseFolder);
@@ -257,7 +261,7 @@ public class JavaApiWriter extends AbstractApiWriter
         to.close();
     }
 
-    private void createStaticClassHierarchyHelperProperty(ApiDescription apiDescription, PropertyDescription propertyDescription, String outputFolder) throws IOException
+    private void createStaticClassHierarchyHelperProperty(ApiDescription apiDescription, PropertyDescription propertyDescription, String outputFolder) throws IOException, ApiWriterException
     {
         String propName = propertyDescription.getOdmaName().getName();
         OutputStream staticPropertyInfoStream = createJavaFile(outputFolder,"org.opendma.impl.core","OdmaStaticSystemPropertyInfo"+propName);
@@ -274,20 +278,13 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("");
         out.println("    public OdmaStaticSystemPropertyInfo"+propName+"() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
         out.println("    {");
-        String constantPropertyName = "PROPERTY_" + propName.toUpperCase();
-        ScalarTypeDescription scalarTypeDescription = apiDescription.getScalarTypeDescription(propertyDescription.getDataType());
-        String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
-        printX(out,"NAME","OdmaTypes."+constantPropertyName+".getName()","STRING");
-        printX(out,"NAMEQUALIFIER","OdmaTypes."+constantPropertyName+".getQualifier()","STRING");
-        printX(out,"QNAME","OdmaTypes."+constantPropertyName,"QNAME");
-        printX(out,"DISPLAYNAME","OdmaTypes."+constantPropertyName+".getName()","STRING");
-        printX(out,"DATATYPE","new Integer(OdmaTypes."+constantScalarTypeName+")","INTEGER");
-        printX(out,"REFERENCECLASS","null","REFERENCE");
-        printX(out,"MULTIVALUE",(propertyDescription.getMultiValue()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-        printX(out,"REQUIRED",(propertyDescription.getRequired()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-        printX(out,"READONLY",(propertyDescription.isReadOnly()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-        printX(out,"HIDDEN",(propertyDescription.getHidden()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-        printX(out,"SYSTEM",(propertyDescription.getSystem()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        // iterate through all properties defined in the propertyInfo class
+        Iterator itDeclaredPropertyInfoProperties = apiDescription.getPropertyInfoClass().getPropertyDescriptions().iterator();
+        while(itDeclaredPropertyInfoProperties.hasNext())
+        {
+            PropertyDescription pd = (PropertyDescription)itDeclaredPropertyInfoProperties.next();
+            printPropertyInfoSystemProperty(out,apiDescription,propertyDescription,pd);
+        }
         out.println("    }");
         out.println("");
         out.println("}");
@@ -296,6 +293,62 @@ public class JavaApiWriter extends AbstractApiWriter
         staticPropertyInfoStream.close();
     }
     
+    private void printPropertyInfoSystemProperty(PrintWriter out, ApiDescription apiDescription, PropertyDescription propertyDescription, PropertyDescription pd) throws IOException, ApiWriterException
+    {
+        String pn = pd.getOdmaName().getName().toUpperCase();
+        String constantPropertyName = "PROPERTY_" + propertyDescription.getOdmaName().getName().toUpperCase();
+        if(pn.equals("NAME"))
+        {
+            printX(out,"NAME","OdmaTypes."+constantPropertyName+".getName()","STRING");
+        }
+        else if(pn.equals("NAMEQUALIFIER"))
+        {
+            printX(out,"NAMEQUALIFIER","OdmaTypes."+constantPropertyName+".getQualifier()","STRING");
+        }
+        else if(pn.equals("QNAME"))
+        {
+            printX(out,"QNAME","OdmaTypes."+constantPropertyName,"QNAME");
+        }
+        else if(pn.equals("DISPLAYNAME"))
+        {
+            printX(out,"DISPLAYNAME","OdmaTypes."+constantPropertyName+".getName()","STRING");
+        }
+        else if(pn.equals("DATATYPE"))
+        {
+            ScalarTypeDescription scalarTypeDescription = apiDescription.getScalarTypeDescription(propertyDescription.getDataType());
+            String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
+            printX(out,"DATATYPE","new Integer(OdmaTypes."+constantScalarTypeName+")","INTEGER");
+        }
+        else if(pn.equals("REFERENCECLASS"))
+        {
+            printX(out,"REFERENCECLASS","null","REFERENCE");
+        }
+        else if(pn.equals("MULTIVALUE"))
+        {
+            printX(out,"MULTIVALUE",(propertyDescription.getMultiValue()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else if(pn.equals("REQUIRED"))
+        {
+            printX(out,"REQUIRED",(propertyDescription.getRequired()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else if(pn.equals("READONLY"))
+        {
+            printX(out,"READONLY",(propertyDescription.isReadOnly()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else if(pn.equals("HIDDEN"))
+        {
+            printX(out,"HIDDEN",(propertyDescription.getHidden()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else if(pn.equals("SYSTEM"))
+        {
+            printX(out,"SYSTEM",(propertyDescription.getSystem()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else
+        {
+            throw new ApiWriterException("The PropertyInfo class declares a property ("+pd.getOdmaName()+") that has been unknown when this ApiWriter has been implemented. Thus this version of the ApiWriter does not know how to create the static content of this PropertyInfo property for the predefined system classes. Please extend the if/else block in the ApiWriter that threw this Exception.");
+        }
+    }
+
     private void printX(PrintWriter out, String propertyNameConstant, String value, String typeConstantName)
     {
         out.println("        properties.put(OdmaTypes.PROPERTY_"+propertyNameConstant+",new OdmaPropertyImpl(OdmaTypes.PROPERTY_"+propertyNameConstant+","+value+",OdmaTypes.TYPE_"+typeConstantName+",false,true));");        
@@ -306,7 +359,7 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("        properties.put(OdmaTypes.PROPERTY_"+propertyNameConstant+",new OdmaPropertyImpl(OdmaTypes.PROPERTY_"+propertyNameConstant+","+value+",OdmaTypes.TYPE_"+typeConstantName+",true,true));");        
     }
 
-    protected void createStaticClassHierarchyHelperClass(ClassDescription classDescription, String outputFolder) throws IOException
+    protected void createStaticClassHierarchyHelperClass(ApiDescription apiDescription, ClassDescription classDescription, String outputFolder) throws IOException, ApiWriterException
     {
         String className = classDescription.getOdmaName().getName();
         OutputStream staticClassStream = createJavaFile(outputFolder,"org.opendma.impl.core","OdmaStaticSystemClass"+className);
@@ -326,17 +379,13 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("    public OdmaStaticSystemClass"+className+"(OdmaStaticSystemClass parent, OdmaClassEnumeration subClasses, OdmaClassEnumeration aspects, OdmaPropertyInfoEnumeration declaredProperties) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
         out.println("    {");
         out.println("        super(parent,subClasses);");
-        String constantClassName = "CLASS_" + className.toUpperCase();
-        printX(out,"NAME","OdmaTypes."+constantClassName+".getName()","STRING");
-        printX(out,"NAMEQUALIFIER","OdmaTypes."+constantClassName+".getQualifier()","STRING");
-        printX(out,"QNAME","OdmaTypes."+constantClassName,"QNAME");
-        printX(out,"DISPLAYNAME","OdmaTypes."+constantClassName+".getName()","STRING");
-        printX(out,"PARENT","parent","REFERENCE");
-        printX2(out,"ASPECTS","aspects","REFERENCE");
-        printX2(out,"DECLAREDPROPERTIES","declaredProperties","REFERENCE");
-        printX(out,"INSTANTIABLE",(classDescription.getInstantiable()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-        printX(out,"HIDDEN",(classDescription.getHidden()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-        printX(out,"SYSTEM",(classDescription.getSystem()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        // iterate through all properties defined in the propertyInfo class
+        Iterator itDeclaredClassProperties = apiDescription.getClassClass().getPropertyDescriptions().iterator();
+        while(itDeclaredClassProperties.hasNext())
+        {
+            PropertyDescription pd = (PropertyDescription)itDeclaredClassProperties.next();
+            printClassSystemProperty(out,apiDescription,classDescription,pd);
+        }
         out.println("        buildProperties();");
         out.println("    }");
         out.println("");
@@ -346,6 +395,64 @@ public class JavaApiWriter extends AbstractApiWriter
         staticClassStream.close();
     }
     
+    private void printClassSystemProperty(PrintWriter out, ApiDescription apiDescription, ClassDescription classDescription, PropertyDescription pd) throws IOException, ApiWriterException
+    {
+        String pn = pd.getOdmaName().getName().toUpperCase();
+        String constantClassName = "CLASS_" + classDescription.getOdmaName().getName().toUpperCase();
+        if(pn.equals("NAME"))
+        {
+            printX(out,"NAME","OdmaTypes."+constantClassName+".getName()","STRING");
+        }
+        else if(pn.equals("NAMEQUALIFIER"))
+        {
+            printX(out,"NAMEQUALIFIER","OdmaTypes."+constantClassName+".getQualifier()","STRING");
+        }
+        else if(pn.equals("QNAME"))
+        {
+            printX(out,"QNAME","OdmaTypes."+constantClassName,"QNAME");
+        }
+        else if(pn.equals("DISPLAYNAME"))
+        {
+            printX(out,"DISPLAYNAME","OdmaTypes."+constantClassName+".getName()","STRING");
+        }
+        else if(pn.equals("PARENT"))
+        {
+            printX(out,"PARENT","parent","REFERENCE");
+        }
+        else if(pn.equals("ASPECTS"))
+        {
+            printX2(out,"ASPECTS","aspects","REFERENCE");
+        }
+        else if(pn.equals("DECLAREDPROPERTIES"))
+        {
+            printX2(out,"DECLAREDPROPERTIES","declaredProperties","REFERENCE");
+        }
+        else if(pn.equals("INSTANTIABLE"))
+        {
+            printX(out,"INSTANTIABLE",(classDescription.getInstantiable()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else if(pn.equals("HIDDEN"))
+        {
+            printX(out,"HIDDEN",(classDescription.getHidden()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else if(pn.equals("SYSTEM"))
+        {
+            printX(out,"SYSTEM",(classDescription.getSystem()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else if(pn.equals("PROPERTIES"))
+        {
+            // the properties property is created by the buildProperties() method
+        }
+        else if(pn.equals("SUBCLASSES"))
+        {
+            // the subclasses property is created in the super constructor
+        }
+        else
+        {
+            throw new ApiWriterException("The Class class declares a property ("+pd.getOdmaName()+") that has been unknown when this ApiWriter has been implemented. Thus this version of the ApiWriter does not know how to create the static content of this Class property for the predefined system classes. Please extend the if/else block in the ApiWriter that threw this Exception.");
+        }
+    }
+
     private void createStaticClassHierarchyHelper(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream staticClassStream = createJavaFile(outputFolder,"org.opendma.impl.core","OdmaStaticClassHierarchy");

@@ -76,7 +76,19 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
             e.printStackTrace(System.out);
             return;
         }
-        //-----< STEP 5: create API for each programming language >------------
+        //-----< STEP 5: validate the existance of class class and pi class >--
+        try
+        {
+            System.out.println("Validating the existance of a class class and a propertyinfo class...");
+            odmaClassHierarchy.checkClassClassAndPropertyInfoClass();
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error validating class hierarchy from description file " + descriptionFileName + ": " + e);
+            e.printStackTrace(System.out);
+            return;
+        }
+        //-----< STEP 6: create API for each programming language >------------
         String outputFolderRoot = args[1];
         List odmaApiWriters = getApiWriters();
         Iterator itOdmaApiWriters = odmaApiWriters.iterator();

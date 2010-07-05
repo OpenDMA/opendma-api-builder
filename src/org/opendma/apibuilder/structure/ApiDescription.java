@@ -32,6 +32,18 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
     
     /** the Map between the scalar type IDs and the scalar type descriptions */
     protected Map scalarTypesIdToDescriptionMap = new HashMap();
+    
+    /** the qualified name of the class that describes classes */
+    protected OdmaApiBuilderQName classClassQName = new OdmaApiBuilderQName("opendma.org","Class");
+    
+    /** the qualified name of the class that describes properties */
+    protected OdmaApiBuilderQName propertyInfoClassQName = new OdmaApiBuilderQName("opendma.org","PropertyInfo");
+    
+    /** the ClassDescription of the class that describes classes */
+    protected ClassDescription classClass = null;
+    
+    /** the ClassDescription of the class that describes properties */
+    protected ClassDescription propertyInfoClass = null;
 
     /**
      * Create a new ApiDescription by reading the definition from a W3C DOM tree.
@@ -103,6 +115,26 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
     public ScalarTypeDescription getScalarTypeDescription(int scalarTypeId)
     {
         return (ScalarTypeDescription)scalarTypesIdToDescriptionMap.get(new Integer(scalarTypeId));
+    }
+    
+    /**
+     * Returns the ClassDescription of the class defined in the description file that defines the layout of classes.
+     * 
+     * @return the ClassDescription of the class defined in the description file that defines the layout of classes.
+     */
+    public ClassDescription getClassClass()
+    {
+        return classClass;
+    }
+    
+    /**
+     * Returns the ClassDescription of the class defined in the description file that defines the layout of properties.
+     * 
+     * @return the ClassDescription of the class defined in the description file that defines the layout of properties.
+     */
+    public ClassDescription getPropertyInfoClass()
+    {
+        return propertyInfoClass;
     }
 
     /**
@@ -297,6 +329,38 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * Validates that there are two classes defined that describe the layout of a class and the
+     * layout of a property.
+     * 
+     * @throws DescriptionFileSemanticException if the class class or the propertyinfo class is missing
+     */
+    public void checkClassClassAndPropertyInfoClass() throws DescriptionFileSemanticException
+    {
+        Iterator itAllClasses = describedClasses.iterator();
+        while(itAllClasses.hasNext())
+        {
+            ClassDescription classDescription = (ClassDescription)itAllClasses.next();
+            OdmaApiBuilderQName odmaName = classDescription.getOdmaName();
+            if(odmaName.equals(classClassQName))
+            {
+                classClass = classDescription;
+            }
+            if(odmaName.equals(propertyInfoClassQName))
+            {
+                propertyInfoClass = classDescription;
+            }
+        }
+        if(classClass == null)
+        {
+            throw new DescriptionFileSemanticException("The class that describes the layout of classes ("+classClassQName+") does not exist in the description file");
+        }
+        if(propertyInfoClass == null)
+        {
+            throw new DescriptionFileSemanticException("The class that describes the layout of classes ("+propertyInfoClassQName+") does not exist in the description file");
         }
     }
 

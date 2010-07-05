@@ -149,11 +149,11 @@ public class OdmaStaticSystemObject
 
     /**
      * Returns the OpenDMA <code>Class</code> describing this <code>Object</code>.<br>
-     *
+     * 
      * <p>Property <b>Class</b> (opendma.org): <b>Reference to Class (opendma.org)</b><br>
      * [SingleValue] [ReadOnly] [Required]<br>
      * Full description follows.</p>
-     *
+     * 
      * @return the OpenDMA <code>Class</code> describing this <code>Object</code>
      */
     public OdmaClass getOdmaClass()
@@ -178,11 +178,11 @@ public class OdmaStaticSystemObject
 
     /**
      * Returns the <i>unique object identifier</i> identifying this <code>Object</code> inside its <code>Repository</code>.<br>
-     *
+     * 
      * <p>Property <b>Id</b> (opendma.org): <b>String</b><br>
      * [SingleValue] [ReadOnly] [Required]<br>
      * Full description follows.</p>
-     *
+     * 
      * @return the <i>unique object identifier</i> identifying this <code>Object</code> inside its <code>Repository</code>
      */
     public OdmaId getId()
@@ -203,11 +203,11 @@ public class OdmaStaticSystemObject
 
     /**
      * Returns the <i>global unique object identifier</i> globally identifying this <code>Object</code>.<br>
-     *
+     * 
      * <p>Property <b>Guid</b> (opendma.org): <b>String</b><br>
      * [SingleValue] [ReadOnly] [Required]<br>
      * Full description follows.</p>
-     *
+     * 
      * @return the <i>global unique object identifier</i> globally identifying this <code>Object</code>
      */
     public OdmaGuid getGuid()
@@ -228,11 +228,11 @@ public class OdmaStaticSystemObject
 
     /**
      * Returns the OpenDMA <code>Repository</code> where this <code>Object</code> resides.<br>
-     *
+     * 
      * <p>Property <b>Repository</b> (opendma.org): <b>Reference to Repository (opendma.org)</b><br>
      * [SingleValue] [ReadOnly] [Required]<br>
      * Full description follows.</p>
-     *
+     * 
      * @return the OpenDMA <code>Repository</code> where this <code>Object</code> resides
      */
     public OdmaRepository getRepository()

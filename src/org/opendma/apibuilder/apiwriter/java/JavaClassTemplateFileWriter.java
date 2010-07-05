@@ -157,6 +157,9 @@ public class JavaClassTemplateFileWriter extends AbstractClassFileWriter
         out.println("    // =============================================================================================");
         out.println("    // Object specific property access");
         out.println("    // =============================================================================================");
+        out.println("");
+        out.println("    // CHECKTEMPLATE: the following code has most likely been copied from a class template. Make sure to keep this code up to date!");
+        out.println("    // The following template code is available as "+classDescription.getApiName()+"Template");
     }
 
     protected String getReturnDataType(PropertyDescription property)
