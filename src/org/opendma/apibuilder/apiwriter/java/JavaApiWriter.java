@@ -279,6 +279,7 @@ public class JavaApiWriter extends AbstractApiWriter
         String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
         printX(out,"NAME","OdmaTypes."+constantPropertyName+".getName()","STRING");
         printX(out,"NAMEQUALIFIER","OdmaTypes."+constantPropertyName+".getQualifier()","STRING");
+        printX(out,"QNAME","OdmaTypes."+constantPropertyName,"QNAME");
         printX(out,"DISPLAYNAME","OdmaTypes."+constantPropertyName+".getName()","STRING");
         printX(out,"DATATYPE","new Integer(OdmaTypes."+constantScalarTypeName+")","INTEGER");
         printX(out,"REFERENCECLASS","null","REFERENCE");

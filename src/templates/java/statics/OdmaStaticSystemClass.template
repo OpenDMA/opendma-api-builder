@@ -197,32 +197,6 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     }
 
     /**
-     * Sets the qualified name of this <code>Class</code>.<br>
-     *
-     * <p>Property <b>QName</b> (opendma.org): <b>String</b><br>
-     * [SingleValue] [Writable] [Required]<br>
-     * Full description follows.</p>
-     *
-     * @throws OdmaAccessDeniedException
-     *             if this property can not be set by the current user
-     */
-    public void setQName(OdmaQName value) throws OdmaAccessDeniedException
-    {
-        try
-        {
-            getProperty(OdmaTypes.PROPERTY_QNAME).setValue(value);
-        }
-        catch(OdmaInvalidDataTypeException oidte)
-        {
-            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
-        }
-        catch(OdmaObjectNotFoundException oonfe)
-        {
-            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
-        }
-    }
-
-    /**
      * Returns the <i>display name</i> of this <code>Class</code> to be displayed to end users.<br>
      *
      * <p>Property <b>DisplayName</b> (opendma.org): <b>String</b><br>

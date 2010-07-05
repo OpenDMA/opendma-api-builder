@@ -3,6 +3,7 @@ package org.opendma.impl.core;
 import org.opendma.OdmaTypes;
 import org.opendma.api.OdmaClass;
 import org.opendma.api.OdmaPropertyInfo;
+import org.opendma.api.OdmaQName;
 import org.opendma.exceptions.OdmaAccessDeniedException;
 import org.opendma.exceptions.OdmaRuntimeException;
 import org.opendma.exceptions.OdmaInvalidDataTypeException;
@@ -119,6 +120,31 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
         try
         {
             getProperty(OdmaTypes.PROPERTY_NAMEQUALIFIER).setValue(value);
+        }
+        catch(OdmaInvalidDataTypeException oidte)
+        {
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
+        }
+        catch(OdmaObjectNotFoundException oonfe)
+        {
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
+        }
+    }
+
+    /**
+     * Returns the qualified name of this <code>Class</code>.<br>
+     *
+     * <p>Property <b>QName</b> (opendma.org): <b>String</b><br>
+     * [SingleValue] [Writable] [Required]<br>
+     * Full description follows.</p>
+     *
+     * @return the qualified name of this <code>Class</code>
+     */
+    public OdmaQName getQName()
+    {
+        try
+        {
+            return getProperty(OdmaTypes.PROPERTY_QNAME).getQName();
         }
         catch(OdmaInvalidDataTypeException oidte)
         {

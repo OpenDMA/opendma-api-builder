@@ -130,7 +130,7 @@
         <Property qualifier="opendma.org"
                   name="QName"
                   apiName="QName"
-                  readOnly="false"
+                  readOnly="true"
                   required="true"
                   dataType="qname"
                   multiValue="false"
@@ -297,6 +297,19 @@
                   hidden="false"
                   system="true">
             <Abstract>the name &lt;i&gt;qualifier&lt;/i&gt; of this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property qualifier="opendma.org"
+                  name="QName"
+                  apiName="QName"
+                  readOnly="true"
+                  required="true"
+                  dataType="qname"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the qualified name of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
