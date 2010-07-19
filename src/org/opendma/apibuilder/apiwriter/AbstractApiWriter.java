@@ -58,6 +58,8 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         createGuidFile(apiDescription,baseFolder);
         createContentFile(apiDescription,baseFolder);
         createExceptionFiles(apiDescription,baseFolder);
+        // create language depending files for the session management
+        createSessionManagementFiles(apiDescription,baseFolder);
         // create the properties file
         createPropertyFile(apiDescription,baseFolder);
         // create class files
@@ -161,6 +163,8 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
     protected abstract void createContentFile(ApiDescription apiDescription, String outputFolder) throws IOException;
 
     protected abstract void createExceptionFiles(ApiDescription apiDescription, String outputFolder) throws IOException;
+
+    protected abstract void createSessionManagementFiles(ApiDescription apiDescription, String outputFolder) throws IOException;
 
     //-------------------------------------------------------------------------
     // P R O P E R T Y   F I L E

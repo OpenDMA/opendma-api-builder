@@ -270,6 +270,21 @@ public class PhpApiWriter extends AbstractApiWriter
         to.close();
     }
 
+    protected void createSessionManagementFiles(ApiDescription apiDescription, String outputFolder) throws IOException
+    {
+        internalCreateSessionManagementFile(outputFolder,"OdmaDataSource");
+        internalCreateSessionManagementFile(outputFolder,"OdmaSession");
+    }
+    
+    protected void internalCreateSessionManagementFile(String outputFolder, String className) throws IOException
+    {
+        OutputStream to = createPhpFile(outputFolder,"org.opendma",className);
+        InputStream from = getResourceAsStream("/templates/php/"+className+".template");
+        streamCopy(from,to);
+        from.close();
+        to.close();
+    }
+
     //-------------------------------------------------------------------------
     // P R O P E R T Y   F I L E
     //-------------------------------------------------------------------------

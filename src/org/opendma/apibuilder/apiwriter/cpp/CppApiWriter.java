@@ -21,7 +21,7 @@ public class CppApiWriter extends AbstractApiWriter
         return "C++";
     }
     
-    private OutputStream createJavaFile(String outputFolder, String packageName, String className) throws IOException
+    private OutputStream createCppFile(String outputFolder, String packageName, String className) throws IOException
     {
         String packageDirectory = outputFolder + packageName.replace('.',File.separatorChar);
         File containingDir = new File(packageDirectory);
@@ -208,7 +208,7 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected OutputStream getConstantsFileStream(String outputFolder) throws IOException
     {
-        return createJavaFile(outputFolder,"org.opendma","OdmaTypes");
+        return createCppFile(outputFolder,"org.opendma","OdmaTypes");
     }
 
     protected void createConstantsFile(ApiDescription apiDescription, String outputFolder) throws IOException
@@ -225,7 +225,7 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected OutputStream getBasicFileStream(String classname, String outputFolder) throws IOException
     {
-        return createJavaFile(outputFolder,"org.opendma.api",classname);
+        return createCppFile(outputFolder,"org.opendma.api",classname);
     }
 
     protected void createQNameFile(ApiDescription apiDescription, String outputFolder) throws IOException
@@ -280,6 +280,21 @@ public class CppApiWriter extends AbstractApiWriter
         to.close();
     }
 
+    protected void createSessionManagementFiles(ApiDescription apiDescription, String outputFolder) throws IOException
+    {
+        internalCreateSessionManagementFile(outputFolder,"OdmaDataSource");
+        internalCreateSessionManagementFile(outputFolder,"OdmaSession");
+    }
+    
+    protected void internalCreateSessionManagementFile(String outputFolder, String className) throws IOException
+    {
+        OutputStream to = createCppFile(outputFolder,"org.opendma",className);
+        InputStream from = getResourceAsStream("/templates/cpp/"+className+".template");
+        streamCopy(from,to);
+        from.close();
+        to.close();
+    }
+
     //-------------------------------------------------------------------------
     // P R O P E R T Y   F I L E
     //-------------------------------------------------------------------------
@@ -308,7 +323,7 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected OutputStream getEnumerationFileStream(String baseFolder, ClassDescription classDescription) throws IOException
     {
-        return createJavaFile(baseFolder,"org.opendma.api.collections",classDescription.getApiName()+"Enumeration");
+        return createCppFile(baseFolder,"org.opendma.api.collections",classDescription.getApiName()+"Enumeration");
     }
     
     protected void createEnumerationFile(ClassDescription classDescription, String baseFolder) throws IOException
@@ -321,7 +336,7 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected OutputStream getListFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
     {
-        return createJavaFile(baseFolder,"org.opendma.api.collections",getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()));
+        return createCppFile(baseFolder,"org.opendma.api.collections",getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()));
     }
 
     protected void createListFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
@@ -346,7 +361,7 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected OutputStream getListImplementationFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
     {
-        return createJavaFile(baseFolder,"org.opendma.impl.collections",getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()));
+        return createCppFile(baseFolder,"org.opendma.impl.collections",getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()));
     }
 
     protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException

@@ -640,6 +640,21 @@ public class JavaApiWriter extends AbstractApiWriter
         to.close();
     }
 
+    protected void createSessionManagementFiles(ApiDescription apiDescription, String outputFolder) throws IOException
+    {
+        internalCreateSessionManagementFile(outputFolder,"OdmaDataSource");
+        internalCreateSessionManagementFile(outputFolder,"OdmaSession");
+    }
+    
+    protected void internalCreateSessionManagementFile(String outputFolder, String className) throws IOException
+    {
+        OutputStream to = createJavaFile(outputFolder,"org.opendma",className);
+        InputStream from = getResourceAsStream("/templates/java/"+className+".template");
+        streamCopy(from,to);
+        from.close();
+        to.close();
+    }
+
     //-------------------------------------------------------------------------
     // P R O P E R T Y   F I L E
     //-------------------------------------------------------------------------
