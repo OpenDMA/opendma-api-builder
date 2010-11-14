@@ -243,7 +243,8 @@ public class OdmaStaticClassHierarchy
         while(itPropertyInfos.hasNext())
         {
             OdmaStaticSystemPropertyInfo pi = (OdmaStaticSystemPropertyInfo)itPropertyInfos.next();
-            OdmaCoreId piId = new OdmaCoreId((new OdmaQName(pi.getNameQualifier(),pi.getName())).toString());
+            //OdmaCoreId piId = new OdmaCoreId((new OdmaQName(pi.getNameQualifier(),pi.getName())).toString());
+            OdmaCoreId piId = new OdmaCoreId(pi.getNameQualifier()+"property"+pi.getName());
             OdmaCoreGuid piGuid = new OdmaCoreGuid(repoId,piId);
             pi.patchIds(piId,piGuid);
         }
@@ -251,7 +252,8 @@ public class OdmaStaticClassHierarchy
         while(itClassInfos.hasNext())
         {
             OdmaStaticSystemClass ci = (OdmaStaticSystemClass)itClassInfos.next();
-            OdmaCoreId ciId = new OdmaCoreId((new OdmaQName(ci.getNameQualifier(),ci.getName())).toString());
+            //OdmaCoreId ciId = new OdmaCoreId((new OdmaQName(ci.getNameQualifier(),ci.getName())).toString());
+            OdmaCoreId ciId = new OdmaCoreId(ci.getNameQualifier()+"class"+ci.getName());
             OdmaCoreGuid ciGuid = new OdmaCoreGuid(repoId,ciId);
             ci.patchIds(ciId,ciGuid);
         }
