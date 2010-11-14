@@ -58,7 +58,14 @@ public class PhpClassTemplateFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            out.println("interface OpenDMA_Api_"+classDescription.getApiName());
+            if(classDescription.getAspect())
+            {
+                out.println("interface OpenDMA_Api_"+classDescription.getApiName()+" extends OpenDMA_Api_"+classDescription.getContainingApiDescription().getObjectClass().getApiName());
+            }
+            else
+            {
+                out.println("interface OpenDMA_Api_"+classDescription.getApiName());
+            }
         }
         out.println("{");
     }

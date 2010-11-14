@@ -56,7 +56,14 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            out.println("public interface "+classDescription.getApiName());
+            if(classDescription.getAspect())
+            {
+                out.println("public interface "+classDescription.getApiName()+" extends "+classDescription.getContainingApiDescription().getObjectClass().getApiName());
+            }
+            else
+            {
+                out.println("public interface "+classDescription.getApiName());
+            }
         }
         out.println("{");
     }

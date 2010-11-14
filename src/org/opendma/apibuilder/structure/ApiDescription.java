@@ -33,11 +33,17 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
     /** the Map between the scalar type IDs and the scalar type descriptions */
     protected Map scalarTypesIdToDescriptionMap = new HashMap();
     
+    /** the qualified name of the class hierarchy root element */
+    protected OdmaApiBuilderQName objectClassQName = new OdmaApiBuilderQName("opendma.org","Object");
+    
     /** the qualified name of the class that describes classes */
     protected OdmaApiBuilderQName classClassQName = new OdmaApiBuilderQName("opendma.org","Class");
     
     /** the qualified name of the class that describes properties */
     protected OdmaApiBuilderQName propertyInfoClassQName = new OdmaApiBuilderQName("opendma.org","PropertyInfo");
+    
+    /** the ClassDescription of the class hierarchy root */
+    protected ClassDescription objectClass = null;
     
     /** the ClassDescription of the class that describes classes */
     protected ClassDescription classClass = null;
@@ -115,6 +121,16 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
     public ScalarTypeDescription getScalarTypeDescription(int scalarTypeId)
     {
         return (ScalarTypeDescription)scalarTypesIdToDescriptionMap.get(new Integer(scalarTypeId));
+    }
+    
+    /**
+     * Returns the ClassDescription of the class hierarchy root.
+     * 
+     * @return the ClassDescription of the class hierarchy root.
+     */
+    public ClassDescription getObjectClass()
+    {
+        return objectClass;
     }
     
     /**
@@ -338,13 +354,17 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
      * 
      * @throws DescriptionFileSemanticException if the class class or the propertyinfo class is missing
      */
-    public void checkClassClassAndPropertyInfoClass() throws DescriptionFileSemanticException
+    public void checkPredefinedClasses() throws DescriptionFileSemanticException
     {
         Iterator itAllClasses = describedClasses.iterator();
         while(itAllClasses.hasNext())
         {
             ClassDescription classDescription = (ClassDescription)itAllClasses.next();
             OdmaApiBuilderQName odmaName = classDescription.getOdmaName();
+            if(odmaName.equals(objectClassQName))
+            {
+                objectClass = classDescription;
+            }
             if(odmaName.equals(classClassQName))
             {
                 classClass = classDescription;
@@ -354,13 +374,17 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
                 propertyInfoClass = classDescription;
             }
         }
+        if(objectClass == null)
+        {
+            throw new DescriptionFileSemanticException("The class hierarchy root ("+objectClassQName+") does not exist in the description file");
+        }
         if(classClass == null)
         {
             throw new DescriptionFileSemanticException("The class that describes the layout of classes ("+classClassQName+") does not exist in the description file");
         }
         if(propertyInfoClass == null)
         {
-            throw new DescriptionFileSemanticException("The class that describes the layout of classes ("+propertyInfoClassQName+") does not exist in the description file");
+            throw new DescriptionFileSemanticException("The class that describes the layout of properties ("+propertyInfoClassQName+") does not exist in the description file");
         }
     }
 

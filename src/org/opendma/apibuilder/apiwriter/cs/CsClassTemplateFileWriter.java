@@ -55,7 +55,14 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            out.println("    public class "+classDescription.getApiName()+"Template : I"+classDescription.getApiName());
+            if(classDescription.getAspect())
+            {
+                out.println("    public class "+classDescription.getApiName()+"Template : "+classDescription.getContainingApiDescription().getObjectClass().getApiName()+"Template, I"+classDescription.getApiName());
+            }
+            else
+            {
+                out.println("    public class "+classDescription.getApiName()+"Template : I"+classDescription.getApiName());
+            }
         }
         out.println("    {");
     }

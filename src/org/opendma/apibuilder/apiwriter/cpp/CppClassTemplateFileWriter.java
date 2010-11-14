@@ -57,7 +57,14 @@ public class CppClassTemplateFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            out.println("class "+classDescription.getApiName());
+            if(classDescription.getAspect())
+            {
+                out.println("class "+classDescription.getApiName()+" : public "+classDescription.getContainingApiDescription().getObjectClass().getApiName());
+            }
+            else
+            {
+                out.println("class "+classDescription.getApiName());
+            }
         }
         out.println("{");
         out.println("");

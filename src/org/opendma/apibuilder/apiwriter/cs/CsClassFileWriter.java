@@ -55,7 +55,14 @@ public class CsClassFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            out.println("    public interface I"+classDescription.getApiName());
+            if(classDescription.getAspect())
+            {
+                out.println("    public interface I"+classDescription.getApiName()+" : I"+classDescription.getContainingApiDescription().getObjectClass().getApiName());
+            }
+            else
+            {
+                out.println("    public interface I"+classDescription.getApiName());
+            }
         }
         out.println("    {");
     }
