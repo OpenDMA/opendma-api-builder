@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ApiDescription>
 
-<!-- ========================================================================================== -->
-<!--                                                                                            -->
-<!--                                     S E C T I O N   I                                      -->
-<!--                                                                                            -->
-<!-- ========================================================================================== -->
-
     <ScalarTypes>
 
         <ScalarType name="String" numericId="1" reference="false" />
@@ -124,7 +118,7 @@
                   name="NameQualifier"
                   apiName="NameQualifier"
                   readOnly="false"
-                  required="false"
+                  required="true"
                   dataType="string"
                   multiValue="false"
                   hidden="false"
@@ -207,7 +201,7 @@
         <Property qualifier="opendma.org"
                   name="Properties"
                   apiName="Properties"
-                  readOnly="true"
+                  readOnly="false"
                   required="false"
                   dataType="reference"
                   multiValue="true"
@@ -297,7 +291,7 @@
                   name="NameQualifier"
                   apiName="NameQualifier"
                   readOnly="false"
-                  required="false"
+                  required="true"
                   dataType="string"
                   multiValue="false"
                   hidden="false"
@@ -428,13 +422,6 @@
     </Class>
 
 
-<!-- ========================================================================================== -->
-<!--                                                                                            -->
-<!--                                   S E C T I O N   II.1                                     -->
-<!--                                                                                            -->
-<!-- ========================================================================================== -->
-
-
     <Class qualifier="opendma.org" name="Repository" apiName="OdmaRepository" extendsQualifier="opendma.org" extendsName="Object" aspect="false" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
@@ -513,6 +500,167 @@
     </Class>
 
 
+    <Class qualifier="opendma.org" name="Association" apiName="OdmaAssociation" aspect="true" instantiable="false" hidden="false" system="true">
+
+        <Description>Full description follows.</Description>
+
+        <Property qualifier="opendma.org"
+                  name="Name"
+                  apiName="Name"
+                  readOnly="false"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the &lt;i&gt;name&lt;/i&gt; of this &lt;code&gt;Association&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property qualifier="opendma.org"
+                  name="Container"
+                  apiName="Container"
+                  readOnly="false"
+                  required="true"
+                  dataType="reference"
+                  multiValue="false"
+                  hidden="false"
+                  system="true"
+                  referenceQualifier="opendma.org"
+                  referenceName="Folder">
+            <Abstract>the &lt;i&gt;container&lt;/i&gt; of this &lt;code&gt;Association&lt;/code&gt; in which the containment is said to be contained</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property qualifier="opendma.org"
+                  name="Containment"
+                  apiName="Containment"
+                  readOnly="false"
+                  required="true"
+                  dataType="reference"
+                  multiValue="false"
+                  hidden="false"
+                  system="true"
+                  referenceQualifier="opendma.org"
+                  referenceName="Object">
+            <Abstract>the &lt;i&gt;conatinment&lt;/i&gt; of this &lt;code&gt;Association&lt;/code&gt; which is said to be contained in the container</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property qualifier="opendma.org"
+                  name="CreatedAt"
+                  apiName="CreatedAt"
+                  readOnly="true"
+                  required="true"
+                  dataType="datetime"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the date when this &lt;code&gt;Association&lt;/code&gt; has been created</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property qualifier="opendma.org"
+                  name="LastModifiedAt"
+                  apiName="LastModifiedAt"
+                  readOnly="true"
+                  required="true"
+                  dataType="datetime"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the date when this &lt;code&gt;Association&lt;/code&gt; has been modified the last time</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property qualifier="opendma.org"
+                  name="CreatedBy"
+                  apiName="CreatedBy"
+                  readOnly="true"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the user who has created this &lt;code&gt;Association&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property qualifier="opendma.org"
+                  name="LastModifiedBy"
+                  apiName="LastModifiedBy"
+                  readOnly="true"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the user who has modified this &lt;code&gt;Association&lt;/code&gt; the last time</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+    </Class>
+
+
+    <Class qualifier="opendma.org" name="ContentElement" apiName="OdmaContentElement" aspect="true" instantiable="false" hidden="false" system="true">
+
+        <Description>Full description follows.</Description>
+
+        <Property qualifier="opendma.org"
+                  name="Content"
+                  apiName="Content"
+                  readOnly="false"
+                  required="true"
+                  dataType="content"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the binary content of this &lt;code&gt;ContentElement&lt;/code&gt; as octets</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property qualifier="opendma.org"
+                  name="Size"
+                  apiName="Size"
+                  readOnly="true"
+                  required="true"
+                  dataType="long"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the binary content of this &lt;code&gt;ContentElement&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property qualifier="opendma.org"
+                  name="MimeType"
+                  apiName="MimeType"
+                  readOnly="false"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the mime type describing how the &lt;code&gt;Content&lt;/code&gt; of this &lt;code&gt;ContentElement&lt;/code&gt; has to be interpreted</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property qualifier="opendma.org"
+                  name="FileName"
+                  apiName="FileName"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the optional file name of this &lt;code&gt;ContentElement&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+    </Class>
+
+
     <Class qualifier="opendma.org" name="Document" apiName="OdmaDocument" aspect="true" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
@@ -575,12 +723,12 @@
                   readOnly="true"
                   required="true"
                   dataType="reference"
-                  multiValue="false"
+                  multiValue="true"
                   hidden="false"
                   system="true"
                   referenceQualifier="opendma.org"
-                  referenceName="VersionCollection">
-            <Abstract>reference to a &lt;i&gt;VersionCollection&lt;/i&gt; object containing the collection of all &lt;i&gt;versions&lt;/i&gt; of this &lt;code&gt;Document&lt;/code&gt; along with other information</Abstract>
+                  referenceName="Document">
+            <Abstract>the collection of all &lt;i&gt;versions&lt;/i&gt; of this &lt;code&gt;Document&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -613,76 +761,9 @@
         </Property>
 
         <Property qualifier="opendma.org"
-                  name="PrimaryContentElement"
-                  apiName="PrimaryContentElement"
-                  readOnly="false"
-                  required="false"
-                  dataType="reference"
-                  multiValue="false"
-                  hidden="false"
-                  system="true"
-                  referenceQualifier="opendma.org"
-                  referenceName="ContentElement">
-            <Abstract>the primary &lt;code&gt;ContentElement&lt;/code&gt;s that represents this &lt;code&gt;Document&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="PrimaryContent"
-                  apiName="PrimaryContent"
-                  readOnly="false"
-                  required="true"
-                  dataType="content"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the binary content of the primary &lt;code&gt;ContentElement&lt;/code&gt; as octets</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="PrimarySize"
-                  apiName="PrimarySize"
-                  readOnly="true"
-                  required="true"
-                  dataType="long"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the number of octests the binary content of the primary &lt;code&gt;ContentElement&lt;/code&gt; consists of</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="PrimaryMimeType"
-                  apiName="PrimaryMimeType"
-                  readOnly="false"
-                  required="true"
-                  dataType="string"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the mime type describing how the &lt;code&gt;Content&lt;/code&gt; of the primary &lt;code&gt;ContentElement&lt;/code&gt; has to be interpreted</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="PrimaryFileName"
-                  apiName="PrimaryFileName"
-                  readOnly="false"
-                  required="false"
-                  dataType="string"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the optional file name of the primary &lt;code&gt;ContentElement&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
                   name="CheckedOut"
                   apiName="CheckedOut"
-                  readOnly="true"
+                  readOnly="false"
                   required="true"
                   dataType="boolean"
                   multiValue="false"
@@ -706,19 +787,6 @@
         </Property>
 
         <Property qualifier="opendma.org"
-                  name="VersionCreatedAt"
-                  apiName="VersionCreatedAt"
-                  readOnly="true"
-                  required="true"
-                  dataType="datetime"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the date when this version of this &lt;code&gt;Document&lt;/code&gt; has been created</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
                   name="LastModifiedAt"
                   apiName="LastModifiedAt"
                   readOnly="true"
@@ -727,7 +795,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the date when this version of this &lt;code&gt;Document&lt;/code&gt; has been modified the last time</Abstract>
+            <Abstract>the date when this &lt;code&gt;Document&lt;/code&gt; has been modified the last time</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -735,7 +803,7 @@
                   name="CheckedOutAt"
                   apiName="CheckedOutAt"
                   readOnly="true"
-                  required="false"
+                  required="true"
                   dataType="datetime"
                   multiValue="false"
                   hidden="false"
@@ -758,19 +826,6 @@
         </Property>
 
         <Property qualifier="opendma.org"
-                  name="VersionCreatedBy"
-                  apiName="VersionCreatedBy"
-                  readOnly="true"
-                  required="true"
-                  dataType="string"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the user who has created this version of this &lt;code&gt;Document&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
                   name="LastModifiedBy"
                   apiName="LastModifiedBy"
                   readOnly="true"
@@ -779,7 +834,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the user who has modified this version of this &lt;code&gt;Document&lt;/code&gt; the last time</Abstract>
+            <Abstract>the user who has modified this &lt;code&gt;Document&lt;/code&gt; the last time</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -799,133 +854,7 @@
     </Class>
 
 
-    <Class qualifier="opendma.org" name="ContentElement" apiName="OdmaContentElement" aspect="true" instantiable="false" hidden="false" system="true">
-
-        <Description>Full description follows.</Description>
-
-        <Property qualifier="opendma.org"
-                  name="Content"
-                  apiName="Content"
-                  readOnly="false"
-                  required="true"
-                  dataType="content"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the binary content of this &lt;code&gt;ContentElement&lt;/code&gt; as octets</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="Size"
-                  apiName="Size"
-                  readOnly="true"
-                  required="true"
-                  dataType="long"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the number of octests the binary content of this &lt;code&gt;ContentElement&lt;/code&gt; consists of</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="MimeType"
-                  apiName="MimeType"
-                  readOnly="false"
-                  required="true"
-                  dataType="string"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the mime type describing how the &lt;code&gt;Content&lt;/code&gt; of this &lt;code&gt;ContentElement&lt;/code&gt; has to be interpreted</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="FileName"
-                  apiName="FileName"
-                  readOnly="false"
-                  required="false"
-                  dataType="string"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the optional file name of this &lt;code&gt;ContentElement&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-    </Class>
-
-
-    <Class qualifier="opendma.org" name="VersionCollection" apiName="OdmaVersionCollection" aspect="true" instantiable="false" hidden="false" system="true">
-
-        <Description>Full description follows.</Description>
-
-        <Property qualifier="opendma.org"
-                  name="Versions"
-                  apiName="Versions"
-                  readOnly="true"
-                  required="true"
-                  dataType="reference"
-                  multiValue="true"
-                  hidden="false"
-                  system="true"
-                  referenceQualifier="opendma.org"
-                  referenceName="Document">
-            <Abstract>collection of all versions of the &lt;code&gt;Document&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="Latest"
-                  apiName="Latest"
-                  readOnly="true"
-                  required="true"
-                  dataType="reference"
-                  multiValue="false"
-                  hidden="false"
-                  system="true"
-                  referenceQualifier="opendma.org"
-                  referenceName="Document">
-            <Abstract>the latest version of this &lt;code&gt;Document&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="Released"
-                  apiName="Released"
-                  readOnly="true"
-                  required="true"
-                  dataType="reference"
-                  multiValue="false"
-                  hidden="false"
-                  system="true"
-                  referenceQualifier="opendma.org"
-                  referenceName="Document">
-            <Abstract>the last released version of this &lt;code&gt;Document&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="InProgress"
-                  apiName="InProgress"
-                  readOnly="true"
-                  required="true"
-                  dataType="reference"
-                  multiValue="false"
-                  hidden="false"
-                  system="true"
-                  referenceQualifier="opendma.org"
-                  referenceName="Document">
-            <Abstract>the version of this &lt;code&gt;Document&lt;/code&gt; currently beeing worked on during a checkout. Only valid if and only if the corresponding &lt;code&gt;Document&lt;/code&gt; is checked out.</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-    </Class>
-
-
-    <Class qualifier="opendma.org" name="Container" apiName="OdmaContainer" aspect="true" instantiable="false" hidden="false" system="true">
+    <Class qualifier="opendma.org" name="Folder" apiName="OdmaFolder" aspect="true" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
@@ -938,29 +867,29 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;title&lt;/i&gt; of this &lt;code&gt;Container&lt;/code&gt;</Abstract>
+            <Abstract>the &lt;i&gt;title&lt;/i&gt; of this &lt;code&gt;Folder&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
         <Property qualifier="opendma.org"
                   name="Containees"
                   apiName="Containees"
-                  readOnly="true"
+                  readOnly="false"
                   required="true"
                   dataType="reference"
                   multiValue="true"
                   hidden="false"
                   system="true"
                   referenceQualifier="opendma.org"
-                  referenceName="Containable">
-            <Abstract>the collection of all &lt;code&gt;Containable&lt;/code&gt; objects that are contained in this &lt;code&gt;Container&lt;/code&gt;</Abstract>
+                  referenceName="Object">
+            <Abstract>the collection of all &lt;code&gt;Object&lt;/code&gt;s that are contained in this &lt;code&gt;Folder&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
         <Property qualifier="opendma.org"
                   name="Associations"
                   apiName="Associations"
-                  readOnly="true"
+                  readOnly="false"
                   required="true"
                   dataType="reference"
                   multiValue="true"
@@ -968,7 +897,7 @@
                   system="true"
                   referenceQualifier="opendma.org"
                   referenceName="Association">
-            <Abstract>the collection of all &lt;code&gt;Association&lt;/code&gt;s between this &lt;code&gt;Container&lt;/code&gt; and its containees</Abstract>
+            <Abstract>the collection of all &lt;code&gt;Association&lt;/code&gt;s between this &lt;code&gt;Folder&lt;/code&gt; and its containees</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -981,7 +910,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the date when this &lt;code&gt;Container&lt;/code&gt; has been created</Abstract>
+            <Abstract>the date when this &lt;code&gt;Folder&lt;/code&gt; has been created</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -994,7 +923,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the date when this &lt;code&gt;Container&lt;/code&gt; has been modified the last time</Abstract>
+            <Abstract>the date when this &lt;code&gt;Folder&lt;/code&gt; has been modified the last time</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -1007,7 +936,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the user who has created this &lt;code&gt;Container&lt;/code&gt;</Abstract>
+            <Abstract>the user who has created this &lt;code&gt;Folder&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -1020,183 +949,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the user who has modified this &lt;code&gt;Container&lt;/code&gt; the last time</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-    </Class>
-
-
-    <Class qualifier="opendma.org" name="Folder" apiName="OdmaFolder" extendsQualifier="opendma.org" extendsName="Container" aspect="true" instantiable="false" hidden="false" system="true">
-
-        <Description>Full description follows.</Description>
-
-        <Property qualifier="opendma.org"
-                  name="Parent"
-                  apiName="Parent"
-                  readOnly="false"
-                  required="false"
-                  dataType="reference"
-                  multiValue="false"
-                  hidden="false"
-                  system="true"
-                  referenceQualifier="opendma.org"
-                  referenceName="Folder">
-            <Abstract>the &lt;code&gt;Folder&lt;/code&gt; this &lt;code&gt;Folder&lt;/code&gt; is a sub folder of</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="SubFolders"
-                  apiName="SubFolders"
-                  readOnly="true"
-                  required="false"
-                  dataType="reference"
-                  multiValue="true"
-                  hidden="false"
-                  system="true"
-                  referenceQualifier="opendma.org"
-                  referenceName="Folder">
-            <Abstract>the collection of &lt;code&gt;Folder&lt;/code&gt;s which have this &lt;code&gt;Folder&lt;/code&gt; in their parent ptoperty</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-    </Class>
-
-
-    <Class qualifier="opendma.org" name="Containable" apiName="OdmaContainable" aspect="true" instantiable="false" hidden="false" system="true">
-
-        <Description>Full description follows.</Description>
-
-        <Property qualifier="opendma.org"
-                  name="ContainedIn"
-                  apiName="ContainedIn"
-                  readOnly="true"
-                  required="false"
-                  dataType="reference"
-                  multiValue="true"
-                  hidden="false"
-                  system="true"
-                  referenceQualifier="opendma.org"
-                  referenceName="Container">
-            <Abstract>the collection of &lt;code&gt;Container&lt;/code&gt;s this &lt;code&gt;Containable&lt;/code&gt; is contained in</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="ContainedInAssociations"
-                  apiName="ContainedInAssociations"
-                  readOnly="true"
-                  required="false"
-                  dataType="reference"
-                  multiValue="true"
-                  hidden="false"
-                  system="true"
-                  referenceQualifier="opendma.org"
-                  referenceName="Association">
-            <Abstract>the collection of &lt;code&gt;Association&lt;/code&gt;s that bind this &lt;code&gt;Containable&lt;/code&gt; in the &lt;code&gt;Container&lt;/code&gt;s</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-    </Class>
-
-
-    <Class qualifier="opendma.org" name="Association" apiName="OdmaAssociation" aspect="true" instantiable="false" hidden="false" system="true">
-
-        <Description>Full description follows.</Description>
-
-        <Property qualifier="opendma.org"
-                  name="Name"
-                  apiName="Name"
-                  readOnly="false"
-                  required="true"
-                  dataType="string"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the &lt;i&gt;name&lt;/i&gt; of this &lt;code&gt;Association&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="Container"
-                  apiName="Container"
-                  readOnly="false"
-                  required="true"
-                  dataType="reference"
-                  multiValue="false"
-                  hidden="false"
-                  system="true"
-                  referenceQualifier="opendma.org"
-                  referenceName="Container">
-            <Abstract>the &lt;code&gt;Container&lt;/code&gt; of this &lt;code&gt;Association&lt;/code&gt; in which the containment is said to be contained</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="Containment"
-                  apiName="Containment"
-                  readOnly="false"
-                  required="true"
-                  dataType="reference"
-                  multiValue="false"
-                  hidden="false"
-                  system="true"
-                  referenceQualifier="opendma.org"
-                  referenceName="Containable">
-            <Abstract>the &lt;code&gt;Containable&lt;/code&gt; of this &lt;code&gt;Association&lt;/code&gt; which is said to be contained in the container</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="CreatedAt"
-                  apiName="CreatedAt"
-                  readOnly="true"
-                  required="true"
-                  dataType="datetime"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the date when this &lt;code&gt;Association&lt;/code&gt; has been created</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="LastModifiedAt"
-                  apiName="LastModifiedAt"
-                  readOnly="true"
-                  required="true"
-                  dataType="datetime"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the date when this &lt;code&gt;Association&lt;/code&gt; has been modified the last time</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="CreatedBy"
-                  apiName="CreatedBy"
-                  readOnly="true"
-                  required="true"
-                  dataType="string"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the user who has created this &lt;code&gt;Association&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma.org"
-                  name="LastModifiedBy"
-                  apiName="LastModifiedBy"
-                  readOnly="true"
-                  required="true"
-                  dataType="string"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the user who has modified this &lt;code&gt;Association&lt;/code&gt; the last time</Abstract>
+            <Abstract>the user who has modified this &lt;code&gt;Folder&lt;/code&gt; the last time</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
