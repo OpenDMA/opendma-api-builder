@@ -34,13 +34,13 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
     protected Map scalarTypesIdToDescriptionMap = new HashMap();
     
     /** the qualified name of the class hierarchy root element */
-    protected OdmaApiBuilderQName objectClassQName = new OdmaApiBuilderQName("opendma.org","Object");
+    protected OdmaApiBuilderQName objectClassQName = new OdmaApiBuilderQName("opendma","Object");
     
     /** the qualified name of the class that describes classes */
-    protected OdmaApiBuilderQName classClassQName = new OdmaApiBuilderQName("opendma.org","Class");
+    protected OdmaApiBuilderQName classClassQName = new OdmaApiBuilderQName("opendma","Class");
     
     /** the qualified name of the class that describes properties */
-    protected OdmaApiBuilderQName propertyInfoClassQName = new OdmaApiBuilderQName("opendma.org","PropertyInfo");
+    protected OdmaApiBuilderQName propertyInfoClassQName = new OdmaApiBuilderQName("opendma","PropertyInfo");
     
     /** the ClassDescription of the class hierarchy root */
     protected ClassDescription objectClass = null;

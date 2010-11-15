@@ -77,7 +77,7 @@ public class OdmaApiBuilderQName
      */
     public String getQualifier()
     {
-        return (qualifier);
+        return qualifier;
     }
 
     /**
@@ -87,7 +87,7 @@ public class OdmaApiBuilderQName
      */
     public String getName()
     {
-        return (name);
+        return name;
     }
 
     /**
@@ -149,7 +149,7 @@ public class OdmaApiBuilderQName
      */
     public String toString()
     {
-        return "[" + (qualifier == null ? "<null>" : qualifier) + ", " + name + "]";
+        return (qualifier == null ? "<null>" : qualifier) + ":" + name;
     }
 
 }
