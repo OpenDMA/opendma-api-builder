@@ -627,6 +627,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
+        <!-- removed in 0.5.2 on 11/17/2010
         <Property qualifier="opendma"
                   name="PrimaryContent"
                   apiName="PrimaryContent"
@@ -678,6 +679,7 @@
             <Abstract>the optional file name of the primary &lt;code&gt;ContentElement&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
+        -->
 
         <Property qualifier="opendma"
                   name="CheckedOut"
