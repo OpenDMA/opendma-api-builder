@@ -494,8 +494,16 @@ public class JavaApiWriter extends AbstractApiWriter
             String className = classDescription.getOdmaName().getName();
             String constantClassName = "CLASS_" + className.toUpperCase();
             out.println("");
-            out.println("        declaredAspects = new OdmaArrayListClassEnumeration();");
-            out.println("        declaredProperties = new OdmaArrayListPropertyInfoEnumeration();");
+            //out.println("        declaredAspects = new OdmaArrayListClassEnumeration();");
+            out.println("        declaredAspects = null;");
+            if(classDescription.getPropertyDescriptions().isEmpty())
+            {
+                out.println("        declaredProperties = null;");
+            }
+            else
+            {
+                out.println("        declaredProperties = new OdmaArrayListPropertyInfoEnumeration();");
+            }
             Iterator itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
             while(itPropertyDescriptions.hasNext())
             {
