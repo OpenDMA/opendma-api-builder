@@ -200,7 +200,7 @@ public class ClassDescription implements DescriptionFileTypes
         }
         String hiddenString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_HIDDEN);
         String systemString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_SYSTEM);
-        String instantiableString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_SYSTEM);
+        String instantiableString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_INSTANTIABLE);
         String aspectString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_ASPECT);
         if((hiddenString==null) || (hiddenString.trim().length()==0) )
         {
@@ -220,7 +220,7 @@ public class ClassDescription implements DescriptionFileTypes
         }
         hidden = parseBoolean(hiddenString,DESCRIPTION_ATTRIBUTE_HIDDEN);
         system = parseBoolean(systemString,DESCRIPTION_ATTRIBUTE_SYSTEM);
-        instantiable = parseBoolean(instantiableString,DESCRIPTION_ATTRIBUTE_SYSTEM);
+        instantiable = parseBoolean(instantiableString,DESCRIPTION_ATTRIBUTE_INSTANTIABLE);
         aspect = parseBoolean(aspectString,DESCRIPTION_ATTRIBUTE_ASPECT);
         // iterate through all elements below the <Class> Element
         propertyDescriptions = new ArrayList();
