@@ -5,7 +5,7 @@ package org.opendma.exceptions;
  * 
  * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
  */
-public class OdmaAccessDeniedException extends Exception
+public class OdmaAccessDeniedException extends OdmaException
 {
 
     /** the serial version ID required for serialization */

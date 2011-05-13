@@ -11,7 +11,7 @@ import org.opendma.api.OdmaQName;
  * 
  * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
  */
-public class OdmaObjectNotFoundException extends Exception
+public class OdmaObjectNotFoundException extends OdmaException
 {
 
     /** the serial version ID required for serialization */

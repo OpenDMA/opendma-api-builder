@@ -8,7 +8,7 @@ import org.opendma.OdmaTypes;
  * 
  * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
  */
-public class OdmaInvalidDataTypeException extends Exception
+public class OdmaInvalidDataTypeException extends OdmaException
 {
 
     /** the serial version ID required for serialization */
