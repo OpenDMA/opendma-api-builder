@@ -653,6 +653,8 @@ public class JavaApiWriter extends AbstractApiWriter
     {
         internalCreateSessionManagementFile(outputFolder,"OdmaDataSource");
         internalCreateSessionManagementFile(outputFolder,"OdmaSession");
+        internalCreateSessionManagementFile(outputFolder,"OdmaIdImpl");
+        internalCreateSessionManagementFile(outputFolder,"OdmaGuidImpl");
     }
     
     protected void internalCreateSessionManagementFile(String outputFolder, String className) throws IOException

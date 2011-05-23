@@ -26,5 +26,12 @@ public interface OdmaSession
      * @throws OdmaObjectNotFoundException if a repository with the given id does not exist
      */
     public OdmaRepository getRepository(OdmaId repositoryId) throws OdmaObjectNotFoundException, OdmaAccessDeniedException;
+    
+    /**
+     * Returns the <code>{@link OdmaId}</code>s of the repositories the user has access to.
+     * 
+     * @return the <code>{@link OdmaId}</code>s of the repositories the user has access to
+     */
+    public OdmaId[] getRepositoryIds();
 
 }
