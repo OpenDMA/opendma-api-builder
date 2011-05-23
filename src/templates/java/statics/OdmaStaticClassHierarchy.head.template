@@ -10,6 +10,7 @@ import org.opendma.api.OdmaGuid;
 import org.opendma.api.OdmaId;
 import org.opendma.api.OdmaObject;
 import org.opendma.api.OdmaQName;
+import org.opendma.api.OdmaRepository;
 import org.opendma.api.collections.OdmaClassEnumeration;
 import org.opendma.exceptions.OdmaAccessDeniedException;
 import org.opendma.exceptions.OdmaInvalidDataTypeException;
@@ -27,7 +28,7 @@ public class OdmaStaticClassHierarchy
     
     protected Map repositoryObjectProperties = new HashMap();
    
-    protected OdmaStaticSystemRepository repositoryObject;
+    protected OdmaRepository repositoryObject;
 
     public OdmaStaticSystemPropertyInfo getPropertyInfo(OdmaQName name)
     {
@@ -71,6 +72,14 @@ public class OdmaStaticClassHierarchy
         generateIds();
         buildAllAvaialbleObjectsMap();
     }
+    
+    public OdmaStaticClassHierarchy(OdmaRepository repo) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
+    {
+        buildClassHierarchy();
+        repositoryObject = repo;
+        generateIds();
+        buildAllAvaialbleObjectsMap();
+    }
 
     protected void buildAllAvaialbleObjectsMap()
     {
@@ -94,8 +103,14 @@ public class OdmaStaticClassHierarchy
 
     protected void buildRepositoryObject(String name, String displayName, OdmaId id, OdmaGuid guid) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
-        repositoryObject = new OdmaStaticSystemRepository(repositoryObjectProperties,name,displayName,id,guid,getClassInfo(OdmaTypes.CLASS_OBJECT),rootAspects);
-        repositoryObject.patchClass(getClassInfo(OdmaTypes.CLASS_REPOSITORY));
+        OdmaStaticSystemRepository repo = new OdmaStaticSystemRepository(repositoryObjectProperties,name,displayName,id,guid,getClassInfo(OdmaTypes.CLASS_OBJECT),rootAspects);
+        repo.patchClass(getClassInfo(OdmaTypes.CLASS_REPOSITORY));
+        repositoryObject = repo;
+        setRepositoryObject();
+    }
+
+    protected void setRepositoryObject() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
+    {
         Iterator itPropertyInfos = propertyInfos.values().iterator();
         while(itPropertyInfos.hasNext())
         {
