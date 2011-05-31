@@ -20,6 +20,7 @@ public class JavaEnumerationFileWriter extends AbstractEnumerationFileWriter
 
     protected void writeEnumerationFileHeader(ClassDescription classDescription, List requiredImports, PrintWriter out)
     {
+        String extendsApiName = classDescription.getExtendsApiName();
         out.println("package org.opendma.api.collections;");
         out.println("");
         Iterator itRequiredImports = requiredImports.iterator();
@@ -40,12 +41,24 @@ public class JavaEnumerationFileWriter extends AbstractEnumerationFileWriter
         out.println(" * ");
         out.println(" * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board");
         out.println(" */");
-        out.println("public interface "+classDescription.getApiName()+"Enumeration");
+        if(extendsApiName != null)
+        {
+            out.println("public interface "+classDescription.getApiName()+"Enumeration extends "+extendsApiName+"Enumeration");
+        }
+        else
+        {
+            out.println("public interface "+classDescription.getApiName()+"Enumeration");
+        }
         out.println("{");
     }
 
     protected void writeEnumerationFileMethods(ClassDescription classDescription, PrintWriter out)
     {
+        if(classDescription.getExtendsApiName() != null)
+        {
+            // nothing to do here. Required methods are inherited from base class
+            return;
+        }
         out.println("");
         out.println("    /**");
         out.println("     * Returns an iterator over all <code>"+classDescription.getApiName()+"</code> elements.");
