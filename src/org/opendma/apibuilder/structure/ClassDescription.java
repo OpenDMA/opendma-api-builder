@@ -35,6 +35,9 @@ public class ClassDescription implements DescriptionFileTypes
 
     /** the List of declared properties in this class */
     protected List propertyDescriptions;
+
+    /** the List of ApiHelpers for this class */
+    protected List apiHelpers;
     
     /** the ApiDescription this class description is part of */
     protected ApiDescription containingApiDescription;
@@ -130,7 +133,6 @@ public class ClassDescription implements DescriptionFileTypes
     {
         return descriptionComment;
     }
-    
 
     /**
      * Returns the List of declared properties in this class.
@@ -140,6 +142,16 @@ public class ClassDescription implements DescriptionFileTypes
     public List getPropertyDescriptions()
     {
         return propertyDescriptions;
+    }
+
+    /**
+     * Returns the List of ApiHelpers for this class.
+     * 
+     * @return the List of ApiHelpers for this class
+     */
+    public List getApiHelpers()
+    {
+        return apiHelpers;
     }
     
     /**
@@ -224,6 +236,7 @@ public class ClassDescription implements DescriptionFileTypes
         aspect = parseBoolean(aspectString,DESCRIPTION_ATTRIBUTE_ASPECT);
         // iterate through all elements below the <Class> Element
         propertyDescriptions = new ArrayList();
+        apiHelpers = new ArrayList();
         Element descriptionElement = null;
         NodeList pluginlist = classDescriptionElement.getChildNodes();
         for (int i = 0; i < pluginlist.getLength(); i++)
@@ -234,6 +247,10 @@ public class ClassDescription implements DescriptionFileTypes
                 if (((Element) testchild).getTagName().equals(DESCRIPTION_ELEMENT_PROPERTY))
                 {
                     propertyDescriptions.add(new PropertyDescription((Element) testchild, this));
+                }
+                else if (((Element) testchild).getTagName().equals(DESCRIPTION_ELEMENT_APIHELPER))
+                {
+                    apiHelpers.add(new ApiHelperDescription((Element) testchild, this));
                 }
                 else if (((Element) testchild).getTagName().equals(DESCRIPTION_ELEMENT_DESCRIPTION))
                 {

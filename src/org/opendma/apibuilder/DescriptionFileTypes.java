@@ -19,6 +19,8 @@ public interface DescriptionFileTypes
 
     public final static String DESCRIPTION_ELEMENT_PROPERTY = "Property";
 
+    public final static String DESCRIPTION_ELEMENT_APIHELPER = "ApiHelper";
+
     public final static String DESCRIPTION_ATTRIBUTE_NUMERICID = "numericId";
 
     public final static String DESCRIPTION_ATTRIBUTE_QUALIFIER = "qualifier";

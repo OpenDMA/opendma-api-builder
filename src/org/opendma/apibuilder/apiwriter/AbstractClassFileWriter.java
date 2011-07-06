@@ -4,14 +4,19 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.opendma.apibuilder.structure.ApiHelperDescription;
 import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
 
 public abstract class AbstractClassFileWriter
 {
+    
+    protected Map apiHelperWriters = new HashMap();
 
     protected abstract void writeClassFileHeader(ClassDescription classDescription, List requiredImports, PrintWriter out);
 
@@ -22,6 +27,16 @@ public abstract class AbstractClassFileWriter
     protected abstract void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out);
 
     protected abstract void writeClassPropertyAccess(PropertyDescription property, PrintWriter out);
+
+    protected void writeClassApiHelper(ClassDescription classDescription, ApiHelperDescription apiHelper, PrintWriter out)
+    {
+        ApiHelperWriter helperWriter = (ApiHelperWriter)apiHelperWriters.get(apiHelper.getApiName());
+        if(helperWriter == null)
+        {
+            throw new RuntimeException("No ApiHelperWriter registered for ApiHelper "+apiHelper.getApiName());
+        }
+        helperWriter.writeApiHelper(classDescription, apiHelper, out);
+    }
     
     protected abstract void appendRequiredImportsGlobal(ClassDescription classDescription, List requiredImports);
     
@@ -62,6 +77,13 @@ public abstract class AbstractClassFileWriter
         {
             PropertyDescription property = (PropertyDescription)itPropertyDescriptions.next();
             writeClassPropertyAccess(property,out);
+        }
+        // write all ApiHelper for this class
+        Iterator itApiHelperDescriptions = classDescription.getApiHelpers().iterator();
+        while(itApiHelperDescriptions.hasNext())
+        {
+            ApiHelperDescription apiHelper = (ApiHelperDescription)itApiHelperDescriptions.next();
+            writeClassApiHelper(classDescription,apiHelper,out);
         }
         // write Footer
         writeClassFileFooter(classDescription,out);
