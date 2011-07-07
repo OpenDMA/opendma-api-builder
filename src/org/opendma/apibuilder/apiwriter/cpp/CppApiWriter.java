@@ -82,8 +82,8 @@ public class CppApiWriter extends AbstractApiWriter
                 return "OdmaIdList";
             case OdmaBasicTypes.TYPE_GUID:
                 return "OdmaGuidList";
-            case OdmaBasicTypes.TYPE_QNAME:
-                return "OdmaQNameList";
+            //case OdmaBasicTypes.TYPE_QNAME:
+            //    return "OdmaQNameList";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -118,8 +118,8 @@ public class CppApiWriter extends AbstractApiWriter
                 return "OdmaId*";
             case OdmaBasicTypes.TYPE_GUID:
                 return "OdmaGuid*";
-            case OdmaBasicTypes.TYPE_QNAME:
-                return "OdmaQName*";
+            //case OdmaBasicTypes.TYPE_QNAME:
+            //    return "OdmaQName*";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -158,8 +158,8 @@ public class CppApiWriter extends AbstractApiWriter
                 return "\"collections/OdmaIdList.h\"";
             case OdmaBasicTypes.TYPE_GUID:
                 return "\"collections/OdmaGuidList.h\"";
-            case OdmaBasicTypes.TYPE_QNAME:
-                return "\"collections/OdmaQNameList.h\"";
+            //case OdmaBasicTypes.TYPE_QNAME:
+            //    return "\"collections/OdmaQNameList.h\"";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -194,8 +194,8 @@ public class CppApiWriter extends AbstractApiWriter
                 return "\"OdmaId.h\"";
             case OdmaBasicTypes.TYPE_GUID:
                 return "\"OdmaGuid.h\"";
-            case OdmaBasicTypes.TYPE_QNAME:
-                return "\"OdmaQName.h\"";
+            //case OdmaBasicTypes.TYPE_QNAME:
+            //    return "\"OdmaQName.h\"";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }

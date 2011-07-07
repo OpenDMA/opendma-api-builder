@@ -29,10 +29,13 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     // Object specific property access
     // =============================================================================================
 
+    // CHECKTEMPLATE: the following code has most likely been copied from a class template. Make sure to keep this code up to date!
+    // The following template code is available as OdmaPropertyInfoTemplate
+
     /**
      * Returns the internal (technical) <i>name</i> of this <code>PropertyInfo</code>.<br>
      * 
-     * <p>Property <b>Name</b> (opendma.org): <b>String</b><br>
+     * <p>Property <b>Name</b> (opendma): <b>String</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -57,7 +60,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Sets the internal (technical) <i>name</i> of this <code>PropertyInfo</code>.<br>
      * 
-     * <p>Property <b>Name</b> (opendma.org): <b>String</b><br>
+     * <p>Property <b>Name</b> (opendma): <b>String</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -83,8 +86,8 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Returns the name <i>qualifier</i> of this <code>PropertyInfo</code>.<br>
      * 
-     * <p>Property <b>NameQualifier</b> (opendma.org): <b>String</b><br>
-     * [SingleValue] [Writable] [Required]<br>
+     * <p>Property <b>NameQualifier</b> (opendma): <b>String</b><br>
+     * [SingleValue] [Writable] [Nullable]<br>
      * Full description follows.</p>
      * 
      * @return the name <i>qualifier</i> of this <code>PropertyInfo</code>
@@ -108,8 +111,8 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Sets the name <i>qualifier</i> of this <code>PropertyInfo</code>.<br>
      * 
-     * <p>Property <b>NameQualifier</b> (opendma.org): <b>String</b><br>
-     * [SingleValue] [Writable] [Required]<br>
+     * <p>Property <b>NameQualifier</b> (opendma): <b>String</b><br>
+     * [SingleValue] [Writable] [Nullable]<br>
      * Full description follows.</p>
      * 
      * @throws OdmaAccessDeniedException
@@ -132,34 +135,9 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     }
 
     /**
-     * Returns the qualified name of this <code>Class</code>.<br>
-     * 
-     * <p>Property <b>QName</b> (opendma.org): <b>String</b><br>
-     * [SingleValue] [ReadOnly] [Required]<br>
-     * Full description follows.</p>
-     * 
-     * @return the qualified name of this <code>Class</code>
-     */
-    public OdmaQName getQName()
-    {
-        try
-        {
-            return getProperty(OdmaTypes.PROPERTY_QNAME).getQName();
-        }
-        catch(OdmaInvalidDataTypeException oidte)
-        {
-            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
-        }
-        catch(OdmaObjectNotFoundException oonfe)
-        {
-            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
-        }
-    }
-
-    /**
      * Returns the <i>display name</i> of this <code>PropertyInfo</code> to be displayed to end users.<br>
      * 
-     * <p>Property <b>DisplayName</b> (opendma.org): <b>String</b><br>
+     * <p>Property <b>DisplayName</b> (opendma): <b>String</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -184,7 +162,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Sets the <i>display name</i> of this <code>PropertyInfo</code> to be displayed to end users.<br>
      * 
-     * <p>Property <b>DisplayName</b> (opendma.org): <b>String</b><br>
+     * <p>Property <b>DisplayName</b> (opendma): <b>String</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -210,7 +188,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Returns the numeric ID of the data type described by this <code>PropertyInfo</code>.<br>
      * 
-     * <p>Property <b>DataType</b> (opendma.org): <b>Integer</b><br>
+     * <p>Property <b>DataType</b> (opendma): <b>Integer</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -235,7 +213,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Sets the numeric ID of the data type described by this <code>PropertyInfo</code>.<br>
      * 
-     * <p>Property <b>DataType</b> (opendma.org): <b>Integer</b><br>
+     * <p>Property <b>DataType</b> (opendma): <b>Integer</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -261,7 +239,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Returns the required <code>Class</code> of the object referenced by this property if this <code>PropertyInfo</code>.<br>
      * 
-     * <p>Property <b>ReferenceClass</b> (opendma.org): <b>Reference to Class (opendma.org)</b><br>
+     * <p>Property <b>ReferenceClass</b> (opendma): <b>Reference to Class (opendma)</b><br>
      * [SingleValue] [Writable] [Nullable]<br>
      * Full description follows.</p>
      * 
@@ -290,7 +268,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Sets the required <code>Class</code> of the object referenced by this property if this <code>PropertyInfo</code>.<br>
      * 
-     * <p>Property <b>ReferenceClass</b> (opendma.org): <b>Reference to Class (opendma.org)</b><br>
+     * <p>Property <b>ReferenceClass</b> (opendma): <b>Reference to Class (opendma)</b><br>
      * [SingleValue] [Writable] [Nullable]<br>
      * Full description follows.</p>
      * 
@@ -316,7 +294,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Returns wheather <code>Object</code>s of this <code>Class</code> can be created or not.<br>
      * 
-     * <p>Property <b>MultiValue</b> (opendma.org): <b>Boolean</b><br>
+     * <p>Property <b>MultiValue</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -341,7 +319,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Sets wheather <code>Object</code>s of this <code>Class</code> can be created or not.<br>
      * 
-     * <p>Property <b>MultiValue</b> (opendma.org): <b>Boolean</b><br>
+     * <p>Property <b>MultiValue</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -367,7 +345,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Returns wheather <code>Object</code>s of this <code>Class</code> can be created or not.<br>
      * 
-     * <p>Property <b>Required</b> (opendma.org): <b>Boolean</b><br>
+     * <p>Property <b>Required</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -392,7 +370,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Sets wheather <code>Object</code>s of this <code>Class</code> can be created or not.<br>
      * 
-     * <p>Property <b>Required</b> (opendma.org): <b>Boolean</b><br>
+     * <p>Property <b>Required</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -418,7 +396,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Returns wheather this <code>Class</code> should be displayed to end users or not.<br>
      * 
-     * <p>Property <b>ReadOnly</b> (opendma.org): <b>Boolean</b><br>
+     * <p>Property <b>ReadOnly</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -443,7 +421,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Sets wheather this <code>Class</code> should be displayed to end users or not.<br>
      * 
-     * <p>Property <b>ReadOnly</b> (opendma.org): <b>Boolean</b><br>
+     * <p>Property <b>ReadOnly</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -469,7 +447,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Returns wheather this <code>Class</code> should be displayed to end users or not.<br>
      * 
-     * <p>Property <b>Hidden</b> (opendma.org): <b>Boolean</b><br>
+     * <p>Property <b>Hidden</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -494,7 +472,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Sets wheather this <code>Class</code> should be displayed to end users or not.<br>
      * 
-     * <p>Property <b>Hidden</b> (opendma.org): <b>Boolean</b><br>
+     * <p>Property <b>Hidden</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -520,7 +498,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Returns wheather this <code>Class</code> is defined by the system (true) or by users (false).<br>
      * 
-     * <p>Property <b>System</b> (opendma.org): <b>Boolean</b><br>
+     * <p>Property <b>System</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -545,7 +523,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     /**
      * Sets wheather this <code>Class</code> is defined by the system (true) or by users (false).<br>
      * 
-     * <p>Property <b>System</b> (opendma.org): <b>Boolean</b><br>
+     * <p>Property <b>System</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -566,6 +544,17 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
         {
             throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
+    }
+
+    /**
+     * the qualified name of this <code>Class</code><br>
+     * <p>Full description follows.</p>
+     * 
+     * @return the qualified name of this <code>Class</code>
+     */
+    public OdmaQName getQName()
+    {
+        return new OdmaQName(getNameQualifier(),getName());
     }
 
 }

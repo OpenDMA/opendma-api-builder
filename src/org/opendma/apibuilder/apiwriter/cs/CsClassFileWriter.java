@@ -12,6 +12,8 @@ import org.opendma.apibuilder.OdmaApiWriter;
 import org.opendma.apibuilder.OdmaBasicTypes;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
+import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
+import org.opendma.apibuilder.structure.ApiHelperDescription;
 import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
@@ -24,6 +26,22 @@ public class CsClassFileWriter extends AbstractClassFileWriter
     public CsClassFileWriter(OdmaApiWriter writer)
     {
         apiWriter = writer;
+        this.apiHelperWriters.put("getQName", new ApiHelperWriter(){
+            public void writeApiHelper(ClassDescription classDescription, ApiHelperDescription apiHelper, PrintWriter out)
+            {
+                // getter
+                out.println("");
+                out.println("        /// <summary>");
+                out.println("        /// "+apiHelper.getAbstract()+".<br>");
+                out.println("        /// "+apiHelper.getDescription()+"</p>");
+                out.println("        /// </summary>");
+                out.println("        OdmaQName QName { get; }");
+            }
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List requiredImports)
+            {
+                // TODO Auto-generated method stub
+                
+            }});
     }
 
     protected void writeClassFileHeader(ClassDescription classDescription, List requiredImports, PrintWriter out)

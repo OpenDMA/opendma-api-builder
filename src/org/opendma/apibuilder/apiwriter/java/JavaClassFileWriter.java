@@ -12,6 +12,8 @@ import org.opendma.apibuilder.OdmaApiWriter;
 import org.opendma.apibuilder.OdmaBasicTypes;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
+import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
+import org.opendma.apibuilder.structure.ApiHelperDescription;
 import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
@@ -24,6 +26,25 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
     public JavaClassFileWriter(OdmaApiWriter writer)
     {
         apiWriter = writer;
+        this.apiHelperWriters.put("getQName", new ApiHelperWriter(){
+            public void writeApiHelper(ClassDescription classDescription, ApiHelperDescription apiHelper, PrintWriter out)
+            {
+                out.println("");
+                out.println("    /**");
+                out.println("     * "+apiHelper.getAbstract()+"<br>");
+                out.println("     * <p>"+apiHelper.getDescription()+"</p>");
+                out.println("     * ");
+                out.println("     * @return "+apiHelper.getAbstract());
+                out.println("     */");
+                out.println("    public OdmaQName getQName();");
+            }
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List requiredImports)
+            {
+                if(!requiredImports.contains("org.opendma.api.OdmaQName"))
+                {
+                    requiredImports.add("org.opendma.api.OdmaQName");
+                }
+            }});
     }
 
     protected void writeClassFileHeader(ClassDescription classDescription, List requiredImports, PrintWriter out)

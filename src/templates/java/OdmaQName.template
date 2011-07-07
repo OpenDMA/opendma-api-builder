@@ -9,7 +9,7 @@ package org.opendma.api;
  * 
  * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
  */
-public class OdmaQName
+public final class OdmaQName
 {
 
     /** the name <i>qualifier</i> of this qualified name */

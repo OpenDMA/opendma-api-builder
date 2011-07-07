@@ -12,6 +12,8 @@ import org.opendma.apibuilder.OdmaApiWriter;
 import org.opendma.apibuilder.OdmaBasicTypes;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
+import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
+import org.opendma.apibuilder.structure.ApiHelperDescription;
 import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
@@ -24,6 +26,25 @@ public class CppClassTemplateFileWriter extends AbstractClassFileWriter
     public CppClassTemplateFileWriter(OdmaApiWriter writer)
     {
         apiWriter = writer;
+        this.apiHelperWriters.put("getQName", new ApiHelperWriter(){
+            public void writeApiHelper(ClassDescription classDescription, ApiHelperDescription apiHelper, PrintWriter out)
+            {
+                // getter
+                out.println("");
+                out.println("    /**");
+                out.println("    /**");
+                out.println("     * "+apiHelper.getAbstract()+".<br>");
+                out.println("     * <p>"+apiHelper.getDescription()+"</p>");
+                out.println("     */");
+                out.println("    virtual OdmaQName* getQName(void) = 0;");
+            }
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List requiredImports)
+            {
+                if(!requiredImports.contains("\"OdmaQName.h\""))
+                {
+                    requiredImports.add("\"OdmaQName.h\"");
+                }
+            }});
     }
 
     protected void writeClassFileHeader(ClassDescription classDescription, List requiredImports, PrintWriter out)

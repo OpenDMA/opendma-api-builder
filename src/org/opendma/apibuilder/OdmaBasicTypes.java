@@ -73,6 +73,6 @@ public interface OdmaBasicTypes
 
     public final static int TYPE_GUID = 101;
 
-    public final static int TYPE_QNAME = 102;
+    //public final static int TYPE_QNAME = 102;
 
 }

@@ -80,8 +80,8 @@ public class JavaApiWriter extends AbstractApiWriter
                 return "OdmaIdList";
             case OdmaBasicTypes.TYPE_GUID:
                 return "OdmaGuidList";
-            case OdmaBasicTypes.TYPE_QNAME:
-                return "OdmaQNameList";
+//            case OdmaBasicTypes.TYPE_QNAME:
+//                return "OdmaQNameList";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -116,8 +116,8 @@ public class JavaApiWriter extends AbstractApiWriter
                 return "OdmaId";
             case OdmaBasicTypes.TYPE_GUID:
                 return "OdmaGuid";
-            case OdmaBasicTypes.TYPE_QNAME:
-                return "OdmaQName";
+//            case OdmaBasicTypes.TYPE_QNAME:
+//                return "OdmaQName";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -156,8 +156,8 @@ public class JavaApiWriter extends AbstractApiWriter
                 return "org.opendma.api.collections.OdmaIdList";
             case OdmaBasicTypes.TYPE_GUID:
                 return "org.opendma.api.collections.OdmaGuidList";
-            case OdmaBasicTypes.TYPE_QNAME:
-                return "org.opendma.api.collections.OdmaQNameList";
+//            case OdmaBasicTypes.TYPE_QNAME:
+//                return "org.opendma.api.collections.OdmaQNameList";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -192,8 +192,8 @@ public class JavaApiWriter extends AbstractApiWriter
                 return "org.opendma.api.OdmaId";
             case OdmaBasicTypes.TYPE_GUID:
                 return "org.opendma.api.OdmaGuid";
-            case OdmaBasicTypes.TYPE_QNAME:
-                return "org.opendma.api.OdmaQName";
+//            case OdmaBasicTypes.TYPE_QNAME:
+//                return "org.opendma.api.OdmaQName";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }

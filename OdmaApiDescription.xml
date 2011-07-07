@@ -35,8 +35,6 @@
 
         <InternalScalarType name="Guid" numericId="101" reference="false" baseScalar="String" />
 
-        <InternalScalarType name="QName" numericId="102" reference="false" baseScalar="String" />
-
     </ScalarTypes>
 
 
@@ -130,19 +128,6 @@
                   hidden="false"
                   system="true">
             <Abstract>the name &lt;i&gt;qualifier&lt;/i&gt; of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma"
-                  name="QName"
-                  apiName="QName"
-                  readOnly="true"
-                  required="true"
-                  dataType="qname"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the qualified name of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -272,6 +257,11 @@
             <Abstract>the list of &lt;code&gt;Class&lt;/code&gt;es that extend this class (i.e. that contain a reference to this &lt;code&gt;Class&lt;/code&gt; in their &lt;i&gt;parent&lt;/i&gt; property)</Abstract>
             <Description>Full description follows.</Description>
         </Property>
+        
+        <ApiHelper apiName="getQName">
+            <Abstract>the qualified name of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </ApiHelper>
 
     </Class>
 
@@ -303,19 +293,6 @@
                   hidden="false"
                   system="true">
             <Abstract>the name &lt;i&gt;qualifier&lt;/i&gt; of this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
-        </Property>
-
-        <Property qualifier="opendma"
-                  name="QName"
-                  apiName="QName"
-                  readOnly="true"
-                  required="true"
-                  dataType="qname"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the qualified name of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -424,6 +401,11 @@
             <Abstract>wheather this &lt;code&gt;Class&lt;/code&gt; is defined by the system (true) or by users (false)</Abstract>
             <Description>Full description follows.</Description>
         </Property>
+        
+        <ApiHelper apiName="getQName">
+            <Abstract>the qualified name of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </ApiHelper>
 
     </Class>
 

@@ -54,10 +54,13 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     // Object specific property access
     // =============================================================================================
 
+    // CHECKTEMPLATE: the following code has most likely been copied from a class template. Make sure to keep this code up to date!
+    // The following template code is available as OdmaClassTemplate
+
     /**
      * Returns the internal (technical) <i>name</i> of this <code>Class</code>.<br>
      * 
-     * <p>Property <b>Name</b> (opendma.org): <b>String</b><br>
+     * <p>Property <b>Name</b> (opendma): <b>String</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -82,7 +85,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     /**
      * Sets the internal (technical) <i>name</i> of this <code>Class</code>.<br>
      * 
-     * <p>Property <b>Name</b> (opendma.org): <b>String</b><br>
+     * <p>Property <b>Name</b> (opendma): <b>String</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -108,8 +111,8 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     /**
      * Returns the name <i>qualifier</i> of this <code>Class</code>.<br>
      * 
-     * <p>Property <b>NameQualifier</b> (opendma.org): <b>String</b><br>
-     * [SingleValue] [Writable] [Required]<br>
+     * <p>Property <b>NameQualifier</b> (opendma): <b>String</b><br>
+     * [SingleValue] [Writable] [Nullable]<br>
      * Full description follows.</p>
      * 
      * @return the name <i>qualifier</i> of this <code>Class</code>
@@ -133,8 +136,8 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     /**
      * Sets the name <i>qualifier</i> of this <code>Class</code>.<br>
      * 
-     * <p>Property <b>NameQualifier</b> (opendma.org): <b>String</b><br>
-     * [SingleValue] [Writable] [Required]<br>
+     * <p>Property <b>NameQualifier</b> (opendma): <b>String</b><br>
+     * [SingleValue] [Writable] [Nullable]<br>
      * Full description follows.</p>
      * 
      * @throws OdmaAccessDeniedException
@@ -157,34 +160,9 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     }
 
     /**
-     * Returns the qualified name of this <code>Class</code>.<br>
-     * 
-     * <p>Property <b>QName</b> (opendma.org): <b>String</b><br>
-     * [SingleValue] [ReadOnly] [Required]<br>
-     * Full description follows.</p>
-     * 
-     * @return the qualified name of this <code>Class</code>
-     */
-    public OdmaQName getQName()
-    {
-        try
-        {
-            return getProperty(OdmaTypes.PROPERTY_QNAME).getQName();
-        }
-        catch(OdmaInvalidDataTypeException oidte)
-        {
-            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
-        }
-        catch(OdmaObjectNotFoundException oonfe)
-        {
-            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
-        }
-    }
-
-    /**
      * Returns the <i>display name</i> of this <code>Class</code> to be displayed to end users.<br>
      * 
-     * <p>Property <b>DisplayName</b> (opendma.org): <b>String</b><br>
+     * <p>Property <b>DisplayName</b> (opendma): <b>String</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -209,7 +187,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     /**
      * Sets the <i>display name</i> of this <code>Class</code> to be displayed to end users.<br>
      * 
-     * <p>Property <b>DisplayName</b> (opendma.org): <b>String</b><br>
+     * <p>Property <b>DisplayName</b> (opendma): <b>String</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -235,7 +213,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     /**
      * Returns the <i>parent</i> <code>Class</code> that is extended by this <code>Class</code>.<br>
      * 
-     * <p>Property <b>Parent</b> (opendma.org): <b>Reference to Class (opendma.org)</b><br>
+     * <p>Property <b>Parent</b> (opendma): <b>Reference to Class (opendma)</b><br>
      * [SingleValue] [ReadOnly] [Nullable]<br>
      * Full description follows.</p>
      * 
@@ -264,7 +242,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     /**
      * Returns the list of <i>aspects</i> that are implemented by this <code>Class</code>.<br>
      * 
-     * <p>Property <b>Aspects</b> (opendma.org): <b>Reference to Class (opendma.org)</b><br>
+     * <p>Property <b>Aspects</b> (opendma): <b>Reference to Class (opendma)</b><br>
      * [MultiValue] [Writable] [Nullable]<br>
      * Full description follows.</p>
      * 
@@ -293,7 +271,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     /**
      * Returns the list of <i>properties</i> that are desclared by this <code>Class</code> (does not contain inherited properties)..<br>
      * 
-     * <p>Property <b>DeclaredProperties</b> (opendma.org): <b>Reference to PropertyInfo (opendma.org)</b><br>
+     * <p>Property <b>DeclaredProperties</b> (opendma): <b>Reference to PropertyInfo (opendma)</b><br>
      * [MultiValue] [Writable] [Nullable]<br>
      * Full description follows.</p>
      * 
@@ -322,8 +300,8 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     /**
      * Returns the list of <i>properties</i> that are effective for objects of this <code>Class</code>. Contains inherited and declared properties..<br>
      * 
-     * <p>Property <b>Properties</b> (opendma.org): <b>Reference to PropertyInfo (opendma.org)</b><br>
-     * [MultiValue] [Writable] [Nullable]<br>
+     * <p>Property <b>Properties</b> (opendma): <b>Reference to PropertyInfo (opendma)</b><br>
+     * [MultiValue] [ReadOnly] [Nullable]<br>
      * Full description follows.</p>
      * 
      * @return the list of <i>properties</i> that are effective for objects of this <code>Class</code>. Contains inherited and declared properties.
@@ -351,7 +329,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     /**
      * Returns wheather <code>Object</code>s of this <code>Class</code> can be created or not.<br>
      * 
-     * <p>Property <b>Instantiable</b> (opendma.org): <b>Boolean</b><br>
+     * <p>Property <b>Instantiable</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -376,7 +354,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     /**
      * Sets wheather <code>Object</code>s of this <code>Class</code> can be created or not.<br>
      * 
-     * <p>Property <b>Instantiable</b> (opendma.org): <b>Boolean</b><br>
+     * <p>Property <b>Instantiable</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -402,7 +380,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     /**
      * Returns wheather this <code>Class</code> should be displayed to end users or not.<br>
      * 
-     * <p>Property <b>Hidden</b> (opendma.org): <b>Boolean</b><br>
+     * <p>Property <b>Hidden</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -427,7 +405,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     /**
      * Sets wheather this <code>Class</code> should be displayed to end users or not.<br>
      * 
-     * <p>Property <b>Hidden</b> (opendma.org): <b>Boolean</b><br>
+     * <p>Property <b>Hidden</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -453,7 +431,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     /**
      * Returns wheather this <code>Class</code> is defined by the system (true) or by users (false).<br>
      * 
-     * <p>Property <b>System</b> (opendma.org): <b>Boolean</b><br>
+     * <p>Property <b>System</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -478,7 +456,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     /**
      * Sets wheather this <code>Class</code> is defined by the system (true) or by users (false).<br>
      * 
-     * <p>Property <b>System</b> (opendma.org): <b>Boolean</b><br>
+     * <p>Property <b>System</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -504,7 +482,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     /**
      * Returns the list of <code>Class</code>es that extend this class (i.e. that contain a reference to this <code>Class</code> in their <i>parent</i> property).<br>
      * 
-     * <p>Property <b>SubClasses</b> (opendma.org): <b>Reference to Class (opendma.org)</b><br>
+     * <p>Property <b>SubClasses</b> (opendma): <b>Reference to Class (opendma)</b><br>
      * [MultiValue] [ReadOnly] [Nullable]<br>
      * Full description follows.</p>
      * 
@@ -528,6 +506,17 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         {
             throw new OdmaRuntimeException("Predefined system property missing",oonfe);
         }
+    }
+
+    /**
+     * the qualified name of this <code>Class</code><br>
+     * <p>Full description follows.</p>
+     * 
+     * @return the qualified name of this <code>Class</code>
+     */
+    public OdmaQName getQName()
+    {
+        return new OdmaQName(getNameQualifier(),getName());
     }
 
 }

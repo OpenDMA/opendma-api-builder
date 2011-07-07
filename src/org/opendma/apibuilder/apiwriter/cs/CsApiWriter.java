@@ -80,8 +80,8 @@ public class CsApiWriter extends AbstractApiWriter
                 return "IOdmaIdList";
             case OdmaBasicTypes.TYPE_GUID:
                 return "IOdmaGuidList";
-            case OdmaBasicTypes.TYPE_QNAME:
-                return "IOdmaQNameList";
+//            case OdmaBasicTypes.TYPE_QNAME:
+//                return "IOdmaQNameList";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -116,8 +116,8 @@ public class CsApiWriter extends AbstractApiWriter
                 return "IOdmaId";
             case OdmaBasicTypes.TYPE_GUID:
                 return "IOdmaGuid";
-            case OdmaBasicTypes.TYPE_QNAME:
-                return "OdmaQName";
+//            case OdmaBasicTypes.TYPE_QNAME:
+//                return "OdmaQName";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -142,7 +142,7 @@ public class CsApiWriter extends AbstractApiWriter
             case OdmaBasicTypes.TYPE_CONTENT:
             case OdmaBasicTypes.TYPE_ID:
             case OdmaBasicTypes.TYPE_GUID:
-            case OdmaBasicTypes.TYPE_QNAME:
+//            case OdmaBasicTypes.TYPE_QNAME:
                 return "OpenDMA.Api.Collections";
             case OdmaBasicTypes.TYPE_REFERENCE:
                 throw new ApiCreationException("REFERENCE data type is not scalar");
@@ -180,8 +180,8 @@ public class CsApiWriter extends AbstractApiWriter
                 return "OpenDMA.Api";
             case OdmaBasicTypes.TYPE_GUID:
                 return "OpenDMA.Api";
-            case OdmaBasicTypes.TYPE_QNAME:
-                return "OpenDMA.Api";
+//            case OdmaBasicTypes.TYPE_QNAME:
+//                return "OpenDMA.Api";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }

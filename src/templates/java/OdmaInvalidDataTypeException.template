@@ -260,9 +260,6 @@ public class OdmaInvalidDataTypeException extends OdmaException
         case OdmaTypes.TYPE_GUID:
             msgBuffer.append("guid");
             break;
-        case OdmaTypes.TYPE_QNAME:
-            msgBuffer.append("qname");
-            break;
         default:
             msgBuffer.append("<unknown>");
             break;
@@ -333,9 +330,6 @@ public class OdmaInvalidDataTypeException extends OdmaException
         case OdmaTypes.TYPE_GUID:
             msgBuffer.append("guid");
             break;
-        case OdmaTypes.TYPE_QNAME:
-            msgBuffer.append("qname");
-            break;
         default:
             msgBuffer.append("<unknown>");
             break;
@@ -389,9 +383,6 @@ public class OdmaInvalidDataTypeException extends OdmaException
             break;
         case OdmaTypes.TYPE_GUID:
             msgBuffer.append("guid");
-            break;
-        case OdmaTypes.TYPE_QNAME:
-            msgBuffer.append("qname");
             break;
         default:
             msgBuffer.append("<unknown>");

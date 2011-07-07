@@ -40,6 +40,22 @@ public abstract class AbstractClassFileWriter
     
     protected abstract void appendRequiredImportsGlobal(ClassDescription classDescription, List requiredImports);
     
+    protected void appendRequiredImportsApiHelper(ClassDescription classDescription, List requiredImports)
+    {
+        Iterator itApiHelperDescriptions = classDescription.getApiHelpers().iterator();
+        while(itApiHelperDescriptions.hasNext())
+        {
+            ApiHelperDescription apiHelper = (ApiHelperDescription)itApiHelperDescriptions.next();
+            ApiHelperWriter helperWriter = (ApiHelperWriter)apiHelperWriters.get(apiHelper.getApiName());
+            if(helperWriter == null)
+            {
+                throw new RuntimeException("No ApiHelperWriter registered for ApiHelper "+apiHelper.getApiName());
+            }
+            helperWriter.appendRequiredImportsGlobal(classDescription, apiHelper, requiredImports);
+        }
+
+    }
+    
     protected abstract void appendRequiredImportsGenericPropertyAccess(List requiredImports);
     
     protected abstract void appendRequiredImportsClassPropertyAccess(List requiredImports, PropertyDescription property);
@@ -51,6 +67,7 @@ public abstract class AbstractClassFileWriter
         // collect required imports
         ArrayList requiredImports = new ArrayList();
         appendRequiredImportsGlobal(classDescription,requiredImports);
+        appendRequiredImportsApiHelper(classDescription,requiredImports);
         if( (!classDescription.getAspect()) && (classDescription.getExtendsOdmaName() == null) )
         {
             appendRequiredImportsGenericPropertyAccess(requiredImports);
