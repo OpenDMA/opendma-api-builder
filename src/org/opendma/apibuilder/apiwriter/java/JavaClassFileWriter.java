@@ -13,6 +13,7 @@ import org.opendma.apibuilder.OdmaBasicTypes;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
+import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ApiHelperDescription;
 import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
@@ -95,7 +96,7 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         out.println("}");
     }
 
-    protected void appendRequiredImportsGlobal(ClassDescription classDescription, List requiredImports)
+    protected void appendRequiredImportsGlobal(ClassDescription classDescription, ImportsList requiredImports)
     {
         // we do not have any globally required imports
     }
@@ -115,20 +116,11 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         }
     }
 
-    protected void appendRequiredImportsGenericPropertyAccess(List requiredImports)
+    protected void appendRequiredImportsGenericPropertyAccess(ImportsList requiredImports)
     {
-        if(!requiredImports.contains("org.opendma.exceptions.OdmaObjectNotFoundException"))
-        {
-            requiredImports.add("org.opendma.exceptions.OdmaObjectNotFoundException");
-        }
-        if(!requiredImports.contains("org.opendma.exceptions.OdmaInvalidDataTypeException"))
-        {
-            requiredImports.add("org.opendma.exceptions.OdmaInvalidDataTypeException");
-        }
-        if(!requiredImports.contains("org.opendma.exceptions.OdmaAccessDeniedException"))
-        {
-            requiredImports.add("org.opendma.exceptions.OdmaAccessDeniedException");
-        }
+        requiredImports.registerImport("org.opendma.exceptions.OdmaObjectNotFoundException");
+        requiredImports.registerImport("org.opendma.exceptions.OdmaInvalidDataTypeException");
+        requiredImports.registerImport("org.opendma.exceptions.OdmaAccessDeniedException");
     }
 
     protected void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out)
@@ -158,13 +150,13 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         }
     }
     
-    protected String getRequiredImport(PropertyDescription property)
+    protected String[] getRequiredImports(PropertyDescription property)
     {
         if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
         {
             if(property.getMultiValue())
             {
-                return "org.opendma.api.collections."+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration";
+                return new String[] { "org.opendma.api.collections."+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration" };
             }
             else
             {
@@ -174,7 +166,7 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            return apiWriter.getRequiredScalarDataTypeImport(property.getMultiValue(),property.getDataType());
+            return apiWriter.getRequiredScalarDataTypeImports(property.getMultiValue(),property.getDataType());
         }
     }
 
@@ -224,23 +216,12 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         }
     }
 
-    protected void appendRequiredImportsClassPropertyAccess(List requiredImports, PropertyDescription property)
+    protected void appendRequiredImportsClassPropertyAccess(ImportsList requiredImports, PropertyDescription property)
     {
-        String importPackage = getRequiredImport(property);
-        if(importPackage != null)
-        {
-            if(!requiredImports.contains(importPackage))
-            {
-                requiredImports.add(importPackage);
-            }
-        }
+        requiredImports.registerImports(getRequiredImports(property));
         if( (!property.isReadOnly()) && (!property.getMultiValue()) )
         {
-            String importException = "org.opendma.exceptions.OdmaAccessDeniedException";
-            if(!requiredImports.contains(importException))
-            {
-                requiredImports.add(importException);
-            }
+            requiredImports.registerImport("org.opendma.exceptions.OdmaAccessDeniedException");
         }
     }
 

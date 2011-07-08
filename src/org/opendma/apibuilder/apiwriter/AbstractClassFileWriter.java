@@ -3,7 +3,6 @@ package org.opendma.apibuilder.apiwriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -38,9 +37,9 @@ public abstract class AbstractClassFileWriter
         helperWriter.writeApiHelper(classDescription, apiHelper, out);
     }
     
-    protected abstract void appendRequiredImportsGlobal(ClassDescription classDescription, List requiredImports);
+    protected abstract void appendRequiredImportsGlobal(ClassDescription classDescription, ImportsList requiredImports);
     
-    protected void appendRequiredImportsApiHelper(ClassDescription classDescription, List requiredImports)
+    protected void appendRequiredImportsApiHelper(ClassDescription classDescription, ImportsList requiredImports)
     {
         Iterator itApiHelperDescriptions = classDescription.getApiHelpers().iterator();
         while(itApiHelperDescriptions.hasNext())
@@ -56,16 +55,16 @@ public abstract class AbstractClassFileWriter
 
     }
     
-    protected abstract void appendRequiredImportsGenericPropertyAccess(List requiredImports);
+    protected abstract void appendRequiredImportsGenericPropertyAccess(ImportsList requiredImports);
     
-    protected abstract void appendRequiredImportsClassPropertyAccess(List requiredImports, PropertyDescription property);
+    protected abstract void appendRequiredImportsClassPropertyAccess(ImportsList requiredImports, PropertyDescription property);
 
     public void createClassFile(ClassDescription classDescription, OutputStream classOutputStream) throws IOException
     {
         // create output Writer
         PrintWriter out = new PrintWriter(classOutputStream);
         // collect required imports
-        ArrayList requiredImports = new ArrayList();
+        ImportsList requiredImports = new ImportsList();
         appendRequiredImportsGlobal(classDescription,requiredImports);
         appendRequiredImportsApiHelper(classDescription,requiredImports);
         if( (!classDescription.getAspect()) && (classDescription.getExtendsOdmaName() == null) )

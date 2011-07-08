@@ -11,6 +11,7 @@ import java.util.List;
 import org.opendma.apibuilder.OdmaApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractPropertyFileWriter;
+import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ApiDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
@@ -99,48 +100,22 @@ public class JavaPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("    public "+javaReturnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Enumeration":"List")+"() throws OdmaInvalidDataTypeException;");
     }
 
-    protected void appendRequiredImportsGlobal(List requiredImports)
+    protected void appendRequiredImportsGlobal(ImportsList requiredImports)
     {
-        if(!requiredImports.contains("org.opendma.exceptions.OdmaInvalidDataTypeException"))
-        {
-            requiredImports.add("org.opendma.exceptions.OdmaInvalidDataTypeException");
-        }
-        if(!requiredImports.contains("org.opendma.exceptions.OdmaAccessDeniedException"))
-        {
-            requiredImports.add("org.opendma.exceptions.OdmaAccessDeniedException");
-        }
+        requiredImports.registerImport("org.opendma.exceptions.OdmaInvalidDataTypeException");
+        requiredImports.registerImport("org.opendma.exceptions.OdmaAccessDeniedException");
     }
 
-    protected void appendRequiredImportsScalarAccess(List requiredImports, ScalarTypeDescription scalarTypeDescription)
+    protected void appendRequiredImportsScalarAccess(ImportsList requiredImports, ScalarTypeDescription scalarTypeDescription)
     {
         if(scalarTypeDescription.isReference())
         {
-            if(!requiredImports.contains("org.opendma.api.OdmaObject"))
-            {
-                requiredImports.add("org.opendma.api.OdmaObject");
-            }
-            if(!requiredImports.contains("org.opendma.api.collections.OdmaObjectEnumeration"))
-            {
-                requiredImports.add("org.opendma.api.collections.OdmaObjectEnumeration");
-            }
+            requiredImports.registerImport("org.opendma.api.OdmaObject");
+            requiredImports.registerImport("org.opendma.api.collections.OdmaObjectEnumeration");
             return;
         }
-        String requiredImportSingleValue = apiWriter.getRequiredScalarDataTypeImport(false,scalarTypeDescription.getNumericID());
-        String requiredImportMultiValue = apiWriter.getRequiredScalarDataTypeImport(true,scalarTypeDescription.getNumericID());
-        if(requiredImportSingleValue != null)
-        {
-            if(!requiredImports.contains(requiredImportSingleValue))
-            {
-                requiredImports.add(requiredImportSingleValue);
-            }
-        }
-        if(requiredImportMultiValue != null)
-        {
-            if(!requiredImports.contains(requiredImportMultiValue))
-            {
-                requiredImports.add(requiredImportMultiValue);
-            }
-        }
+        requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(false,scalarTypeDescription.getNumericID()));
+        requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(true,scalarTypeDescription.getNumericID()));
     }
 
 }

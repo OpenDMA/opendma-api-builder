@@ -11,6 +11,7 @@ import java.util.List;
 import org.opendma.apibuilder.OdmaApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractPropertyFileWriter;
+import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ApiDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
@@ -174,52 +175,23 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
         out.println("        }");
     }
 
-    protected void appendRequiredImportsGlobal(List requiredImports)
+    protected void appendRequiredImportsGlobal(ImportsList requiredImports)
     {
-        if(!requiredImports.contains("System"))
-        {
-            requiredImports.add("System");
-        }
-        if(!requiredImports.contains("System.Collections.Generic"))
-        {
-            requiredImports.add("System.Collections.Generic");
-        }
-        if(!requiredImports.contains("System.Linq"))
-        {
-            requiredImports.add("System.Linq");
-        }
-        if(!requiredImports.contains("System.Text"))
-        {
-            requiredImports.add("System.Text");
-        }
-        if(!requiredImports.contains("OpenDMA.Exceptions"))
-        {
-            requiredImports.add("OpenDMA.Exceptions");
-        }
+        requiredImports.registerImport("System");
+        requiredImports.registerImport("System.Collections.Generic");
+        requiredImports.registerImport("System.Linq");
+        requiredImports.registerImport("System.Text");
+        requiredImports.registerImport("OpenDMA.Exceptions");
     }
 
-    protected void appendRequiredImportsScalarAccess(List requiredImports, ScalarTypeDescription scalarTypeDescription)
+    protected void appendRequiredImportsScalarAccess(ImportsList requiredImports, ScalarTypeDescription scalarTypeDescription)
     {
         if(scalarTypeDescription.isReference())
         {
             return;
         }
-        String requiredImportSingleValue = apiWriter.getRequiredScalarDataTypeImport(false,scalarTypeDescription.getNumericID());
-        String requiredImportMultiValue = apiWriter.getRequiredScalarDataTypeImport(true,scalarTypeDescription.getNumericID());
-        if(requiredImportSingleValue != null)
-        {
-            if(!requiredImports.contains(requiredImportSingleValue))
-            {
-                requiredImports.add(requiredImportSingleValue);
-            }
-        }
-        if(requiredImportMultiValue != null)
-        {
-            if(!requiredImports.contains(requiredImportMultiValue))
-            {
-                requiredImports.add(requiredImportMultiValue);
-            }
-        }
+        requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(false,scalarTypeDescription.getNumericID()));
+        requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(true,scalarTypeDescription.getNumericID()));
     }
 
 }

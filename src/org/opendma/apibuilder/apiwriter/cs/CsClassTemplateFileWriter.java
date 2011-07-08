@@ -13,6 +13,7 @@ import org.opendma.apibuilder.OdmaBasicTypes;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
+import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ApiHelperDescription;
 import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
@@ -99,28 +100,13 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         out.println("}");
     }
 
-    protected void appendRequiredImportsGlobal(ClassDescription classDescription, List requiredImports)
+    protected void appendRequiredImportsGlobal(ClassDescription classDescription, ImportsList requiredImports)
     {
-        if(!requiredImports.contains("System"))
-        {
-            requiredImports.add("System");
-        }
-        if(!requiredImports.contains("System.Collections.Generic"))
-        {
-            requiredImports.add("System.Collections.Generic");
-        }
-        if(!requiredImports.contains("System.Linq"))
-        {
-            requiredImports.add("System.Linq");
-        }
-        if(!requiredImports.contains("System.Text"))
-        {
-            requiredImports.add("System.Text");
-        }
-        if(!requiredImports.contains("OpenDMA.Api"))
-        {
-            requiredImports.add("OpenDMA.Api");
-        }
+        requiredImports.registerImport("System");
+        requiredImports.registerImport("System.Collections.Generic");
+        requiredImports.registerImport("System.Linq");
+        requiredImports.registerImport("System.Text");
+        requiredImports.registerImport("OpenDMA.Api");
     }
 
     protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
@@ -138,7 +124,7 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         }
     }
 
-    protected void appendRequiredImportsGenericPropertyAccess(List requiredImports)
+    protected void appendRequiredImportsGenericPropertyAccess(ImportsList requiredImports)
     {
     }
 
@@ -169,13 +155,13 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         }
     }
     
-    protected String getRequiredImport(PropertyDescription property)
+    protected String[] getRequiredImports(PropertyDescription property)
     {
         if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
         {
             if(property.getMultiValue())
             {
-                return "OpenDMA.Api.Collections";
+                return new String[] { "OpenDMA.Api.Collections" };
             }
             else
             {
@@ -185,7 +171,7 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            return apiWriter.getRequiredScalarDataTypeImport(property.getMultiValue(),property.getDataType());
+            return apiWriter.getRequiredScalarDataTypeImports(property.getMultiValue(),property.getDataType());
         }
     }
 
@@ -229,16 +215,9 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         
     }
 
-    protected void appendRequiredImportsClassPropertyAccess(List requiredImports, PropertyDescription property)
+    protected void appendRequiredImportsClassPropertyAccess(ImportsList requiredImports, PropertyDescription property)
     {
-        String importPackage = getRequiredImport(property);
-        if(importPackage != null)
-        {
-            if(!requiredImports.contains(importPackage))
-            {
-                requiredImports.add(importPackage);
-            }
-        }
+        requiredImports.registerImports(getRequiredImports(property));
     }
 
 }

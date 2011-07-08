@@ -126,40 +126,38 @@ public class CppApiWriter extends AbstractApiWriter
         }
     }
 
-    public String getRequiredScalarDataTypeImport(boolean multiValue, int dataType)
+    public String[] getRequiredScalarDataTypeImports(boolean multiValue, int dataType)
     {
         if(multiValue)
         {
             switch(dataType)
             {
             case OdmaBasicTypes.TYPE_STRING:
-                return "\"collections/StringList.h\"";
+                return new String[] { "\"collections/StringList.h\"" };
             case OdmaBasicTypes.TYPE_INTEGER:
-                return "\"collections/IntegerList.h\"";
+                return new String[] { "\"collections/IntegerList.h\"" };
             case OdmaBasicTypes.TYPE_SHORT:
-                return "\"collections/ShortList.h\"";
+                return new String[] { "\"collections/ShortList.h\"" };
             case OdmaBasicTypes.TYPE_LONG:
-                return "\"collections/LongList.h\"";
+                return new String[] { "\"collections/LongList.h\"" };
             case OdmaBasicTypes.TYPE_FLOAT:
-                return "\"collections/FloatList.h\"";
+                return new String[] { "\"collections/FloatList.h\"" };
             case OdmaBasicTypes.TYPE_DOUBLE:
-                return "\"collections/DoubleList.h\"";
+                return new String[] { "\"collections/DoubleList.h\"" };
             case OdmaBasicTypes.TYPE_BOOLEAN:
-                return "\"collections/BooleanList.h\"";
+                return new String[] { "\"collections/BooleanList.h\"" };
             case OdmaBasicTypes.TYPE_DATETIME:
-                return "\"collections/DateList.h\"";
+                return new String[] { "\"collections/DateList.h\"" };
             case OdmaBasicTypes.TYPE_BLOB:
-                return "\"collections/BlobList.h\"";
+                return new String[] { "\"collections/BlobList.h\"" };
             case OdmaBasicTypes.TYPE_REFERENCE:
                 throw new ApiCreationException("REFERENCE data type is not scalar");
             case OdmaBasicTypes.TYPE_CONTENT:
-                return "\"collections/OdmaContentList.h\"";
+                return new String[] { "\"collections/OdmaContentList.h\"" };
             case OdmaBasicTypes.TYPE_ID:
-                return "\"collections/OdmaIdList.h\"";
+                return new String[] { "\"collections/OdmaIdList.h\"" };
             case OdmaBasicTypes.TYPE_GUID:
-                return "\"collections/OdmaGuidList.h\"";
-            //case OdmaBasicTypes.TYPE_QNAME:
-            //    return "\"collections/OdmaQNameList.h\"";
+                return new String[] { "\"collections/OdmaGuidList.h\"" };
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -183,19 +181,17 @@ public class CppApiWriter extends AbstractApiWriter
             case OdmaBasicTypes.TYPE_BOOLEAN:
                 return null;
             case OdmaBasicTypes.TYPE_DATETIME:
-                return "<time>";
+                return new String[] { "<time>" };
             case OdmaBasicTypes.TYPE_BLOB:
                 return null;
             case OdmaBasicTypes.TYPE_REFERENCE:
                 throw new ApiCreationException("REFERENCE data type is not scalar");
             case OdmaBasicTypes.TYPE_CONTENT:
-                return "\"OdmaContent.h\"";
+                return new String[] { "\"OdmaContent.h\"" };
             case OdmaBasicTypes.TYPE_ID:
-                return "\"OdmaId.h\"";
+                return new String[] { "\"OdmaId.h\"" };
             case OdmaBasicTypes.TYPE_GUID:
-                return "\"OdmaGuid.h\"";
-            //case OdmaBasicTypes.TYPE_QNAME:
-            //    return "\"OdmaQName.h\"";
+                return new String[] { "\"OdmaGuid.h\"" };
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }

@@ -13,6 +13,7 @@ import org.opendma.apibuilder.OdmaBasicTypes;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
+import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ApiHelperDescription;
 import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
@@ -100,7 +101,7 @@ public class CppClassFileWriter extends AbstractClassFileWriter
         out.println("#endif");
     }
 
-    protected void appendRequiredImportsGlobal(ClassDescription classDescription, List requiredImports)
+    protected void appendRequiredImportsGlobal(ClassDescription classDescription, ImportsList requiredImports)
     {
         // we do not have any globally required imports
     }
@@ -120,7 +121,7 @@ public class CppClassFileWriter extends AbstractClassFileWriter
         }
     }
 
-    protected void appendRequiredImportsGenericPropertyAccess(List requiredImports)
+    protected void appendRequiredImportsGenericPropertyAccess(ImportsList requiredImports)
     {
         // nothing for now
     }
@@ -152,13 +153,13 @@ public class CppClassFileWriter extends AbstractClassFileWriter
         }
     }
     
-    protected String getRequiredImport(PropertyDescription property)
+    protected String[] getRequiredImports(PropertyDescription property)
     {
         if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
         {
             if(property.getMultiValue())
             {
-                return "\"collections/"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration.h\"";
+                return new String[] { "\"collections/"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration.h\"" };
             }
             else
             {
@@ -168,7 +169,7 @@ public class CppClassFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            return apiWriter.getRequiredScalarDataTypeImport(property.getMultiValue(),property.getDataType());
+            return apiWriter.getRequiredScalarDataTypeImports(property.getMultiValue(),property.getDataType());
         }
     }
 
@@ -214,16 +215,9 @@ public class CppClassFileWriter extends AbstractClassFileWriter
         }
     }
 
-    protected void appendRequiredImportsClassPropertyAccess(List requiredImports, PropertyDescription property)
+    protected void appendRequiredImportsClassPropertyAccess(ImportsList requiredImports, PropertyDescription property)
     {
-        String importPackage = getRequiredImport(property);
-        if(importPackage != null)
-        {
-            if(!requiredImports.contains(importPackage))
-            {
-                requiredImports.add(importPackage);
-            }
-        }
+        requiredImports.registerImports(getRequiredImports(property));
     }
 
 }

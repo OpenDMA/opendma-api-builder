@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractListFileWriter;
+import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
 public class JavaListImplementationFileWriter extends AbstractListFileWriter
@@ -18,25 +19,11 @@ public class JavaListImplementationFileWriter extends AbstractListFileWriter
         apiWriter = writer;
     }
 
-    protected void appendRequiredImportsGlobal(ScalarTypeDescription scalarTypeDescription, List requiredImports)
+    protected void appendRequiredImportsGlobal(ScalarTypeDescription scalarTypeDescription, ImportsList requiredImports)
     {
-        if(!requiredImports.contains("java.util.ArrayList"))
-        {
-            requiredImports.add("java.util.ArrayList");
-        }
-        String singleValueDataTypeImport = apiWriter.getRequiredScalarDataTypeImport(false,scalarTypeDescription.getNumericID());
-        if(singleValueDataTypeImport != null)
-        {
-            if(!requiredImports.contains(singleValueDataTypeImport))
-            {
-                requiredImports.add(singleValueDataTypeImport);
-            }
-        }
-        String pkg = apiWriter.getRequiredScalarDataTypeImport(true,scalarTypeDescription.getNumericID());
-        if(!requiredImports.contains(pkg))
-        {
-            requiredImports.add(pkg);
-        }
+        requiredImports.registerImport("java.util.ArrayList");
+        requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(false,scalarTypeDescription.getNumericID()));
+        requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(true,scalarTypeDescription.getNumericID()));
     }
 
     protected void writeListFileHeader(ScalarTypeDescription scalarTypeDescription, List requiredImports, PrintWriter out)

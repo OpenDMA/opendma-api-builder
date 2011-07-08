@@ -12,7 +12,7 @@ public interface OdmaApiWriter
     
     public String getProgrammingLanguageSpecificScalarDataType(boolean multiValue, int dataType);
     
-    public String getRequiredScalarDataTypeImport(boolean multiValue, int dataType);
+    public String[] getRequiredScalarDataTypeImports(boolean multiValue, int dataType);
     
     public String getName();
 

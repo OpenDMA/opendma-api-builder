@@ -13,6 +13,7 @@ import org.opendma.apibuilder.OdmaBasicTypes;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
+import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ApiHelperDescription;
 import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
@@ -97,7 +98,7 @@ public class PhpClassFileWriter extends AbstractClassFileWriter
         out.println("}");
     }
 
-    protected void appendRequiredImportsGlobal(ClassDescription classDescription, List requiredImports)
+    protected void appendRequiredImportsGlobal(ClassDescription classDescription, ImportsList requiredImports)
     {
         // we do not have any globally required imports
     }
@@ -117,16 +118,10 @@ public class PhpClassFileWriter extends AbstractClassFileWriter
         }
     }
 
-    protected void appendRequiredImportsGenericPropertyAccess(List requiredImports)
+    protected void appendRequiredImportsGenericPropertyAccess(ImportsList requiredImports)
     {
-        if(!requiredImports.contains("OpenDMA/Exceptions/OdmaObjectNotFoundException.php"))
-        {
-            requiredImports.add("OpenDMA/Exceptions/OdmaObjectNotFoundException.php");
-        }
-        if(!requiredImports.contains("OpenDMA/Exceptions/OdmaInvalidDataTypeException.php"))
-        {
-            requiredImports.add("OpenDMA/Exceptions/OdmaInvalidDataTypeException.php");
-        }
+        requiredImports.registerImport("OpenDMA/Exceptions/OdmaObjectNotFoundException.php");
+        requiredImports.registerImport("OpenDMA/Exceptions/OdmaInvalidDataTypeException.php");
     }
 
     protected void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out)
@@ -156,13 +151,13 @@ public class PhpClassFileWriter extends AbstractClassFileWriter
         }
     }
     
-    protected String getRequiredImport(PropertyDescription property)
+    protected String[] getRequiredImports(PropertyDescription property)
     {
         if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
         {
             if(property.getMultiValue())
             {
-                return "OpenDMA/Api/Collections/"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration.php";
+                return new String[] { "OpenDMA/Api/Collections/"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration.php" };
             }
             else
             {
@@ -172,7 +167,7 @@ public class PhpClassFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            return apiWriter.getRequiredScalarDataTypeImport(property.getMultiValue(),property.getDataType());
+            return apiWriter.getRequiredScalarDataTypeImports(property.getMultiValue(),property.getDataType());
         }
     }
 
@@ -220,16 +215,9 @@ public class PhpClassFileWriter extends AbstractClassFileWriter
         }
     }
 
-    protected void appendRequiredImportsClassPropertyAccess(List requiredImports, PropertyDescription property)
+    protected void appendRequiredImportsClassPropertyAccess(ImportsList requiredImports, PropertyDescription property)
     {
-        String importPackage = getRequiredImport(property);
-        if(importPackage != null)
-        {
-            if(!requiredImports.contains(importPackage))
-            {
-                requiredImports.add(importPackage);
-            }
-        }
+        requiredImports.registerImports(getRequiredImports(property));
     }
 
 }

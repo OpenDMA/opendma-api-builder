@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractListFileWriter;
+import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
 public class CsListFileWriter extends AbstractListFileWriter
@@ -18,36 +19,14 @@ public class CsListFileWriter extends AbstractListFileWriter
         apiWriter = writer;
     }
 
-    protected void appendRequiredImportsGlobal(ScalarTypeDescription scalarTypeDescription, List requiredImports)
+    protected void appendRequiredImportsGlobal(ScalarTypeDescription scalarTypeDescription, ImportsList requiredImports)
     {
-        if(!requiredImports.contains("System"))
-        {
-            requiredImports.add("System");
-        }
-        if(!requiredImports.contains("System.Collections.Generic"))
-        {
-            requiredImports.add("System.Collections.Generic");
-        }
-        if(!requiredImports.contains("System.Linq"))
-        {
-            requiredImports.add("System.Linq");
-        }
-        if(!requiredImports.contains("System.Text"))
-        {
-            requiredImports.add("System.Text");
-        }
-        if(!requiredImports.contains("System.Collections"))
-        {
-            requiredImports.add("System.Collections");
-        }
-        String singleValueDataTypeImport = apiWriter.getRequiredScalarDataTypeImport(false,scalarTypeDescription.getNumericID());
-        if(singleValueDataTypeImport != null)
-        {
-            if(!requiredImports.contains(singleValueDataTypeImport))
-            {
-                requiredImports.add(singleValueDataTypeImport);
-            }
-        }
+        requiredImports.registerImport("System");
+        requiredImports.registerImport("System.Collections.Generic");
+        requiredImports.registerImport("System.Linq");
+        requiredImports.registerImport("System.Text");
+        requiredImports.registerImport("System.Collections");
+        requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(false,scalarTypeDescription.getNumericID()));
     }
 
     protected void writeListFileHeader(ScalarTypeDescription scalarTypeDescription, List requiredImports, PrintWriter out)

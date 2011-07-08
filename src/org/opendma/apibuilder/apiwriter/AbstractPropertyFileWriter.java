@@ -3,7 +3,6 @@ package org.opendma.apibuilder.apiwriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,16 +22,16 @@ public abstract class AbstractPropertyFileWriter
     
     protected abstract void writePropertyFileFooter(ApiDescription apiDescription, PrintWriter out) throws IOException;
     
-    protected abstract void appendRequiredImportsGlobal(List requiredImports);
+    protected abstract void appendRequiredImportsGlobal(ImportsList requiredImports);
     
-    protected abstract void appendRequiredImportsScalarAccess(List requiredImports, ScalarTypeDescription scalarTypeDescription);
+    protected abstract void appendRequiredImportsScalarAccess(ImportsList requiredImports, ScalarTypeDescription scalarTypeDescription);
 
     public void createPropertyFile(ApiDescription apiDescription, OutputStream propertyOutputStream) throws IOException
     {
         // create output Writer
         PrintWriter out = new PrintWriter(propertyOutputStream);
         // collect required imports
-        ArrayList requiredImports = new ArrayList();
+        ImportsList requiredImports = new ImportsList();
         appendRequiredImportsGlobal(requiredImports);
         List scalarTypes = apiDescription.getScalarTypes();
         Iterator itScalarTypes = scalarTypes.iterator();
