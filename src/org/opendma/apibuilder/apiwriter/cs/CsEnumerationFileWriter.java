@@ -2,15 +2,15 @@ package org.opendma.apibuilder.apiwriter.cs;
 
 import java.io.PrintWriter;
 import java.util.Iterator;
-import java.util.List;
 
 import org.opendma.apibuilder.apiwriter.AbstractEnumerationFileWriter;
+import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ClassDescription;
 
 public class CsEnumerationFileWriter extends AbstractEnumerationFileWriter
 {
 
-    protected void appendRequiredImportsGlobal(ClassDescription classDescription, List requiredImports)
+    protected void appendRequiredImportsGlobal(ClassDescription classDescription, ImportsList requiredImports)
     {
         if(!requiredImports.contains("System"))
         {
@@ -34,7 +34,7 @@ public class CsEnumerationFileWriter extends AbstractEnumerationFileWriter
         }
     }
 
-    protected void writeEnumerationFileHeader(ClassDescription classDescription, List requiredImports, PrintWriter out)
+    protected void writeEnumerationFileHeader(ClassDescription classDescription, ImportsList requiredImports, PrintWriter out)
     {
         Iterator itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
