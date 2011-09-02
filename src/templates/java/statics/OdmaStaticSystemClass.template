@@ -47,7 +47,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         {
             props.add((OdmaPropertyInfo)itDeclaredProperties.next());
         }
-        properties.put(OdmaTypes.PROPERTY_PROPERTIES,new OdmaPropertyImpl(OdmaTypes.PROPERTY_DECLAREDPROPERTIES,props,OdmaTypes.TYPE_REFERENCE,true,true));
+        properties.put(OdmaTypes.PROPERTY_PROPERTIES,new OdmaPropertyImpl(OdmaTypes.PROPERTY_PROPERTIES,props,OdmaTypes.TYPE_REFERENCE,true,true));
     }
 
     // =============================================================================================
