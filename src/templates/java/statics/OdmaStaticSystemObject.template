@@ -147,10 +147,13 @@ public class OdmaStaticSystemObject
     // Object specific property access
     // =============================================================================================
 
+    // CHECKTEMPLATE: the following code has most likely been copied from a class template. Make sure to keep this code up to date!
+    // The following template code is available as OdmaObjectTemplate
+
     /**
      * Returns the OpenDMA <code>Class</code> describing this <code>Object</code>.<br>
      * 
-     * <p>Property <b>Class</b> (opendma.org): <b>Reference to Class (opendma.org)</b><br>
+     * <p>Property <b>Class</b> (opendma): <b>Reference to Class (opendma)</b><br>
      * [SingleValue] [ReadOnly] [Required]<br>
      * Full description follows.</p>
      * 
@@ -179,7 +182,7 @@ public class OdmaStaticSystemObject
     /**
      * Returns the <i>unique object identifier</i> identifying this <code>Object</code> inside its <code>Repository</code>.<br>
      * 
-     * <p>Property <b>Id</b> (opendma.org): <b>String</b><br>
+     * <p>Property <b>Id</b> (opendma): <b>String</b><br>
      * [SingleValue] [ReadOnly] [Required]<br>
      * Full description follows.</p>
      * 
@@ -204,7 +207,7 @@ public class OdmaStaticSystemObject
     /**
      * Returns the <i>global unique object identifier</i> globally identifying this <code>Object</code>.<br>
      * 
-     * <p>Property <b>Guid</b> (opendma.org): <b>String</b><br>
+     * <p>Property <b>Guid</b> (opendma): <b>String</b><br>
      * [SingleValue] [ReadOnly] [Required]<br>
      * Full description follows.</p>
      * 
@@ -229,7 +232,7 @@ public class OdmaStaticSystemObject
     /**
      * Returns the OpenDMA <code>Repository</code> where this <code>Object</code> resides.<br>
      * 
-     * <p>Property <b>Repository</b> (opendma.org): <b>Reference to Repository (opendma.org)</b><br>
+     * <p>Property <b>Repository</b> (opendma): <b>Reference to Repository (opendma)</b><br>
      * [SingleValue] [ReadOnly] [Required]<br>
      * Full description follows.</p>
      * 

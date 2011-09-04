@@ -276,3 +276,13 @@ public class OdmaStaticClassHierarchy
         }
     }
     
+    public boolean getRetrievable(OdmaQName className)
+    {
+        return false;
+    }
+    
+    public boolean getSearchable(OdmaQName className)
+    {
+        return false;
+    }
+    

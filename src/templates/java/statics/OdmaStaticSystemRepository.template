@@ -42,10 +42,13 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
     // Object specific property access
     // =============================================================================================
 
+    // CHECKTEMPLATE: the following code has most likely been copied from a class template. Make sure to keep this code up to date!
+    // The following template code is available as OdmaRepositoryTemplate
+
     /**
      * Returns the internal (technical) <i>name</i> of this <code>Repository</code>.<br>
      * 
-     * <p>Property <b>Name</b> (opendma.org): <b>String</b><br>
+     * <p>Property <b>Name</b> (opendma): <b>String</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -70,7 +73,7 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
     /**
      * Sets the internal (technical) <i>name</i> of this <code>Repository</code>.<br>
      * 
-     * <p>Property <b>Name</b> (opendma.org): <b>String</b><br>
+     * <p>Property <b>Name</b> (opendma): <b>String</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -96,7 +99,7 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
     /**
      * Returns the <i>display name</i> of this <code>Repository</code> to be displayed to end users.<br>
      * 
-     * <p>Property <b>DisplayName</b> (opendma.org): <b>String</b><br>
+     * <p>Property <b>DisplayName</b> (opendma): <b>String</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -121,7 +124,7 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
     /**
      * Sets the <i>display name</i> of this <code>Repository</code> to be displayed to end users.<br>
      * 
-     * <p>Property <b>DisplayName</b> (opendma.org): <b>String</b><br>
+     * <p>Property <b>DisplayName</b> (opendma): <b>String</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
@@ -147,7 +150,7 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
     /**
      * Returns the <i>root</i> <code>Class</code> of the class hierarchy in this <code>Repository</code>.<br>
      * 
-     * <p>Property <b>RootClass</b> (opendma.org): <b>Reference to Class (opendma.org)</b><br>
+     * <p>Property <b>RootClass</b> (opendma): <b>Reference to Class (opendma)</b><br>
      * [SingleValue] [ReadOnly] [Required]<br>
      * Full description follows.</p>
      * 
@@ -176,7 +179,7 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
     /**
      * Returns the list of <code>Class</code>es that represent an <i>Aspect</i> and that do not inherit another aspect.<br>
      * 
-     * <p>Property <b>RootAspects</b> (opendma.org): <b>Reference to Class (opendma.org)</b><br>
+     * <p>Property <b>RootAspects</b> (opendma): <b>Reference to Class (opendma)</b><br>
      * [MultiValue] [ReadOnly] [Nullable]<br>
      * Full description follows.</p>
      * 
@@ -205,7 +208,7 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
     /**
      * Returns the <i>root</i> <code>Folder</code> of a dedicated folder tree in this <code>Repository</code> (if any).<br>
      * 
-     * <p>Property <b>RootFolder</b> (opendma.org): <b>Reference to Folder (opendma.org)</b><br>
+     * <p>Property <b>RootFolder</b> (opendma): <b>Reference to Folder (opendma)</b><br>
      * [SingleValue] [ReadOnly] [Nullable]<br>
      * Full description follows.</p>
      * 

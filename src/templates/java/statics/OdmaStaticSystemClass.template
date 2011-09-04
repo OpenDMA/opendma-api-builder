@@ -327,6 +327,31 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     }
 
     /**
+     * Returns wheather this <code>Class</code> describes an Aspect or a valid class object.<br>
+     * 
+     * <p>Property <b>Aspect</b> (opendma): <b>Boolean</b><br>
+     * [SingleValue] [ReadOnly] [Required]<br>
+     * Full description follows.</p>
+     * 
+     * @return wheather this <code>Class</code> describes an Aspect or a valid class object
+     */
+    public Boolean getAspect()
+    {
+        try
+        {
+            return getProperty(OdmaTypes.PROPERTY_ASPECT).getBoolean();
+        }
+        catch(OdmaInvalidDataTypeException oidte)
+        {
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
+        }
+        catch(OdmaObjectNotFoundException oonfe)
+        {
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
+        }
+    }
+
+    /**
      * Returns wheather <code>Object</code>s of this <code>Class</code> can be created or not.<br>
      * 
      * <p>Property <b>Instantiable</b> (opendma): <b>Boolean</b><br>
@@ -468,6 +493,56 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         try
         {
             getProperty(OdmaTypes.PROPERTY_SYSTEM).setValue(value);
+        }
+        catch(OdmaInvalidDataTypeException oidte)
+        {
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
+        }
+        catch(OdmaObjectNotFoundException oonfe)
+        {
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
+        }
+    }
+
+    /**
+     * Returns wheather objects of this class can be retrieved from a session by their id or not.<br>
+     * 
+     * <p>Property <b>Retrievable</b> (opendma): <b>Boolean</b><br>
+     * [SingleValue] [ReadOnly] [Required]<br>
+     * Full description follows.</p>
+     * 
+     * @return wheather objects of this class can be retrieved from a session by their id or not
+     */
+    public Boolean getRetrievable()
+    {
+        try
+        {
+            return getProperty(OdmaTypes.PROPERTY_RETRIEVABLE).getBoolean();
+        }
+        catch(OdmaInvalidDataTypeException oidte)
+        {
+            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
+        }
+        catch(OdmaObjectNotFoundException oonfe)
+        {
+            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
+        }
+    }
+
+    /**
+     * Returns wheather objects of this class can be found by a search query or not.<br>
+     * 
+     * <p>Property <b>Searchable</b> (opendma): <b>Boolean</b><br>
+     * [SingleValue] [ReadOnly] [Required]<br>
+     * Full description follows.</p>
+     * 
+     * @return wheather objects of this class can be found by a search query or not
+     */
+    public Boolean getSearchable()
+    {
+        try
+        {
+            return getProperty(OdmaTypes.PROPERTY_SEARCHABLE).getBoolean();
         }
         catch(OdmaInvalidDataTypeException oidte)
         {

@@ -12,9 +12,9 @@ public class JavaEnumerationFileWriter extends AbstractEnumerationFileWriter
 
     protected void appendRequiredImportsGlobal(ClassDescription classDescription, ImportsList requiredImports)
     {
-        if(!requiredImports.contains("java.util.Iterator"))
+        if(classDescription.getExtendsApiName() == null)
         {
-            requiredImports.add("java.util.Iterator");
+            requiredImports.registerImport("java.util.Iterator");
         }
     }
 
