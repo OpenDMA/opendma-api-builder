@@ -80,3 +80,41 @@
     {
         // TODO: implement me
     }
+
+    /**
+     * Returns <code>true</code> if and only if the class of this object or one of its ancestors equals
+     * the given name or the class of this object or one of its ancestors incorporates the aspect with
+     * the given name.
+     * 
+     * @param classOrAspectName
+     *             the qualified name of the class or aspect to test for
+     * 
+     * @return if the class of this object is or extends the given class or incorportes the given aspect
+     */
+    public boolean instanceOf(OdmaQName classOrAspectName)
+    {
+        // TODO: this code needs to be improved to take advantage of the actual repository
+        OdmaClass test = getOdmaClass();
+        while(test != null)
+        {
+            if(test.getQName().equals(classOrAspectName))
+            {
+                return true;
+            }
+            OdmaClassEnumeration aspects = test.getAspects();
+            if(aspects != null)
+            {
+                Iterator itAspects = aspects.iterator();
+                while(itAspects.hasNext())
+                {
+                    OdmaClass declaredAspect = (OdmaClass)itAspects.next();
+                    if(declaredAspect.getQName().equals(classOrAspectName))
+                    {
+                        return true;
+                    }
+                }
+            }
+            test = test.getParent();
+        }
+        return false;
+    }
