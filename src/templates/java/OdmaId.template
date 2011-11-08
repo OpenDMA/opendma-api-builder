@@ -7,8 +7,21 @@ package org.opendma.api;
  * 
  * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
  */
-public interface OdmaId
+public class OdmaId
 {
+
+    protected String uuid;
+    
+    /**
+     * Create a new OdmaId from a String representation of an id.
+     * 
+     * @param id
+     *            The string representation to create this OdmaId from
+     */
+    public OdmaId(String id)
+    {
+        uuid = id;
+    }
 
     /**
      * Returns true if the given Object is a <code>OdmaId</code> or an
@@ -20,13 +33,19 @@ public interface OdmaId
      * @return true if and only if the given Object is a <code>OdmaId</code>
      *         or an <code>OdmaGuid</code> identifying the same object.
      */
-    public boolean equals(Object obj);
+    public boolean equals(Object obj)
+    {
+        return (obj instanceof OdmaId) && ((OdmaId)obj).uuid.equals(uuid);
+    }
 
     /**
      * Returns the <code>String</code> representation of this Identifier.
      * 
      * @return the <code>String</code> representation of this Identifier.
      */
-    public String toString();
+    public String toString()
+    {
+        return uuid;
+    }
 
 }

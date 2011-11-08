@@ -12,7 +12,7 @@ public class JavaEnumerationFileWriter extends AbstractEnumerationFileWriter
 
     protected void appendRequiredImportsGlobal(ClassDescription classDescription, ImportsList requiredImports)
     {
-        if(classDescription.getExtendsApiName() == null)
+        if( (classDescription.getExtendsApiName() == null) && (!classDescription.getAspect()) )
         {
             requiredImports.registerImport("java.util.Iterator");
         }
@@ -21,6 +21,13 @@ public class JavaEnumerationFileWriter extends AbstractEnumerationFileWriter
     protected void writeEnumerationFileHeader(ClassDescription classDescription, ImportsList requiredImports, PrintWriter out)
     {
         String extendsApiName = classDescription.getExtendsApiName();
+        if(extendsApiName == null)
+        {
+            if(classDescription.getAspect())
+            {
+                extendsApiName = classDescription.getContainingApiDescription().getObjectClass().getApiName();
+            }
+        }
         out.println("package org.opendma.api.collections;");
         out.println("");
         Iterator itRequiredImports = requiredImports.iterator();
@@ -54,7 +61,7 @@ public class JavaEnumerationFileWriter extends AbstractEnumerationFileWriter
 
     protected void writeEnumerationFileMethods(ClassDescription classDescription, PrintWriter out)
     {
-        if(classDescription.getExtendsApiName() != null)
+        if( (classDescription.getExtendsApiName() != null) || classDescription.getAspect() )
         {
             // nothing to do here. Required methods are inherited from base class
             return;
@@ -66,14 +73,14 @@ public class JavaEnumerationFileWriter extends AbstractEnumerationFileWriter
         out.println("     * @return an iterator over all <code>"+classDescription.getApiName()+"</code> elements.");
         out.println("     */");
         out.println("    public Iterator iterator();");
-        out.println("");
-        out.println("    /**");
-        out.println("     * Returns <code>true</code> if and only if the collection is empty, i.e.");
-        out.println("     * <code>iterator().hasNext()</code> returns <code>false</code>.");
-        out.println("     * ");
-        out.println("     * @return <code>true</code> if and only if the collection is empty.");
-        out.println("     */");
-        out.println("    public boolean isEmpty();");
+//        out.println("");
+//        out.println("    /**");
+//        out.println("     * Returns <code>true</code> if and only if the collection is empty, i.e.");
+//        out.println("     * <code>iterator().hasNext()</code> returns <code>false</code>.");
+//        out.println("     * ");
+//        out.println("     * @return <code>true</code> if and only if the collection is empty.");
+//        out.println("     */");
+//        out.println("    public boolean isEmpty();");
     }
 
     protected void writeEnumerationFileFooter(ClassDescription classDescription, PrintWriter out)

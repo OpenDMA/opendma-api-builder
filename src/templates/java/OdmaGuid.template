@@ -9,8 +9,26 @@ package org.opendma.api;
  * 
  * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
  */
-public interface OdmaGuid
+public class OdmaGuid
 {
+
+    protected OdmaId repositoryId;
+    
+    protected OdmaId objectId;
+    
+    /**
+     * Create a new OdmaGuid from the IDs of the repository and the object.
+     * 
+     * @param idRepository
+     *            The OdmaId of the Repository
+     * @param idObject
+     *            The OdmaId of the Object
+     */
+    public OdmaGuid(OdmaId idRepository, OdmaId idObject)
+    {
+        repositoryId = idRepository;
+        objectId = idObject;
+    }
 
     /**
      * Returns true if the given Object is a <code>OdmaGuid</code> or an
@@ -22,13 +40,19 @@ public interface OdmaGuid
      * @return true if and only if the given Object is a <code>OdmaId</code>
      *         or an <code>OdmaGuid</code> identifying the same object.
      */
-    public boolean equals(Object obj);
+    public boolean equals(Object obj)
+    {
+        return (obj instanceof OdmaGuid) && ((OdmaGuid)obj).repositoryId.equals(repositoryId) && ((OdmaGuid)obj).objectId.equals(objectId);
+    }
 
     /**
      * Returns the <code>String</code> representation of this Identifier.
      * 
      * @return the <code>String</code> representation of this Identifier.
      */
-    public String toString();
+    public String toString()
+    {
+        return repositoryId.toString() + ":" + objectId.toString();
+    }
 
 }

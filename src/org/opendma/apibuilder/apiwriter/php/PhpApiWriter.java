@@ -246,11 +246,23 @@ public class PhpApiWriter extends AbstractApiWriter
         to.close();
     }
 
+    protected void createSearchResultFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    {
+        OutputStream to = getBasicFileStream("OdmaSearchResult",outputFolder);
+        InputStream from = getResourceAsStream("/templates/java/OdmaSearchResult.template");
+        streamCopy(from, to);
+        from.close();
+        to.close();
+    }
+
     protected void createExceptionFiles(ApiDescription apiDescription, String outputFolder) throws IOException
     {
+        internalCreateExceptionFile(outputFolder,"OdmaException");
         internalCreateExceptionFile(outputFolder,"OdmaObjectNotFoundException");
         internalCreateExceptionFile(outputFolder,"OdmaInvalidDataTypeException");
         internalCreateExceptionFile(outputFolder,"OdmaAccessDeniedException");
+        internalCreateExceptionFile(outputFolder,"OdmaQuerySyntaxException");
+        internalCreateExceptionFile(outputFolder,"OdmaSearchException");
     }
     
     protected void internalCreateExceptionFile(String outputFolder, String exceptionClassName) throws IOException

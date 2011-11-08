@@ -216,8 +216,6 @@ public class JavaApiWriter extends AbstractApiWriter
         copyStaticClassHelperTemplate("OdmaStaticSystemClass",baseFolder);
         // CHECKTEMPLATE: OdmaRepositoryTemplate
         copyStaticClassHelperTemplate("OdmaStaticSystemRepository",baseFolder);
-        copyStaticClassHelperTemplate("OdmaCoreId",baseFolder);
-        copyStaticClassHelperTemplate("OdmaCoreGuid",baseFolder);
         // additionally create static class hierarchy helper files
         List classes = apiDescription.getDescribedClasses();
         // property
@@ -639,6 +637,15 @@ public class JavaApiWriter extends AbstractApiWriter
         to.close();
     }
 
+    protected void createSearchResultFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    {
+        OutputStream to = getBasicFileStream("OdmaSearchResult",outputFolder);
+        InputStream from = getResourceAsStream("/templates/java/OdmaSearchResult.template");
+        streamCopy(from, to);
+        from.close();
+        to.close();
+    }
+
     protected void createExceptionFiles(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         internalCreateExceptionFile(outputFolder,"OdmaException");
@@ -646,6 +653,8 @@ public class JavaApiWriter extends AbstractApiWriter
         internalCreateExceptionFile(outputFolder,"OdmaInvalidDataTypeException");
         internalCreateExceptionFile(outputFolder,"OdmaAccessDeniedException");
         internalCreateExceptionFile(outputFolder,"OdmaRuntimeException");
+        internalCreateExceptionFile(outputFolder,"OdmaQuerySyntaxException");
+        internalCreateExceptionFile(outputFolder,"OdmaSearchException");
     }
     
     protected void internalCreateExceptionFile(String outputFolder, String exceptionClassName) throws IOException
@@ -661,8 +670,6 @@ public class JavaApiWriter extends AbstractApiWriter
     {
         internalCreateSessionManagementFile(outputFolder,"OdmaDataSource");
         internalCreateSessionManagementFile(outputFolder,"OdmaSession");
-        internalCreateSessionManagementFile(outputFolder,"OdmaIdImpl");
-        internalCreateSessionManagementFile(outputFolder,"OdmaGuidImpl");
     }
     
     protected void internalCreateSessionManagementFile(String outputFolder, String className) throws IOException
