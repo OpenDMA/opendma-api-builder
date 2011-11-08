@@ -135,6 +135,8 @@ public class JavaClassTemplateFileWriter extends AbstractClassFileWriter
 
     protected void appendRequiredImportsGenericPropertyAccess(ImportsList requiredImports)
     {
+        requiredImports.registerImport("java.util.Iterator");
+        requiredImports.registerImport("org.opendma.api.collections.OdmaClassEnumeration");
         requiredImports.registerImport("org.opendma.exceptions.OdmaObjectNotFoundException");
         requiredImports.registerImport("org.opendma.exceptions.OdmaInvalidDataTypeException");
         requiredImports.registerImport("org.opendma.exceptions.OdmaAccessDeniedException");

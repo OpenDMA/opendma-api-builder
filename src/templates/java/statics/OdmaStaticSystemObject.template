@@ -1,20 +1,22 @@
 package org.opendma.impl.core;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
-import org.opendma.api.OdmaObject;
 import org.opendma.OdmaTypes;
+import org.opendma.api.OdmaClass;
+import org.opendma.api.OdmaGuid;
+import org.opendma.api.OdmaId;
+import org.opendma.api.OdmaObject;
+import org.opendma.api.OdmaProperty;
+import org.opendma.api.OdmaQName;
+import org.opendma.api.OdmaRepository;
+import org.opendma.api.collections.OdmaClassEnumeration;
+import org.opendma.exceptions.OdmaAccessDeniedException;
 import org.opendma.exceptions.OdmaInvalidDataTypeException;
 import org.opendma.exceptions.OdmaObjectNotFoundException;
 import org.opendma.exceptions.OdmaRuntimeException;
-import org.opendma.exceptions.OdmaAccessDeniedException;
-import org.opendma.api.OdmaProperty;
-import org.opendma.api.OdmaQName;
-import org.opendma.api.OdmaClass;
-import org.opendma.api.OdmaId;
-import org.opendma.api.OdmaGuid;
-import org.opendma.api.OdmaRepository;
 import org.opendma.impl.OdmaPropertyImpl;
 
 /**
