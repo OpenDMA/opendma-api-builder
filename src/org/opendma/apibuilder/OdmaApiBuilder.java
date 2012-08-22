@@ -77,10 +77,10 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
             e.printStackTrace(System.out);
             return;
         }
-        //-----< STEP 5: validate the existance of predefined classes >--------
+        //-----< STEP 5: validate the existence of predefined classes >--------
         try
         {
-            System.out.println("Validating the existance of a class class and a propertyinfo class...");
+            System.out.println("Validating the existence of a class class and a propertyinfo class...");
             odmaClassHierarchy.checkPredefinedClasses();
         }
         catch (Exception e)
