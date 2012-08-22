@@ -1,0 +1,21 @@
+package org.opendma.api.collections;
+
+/**
+ * Representation of the <i>unique object identifier<i> that can be used to
+ * identify an <ocde>OdmaObject</code> inside a <code>OdmaRepository</code>.<br>
+ * To globally identify an object you have to use the <code>OdmaGuid</code>.
+ * 
+ * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ */
+public interface OdmaCollection<E> extends Iterable<E>
+{
+
+    /**
+     * Returns <code>true</code> if and only if the collection is empty, i.e.
+     * <code>iterator().hasNext()</code> returns <code>false</code>.
+     * 
+     * @return <code>true</code> if and only if the collection is empty.
+     */
+    public boolean isEmpty();
+
+}
