@@ -56,8 +56,11 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         Iterator itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
         {
-            String importPackage = (String)itRequiredImports.next();
-            out.println("import "+importPackage+";");
+            String importDeclaration = (String)itRequiredImports.next();
+            if(JavaApiWriter.needToImportPackage(importDeclaration,"org.opendma.api"))
+            {
+                out.println("import "+importDeclaration+";");
+            }
         }
         out.println("");
         out.println("/**");

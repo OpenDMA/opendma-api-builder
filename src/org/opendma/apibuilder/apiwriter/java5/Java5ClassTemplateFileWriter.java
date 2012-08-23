@@ -59,8 +59,11 @@ public class Java5ClassTemplateFileWriter extends AbstractClassFileWriter
         Iterator itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
         {
-            String importPackage = (String)itRequiredImports.next();
-            out.println("import "+importPackage+";");
+            String importDeclaration = (String)itRequiredImports.next();
+            if(Java5ApiWriter.needToImportPackage(importDeclaration,"org.opendma.templates"))
+            {
+                out.println("import "+importDeclaration+";");
+            }
         }
         out.println("");
         out.println("/**");

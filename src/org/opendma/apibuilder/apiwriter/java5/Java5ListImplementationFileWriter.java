@@ -33,8 +33,11 @@ public class Java5ListImplementationFileWriter extends AbstractListFileWriter
         Iterator itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
         {
-            String importPackage = (String)itRequiredImports.next();
-            out.println("import "+importPackage+";");
+            String importDeclaration = (String)itRequiredImports.next();
+            if(Java5ApiWriter.needToImportPackage(importDeclaration,"org.opendma.impl.collections"))
+            {
+                out.println("import "+importDeclaration+";");
+            }
         }
         String interfaceName = apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID());
         String singleValueDataType = apiWriter.getProgrammingLanguageSpecificScalarDataType(false,scalarTypeDescription.getNumericID());

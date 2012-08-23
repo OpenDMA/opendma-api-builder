@@ -32,8 +32,11 @@ public class JavaListFileWriter extends AbstractListFileWriter
         Iterator itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
         {
-            String importPackage = (String)itRequiredImports.next();
-            out.println("import "+importPackage+";");
+            String importDeclaration = (String)itRequiredImports.next();
+            if(JavaApiWriter.needToImportPackage(importDeclaration,"org.opendma.api.collections"))
+            {
+                out.println("import "+importDeclaration+";");
+            }
         }
         out.println("");
         out.println("/**");

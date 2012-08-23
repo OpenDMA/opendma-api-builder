@@ -22,8 +22,11 @@ public class Java5EnumerationFileWriter extends AbstractEnumerationFileWriter
         Iterator itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
         {
-            String importPackage = (String)itRequiredImports.next();
-            out.println("import "+importPackage+";");
+            String importDeclaration = (String)itRequiredImports.next();
+            if(Java5ApiWriter.needToImportPackage(importDeclaration,"org.opendma.api.collections"))
+            {
+                out.println("import "+importDeclaration+";");
+            }
         }
         out.println("");
         out.println("/**");

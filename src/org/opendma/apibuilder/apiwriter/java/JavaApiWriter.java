@@ -776,5 +776,14 @@ public class JavaApiWriter extends AbstractApiWriter
     {
         // we do not create a build file for now. We use Eclipse.
     }
+    
+    //-------------------------------------------------------------------------
+    // S T A T I C   H E L P E R
+    //-------------------------------------------------------------------------
+    
+    public static boolean needToImportPackage(String importDeclaration, String intoPackage) {
+        boolean notNeeded = importDeclaration.startsWith(intoPackage+".") && importDeclaration.substring(intoPackage.length()+1).indexOf(".") < 0;
+        return !notNeeded;
+    }
 
 }

@@ -32,8 +32,11 @@ public class Java5PropertyFileWriter extends AbstractPropertyFileWriter
         Iterator itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
         {
-            String importPackage = (String)itRequiredImports.next();
-            out.println("import "+importPackage+";");
+            String importDeclaration = (String)itRequiredImports.next();
+            if(Java5ApiWriter.needToImportPackage(importDeclaration,"org.opendma.api"))
+            {
+                out.println("import "+importDeclaration+";");
+            }
         }
         out.println("");
         InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java/OdmaProperty.Header.template");
