@@ -1,0 +1,30 @@
+#ifndef _OdmaException_h_
+#define _OdmaException_h_
+
+/**
+ * 
+ * \author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ */
+class OdmaException
+{
+
+private:
+
+    private std::wstring message;
+
+public:
+
+    /**
+     * Create a new <code>OdmaException</code> with the given message.
+     * 
+     * \param msg
+     *            a message string for the user
+     */
+    OdmaException(const std::wstring& msg_)
+    {
+        message = msg_;
+    }
+
+}
+
+#endif

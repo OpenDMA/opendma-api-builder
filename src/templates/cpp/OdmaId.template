@@ -11,7 +11,27 @@
 class OdmaId
 {
 
+protected:
+
+    /** the <i>unique object identifier<i> */
+    std::string uuid;
+
 public:
+
+    /**
+     * Create a new <code>OdmaId</code> for a given <i>unique object identifier</i>.
+     * 
+     * @param uuid_
+     *            The <i>unique object identifier</i>.
+     *            Must not be null. Must not be empty.
+     * 
+     * @throws IllegalArgumentException
+     *             if the uuid_ is null or empty
+     */
+    OdmaQName(const string& uuid_)
+    {
+        uuid = uuid_;
+    }
 
     /**
      * Returns true if the given Object is a <code>OdmaId</code> or an
@@ -23,14 +43,20 @@ public:
      * \return true if and only if the given Object is a <code>OdmaId</code>
      *         or an <code>OdmaGuid</code> identifying the same object.
      */
-    virtual bool equals(void* obj) = 0;
+	bool equals(const OdmaId& id)
+	{
+		return uuid == id.uuid;
+	}
 
     /**
      * Returns the <code>String</code> representation of this Identifier.
      * 
      * @return the <code>String</code> representation of this Identifier.
      */
-    virtual String toString(void) = 0;
+    const std::string& toString()
+    {
+        return uuid;
+    }
 
 }
 

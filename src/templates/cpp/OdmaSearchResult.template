@@ -1,0 +1,32 @@
+#ifndef _OdmaSearchResult_h_
+#define _OdmaSearchResult_h_
+
+/**
+ * The result of a search operation.
+ * 
+ * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ */
+class OdmaSession
+{
+
+public:
+
+    /**
+     * Returns the collection of objects found by the search if at least one object has been
+     * found or <code>null</code> if no obejcts have been found.
+     * 
+     * @return the collection of objects found by the search if at least one object has been
+     * found
+     */
+    virtual OdmaObjectEnumeration getObjects() = 0;
+
+    /**
+     * Returns the number of objects found by the search.
+     * 
+     * @return the number of objects found by the search
+     */
+    virtual int getSize() = 0;
+
+}
+
+#endif

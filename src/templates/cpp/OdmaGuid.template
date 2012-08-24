@@ -13,7 +13,33 @@
 class OdmaGuid
 {
 
+protected:
+
+    /** The <code>OdmaId</code> of the Repository */
+    OdmaId repositoryId;
+
+    /** The <code>OdmaId</code> of the Object inside the Repository */
+    OdmaId objectId;
+
 public:
+
+    /**
+     * Create a new OdmaGuid from the IDs of the repository and the object.
+     * 
+     * \param repositoryId
+     *            The <code>OdmaId</code> of the Repository
+     * \param objectId
+     *            The <code>OdmaId</code> of the Object inside the Repository
+     * 
+     * \throws IllegalArgumentException
+     *             if the name is null or empty or if the qualifier is not null
+     *             and empty
+     */
+    OdmaQName(const string& repositoryId_, const string& objectId_)
+    {
+        repositoryId = repositoryId_;
+        objectId = objectId_;
+    }
 
     /**
      * Returns true if the given Object is a <code>OdmaGuid</code> or an
@@ -25,14 +51,20 @@ public:
      * \return true if and only if the given Object is a <code>OdmaId</code>
      *         or an <code>OdmaGuid</code> identifying the same object.
      */
-    virtual bool equals(void* obj) = 0;
+	bool equals(const OdmaQName& guid)
+	{
+		return (repositoryId == repositoryId.qualifier) && (objectId == guid.objectId);
+	}
 
     /**
      * Returns the <code>String</code> representation of this Identifier.
      * 
      * @return the <code>String</code> representation of this Identifier.
      */
-    virtual String toString(void) = 0;
+    const std::string& toString()
+    {
+        return repositoryId + ":" + objectId;
+    }
 
 }
 

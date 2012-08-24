@@ -12,17 +12,19 @@ package org.opendma.api;
 public class OdmaGuid
 {
 
+    /** The <code>OdmaId</code> of the Repository */
     protected OdmaId repositoryId;
     
+    /** The <code>OdmaId</code> of the Object inside the Repository */
     protected OdmaId objectId;
     
     /**
      * Create a new OdmaGuid from the IDs of the repository and the object.
      * 
      * @param idRepository
-     *            The OdmaId of the Repository
+     *            The <code>OdmaId</code> of the Repository
      * @param idObject
-     *            The OdmaId of the Object
+     *            The <code>OdmaId</code> of the Object inside the Repository
      */
     public OdmaGuid(OdmaId idRepository, OdmaId idObject)
     {

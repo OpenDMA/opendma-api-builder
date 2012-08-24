@@ -77,9 +77,9 @@ public class CsApiWriter extends AbstractApiWriter
             case OdmaBasicTypes.TYPE_CONTENT:
                 return "IOdmaContentList";
             case OdmaBasicTypes.TYPE_ID:
-                return "IOdmaIdList";
+                return "OdmaIdList";
             case OdmaBasicTypes.TYPE_GUID:
-                return "IOdmaGuidList";
+                return "OdmaGuidList";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -111,9 +111,9 @@ public class CsApiWriter extends AbstractApiWriter
             case OdmaBasicTypes.TYPE_CONTENT:
                 return "IOdmaContent";
             case OdmaBasicTypes.TYPE_ID:
-                return "IOdmaId";
+                return "OdmaId";
             case OdmaBasicTypes.TYPE_GUID:
-                return "IOdmaGuid";
+                return "OdmaGuid";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -216,8 +216,8 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createIdFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("IOdmaId",outputFolder);
-        InputStream from = getResourceAsStream("/templates/cs/IOdmaId.template");
+        OutputStream to = getBasicFileStream("OdmaId",outputFolder);
+        InputStream from = getResourceAsStream("/templates/cs/OdmaId.template");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -225,8 +225,8 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createGuidFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("IOdmaGuid",outputFolder);
-        InputStream from = getResourceAsStream("/templates/cs/IOdmaGuid.template");
+        OutputStream to = getBasicFileStream("OdmaGuid",outputFolder);
+        InputStream from = getResourceAsStream("/templates/cs/OdmaGuid.template");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -244,7 +244,7 @@ public class CsApiWriter extends AbstractApiWriter
     protected void createSearchResultFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("IOdmaSearchResult",outputFolder);
-        InputStream from = getResourceAsStream("/templates/java/IOdmaSearchResult.template");
+        InputStream from = getResourceAsStream("/templates/cs/IOdmaSearchResult.template");
         streamCopy(from, to);
         from.close();
         to.close();

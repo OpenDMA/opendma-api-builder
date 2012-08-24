@@ -1,0 +1,30 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace OpenDMA.Api
+{
+
+    /// <summary>
+    /// The result of a search operation.
+    /// </summary>
+    public interface IOdmaSearchResult
+    {
+
+        /// <summary>
+        /// Returns the collection of objects found by the search if at least one object has been
+        /// found or <code>null</code> if no obejcts have been found.
+        /// </summary>
+        /// <returns>the collection of objects found by the search if at least one object has been found</returns>
+        IOdmaObjectEnumeration getObjects();
+
+        /// <summary>
+        /// Returns the number of objects found by the search.
+        /// </summary>
+        /// <returns>the number of objects found by the search</returns>
+        int getSize();
+
+    }
+
+}

@@ -7,18 +7,13 @@ using OpenDMA.Api;
 namespace OpenDMA.Exceptions
 {
 
-    public class OdmaObjectNotFoundException : ApplicationException
+    public class OdmaSearchException : ApplicationException
     {
-
-        /// <summary>
-        /// The qualified name of the object that could not be found. Can be null.
-        /// </summary>
-        private OdmaQName unknownObject;
-
-        /// <summary>
-        /// The ID of the object that could not be found. Can be null.
-        /// </summary>
-        private OdmaId unknownId;
+    
+        public OdmaSearchException(string message)
+        {
+            base(message);
+        }
         
         public override string ToString()
         {

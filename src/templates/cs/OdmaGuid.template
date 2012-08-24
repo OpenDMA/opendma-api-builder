@@ -1,0 +1,83 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace OpenDMA.Api
+{
+
+    /// <summary>
+    /// Representation of the <i>global unique object identifier<i> that can be used
+    /// to globally identify an <c>OdmaObject</c>. A reference to the containing
+    /// <c>OdmaRepository</c> is included in this ID.<br>
+    /// To identify an object only inside an <c>OdmaRepository</c>, you can
+    /// use the <see cref="OdmaId"/>.
+    /// </summary>
+    public class OdmaGuid
+    {
+
+        /// <summary>
+        /// The <c>OdmaId</c> of the Repository</param>
+        /// </summary>
+        protected OdmaId repositoryId;
+
+        /// <summary>
+        /// The <c>OdmaId</c> of the Object inside the Repository.
+        /// </summary>
+        protected OdmaId objectId;
+
+        /// <summary>
+        /// Create a new <c>OdmaGuid</c> from the IDs of the repository and the object.
+        /// </summary>
+        /// <param name="idRepository">The <c>OdmaId</c> of the Repository</param>
+        /// <param name="idObject">The <c>OdmaId</c> of the Object inside the Repository.</param>
+        public OdmaQName(OdmaId idRepository, OdmaId idObject)
+        {
+            this.repositoryId = idRepository;
+            this.objectId = idObject;
+        }
+
+        /// <summary>
+        /// the ID of the Repository
+        /// </summary>
+        public string RepositoryId
+        {
+            get
+            {
+                return this.repositoryId;
+            }
+        }
+
+        /// <summary>
+        /// the ID of the Object
+        /// </summary>
+        public string ObjectId
+        {
+            get
+            {
+                return this.objectId;
+            }
+        }
+
+        public override bool Equals(object qn)
+        {
+            return  object.ReferenceEquals(this,qn) || ((qn != null) && (qn is OdmaQName) && repositoryId.Equals(((OdmaQName) qn).repositoryId) && objectId.Equals(((OdmaQName) qn).objectId)));
+        }
+
+        public override int GetHashCode()
+        {
+            return repositoryId.GetHashCode()) + objectId.GetHashCode());
+        }
+
+        /// <summary>
+        /// Retruns a string representation of this Identifier.
+        /// </summary>
+        /// <returns>Retruns a string representation of this Identifier.</returns>
+        public override string ToString()
+        {
+            return repositoryId + ":" + objectId;
+        }
+
+    }
+
+}

@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace OpenDMA.Api
+{
+
+    /// <summary>
+    /// Representation of the <i>unique object identifier<i> that can be used
+    /// to identify an <c>OdmaObject</c> inside a <code>OdmaRepository</code>.<br>
+    /// To globally identify an object you have to use the <c>OdmaGuid</c>.
+    /// </summary>
+    public class OdmaId
+    {
+
+        /// <summary>
+        /// the <i>unique object identifier<i>
+        /// </summary>
+        protected string uuid;
+
+        /// <summary>
+        /// Create a new <c>OdmaId</c> for a given <i>unique object identifier</i>.
+        /// </summary>
+        /// <param name="uuid">The <i>unique object identifier</i>. Must not be null. Must not be empty.</param>
+        public OdmaId(string uuid)
+        {
+            this.uuid = uuid;
+        }
+
+        /// <summary>
+        /// Returns true if the given Object is a <c>OdmaGuid</c> or a <c>OdmaId</c> identifying the same object.
+        /// </summary>
+        /// <param name="obj">The object to compare this Guid to</param>
+        /// <returns>Returns true if the given Object is a <c>OdmaGuid</c> or a <c>OdmaId</c> identifying the same object.</returns>
+        public override bool Equals(object qn)
+        {
+            return  object.ReferenceEquals(this,qn) || ((qn != null) && (qn is OdmaId) && uuid.Equals(((OdmaId) qn).uuid) );
+        }
+
+        public override int GetHashCode()
+        {
+            return uuid.GetHashCode();
+        }
+
+        /// <summary>
+        /// Retruns a string representation of this unique object identifier.
+        /// </summary>
+        /// <returns>Retruns a string representation of this unique object identifier.</returns>
+        public override string ToString()
+        {
+            return uuid;
+        }
+
+    }
+
+}
