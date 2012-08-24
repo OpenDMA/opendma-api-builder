@@ -19,7 +19,7 @@ private:
     bool expectedMultivalue;
 
     /**
-     * wheather this Exception carries information about the real data type that
+     * whether this Exception carries information about the real data type that
      * is present in OpenDMA or not
      */
     bool hasFound;

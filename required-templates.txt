@@ -1,0 +1,3 @@
+OdmaId
+OdmaGuid
+OdmaQName

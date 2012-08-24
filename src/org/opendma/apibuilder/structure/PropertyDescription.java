@@ -184,9 +184,9 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
     }
     
     /**
-     * Returns wheather this property is a reference or not.
+     * Returns whether this property is a reference or not.
      * 
-     * @return wheather this property is a reference or not
+     * @return whether this property is a reference or not
      */
     public boolean isReference()
     {

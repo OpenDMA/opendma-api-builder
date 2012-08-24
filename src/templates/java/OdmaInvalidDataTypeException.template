@@ -21,7 +21,7 @@ public class OdmaInvalidDataTypeException extends OdmaException
     private boolean expectedMultivalue;
 
     /**
-     * wheather this Exception carries information about the real data type that
+     * whether this Exception carries information about the real data type that
      * is present in OpenDMA or not
      */
     private boolean hasFound;

@@ -293,13 +293,13 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     }
 
     /**
-     * Returns wheather <code>Object</code>s of this <code>Class</code> can be created or not.<br>
+     * Returns whether <code>Object</code>s of this <code>Class</code> can be created or not.<br>
      * 
      * <p>Property <b>MultiValue</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
-     * @return wheather <code>Object</code>s of this <code>Class</code> can be created or not
+     * @return whether <code>Object</code>s of this <code>Class</code> can be created or not
      */
     public Boolean getMultiValue()
     {
@@ -318,7 +318,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     }
 
     /**
-     * Sets wheather <code>Object</code>s of this <code>Class</code> can be created or not.<br>
+     * Sets whether <code>Object</code>s of this <code>Class</code> can be created or not.<br>
      * 
      * <p>Property <b>MultiValue</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
@@ -344,13 +344,13 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     }
 
     /**
-     * Returns wheather <code>Object</code>s of this <code>Class</code> can be created or not.<br>
+     * Returns whether <code>Object</code>s of this <code>Class</code> can be created or not.<br>
      * 
      * <p>Property <b>Required</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
-     * @return wheather <code>Object</code>s of this <code>Class</code> can be created or not
+     * @return whether <code>Object</code>s of this <code>Class</code> can be created or not
      */
     public Boolean getRequired()
     {
@@ -369,7 +369,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     }
 
     /**
-     * Sets wheather <code>Object</code>s of this <code>Class</code> can be created or not.<br>
+     * Sets whether <code>Object</code>s of this <code>Class</code> can be created or not.<br>
      * 
      * <p>Property <b>Required</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
@@ -395,13 +395,13 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     }
 
     /**
-     * Returns wheather this <code>Class</code> should be displayed to end users or not.<br>
+     * Returns whether this <code>Class</code> should be displayed to end users or not.<br>
      * 
      * <p>Property <b>ReadOnly</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
-     * @return wheather this <code>Class</code> should be displayed to end users or not
+     * @return whether this <code>Class</code> should be displayed to end users or not
      */
     public Boolean getReadOnly()
     {
@@ -420,7 +420,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     }
 
     /**
-     * Sets wheather this <code>Class</code> should be displayed to end users or not.<br>
+     * Sets whether this <code>Class</code> should be displayed to end users or not.<br>
      * 
      * <p>Property <b>ReadOnly</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
@@ -446,13 +446,13 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     }
 
     /**
-     * Returns wheather this <code>Class</code> should be displayed to end users or not.<br>
+     * Returns whether this <code>Class</code> should be displayed to end users or not.<br>
      * 
      * <p>Property <b>Hidden</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
-     * @return wheather this <code>Class</code> should be displayed to end users or not
+     * @return whether this <code>Class</code> should be displayed to end users or not
      */
     public Boolean getHidden()
     {
@@ -471,7 +471,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     }
 
     /**
-     * Sets wheather this <code>Class</code> should be displayed to end users or not.<br>
+     * Sets whether this <code>Class</code> should be displayed to end users or not.<br>
      * 
      * <p>Property <b>Hidden</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
@@ -497,13 +497,13 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     }
 
     /**
-     * Returns wheather this <code>Class</code> is defined by the system (true) or by users (false).<br>
+     * Returns whether this <code>Class</code> is defined by the system (true) or by users (false).<br>
      * 
      * <p>Property <b>System</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
-     * @return wheather this <code>Class</code> is defined by the system (true) or by users (false)
+     * @return whether this <code>Class</code> is defined by the system (true) or by users (false)
      */
     public Boolean getSystem()
     {
@@ -522,7 +522,7 @@ public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject impleme
     }
 
     /**
-     * Sets wheather this <code>Class</code> is defined by the system (true) or by users (false).<br>
+     * Sets whether this <code>Class</code> is defined by the system (true) or by users (false).<br>
      * 
      * <p>Property <b>System</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>

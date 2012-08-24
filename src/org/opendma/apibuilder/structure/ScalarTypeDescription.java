@@ -13,10 +13,10 @@ public class ScalarTypeDescription implements DescriptionFileTypes
     /** the numeric ID of this scalar type */
     protected int numericID;
     
-    /** wheather this scalar type is only used in the API */
+    /** whether this scalar type is only used in the API */
     protected boolean internal;
     
-    /** wheather this scalar type is a reference or not */
+    /** whether this scalar type is a reference or not */
     protected boolean reference;
     
     /** the base scalar type of this internal scalar type if this is an internal scalar type, <code>null</code> otherwise */
@@ -27,7 +27,7 @@ public class ScalarTypeDescription implements DescriptionFileTypes
      * This constructor only performs some basic syntax checks.
      * 
      * @param scalarTypeElement the W3C DOM element to read the definition of this scalar type from
-     * @param internal wheather this scalar type is only used in the API
+     * @param internal whether this scalar type is only used in the API
      * 
      * @throws DescriptionFileSyntaxException if there are syntactical errors in the XML file
      */
@@ -58,9 +58,9 @@ public class ScalarTypeDescription implements DescriptionFileTypes
     }
     
     /**
-     * Returns wheather this scalar type is only used in the API or not.
+     * Returns whether this scalar type is only used in the API or not.
      * 
-     * @return wheather this scalar type is only used in the API or not
+     * @return whether this scalar type is only used in the API or not
      */
     public boolean isInternal()
     {
@@ -68,9 +68,9 @@ public class ScalarTypeDescription implements DescriptionFileTypes
     }
     
     /**
-     * Returns wheather this scalar type is a reference or not.
+     * Returns whether this scalar type is a reference or not.
      * 
-     * @return wheather this scalar type is a reference or not
+     * @return whether this scalar type is a reference or not
      */
     public boolean isReference()
     {

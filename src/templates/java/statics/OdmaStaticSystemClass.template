@@ -327,13 +327,13 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     }
 
     /**
-     * Returns wheather this <code>Class</code> describes an Aspect or a valid class object.<br>
+     * Returns whether this <code>Class</code> describes an Aspect or a valid class object.<br>
      * 
      * <p>Property <b>Aspect</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [ReadOnly] [Required]<br>
      * Full description follows.</p>
      * 
-     * @return wheather this <code>Class</code> describes an Aspect or a valid class object
+     * @return whether this <code>Class</code> describes an Aspect or a valid class object
      */
     public Boolean getAspect()
     {
@@ -352,13 +352,13 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     }
 
     /**
-     * Returns wheather <code>Object</code>s of this <code>Class</code> can be created or not.<br>
+     * Returns whether <code>Object</code>s of this <code>Class</code> can be created or not.<br>
      * 
      * <p>Property <b>Instantiable</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
-     * @return wheather <code>Object</code>s of this <code>Class</code> can be created or not
+     * @return whether <code>Object</code>s of this <code>Class</code> can be created or not
      */
     public Boolean getInstantiable()
     {
@@ -377,7 +377,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     }
 
     /**
-     * Sets wheather <code>Object</code>s of this <code>Class</code> can be created or not.<br>
+     * Sets whether <code>Object</code>s of this <code>Class</code> can be created or not.<br>
      * 
      * <p>Property <b>Instantiable</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
@@ -403,13 +403,13 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     }
 
     /**
-     * Returns wheather this <code>Class</code> should be displayed to end users or not.<br>
+     * Returns whether this <code>Class</code> should be displayed to end users or not.<br>
      * 
      * <p>Property <b>Hidden</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
-     * @return wheather this <code>Class</code> should be displayed to end users or not
+     * @return whether this <code>Class</code> should be displayed to end users or not
      */
     public Boolean getHidden()
     {
@@ -428,7 +428,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     }
 
     /**
-     * Sets wheather this <code>Class</code> should be displayed to end users or not.<br>
+     * Sets whether this <code>Class</code> should be displayed to end users or not.<br>
      * 
      * <p>Property <b>Hidden</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
@@ -454,13 +454,13 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     }
 
     /**
-     * Returns wheather this <code>Class</code> is defined by the system (true) or by users (false).<br>
+     * Returns whether this <code>Class</code> is defined by the system (true) or by users (false).<br>
      * 
      * <p>Property <b>System</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
      * Full description follows.</p>
      * 
-     * @return wheather this <code>Class</code> is defined by the system (true) or by users (false)
+     * @return whether this <code>Class</code> is defined by the system (true) or by users (false)
      */
     public Boolean getSystem()
     {
@@ -479,7 +479,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     }
 
     /**
-     * Sets wheather this <code>Class</code> is defined by the system (true) or by users (false).<br>
+     * Sets whether this <code>Class</code> is defined by the system (true) or by users (false).<br>
      * 
      * <p>Property <b>System</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [Writable] [Required]<br>
@@ -505,13 +505,13 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     }
 
     /**
-     * Returns wheather objects of this class can be retrieved from a session by their id or not.<br>
+     * Returns whether objects of this class can be retrieved from a session by their id or not.<br>
      * 
      * <p>Property <b>Retrievable</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [ReadOnly] [Required]<br>
      * Full description follows.</p>
      * 
-     * @return wheather objects of this class can be retrieved from a session by their id or not
+     * @return whether objects of this class can be retrieved from a session by their id or not
      */
     public Boolean getRetrievable()
     {
@@ -530,13 +530,13 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     }
 
     /**
-     * Returns wheather objects of this class can be found by a search query or not.<br>
+     * Returns whether objects of this class can be found by a search query or not.<br>
      * 
      * <p>Property <b>Searchable</b> (opendma): <b>Boolean</b><br>
      * [SingleValue] [ReadOnly] [Required]<br>
      * Full description follows.</p>
      * 
-     * @return wheather objects of this class can be found by a search query or not
+     * @return whether objects of this class can be found by a search query or not
      */
     public Boolean getSearchable()
     {

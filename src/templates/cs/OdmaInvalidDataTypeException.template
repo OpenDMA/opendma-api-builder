@@ -24,7 +24,7 @@ namespace OpenDMA.Exceptions
         private bool expectedMultivalue;
 
         /// <summary>
-        /// Wheather this Exception carries information about the real data type thatis present in OpenDMA or not
+        /// Whether this Exception carries information about the real data type thatis present in OpenDMA or not
         /// </summary>
         private bool hasFound;
 

@@ -222,7 +222,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>wheather &lt;code&gt;Object&lt;/code&gt;s of this &lt;code&gt;Class&lt;/code&gt; can be created or not</Abstract>
+            <Abstract>whether &lt;code&gt;Object&lt;/code&gt;s of this &lt;code&gt;Class&lt;/code&gt; can be created or not</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -235,7 +235,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>wheather this &lt;code&gt;Class&lt;/code&gt; should be displayed to end users or not</Abstract>
+            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; should be displayed to end users or not</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -248,7 +248,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>wheather this &lt;code&gt;Class&lt;/code&gt; is defined by the system (true) or by users (false)</Abstract>
+            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; is defined by the system (true) or by users (false)</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -363,7 +363,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>wheather &lt;code&gt;Object&lt;/code&gt;s of this &lt;code&gt;Class&lt;/code&gt; can be created or not</Abstract>
+            <Abstract>whether &lt;code&gt;Object&lt;/code&gt;s of this &lt;code&gt;Class&lt;/code&gt; can be created or not</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -376,7 +376,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>wheather &lt;code&gt;Object&lt;/code&gt;s of this &lt;code&gt;Class&lt;/code&gt; can be created or not</Abstract>
+            <Abstract>whether &lt;code&gt;Object&lt;/code&gt;s of this &lt;code&gt;Class&lt;/code&gt; can be created or not</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -389,7 +389,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>wheather this &lt;code&gt;Class&lt;/code&gt; should be displayed to end users or not</Abstract>
+            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; should be displayed to end users or not</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -402,7 +402,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>wheather this &lt;code&gt;Class&lt;/code&gt; should be displayed to end users or not</Abstract>
+            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; should be displayed to end users or not</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -415,7 +415,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>wheather this &lt;code&gt;Class&lt;/code&gt; is defined by the system (true) or by users (false)</Abstract>
+            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; is defined by the system (true) or by users (false)</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
