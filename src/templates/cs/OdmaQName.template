@@ -8,7 +8,7 @@ namespace OpenDMA.Api
     public class OdmaQName
     {
         /// <summary>
-        /// the name <i>qualifier</i> of this qualified name
+        /// the <i>qualifier</i> of this qualified name
         /// </summary>
         protected string qualifier;
 
