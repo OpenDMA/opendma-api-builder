@@ -140,7 +140,7 @@ public class Java5ClassFileWriter extends AbstractClassFileWriter
         {
             if(property.getMultiValue())
             {
-                return property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration";
+                return "Iterable<"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+">";
             }
             else
             {
@@ -157,15 +157,7 @@ public class Java5ClassFileWriter extends AbstractClassFileWriter
     {
         if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
         {
-            if(property.getMultiValue())
-            {
-                return new String[] { "org.opendma.api.collections."+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration" };
-            }
-            else
-            {
-                // located in the same package. no import required
-                return null;
-            }
+            return null;
         }
         else
         {
@@ -183,7 +175,7 @@ public class Java5ClassFileWriter extends AbstractClassFileWriter
         out.println("");
         out.println("    /**");
         out.println("     * Returns "+property.getAbstract()+".<br>");
-        String standardGetterName = "get" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceEnumeration" : "Reference"));
+        String standardGetterName = "get" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceIterable" : "Reference"));
         out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</code>.");
         out.println("     * ");
         ScalarTypeDescription scalarTypeDescription = property.getContainingClass().getContainingApiDescription().getScalarTypeDescription(property.getDataType());

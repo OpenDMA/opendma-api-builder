@@ -87,7 +87,7 @@ public class Java5PropertyFileWriter extends AbstractPropertyFileWriter
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String javaReturnType = scalarTypeDescription.isReference() ? "OdmaObjectEnumeration" : apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID());
+        String javaReturnType = scalarTypeDescription.isReference() ? "Iterable<? extends OdmaObject>" : apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID());
         out.println("");
         out.println("    /**");
         out.println("     * Returns the <code>"+javaReturnType+"</code> value of this property if and only if");
@@ -100,7 +100,7 @@ public class Java5PropertyFileWriter extends AbstractPropertyFileWriter
         out.println("     *             if and only if this property is not a multi valued <i>"+scalarName+"</i>");
         out.println("     *             property");
         out.println("     */");
-        out.println("    public "+javaReturnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Enumeration":"List")+"() throws OdmaInvalidDataTypeException;");
+        out.println("    public "+javaReturnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"List")+"() throws OdmaInvalidDataTypeException;");
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)
@@ -114,7 +114,6 @@ public class Java5PropertyFileWriter extends AbstractPropertyFileWriter
         if(scalarTypeDescription.isReference())
         {
             requiredImports.registerImport("org.opendma.api.OdmaObject");
-            requiredImports.registerImport("org.opendma.api.collections.OdmaObjectEnumeration");
             return;
         }
         requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(false,scalarTypeDescription.getNumericID()));

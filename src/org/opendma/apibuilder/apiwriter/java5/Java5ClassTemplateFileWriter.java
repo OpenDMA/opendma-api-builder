@@ -119,6 +119,10 @@ public class Java5ClassTemplateFileWriter extends AbstractClassFileWriter
             requiredImports.registerImport("org.opendma.api.OdmaProperty");
             requiredImports.registerImport("org.opendma.api.OdmaQName");
         }
+        if( (!classDescription.getAspect()) && (classDescription.getExtendsOdmaName() == null) )
+        {
+            requiredImports.registerImport("java.util.Iterator");
+        }
     }
 
     protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
@@ -127,7 +131,7 @@ public class Java5ClassTemplateFileWriter extends AbstractClassFileWriter
         out.println("    // =============================================================================================");
         out.println("    // Generic property access");
         out.println("    // =============================================================================================");
-        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java/OdmaObjectTemplate.GenericPropertyAccess.template");
+        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java5/OdmaObjectTemplate.GenericPropertyAccess.template");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)
@@ -162,7 +166,7 @@ public class Java5ClassTemplateFileWriter extends AbstractClassFileWriter
         {
             if(property.getMultiValue())
             {
-                return property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration";
+                return "Iterable<"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+">";
             }
             else
             {
@@ -181,7 +185,7 @@ public class Java5ClassTemplateFileWriter extends AbstractClassFileWriter
         {
             if(property.getMultiValue())
             {
-                return new String[] { "org.opendma.api.collections."+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration" };
+                return new String[] { "org.opendma.api."+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName() };
             }
             else
             {
@@ -204,7 +208,7 @@ public class Java5ClassTemplateFileWriter extends AbstractClassFileWriter
         out.println("");
         out.println("    /**");
         out.println("     * Returns "+property.getAbstract()+".<br>");
-        String standardGetterName = "get" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceEnumeration" : "Reference"));
+        String standardGetterName = "get" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceIterable" : "Reference"));
         out.println("     * ");
         ScalarTypeDescription scalarTypeDescription = property.getContainingClass().getContainingApiDescription().getScalarTypeDescription(property.getDataType());
         String dataTypeName = scalarTypeDescription.isInternal() ? scalarTypeDescription.getBaseScalar() : scalarTypeDescription.getName();
@@ -218,6 +222,10 @@ public class Java5ClassTemplateFileWriter extends AbstractClassFileWriter
         out.println("     * ");
         out.println("     * @return "+property.getAbstract());
         out.println("     */");
+        if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE && property.getMultiValue())
+        {
+            out.println("     @SuppressWarnings(\"unchecked\")");
+        }
         out.println("    public "+javaDataType+" get"+property.getApiName()+"()");
         out.println("    {");
         out.println("        try");

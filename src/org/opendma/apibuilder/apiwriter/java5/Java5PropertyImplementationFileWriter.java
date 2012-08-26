@@ -64,6 +64,22 @@ public class Java5PropertyImplementationFileWriter extends AbstractPropertyImple
             out.println(templateLine);
         }
         out.println("");
+        out.println("    private boolean checkListAndValues(Object obj, Class<?> expectedElementsClass)");
+        out.println("    {");
+        out.println("        if(!(obj instanceof List<?>))");
+        out.println("        {");
+        out.println("            return false;");
+        out.println("        }");
+        out.println("        for(Object element : (List<?>)obj)");
+        out.println("        {");
+        out.println("            if(!expectedElementsClass.isAssignableFrom(element.getClass()))");
+        out.println("            {");
+        out.println("                return false;");
+        out.println("            }");
+        out.println("        }");
+        out.println("        return true;");
+        out.println("    }");
+        out.println("");
         out.println("    /**");
         out.println("     * Set the value of this property to the given new value. The");
         out.println("     * <code>Class</code> of the given <code>Object</code> has to match the");
@@ -114,14 +130,23 @@ public class Java5PropertyImplementationFileWriter extends AbstractPropertyImple
             //if(!scalarTypeDescription.isInternal())
             //{
                 String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
-                String javaReturnType = multivalue
-                                        ?
-                                        (scalarTypeDescription.isReference() ? "OdmaObjectEnumeration" : apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()))
-                                        :
-                                        (scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getProgrammingLanguageSpecificScalarDataType(false,scalarTypeDescription.getNumericID()));
-
                 out.println("            case OdmaTypes."+constantScalarTypeName+":");
-                out.println("                if(newValue instanceof "+javaReturnType+")");
+                if(multivalue)
+                {
+                    if(scalarTypeDescription.isReference())
+                    {
+                        out.println("                if(newValue instanceof Iterable<?>)");
+                    }
+                    else
+                    {
+                        out.println("                if(checkListAndValues(newValue,"+apiWriter.getProgrammingLanguageSpecificScalarDataType(false,scalarTypeDescription.getNumericID())+".class))");
+                    }
+                }
+                else
+                {
+                    String javaReturnType = (scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getProgrammingLanguageSpecificScalarDataType(false,scalarTypeDescription.getNumericID()));
+                    out.println("                if(newValue instanceof "+javaReturnType+")");
+                }
                 out.println("                {");
                 out.println("                    value = newValue;");
                 out.println("                }");
@@ -170,7 +195,7 @@ public class Java5PropertyImplementationFileWriter extends AbstractPropertyImple
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String javaReturnType = scalarTypeDescription.isReference() ? "OdmaObjectEnumeration" : apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID());
+        String javaReturnType = scalarTypeDescription.isReference() ? "Iterable<? extends OdmaObject>" : apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID());
         out.println("");
         out.println("    /**");
         out.println("     * Returns the <code>"+javaReturnType+"</code> value of this property if and only if");
@@ -183,7 +208,8 @@ public class Java5PropertyImplementationFileWriter extends AbstractPropertyImple
         out.println("     *             if and only if this property is not a multi valued <i>"+scalarName+"</i>");
         out.println("     *             property");
         out.println("     */");
-        out.println("    public "+javaReturnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Enumeration":"List")+"() throws OdmaInvalidDataTypeException");
+        out.println("    @SuppressWarnings(\"unchecked\")");
+        out.println("    public "+javaReturnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"List")+"() throws OdmaInvalidDataTypeException");
         out.println("    {");
         String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
         out.println("        if( (multivalue == true) && (dataType == OdmaTypes."+constantScalarTypeName+") )");
@@ -212,7 +238,6 @@ public class Java5PropertyImplementationFileWriter extends AbstractPropertyImple
         if(scalarTypeDescription.isReference())
         {
             requiredImports.registerImport("org.opendma.api.OdmaObject");
-            requiredImports.registerImport("org.opendma.api.collections.OdmaObjectEnumeration");
             return;
         }
         requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(false,scalarTypeDescription.getNumericID()));

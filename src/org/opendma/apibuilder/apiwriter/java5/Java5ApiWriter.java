@@ -55,31 +55,31 @@ public class Java5ApiWriter extends AbstractApiWriter
             switch(dataType)
             {
             case OdmaBasicTypes.TYPE_STRING:
-                return "StringList";
+                return "List<String>";
             case OdmaBasicTypes.TYPE_INTEGER:
-                return "IntegerList";
+                return "List<Integer>";
             case OdmaBasicTypes.TYPE_SHORT:
-                return "ShortList";
+                return "List<Short>";
             case OdmaBasicTypes.TYPE_LONG:
-                return "LongList";
+                return "List<Long>";
             case OdmaBasicTypes.TYPE_FLOAT:
-                return "FloatList";
+                return "List<Float>";
             case OdmaBasicTypes.TYPE_DOUBLE:
-                return "DoubleList";
+                return "List<Double>";
             case OdmaBasicTypes.TYPE_BOOLEAN:
-                return "BooleanList";
+                return "List<Boolean>";
             case OdmaBasicTypes.TYPE_DATETIME:
-                return "DateTimeList";
+                return "List<Date>";
             case OdmaBasicTypes.TYPE_BLOB:
-                return "BlobList";
+                return "List<byte[]>";
             case OdmaBasicTypes.TYPE_REFERENCE:
                 throw new ApiCreationException("REFERENCE data type is not scalar");
             case OdmaBasicTypes.TYPE_CONTENT:
-                return "OdmaContentList";
+                return "List<OdmaContent>";
             case OdmaBasicTypes.TYPE_ID:
-                return "OdmaIdList";
+                return "List<OdmaId>";
             case OdmaBasicTypes.TYPE_GUID:
-                return "OdmaGuidList";
+                return "List<OdmaGuid>";
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -127,31 +127,31 @@ public class Java5ApiWriter extends AbstractApiWriter
             switch(dataType)
             {
             case OdmaBasicTypes.TYPE_STRING:
-                return new String[] { "org.opendma.api.collections.StringList" };
+                return new String[] { "java.util.List" };
             case OdmaBasicTypes.TYPE_INTEGER:
-                return new String[] { "org.opendma.api.collections.IntegerList" };
+                return new String[] { "java.util.List" };
             case OdmaBasicTypes.TYPE_SHORT:
-                return new String[] { "org.opendma.api.collections.ShortList" };
+                return new String[] { "java.util.List" };
             case OdmaBasicTypes.TYPE_LONG:
-                return new String[] { "org.opendma.api.collections.LongList" };
+                return new String[] { "java.util.List" };
             case OdmaBasicTypes.TYPE_FLOAT:
-                return new String[] { "org.opendma.api.collections.FloatList" };
+                return new String[] { "java.util.List" };
             case OdmaBasicTypes.TYPE_DOUBLE:
-                return new String[] { "org.opendma.api.collections.DoubleList" };
+                return new String[] { "java.util.List" };
             case OdmaBasicTypes.TYPE_BOOLEAN:
-                return new String[] { "org.opendma.api.collections.BooleanList" };
+                return new String[] { "java.util.List" };
             case OdmaBasicTypes.TYPE_DATETIME:
-                return new String[] { "org.opendma.api.collections.DateTimeList" };
+                return new String[] { "java.util.List", "java.util.Date" };
             case OdmaBasicTypes.TYPE_BLOB:
-                return new String[] { "org.opendma.api.collections.BlobList" };
+                return new String[] { "java.util.List" };
             case OdmaBasicTypes.TYPE_REFERENCE:
                 throw new ApiCreationException("REFERENCE data type is not scalar");
             case OdmaBasicTypes.TYPE_CONTENT:
-                return new String[] { "org.opendma.api.collections.OdmaContentList" };
+                return new String[] { "java.util.List", "org.opendma.api.OdmaContent" };
             case OdmaBasicTypes.TYPE_ID:
-                return new String[] { "org.opendma.api.collections.OdmaIdList" };
+                return new String[] { "java.util.List", "org.opendma.api.OdmaId" };
             case OdmaBasicTypes.TYPE_GUID:
-                return new String[] { "org.opendma.api.collections.OdmaGuidList" };
+                return new String[] { "java.util.List", "org.opendma.api.OdmaGuid" };
             default:
                 throw new ApiCreationException("Unhandled data type "+dataType);
             }
@@ -204,10 +204,6 @@ public class Java5ApiWriter extends AbstractApiWriter
         }
         baseFolder = baseFolder + getProgrammingLanguageSpecificFolderName();
         baseFolder = baseFolder + File.separator;
-        // copy static helper templates
-        copyStaticClassHelperTemplate("OdmaArrayListClassEnumeration",baseFolder);
-        copyStaticClassHelperTemplate("OdmaArrayListObjectEnumeration",baseFolder);
-        copyStaticClassHelperTemplate("OdmaArrayListPropertyInfoEnumeration",baseFolder);
         // CHECKTEMPLATE: OdmaObjectTemplate
         copyStaticClassHelperTemplate("OdmaStaticSystemObject",baseFolder);
         // CHECKTEMPLATE: OdmaPropertyInfoTemplate
@@ -245,7 +241,7 @@ public class Java5ApiWriter extends AbstractApiWriter
     private void copyStaticClassHelperTemplate(String className, String outputFolder) throws IOException
     {
         OutputStream to = createJavaFile(outputFolder,"org.opendma.impl.core",className);
-        InputStream from = getResourceAsStream("/templates/java/statics/"+className+".template");
+        InputStream from = getResourceAsStream("/templates/java5/statics/"+className+".template");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -361,8 +357,8 @@ public class Java5ApiWriter extends AbstractApiWriter
         out.println("package org.opendma.impl.core;");
         out.println("");
         out.println("import org.opendma.OdmaTypes;");
-        out.println("import org.opendma.api.collections.OdmaClassEnumeration;");
-        out.println("import org.opendma.api.collections.OdmaPropertyInfoEnumeration;");
+        out.println("import org.opendma.api.OdmaClass;");
+        out.println("import org.opendma.api.OdmaPropertyInfo;");
         out.println("import org.opendma.exceptions.OdmaAccessDeniedException;");
         out.println("import org.opendma.exceptions.OdmaInvalidDataTypeException;");
         out.println("import org.opendma.impl.OdmaPropertyImpl;");
@@ -370,7 +366,7 @@ public class Java5ApiWriter extends AbstractApiWriter
         out.println("public class OdmaStaticSystemClass"+className+" extends OdmaStaticSystemClass");
         out.println("{");
         out.println("");
-        out.println("    public OdmaStaticSystemClass"+className+"(OdmaStaticSystemClass parent, OdmaClassEnumeration subClasses, OdmaClassEnumeration aspects, OdmaPropertyInfoEnumeration declaredProperties, boolean retrievable, boolean searchable) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
+        out.println("    public OdmaStaticSystemClass"+className+"(OdmaStaticSystemClass parent, Iterable<OdmaClass> subClasses, Iterable<OdmaClass> aspects, Iterable<OdmaPropertyInfo> declaredProperties, boolean retrievable, boolean searchable) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
         out.println("    {");
         out.println("        super(parent,subClasses);");
         // iterate through all properties defined in the propertyInfo class
@@ -463,7 +459,7 @@ public class Java5ApiWriter extends AbstractApiWriter
     {
         OutputStream staticClassStream = createJavaFile(outputFolder,"org.opendma.impl.core","OdmaStaticClassHierarchy");
         PrintWriter out = new PrintWriter(staticClassStream);
-        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java/statics/OdmaStaticClassHierarchy.head.template");
+        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java5/statics/OdmaStaticClassHierarchy.head.template");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)
@@ -472,10 +468,10 @@ public class Java5ApiWriter extends AbstractApiWriter
         }
         out.println("    public void buildClassHierarchy() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
         out.println("    {");
-        out.println("        OdmaArrayListClassEnumeration declaredAspects;");
-        out.println("        OdmaArrayListPropertyInfoEnumeration declaredProperties;");
+        out.println("        ArrayList<OdmaClass> declaredAspects;");
+        out.println("        ArrayList<OdmaPropertyInfo> declaredProperties;");
         out.println("        OdmaStaticSystemClass ssc;");
-       out.println("");
+        out.println("");
         Iterator itClassDescriptions = apiDescription.getDescribedClasses().iterator();
         HashMap uniquePropMap = new HashMap();
         while(itClassDescriptions.hasNext())
@@ -500,7 +496,6 @@ public class Java5ApiWriter extends AbstractApiWriter
             String className = classDescription.getOdmaName().getName();
             String constantClassName = "CLASS_" + className.toUpperCase();
             out.println("");
-            //out.println("        declaredAspects = new OdmaArrayListClassEnumeration();");
             out.println("        declaredAspects = null;");
             if(classDescription.getPropertyDescriptions().isEmpty())
             {
@@ -508,7 +503,7 @@ public class Java5ApiWriter extends AbstractApiWriter
             }
             else
             {
-                out.println("        declaredProperties = new OdmaArrayListPropertyInfoEnumeration();");
+                out.println("        declaredProperties = new ArrayList<OdmaPropertyInfo>();");
             }
             Iterator itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
             while(itPropertyDescriptions.hasNext())
@@ -519,7 +514,7 @@ public class Java5ApiWriter extends AbstractApiWriter
                 out.println("        declaredProperties.add(getPropertyInfo(OdmaTypes."+constantPropertyName+"));");
             }
             String parentClassExpression = (classDescription.getExtendsOdmaName()==null) ? "null" : "getClassInfo(OdmaTypes.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+")";
-            out.println("        ssc = new OdmaStaticSystemClass"+className+"("+parentClassExpression+",getSubClassesEnumeration(OdmaTypes."+constantClassName+"),declaredAspects,declaredProperties,getRetrievable(OdmaTypes."+constantClassName+"),getSearchable(OdmaTypes."+constantClassName+"));");
+            out.println("        ssc = new OdmaStaticSystemClass"+className+"("+parentClassExpression+",getSubClassesArrayList(OdmaTypes."+constantClassName+"),declaredAspects,declaredProperties,getRetrievable(OdmaTypes."+constantClassName+"),getSearchable(OdmaTypes."+constantClassName+"));");
             if(classDescription.getExtendsOdmaName() != null)
             {
                 out.println("        registerSubClass(OdmaTypes.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+", ssc);");
@@ -536,17 +531,17 @@ public class Java5ApiWriter extends AbstractApiWriter
         }
         out.println("");
         out.println("        OdmaClass propertyInfoClass = getClassInfo(OdmaTypes.CLASS_PROPERTYINFO);");
-        out.println("        Iterator itPropertyInfos = propertyInfos.values().iterator();");
+        out.println("        Iterator<OdmaStaticSystemPropertyInfo> itPropertyInfos = propertyInfos.values().iterator();");
         out.println("        while(itPropertyInfos.hasNext())");
         out.println("        {");
-        out.println("            OdmaStaticSystemPropertyInfo pi = (OdmaStaticSystemPropertyInfo)itPropertyInfos.next();");
+        out.println("            OdmaStaticSystemPropertyInfo pi = itPropertyInfos.next();");
         out.println("            pi.patchClass(propertyInfoClass);");
         out.println("        }");
         out.println("        OdmaClass classClass = getClassInfo(OdmaTypes.CLASS_CLASS);");
-        out.println("        Iterator itClassInfos = classInfos.values().iterator();");
+        out.println("        Iterator<OdmaStaticSystemClass> itClassInfos = classInfos.values().iterator();");
         out.println("        while(itClassInfos.hasNext())");
         out.println("        {");
-        out.println("            OdmaStaticSystemClass ci = (OdmaStaticSystemClass)itClassInfos.next();");
+        out.println("            OdmaStaticSystemClass ci = itClassInfos.next();");
         out.println("            ci.patchClass(classClass);");
         out.println("        }");
         out.println("");
@@ -640,7 +635,7 @@ public class Java5ApiWriter extends AbstractApiWriter
     protected void createSearchResultFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("OdmaSearchResult",outputFolder);
-        InputStream from = getResourceAsStream("/templates/java/OdmaSearchResult.template");
+        InputStream from = getResourceAsStream("/templates/java5/OdmaSearchResult.template");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -709,44 +704,15 @@ public class Java5ApiWriter extends AbstractApiWriter
     //-------------------------------------------------------------------------
     // C O L L E C T I O N   F I L E S
     //-------------------------------------------------------------------------
-
-    protected boolean collectionFileCreated = false;
-    
-    protected void createCollectionFile(String baseFolder) throws IOException
-    {
-        if(collectionFileCreated)
-        {
-            return;
-        }
-        collectionFileCreated = true;
-        OutputStream to = createJavaFile(baseFolder,"org.opendma.api.collections","OdmaCollection");
-        InputStream from = getResourceAsStream("/templates/java5/OdmaCollection.template");
-        streamCopy(from, to);
-        from.close();
-        to.close();
-    }
-    
-    protected OutputStream getEnumerationFileStream(String baseFolder, ClassDescription classDescription) throws IOException
-    {
-        return createJavaFile(baseFolder,"org.opendma.api.collections",classDescription.getApiName()+"Enumeration");
-    }
     
     protected void createEnumerationFile(ClassDescription classDescription, String baseFolder) throws IOException
     {
-        createCollectionFile(baseFolder);
-        Java5EnumerationFileWriter enumerationFileWriter = new Java5EnumerationFileWriter();
-        enumerationFileWriter.createEnumerationFile(classDescription, getEnumerationFileStream(baseFolder,classDescription));
-    }
-
-    protected OutputStream getListFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
-    {
-        return createJavaFile(baseFolder,"org.opendma.api.collections",getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()));
+        // We are using generics in the form of Iterable<OdmaObject>. There is no need for enumeration files
     }
 
     protected void createListFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
     {
-        Java5ListFileWriter listFileWriter = new Java5ListFileWriter(this);
-        listFileWriter.createListFile(scalarTypeDescription, getListFileStream(baseFolder,scalarTypeDescription));
+        // We are using generics in the form of List<Object>. There is no need for list files
     }
     
     //-------------------------------------------------------------------------
@@ -759,15 +725,9 @@ public class Java5ApiWriter extends AbstractApiWriter
         javaPropertyImplementationFileWriter.createPropertyFile(apiDescription, createJavaFile(outputFolder,"org.opendma.impl","OdmaPropertyImpl"));
     }
 
-    protected OutputStream getListImplementationFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
-    {
-        return createJavaFile(baseFolder,"org.opendma.impl.collections","Array"+getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()));
-    }
-
     protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
     {
-        Java5ListImplementationFileWriter listImplementationFileWriter = new Java5ListImplementationFileWriter(this);
-        listImplementationFileWriter.createListFile(scalarTypeDescription, getListImplementationFileStream(baseFolder,scalarTypeDescription));
+        // We are using generics in the form of List<Object>. There is no need for list files
     }
 
     //-------------------------------------------------------------------------
