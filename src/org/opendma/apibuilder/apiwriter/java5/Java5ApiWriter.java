@@ -514,7 +514,7 @@ public class Java5ApiWriter extends AbstractApiWriter
                 out.println("        declaredProperties.add(getPropertyInfo(OdmaTypes."+constantPropertyName+"));");
             }
             String parentClassExpression = (classDescription.getExtendsOdmaName()==null) ? "null" : "getClassInfo(OdmaTypes.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+")";
-            out.println("        ssc = new OdmaStaticSystemClass"+className+"("+parentClassExpression+",getSubClassesArrayList(OdmaTypes."+constantClassName+"),declaredAspects,declaredProperties,getRetrievable(OdmaTypes."+constantClassName+"),getSearchable(OdmaTypes."+constantClassName+"));");
+            out.println("        ssc = new OdmaStaticSystemClass"+className+"("+parentClassExpression+",getSubClasses(OdmaTypes."+constantClassName+"),declaredAspects,declaredProperties,getRetrievable(OdmaTypes."+constantClassName+"),getSearchable(OdmaTypes."+constantClassName+"));");
             if(classDescription.getExtendsOdmaName() != null)
             {
                 out.println("        registerSubClass(OdmaTypes.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+", ssc);");
