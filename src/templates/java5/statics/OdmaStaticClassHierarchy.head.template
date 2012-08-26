@@ -130,7 +130,7 @@ public class OdmaStaticClassHierarchy
     
     protected HashMap<OdmaQName, ArrayList<OdmaClass>> subClassesArrayLists = new HashMap<OdmaQName, ArrayList<OdmaClass>>();
     
-    public ArrayList<OdmaClass> getSubClassesArrayList(OdmaQName className)
+    private ArrayList<OdmaClass> getInternalSubClassesArrayList(OdmaQName className)
     {
         ArrayList<OdmaClass> result = subClassesArrayLists.get(className);
         if(result != null)
@@ -148,6 +148,33 @@ public class OdmaStaticClassHierarchy
             subClassesArrayLists.put(className,result);
             return result;
         }
+    }
+    
+    public Iterable<OdmaClass> getSubClasses(final OdmaQName className)
+    {
+        return new Iterable<OdmaClass>() {
+            public Iterator<OdmaClass> iterator()
+            {
+                final Iterator<OdmaClass> it = getInternalSubClassesArrayList(className).iterator();
+                return new Iterator<OdmaClass>() {
+
+                    public boolean hasNext()
+                    {
+                        return it.hasNext();
+                    }
+
+                    public OdmaClass next()
+                    {
+                        return it.next();
+                    }
+
+                    public void remove()
+                    {
+                        throw new OdmaRuntimeException("Class hierarchy cannot be modified via this method");
+                    }
+                };
+            }
+        };
     }
     
     public void registerSubClass(OdmaQName parentName, OdmaClass subClass)
