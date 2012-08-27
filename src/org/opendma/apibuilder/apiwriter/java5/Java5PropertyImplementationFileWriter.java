@@ -39,7 +39,7 @@ public class Java5PropertyImplementationFileWriter extends AbstractPropertyImple
             }
         }
         out.println("");
-        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java/OdmaPropertyImplementation.Header.template");
+        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java5/OdmaPropertyImplementation.Header.template");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)
@@ -56,7 +56,7 @@ public class Java5PropertyImplementationFileWriter extends AbstractPropertyImple
 
     protected void writeGenericSection(ApiDescription apiDescription, PrintWriter out) throws IOException
     {
-        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java/OdmaPropertyImplementation.Generic.template");
+        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java5/OdmaPropertyImplementation.Generic.template");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)
@@ -129,8 +129,8 @@ public class Java5PropertyImplementationFileWriter extends AbstractPropertyImple
             ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
             //if(!scalarTypeDescription.isInternal())
             //{
-                String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
-                out.println("            case OdmaTypes."+constantScalarTypeName+":");
+                String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
+                out.println("            case "+constantScalarTypeName+":");
                 if(multivalue)
                 {
                     if(scalarTypeDescription.isReference())
@@ -158,7 +158,7 @@ public class Java5PropertyImplementationFileWriter extends AbstractPropertyImple
             //}
         }
         out.println("            default:");
-        out.println("                throw new OdmaRuntimeException(\"OdmaProperty initialized with unknown data type \"+Integer.toString(dataType));");
+        out.println("                throw new OdmaRuntimeException(\"OdmaProperty initialized with unknown data type \"+dataType);");
         out.println("            }");
     }
 
@@ -180,14 +180,14 @@ public class Java5PropertyImplementationFileWriter extends AbstractPropertyImple
         out.println("     */");
         out.println("    public "+javaReturnType+" get"+scalarName+"() throws OdmaInvalidDataTypeException");
         out.println("    {");
-        String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
-        out.println("        if( (multivalue == false) && (dataType == OdmaTypes."+constantScalarTypeName+") )");
+        String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
+        out.println("        if( (multivalue == false) && (dataType == OdmaType."+constantScalarTypeName+") )");
         out.println("        {");
         out.println("            return ("+javaReturnType+")value;");
         out.println("        }");
         out.println("        else");
         out.println("        {");
-        out.println("            throw new OdmaInvalidDataTypeException(OdmaTypes."+constantScalarTypeName+",false,dataType,multivalue);");
+        out.println("            throw new OdmaInvalidDataTypeException(OdmaType."+constantScalarTypeName+",false,dataType,multivalue);");
         out.println("        }");
         out.println("    }");
     }
@@ -211,21 +211,21 @@ public class Java5PropertyImplementationFileWriter extends AbstractPropertyImple
         out.println("    @SuppressWarnings(\"unchecked\")");
         out.println("    public "+javaReturnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"List")+"() throws OdmaInvalidDataTypeException");
         out.println("    {");
-        String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
-        out.println("        if( (multivalue == true) && (dataType == OdmaTypes."+constantScalarTypeName+") )");
+        String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
+        out.println("        if( (multivalue == true) && (dataType == OdmaType."+constantScalarTypeName+") )");
         out.println("        {");
         out.println("            return ("+javaReturnType+")value;");
         out.println("        }");
         out.println("        else");
         out.println("        {");
-        out.println("            throw new OdmaInvalidDataTypeException(OdmaTypes."+constantScalarTypeName+",true,dataType,multivalue);");
+        out.println("            throw new OdmaInvalidDataTypeException(OdmaType."+constantScalarTypeName+",true,dataType,multivalue);");
         out.println("        }");
         out.println("    }");
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)
     {
-        requiredImports.registerImport("org.opendma.OdmaTypes");
+        requiredImports.registerImport("org.opendma.api.OdmaType");
         requiredImports.registerImport("org.opendma.api.OdmaQName");
         requiredImports.registerImport("org.opendma.api.OdmaProperty");
         requiredImports.registerImport("org.opendma.exceptions.OdmaInvalidDataTypeException");

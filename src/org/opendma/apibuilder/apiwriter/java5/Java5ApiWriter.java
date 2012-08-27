@@ -254,7 +254,8 @@ public class Java5ApiWriter extends AbstractApiWriter
         PrintWriter out = new PrintWriter(staticPropertyInfoStream);
         out.println("package org.opendma.impl.core;");
         out.println("");
-        out.println("import org.opendma.OdmaTypes;");
+        out.println("import org.opendma.api.OdmaCommonNames;");
+        out.println("import org.opendma.api.OdmaType;");
         out.println("import org.opendma.exceptions.OdmaAccessDeniedException;");
         out.println("import org.opendma.exceptions.OdmaInvalidDataTypeException;");
         out.println("import org.opendma.impl.OdmaPropertyImpl;");
@@ -285,25 +286,24 @@ public class Java5ApiWriter extends AbstractApiWriter
         String constantPropertyName = "PROPERTY_" + propertyDescription.getOdmaName().getName().toUpperCase();
         if(pn.equals("NAME"))
         {
-            printX(out,"NAME","OdmaTypes."+constantPropertyName+".getName()","STRING");
+            printX(out,"NAME","OdmaCommonNames."+constantPropertyName+".getName()","STRING");
         }
         else if(pn.equals("NAMEQUALIFIER"))
         {
-            printX(out,"NAMEQUALIFIER","OdmaTypes."+constantPropertyName+".getQualifier()","STRING");
+            printX(out,"NAMEQUALIFIER","OdmaCommonNames."+constantPropertyName+".getQualifier()","STRING");
         }
         else if(pn.equals("QNAME"))
         {
-            printX(out,"QNAME","OdmaTypes."+constantPropertyName,"QNAME");
+            printX(out,"QNAME","OdmaCommonNames."+constantPropertyName,"QNAME");
         }
         else if(pn.equals("DISPLAYNAME"))
         {
-            printX(out,"DISPLAYNAME","OdmaTypes."+constantPropertyName+".getName()","STRING");
+            printX(out,"DISPLAYNAME","OdmaCommonNames."+constantPropertyName+".getName()","STRING");
         }
         else if(pn.equals("DATATYPE"))
         {
             ScalarTypeDescription scalarTypeDescription = apiDescription.getScalarTypeDescription(propertyDescription.getDataType());
-            String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
-            printX(out,"DATATYPE","new Integer(OdmaTypes."+constantScalarTypeName+")","INTEGER");
+            printX(out,"DATATYPE","new Integer("+scalarTypeDescription.getNumericID()+")","INTEGER");
         }
         else if(pn.equals("REFERENCECLASS"))
         {
@@ -341,12 +341,12 @@ public class Java5ApiWriter extends AbstractApiWriter
 
     private void printX(PrintWriter out, String propertyNameConstant, String value, String typeConstantName)
     {
-        out.println("        properties.put(OdmaTypes.PROPERTY_"+propertyNameConstant+",new OdmaPropertyImpl(OdmaTypes.PROPERTY_"+propertyNameConstant+","+value+",OdmaTypes.TYPE_"+typeConstantName+",false,true));");        
+        out.println("        properties.put(OdmaCommonNames.PROPERTY_"+propertyNameConstant+",new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_"+propertyNameConstant+","+value+",OdmaType."+typeConstantName+",false,true));");        
     }
     
     private void printXMultivalue(PrintWriter out, String propertyNameConstant, String value, String typeConstantName)
     {
-        out.println("        properties.put(OdmaTypes.PROPERTY_"+propertyNameConstant+",new OdmaPropertyImpl(OdmaTypes.PROPERTY_"+propertyNameConstant+","+value+",OdmaTypes.TYPE_"+typeConstantName+",true,true));");        
+        out.println("        properties.put(OdmaCommonNames.PROPERTY_"+propertyNameConstant+",new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_"+propertyNameConstant+","+value+",OdmaType."+typeConstantName+",true,true));");        
     }
 
     protected void createStaticClassHierarchyHelperClass(ApiDescription apiDescription, ClassDescription classDescription, String outputFolder) throws IOException, ApiWriterException
@@ -356,8 +356,9 @@ public class Java5ApiWriter extends AbstractApiWriter
         PrintWriter out = new PrintWriter(staticClassStream);
         out.println("package org.opendma.impl.core;");
         out.println("");
-        out.println("import org.opendma.OdmaTypes;");
         out.println("import org.opendma.api.OdmaClass;");
+        out.println("import org.opendma.api.OdmaCommonNames;");
+        out.println("import org.opendma.api.OdmaType;");
         out.println("import org.opendma.api.OdmaPropertyInfo;");
         out.println("import org.opendma.exceptions.OdmaAccessDeniedException;");
         out.println("import org.opendma.exceptions.OdmaInvalidDataTypeException;");
@@ -391,19 +392,19 @@ public class Java5ApiWriter extends AbstractApiWriter
         String constantClassName = "CLASS_" + classDescription.getOdmaName().getName().toUpperCase();
         if(pn.equals("NAME"))
         {
-            printX(out,"NAME","OdmaTypes."+constantClassName+".getName()","STRING");
+            printX(out,"NAME","OdmaCommonNames."+constantClassName+".getName()","STRING");
         }
         else if(pn.equals("NAMEQUALIFIER"))
         {
-            printX(out,"NAMEQUALIFIER","OdmaTypes."+constantClassName+".getQualifier()","STRING");
+            printX(out,"NAMEQUALIFIER","OdmaCommonNames."+constantClassName+".getQualifier()","STRING");
         }
         else if(pn.equals("QNAME"))
         {
-            printX(out,"QNAME","OdmaTypes."+constantClassName,"QNAME");
+            printX(out,"QNAME","OdmaCommonNames."+constantClassName,"QNAME");
         }
         else if(pn.equals("DISPLAYNAME"))
         {
-            printX(out,"DISPLAYNAME","OdmaTypes."+constantClassName+".getName()","STRING");
+            printX(out,"DISPLAYNAME","OdmaCommonNames."+constantClassName+".getName()","STRING");
         }
         else if(pn.equals("PARENT"))
         {
@@ -486,7 +487,7 @@ public class Java5ApiWriter extends AbstractApiWriter
                 if(uniquePropMap.containsKey(constantPropertyName))
                     continue;
                 uniquePropMap.put(constantPropertyName,Boolean.TRUE);
-                out.println("        propertyInfos.put(OdmaTypes."+constantPropertyName+", new OdmaStaticSystemPropertyInfo"+propName+"());");
+                out.println("        propertyInfos.put(OdmaCommonNames."+constantPropertyName+", new OdmaStaticSystemPropertyInfo"+propName+"());");
             }
         }
         itClassDescriptions = apiDescription.getDescribedClasses().iterator();
@@ -511,13 +512,13 @@ public class Java5ApiWriter extends AbstractApiWriter
                 PropertyDescription propertyDescription = (PropertyDescription)itPropertyDescriptions.next();
                 String propName = propertyDescription.getOdmaName().getName();
                 String constantPropertyName = "PROPERTY_" + propName.toUpperCase();
-                out.println("        declaredProperties.add(getPropertyInfo(OdmaTypes."+constantPropertyName+"));");
+                out.println("        declaredProperties.add(getPropertyInfo(OdmaCommonNames."+constantPropertyName+"));");
             }
-            String parentClassExpression = (classDescription.getExtendsOdmaName()==null) ? "null" : "getClassInfo(OdmaTypes.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+")";
-            out.println("        ssc = new OdmaStaticSystemClass"+className+"("+parentClassExpression+",getSubClasses(OdmaTypes."+constantClassName+"),declaredAspects,declaredProperties,getRetrievable(OdmaTypes."+constantClassName+"),getSearchable(OdmaTypes."+constantClassName+"));");
+            String parentClassExpression = (classDescription.getExtendsOdmaName()==null) ? "null" : "getClassInfo(OdmaCommonNames.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+")";
+            out.println("        ssc = new OdmaStaticSystemClass"+className+"("+parentClassExpression+",getSubClasses(OdmaCommonNames."+constantClassName+"),declaredAspects,declaredProperties,getRetrievable(OdmaCommonNames."+constantClassName+"),getSearchable(OdmaCommonNames."+constantClassName+"));");
             if(classDescription.getExtendsOdmaName() != null)
             {
-                out.println("        registerSubClass(OdmaTypes.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+", ssc);");
+                out.println("        registerSubClass(OdmaCommonNames.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+", ssc);");
             }
             else
             {
@@ -527,17 +528,17 @@ public class Java5ApiWriter extends AbstractApiWriter
                     out.println("        registerRootAspect(ssc);");
                 }
             }
-            out.println("        classInfos.put(OdmaTypes."+constantClassName+", ssc);");
+            out.println("        classInfos.put(OdmaCommonNames."+constantClassName+", ssc);");
         }
         out.println("");
-        out.println("        OdmaClass propertyInfoClass = getClassInfo(OdmaTypes.CLASS_PROPERTYINFO);");
+        out.println("        OdmaClass propertyInfoClass = getClassInfo(OdmaCommonNames.CLASS_PROPERTYINFO);");
         out.println("        Iterator<OdmaStaticSystemPropertyInfo> itPropertyInfos = propertyInfos.values().iterator();");
         out.println("        while(itPropertyInfos.hasNext())");
         out.println("        {");
         out.println("            OdmaStaticSystemPropertyInfo pi = itPropertyInfos.next();");
         out.println("            pi.patchClass(propertyInfoClass);");
         out.println("        }");
-        out.println("        OdmaClass classClass = getClassInfo(OdmaTypes.CLASS_CLASS);");
+        out.println("        OdmaClass classClass = getClassInfo(OdmaCommonNames.CLASS_CLASS);");
         out.println("        Iterator<OdmaStaticSystemClass> itClassInfos = classInfos.values().iterator();");
         out.println("        while(itClassInfos.hasNext())");
         out.println("        {");
@@ -561,7 +562,7 @@ public class Java5ApiWriter extends AbstractApiWriter
                 if(uniquePropMap.containsKey(constantPropertyName))
                     continue;
                 uniquePropMap.put(constantPropertyName,Boolean.TRUE);
-                out.println("        getPropertyInfo(OdmaTypes."+constantPropertyName+").patchReferenceClass(getClassInfo(OdmaTypes.CLASS_"+propertyDescription.getReferenceClassName().getName().toUpperCase()+"));");
+                out.println("        getPropertyInfo(OdmaCommonNames."+constantPropertyName+").patchReferenceClass(getClassInfo(OdmaCommonNames.CLASS_"+propertyDescription.getReferenceClassName().getName().toUpperCase()+"));");
             }
         }
         out.println("    }");
@@ -576,15 +577,56 @@ public class Java5ApiWriter extends AbstractApiWriter
     // C O N S T A N T S   F I L E
     //-------------------------------------------------------------------------
 
-    protected OutputStream getConstantsFileStream(String outputFolder) throws IOException
+    protected void createDataTypesFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        return createJavaFile(outputFolder,"org.opendma","OdmaTypes");
+        // create type enumeration
+        PrintWriter out = new PrintWriter(createJavaFile(outputFolder,"org.opendma.api","OdmaType"));
+        out.println("package org.opendma.api;");
+        out.println();
+        out.println("/**");
+        out.println(" * OpenDMA property data types.");
+        out.println(" *");
+        out.println(" * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board");
+        out.println(" */");
+        out.println("public enum OdmaType");
+        out.println("{");
+        out.println();
+        List scalarTypes = apiDescription.getScalarTypes();
+        Iterator itScalarTypes = scalarTypes.iterator();
+        while(itScalarTypes.hasNext())
+        {
+            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+            out.println("    "+scalarTypeDescription.getName().toUpperCase()+"("+scalarTypeDescription.getNumericID()+")"+(itScalarTypes.hasNext()?",":";"));
+        }
+        out.println();
+        out.println("    private final int numericId;");
+        out.println();
+        out.println("    private OdmaType(int numericId) {");
+        out.println("        this.numericId = numericId;");
+        out.println("    }");
+        out.println();
+        out.println("    public int getNumericId() {");
+        out.println("        return numericId;");
+        out.println("    }");
+        out.println();
+        out.println("    public static OdmaType fromNumericId(int numericId) {");
+        out.println("        for (OdmaType val : OdmaType.values()) {");
+        out.println("            if (val.getNumericId() == numericId) {");
+        out.println("                return val;");
+        out.println("            }");
+        out.println("        }");
+        out.println("        throw new IllegalArgumentException(\"Unknown numericId \" + numericId);");
+        out.println("    }");
+        out.println();
+        out.println("}");
+        out.close();
     }
 
     protected void createConstantsFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
+        // create common names file
         Java5ConstantsFileWriter constantsFileWriter = new Java5ConstantsFileWriter();
-        constantsFileWriter.createConstantsFile(apiDescription, getConstantsFileStream(outputFolder));
+        constantsFileWriter.createConstantsFile(apiDescription, createJavaFile(outputFolder,"org.opendma.api","OdmaCommonNames"));
     }
 
     //-------------------------------------------------------------------------
@@ -655,7 +697,7 @@ public class Java5ApiWriter extends AbstractApiWriter
     protected void internalCreateExceptionFile(String outputFolder, String exceptionClassName) throws IOException
     {
         OutputStream to = createJavaFile(outputFolder,"org.opendma.exceptions",exceptionClassName);
-        InputStream from = getResourceAsStream("/templates/java/"+exceptionClassName+".template");
+        InputStream from = getResourceAsStream("/templates/java5/"+exceptionClassName+".template");
         streamCopy(from,to);
         from.close();
         to.close();

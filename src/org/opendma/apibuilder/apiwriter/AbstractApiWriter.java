@@ -51,6 +51,7 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         }
         baseFolder = baseFolder + File.separator;
         // create the constants file
+        createDataTypesFile(apiDescription,baseFolder);
         createConstantsFile(apiDescription,baseFolder);
         // create basic files that are NOT autocreated
         createQNameFile(apiDescription,baseFolder);
@@ -148,6 +149,8 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
     //-------------------------------------------------------------------------
     // C O N S T A N T S   F I L E
     //-------------------------------------------------------------------------
+
+    protected abstract void createDataTypesFile(ApiDescription apiDescription, String outputFolder) throws IOException;
 
     protected abstract void createConstantsFile(ApiDescription apiDescription, String outputFolder) throws IOException;
 

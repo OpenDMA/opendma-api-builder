@@ -110,7 +110,7 @@ public class Java5ClassTemplateFileWriter extends AbstractClassFileWriter
     protected void appendRequiredImportsGlobal(ClassDescription classDescription, ImportsList requiredImports)
     {
         requiredImports.registerImport("org.opendma.api."+classDescription.getApiName());
-        requiredImports.registerImport("org.opendma.OdmaTypes");
+        requiredImports.registerImport("org.opendma.api.OdmaCommonNames");
         requiredImports.registerImport("org.opendma.exceptions.OdmaInvalidDataTypeException");
         requiredImports.registerImport("org.opendma.exceptions.OdmaObjectNotFoundException");
         requiredImports.registerImport("org.opendma.exceptions.OdmaRuntimeException");
@@ -230,7 +230,7 @@ public class Java5ClassTemplateFileWriter extends AbstractClassFileWriter
         out.println("    {");
         out.println("        try");
         out.println("        {");
-        out.println("            return "+(property.isReference()?"("+javaDataType+")":"")+"getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"();");
+        out.println("            return "+(property.isReference()?"("+javaDataType+")":"")+"getProperty(OdmaCommonNames."+constantPropertyName+")."+standardGetterName+"();");
         out.println("        }");
         if(property.isReference())
         {
@@ -267,7 +267,7 @@ public class Java5ClassTemplateFileWriter extends AbstractClassFileWriter
             out.println("    {");
             out.println("        try");
             out.println("        {");
-            out.println("            getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value);");
+            out.println("            getProperty(OdmaCommonNames."+constantPropertyName+")."+standardSetterName+"(value);");
             out.println("        }");
             out.println("        catch(OdmaInvalidDataTypeException oidte)");
             out.println("        {");

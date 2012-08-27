@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
 
 import org.opendma.apibuilder.OdmaBasicTypes;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
@@ -202,17 +205,32 @@ public class CppApiWriter extends AbstractApiWriter
     // C O N S T A N T S   F I L E
     //-------------------------------------------------------------------------
 
-    protected OutputStream getConstantsFileStream(String outputFolder) throws IOException
+    protected void createDataTypesFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        return createCppFile(outputFolder,"org.opendma","OdmaTypes");
+        // create type enumeration
+        PrintWriter out = new PrintWriter(createHeaderFile(outputFolder,"OdmaType"));
+        out.println("#ifndef _OdmaType_h_");
+        out.println("#define _OdmaType_h_");
+        out.println("");
+        out.println("enum OdmaType");
+        out.println("{");
+        List scalarTypes = apiDescription.getScalarTypes();
+        Iterator itScalarTypes = scalarTypes.iterator();
+        while(itScalarTypes.hasNext())
+        {
+            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+            out.println("        "+scalarTypeDescription.getName().toUpperCase()+" = "+scalarTypeDescription.getNumericID()+(itScalarTypes.hasNext()?",":""));
+        }
+        out.println("}");
+        out.println("");
+        out.println("#endif");
+        out.close();
     }
 
     protected void createConstantsFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        /*
-        JavaConstantsFileWriter constantsFileWriter = new JavaConstantsFileWriter();
-        constantsFileWriter.createConstantsFile(apiDescription, getConstantsFileStream(outputFolder));
-        */
+        CppConstantsFileWriter constantsFileWriter = new CppConstantsFileWriter();
+        constantsFileWriter.createConstantsFile(apiDescription, createHeaderFile(outputFolder,"OdmaCommonNames"));
     }
 
     //-------------------------------------------------------------------------

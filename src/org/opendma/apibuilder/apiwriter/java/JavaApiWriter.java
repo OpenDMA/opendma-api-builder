@@ -581,6 +581,11 @@ public class JavaApiWriter extends AbstractApiWriter
     // C O N S T A N T S   F I L E
     //-------------------------------------------------------------------------
 
+    protected void createDataTypesFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    {
+        // part of constants file
+    }
+
     protected OutputStream getConstantsFileStream(String outputFolder) throws IOException
     {
         return createJavaFile(outputFolder,"org.opendma","OdmaTypes");

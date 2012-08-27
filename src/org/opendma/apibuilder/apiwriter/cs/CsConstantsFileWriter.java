@@ -14,11 +14,11 @@ public class CsConstantsFileWriter extends AbstractConstantsFileWriter
     {
         out.println("using OpenDMA.Api;");
         out.println("");
-        out.println("namespace OpenDMA");
+        out.println("namespace OpenDMA.Api");
         out.println("{");
         out.println("");
         out.println("    /// <summary>Static declaration of all type constants used in the OpenDMA spcification.</summary>");
-        out.println("    public class OdmaTypes");
+        out.println("    public class OdmaCommonNames");
         out.println("    {");
     }
 
@@ -32,18 +32,10 @@ public class CsConstantsFileWriter extends AbstractConstantsFileWriter
 
     protected void writeConstantsScalarTypeConstant(ScalarTypeDescription scalarTypeDescription, String constantName, PrintWriter out)
     {
-        out.println("");
-        out.println("        /// <summary>Numeric type identifier of the data type <code>"+scalarTypeDescription.getName()+"</code>.<br>");
-        out.println("        /// Value is "+scalarTypeDescription.getNumericID()+".</summary>");
-        out.println("        public const int "+constantName+" = "+scalarTypeDescription.getNumericID()+";");
     }
 
     protected void writeConstantsTypesSectionHeader(ApiDescription apiDescription, PrintWriter out)
     {
-        out.println("");
-        out.println("        // =============================================================================================");
-        out.println("        // Declaration of numeric data type IDs");
-        out.println("        // =============================================================================================");
     }
 
     protected void writeConstantsClassSeperator(ClassDescription classDescription, PrintWriter out)
@@ -81,10 +73,6 @@ public class CsConstantsFileWriter extends AbstractConstantsFileWriter
 
     protected void writeConstantsFileFooter(ApiDescription apiDescription, PrintWriter out)
     {
-        out.println("");
-        out.println("        // =============================================================================================");
-        out.println("        // TECHNICAL: empty private default constructor to prevent instantiation");
-        out.println("        // =============================================================================================");
         out.println("");
         out.println("        //");
         out.println("        // Empty private constructor to prevent instantiation of this class.");

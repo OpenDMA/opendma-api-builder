@@ -2,14 +2,15 @@ package org.opendma.impl.core;
 
 import java.util.Map;
 
-import org.opendma.OdmaTypes;
 import org.opendma.api.OdmaClass;
+import org.opendma.api.OdmaCommonNames;
 import org.opendma.api.OdmaFolder;
 import org.opendma.api.OdmaGuid;
 import org.opendma.api.OdmaId;
 import org.opendma.api.OdmaProperty;
 import org.opendma.api.OdmaQName;
 import org.opendma.api.OdmaRepository;
+import org.opendma.api.OdmaType;
 import org.opendma.exceptions.OdmaAccessDeniedException;
 import org.opendma.exceptions.OdmaInvalidDataTypeException;
 import org.opendma.exceptions.OdmaObjectNotFoundException;
@@ -29,14 +30,14 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
     protected OdmaStaticSystemRepository(Map<OdmaQName, OdmaProperty> externalProperties, String name, String displayName, OdmaId id, OdmaGuid guid, OdmaClass rootClass, Iterable<OdmaClass> rootAspects) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
         properties = externalProperties;
-        properties.put(OdmaTypes.PROPERTY_NAME,new OdmaPropertyImpl(OdmaTypes.PROPERTY_NAME,name,OdmaTypes.TYPE_STRING,false,true));
-        properties.put(OdmaTypes.PROPERTY_DISPLAYNAME,new OdmaPropertyImpl(OdmaTypes.PROPERTY_DISPLAYNAME,displayName,OdmaTypes.TYPE_STRING,false,true));
-        properties.put(OdmaTypes.PROPERTY_ROOTCLASS,new OdmaPropertyImpl(OdmaTypes.PROPERTY_ROOTCLASS,rootClass,OdmaTypes.TYPE_REFERENCE,false,true));
-        properties.put(OdmaTypes.PROPERTY_ROOTASPECTS,new OdmaPropertyImpl(OdmaTypes.PROPERTY_ROOTASPECTS,rootAspects,OdmaTypes.TYPE_REFERENCE,true,true));
-        properties.put(OdmaTypes.PROPERTY_ROOTFOLDER,new OdmaPropertyImpl(OdmaTypes.PROPERTY_ROOTFOLDER,null,OdmaTypes.TYPE_REFERENCE,false,true));
-        properties.put(OdmaTypes.PROPERTY_ID,new OdmaPropertyImpl(OdmaTypes.PROPERTY_ID,id,OdmaTypes.TYPE_ID,false,true));
-        properties.put(OdmaTypes.PROPERTY_GUID,new OdmaPropertyImpl(OdmaTypes.PROPERTY_GUID,guid,OdmaTypes.TYPE_GUID,false,true));
-        properties.put(OdmaTypes.PROPERTY_REPOSITORY,new OdmaPropertyImpl(OdmaTypes.PROPERTY_REPOSITORY,this,OdmaTypes.TYPE_REFERENCE,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_NAME,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_NAME,name,OdmaType.STRING,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_DISPLAYNAME,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_DISPLAYNAME,displayName,OdmaType.STRING,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_ROOTCLASS,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_ROOTCLASS,rootClass,OdmaType.REFERENCE,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_ROOTASPECTS,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_ROOTASPECTS,rootAspects,OdmaType.REFERENCE,true,true));
+        properties.put(OdmaCommonNames.PROPERTY_ROOTFOLDER,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_ROOTFOLDER,null,OdmaType.REFERENCE,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_ID,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_ID,id,OdmaType.ID,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_GUID,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_GUID,guid,OdmaType.GUID,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_REPOSITORY,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_REPOSITORY,this,OdmaType.REFERENCE,false,true));
     }
 
     // =============================================================================================
@@ -59,7 +60,7 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
     {
         try
         {
-            return getProperty(OdmaTypes.PROPERTY_NAME).getString();
+            return getProperty(OdmaCommonNames.PROPERTY_NAME).getString();
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -85,7 +86,7 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
     {
         try
         {
-            getProperty(OdmaTypes.PROPERTY_NAME).setValue(value);
+            getProperty(OdmaCommonNames.PROPERTY_NAME).setValue(value);
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -110,7 +111,7 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
     {
         try
         {
-            return getProperty(OdmaTypes.PROPERTY_DISPLAYNAME).getString();
+            return getProperty(OdmaCommonNames.PROPERTY_DISPLAYNAME).getString();
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -136,7 +137,7 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
     {
         try
         {
-            getProperty(OdmaTypes.PROPERTY_DISPLAYNAME).setValue(value);
+            getProperty(OdmaCommonNames.PROPERTY_DISPLAYNAME).setValue(value);
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -161,7 +162,7 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
     {
         try
         {
-            return (OdmaClass)getProperty(OdmaTypes.PROPERTY_ROOTCLASS).getReference();
+            return (OdmaClass)getProperty(OdmaCommonNames.PROPERTY_ROOTCLASS).getReference();
         }
         catch(ClassCastException cce)
         {
@@ -191,7 +192,7 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
     {
         try
         {
-            return (Iterable<OdmaClass>)getProperty(OdmaTypes.PROPERTY_ROOTASPECTS).getReferenceIterable();
+            return (Iterable<OdmaClass>)getProperty(OdmaCommonNames.PROPERTY_ROOTASPECTS).getReferenceIterable();
         }
         catch(ClassCastException cce)
         {
@@ -220,7 +221,7 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
     {
         try
         {
-            return (OdmaFolder)getProperty(OdmaTypes.PROPERTY_ROOTFOLDER).getReference();
+            return (OdmaFolder)getProperty(OdmaCommonNames.PROPERTY_ROOTFOLDER).getReference();
         }
         catch(ClassCastException cce)
         {

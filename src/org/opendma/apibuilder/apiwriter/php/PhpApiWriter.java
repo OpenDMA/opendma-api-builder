@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
 
 import org.opendma.apibuilder.OdmaBasicTypes;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
@@ -188,17 +191,28 @@ public class PhpApiWriter extends AbstractApiWriter
     // C O N S T A N T S   F I L E
     //-------------------------------------------------------------------------
 
-    protected OutputStream getConstantsFileStream(String outputFolder) throws IOException
+    protected void createDataTypesFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        return createPhpFile(outputFolder,"OpenDMA","OdmaTypes");
+        // create type enumeration
+        PrintWriter out = new PrintWriter(createPhpFile(outputFolder,"OpenDMA/Api","OdmaType"));
+        out.println("<?php");
+        out.println("enum OdmaType");
+        out.println("{");
+        List scalarTypes = apiDescription.getScalarTypes();
+        Iterator itScalarTypes = scalarTypes.iterator();
+        while(itScalarTypes.hasNext())
+        {
+            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+            out.println("    case "+scalarTypeDescription.getName().toUpperCase()+";");
+        }
+        out.println("}");
+        out.close();
     }
 
     protected void createConstantsFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        /*
-        JavaConstantsFileWriter constantsFileWriter = new JavaConstantsFileWriter();
-        constantsFileWriter.createConstantsFile(apiDescription, getConstantsFileStream(outputFolder));
-        */
+        PhpConstantsFileWriter constantsFileWriter = new PhpConstantsFileWriter();
+        constantsFileWriter.createConstantsFile(apiDescription, createPhpFile(outputFolder,"OpenDMA/Api","OdmaCommonNames"));
     }
 
     //-------------------------------------------------------------------------

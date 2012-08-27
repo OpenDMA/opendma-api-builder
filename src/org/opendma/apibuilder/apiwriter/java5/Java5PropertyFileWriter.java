@@ -39,7 +39,7 @@ public class Java5PropertyFileWriter extends AbstractPropertyFileWriter
             }
         }
         out.println("");
-        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java/OdmaProperty.Header.template");
+        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java5/OdmaProperty.Header.template");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)
@@ -56,7 +56,7 @@ public class Java5PropertyFileWriter extends AbstractPropertyFileWriter
 
     protected void writeGenericSection(ApiDescription apiDescription, PrintWriter out) throws IOException
     {
-        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java/OdmaProperty.Generic.template");
+        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java5/OdmaProperty.Generic.template");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)

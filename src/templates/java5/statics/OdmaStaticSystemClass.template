@@ -3,11 +3,12 @@ package org.opendma.impl.core;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.opendma.OdmaTypes;
 import org.opendma.api.OdmaClass;
+import org.opendma.api.OdmaCommonNames;
 import org.opendma.api.OdmaObject;
 import org.opendma.api.OdmaPropertyInfo;
 import org.opendma.api.OdmaQName;
+import org.opendma.api.OdmaType;
 import org.opendma.exceptions.OdmaAccessDeniedException;
 import org.opendma.exceptions.OdmaInvalidDataTypeException;
 import org.opendma.exceptions.OdmaObjectNotFoundException;
@@ -26,7 +27,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
 
     protected OdmaStaticSystemClass(OdmaStaticSystemClass parent, Iterable<OdmaClass> subClasses) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
-        properties.put(OdmaTypes.PROPERTY_SUBCLASSES,new OdmaPropertyImpl(OdmaTypes.PROPERTY_SUBCLASSES,subClasses,OdmaTypes.TYPE_REFERENCE,true,true));
+        properties.put(OdmaCommonNames.PROPERTY_SUBCLASSES,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_SUBCLASSES,subClasses,OdmaType.REFERENCE,true,true));
     }
 
     protected void buildProperties() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
@@ -46,7 +47,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         {
             props.add(itDeclaredProperties.next());
         }
-        properties.put(OdmaTypes.PROPERTY_PROPERTIES,new OdmaPropertyImpl(OdmaTypes.PROPERTY_PROPERTIES,props,OdmaTypes.TYPE_REFERENCE,true,true));
+        properties.put(OdmaCommonNames.PROPERTY_PROPERTIES,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_PROPERTIES,props,OdmaType.REFERENCE,true,true));
     }
 
     // =============================================================================================
@@ -69,7 +70,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            return getProperty(OdmaTypes.PROPERTY_NAME).getString();
+            return getProperty(OdmaCommonNames.PROPERTY_NAME).getString();
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -95,7 +96,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            getProperty(OdmaTypes.PROPERTY_NAME).setValue(value);
+            getProperty(OdmaCommonNames.PROPERTY_NAME).setValue(value);
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -120,7 +121,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            return getProperty(OdmaTypes.PROPERTY_NAMEQUALIFIER).getString();
+            return getProperty(OdmaCommonNames.PROPERTY_NAMEQUALIFIER).getString();
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -146,7 +147,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            getProperty(OdmaTypes.PROPERTY_NAMEQUALIFIER).setValue(value);
+            getProperty(OdmaCommonNames.PROPERTY_NAMEQUALIFIER).setValue(value);
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -171,7 +172,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            return getProperty(OdmaTypes.PROPERTY_DISPLAYNAME).getString();
+            return getProperty(OdmaCommonNames.PROPERTY_DISPLAYNAME).getString();
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -197,7 +198,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            getProperty(OdmaTypes.PROPERTY_DISPLAYNAME).setValue(value);
+            getProperty(OdmaCommonNames.PROPERTY_DISPLAYNAME).setValue(value);
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -222,7 +223,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            return (OdmaClass)getProperty(OdmaTypes.PROPERTY_PARENT).getReference();
+            return (OdmaClass)getProperty(OdmaCommonNames.PROPERTY_PARENT).getReference();
         }
         catch(ClassCastException cce)
         {
@@ -252,7 +253,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            return (Iterable<OdmaClass>)getProperty(OdmaTypes.PROPERTY_ASPECTS).getReferenceIterable();
+            return (Iterable<OdmaClass>)getProperty(OdmaCommonNames.PROPERTY_ASPECTS).getReferenceIterable();
         }
         catch(ClassCastException cce)
         {
@@ -282,7 +283,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            return (Iterable<OdmaPropertyInfo>)getProperty(OdmaTypes.PROPERTY_DECLAREDPROPERTIES).getReferenceIterable();
+            return (Iterable<OdmaPropertyInfo>)getProperty(OdmaCommonNames.PROPERTY_DECLAREDPROPERTIES).getReferenceIterable();
         }
         catch(ClassCastException cce)
         {
@@ -312,7 +313,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            return (Iterable<OdmaPropertyInfo>)getProperty(OdmaTypes.PROPERTY_PROPERTIES).getReferenceIterable();
+            return (Iterable<OdmaPropertyInfo>)getProperty(OdmaCommonNames.PROPERTY_PROPERTIES).getReferenceIterable();
         }
         catch(ClassCastException cce)
         {
@@ -341,7 +342,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            return getProperty(OdmaTypes.PROPERTY_ASPECT).getBoolean();
+            return getProperty(OdmaCommonNames.PROPERTY_ASPECT).getBoolean();
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -366,7 +367,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            return getProperty(OdmaTypes.PROPERTY_INSTANTIABLE).getBoolean();
+            return getProperty(OdmaCommonNames.PROPERTY_INSTANTIABLE).getBoolean();
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -392,7 +393,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            getProperty(OdmaTypes.PROPERTY_INSTANTIABLE).setValue(value);
+            getProperty(OdmaCommonNames.PROPERTY_INSTANTIABLE).setValue(value);
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -417,7 +418,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            return getProperty(OdmaTypes.PROPERTY_HIDDEN).getBoolean();
+            return getProperty(OdmaCommonNames.PROPERTY_HIDDEN).getBoolean();
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -443,7 +444,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            getProperty(OdmaTypes.PROPERTY_HIDDEN).setValue(value);
+            getProperty(OdmaCommonNames.PROPERTY_HIDDEN).setValue(value);
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -468,7 +469,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            return getProperty(OdmaTypes.PROPERTY_SYSTEM).getBoolean();
+            return getProperty(OdmaCommonNames.PROPERTY_SYSTEM).getBoolean();
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -494,7 +495,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            getProperty(OdmaTypes.PROPERTY_SYSTEM).setValue(value);
+            getProperty(OdmaCommonNames.PROPERTY_SYSTEM).setValue(value);
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -519,7 +520,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            return getProperty(OdmaTypes.PROPERTY_RETRIEVABLE).getBoolean();
+            return getProperty(OdmaCommonNames.PROPERTY_RETRIEVABLE).getBoolean();
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -544,7 +545,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            return getProperty(OdmaTypes.PROPERTY_SEARCHABLE).getBoolean();
+            return getProperty(OdmaCommonNames.PROPERTY_SEARCHABLE).getBoolean();
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -570,7 +571,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     {
         try
         {
-            return (Iterable<OdmaClass>)getProperty(OdmaTypes.PROPERTY_SUBCLASSES).getReferenceIterable();
+            return (Iterable<OdmaClass>)getProperty(OdmaCommonNames.PROPERTY_SUBCLASSES).getReferenceIterable();
         }
         catch(ClassCastException cce)
         {

@@ -4,14 +4,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.opendma.OdmaTypes;
 import org.opendma.api.OdmaClass;
+import org.opendma.api.OdmaCommonNames;
 import org.opendma.api.OdmaGuid;
 import org.opendma.api.OdmaId;
 import org.opendma.api.OdmaObject;
 import org.opendma.api.OdmaProperty;
 import org.opendma.api.OdmaQName;
 import org.opendma.api.OdmaRepository;
+import org.opendma.api.OdmaType;
 import org.opendma.exceptions.OdmaAccessDeniedException;
 import org.opendma.exceptions.OdmaInvalidDataTypeException;
 import org.opendma.exceptions.OdmaObjectNotFoundException;
@@ -33,26 +34,26 @@ public class OdmaStaticSystemObject
     protected OdmaStaticSystemObject()
     {
         // properties of opendma.org Object
-        properties.put(OdmaTypes.PROPERTY_CLASS,null);
-        properties.put(OdmaTypes.PROPERTY_ID,null);
-        properties.put(OdmaTypes.PROPERTY_GUID,null);
-        properties.put(OdmaTypes.PROPERTY_REPOSITORY,null);
+        properties.put(OdmaCommonNames.PROPERTY_CLASS,null);
+        properties.put(OdmaCommonNames.PROPERTY_ID,null);
+        properties.put(OdmaCommonNames.PROPERTY_GUID,null);
+        properties.put(OdmaCommonNames.PROPERTY_REPOSITORY,null);
     }
 
     protected void patchClass(OdmaClass newClass) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
-        properties.put(OdmaTypes.PROPERTY_CLASS,new OdmaPropertyImpl(OdmaTypes.PROPERTY_CLASS,newClass,OdmaTypes.TYPE_REFERENCE,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_CLASS,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_CLASS,newClass,OdmaType.REFERENCE,false,true));
     }
 
     protected void patchIds(OdmaId newId, OdmaGuid newGuid) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
-        properties.put(OdmaTypes.PROPERTY_ID,new OdmaPropertyImpl(OdmaTypes.PROPERTY_ID,newId,OdmaTypes.TYPE_ID,false,true));
-        properties.put(OdmaTypes.PROPERTY_GUID,new OdmaPropertyImpl(OdmaTypes.PROPERTY_GUID,newGuid,OdmaTypes.TYPE_GUID,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_ID,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_ID,newId,OdmaType.ID,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_GUID,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_GUID,newGuid,OdmaType.GUID,false,true));
     }
 
     protected void patchRepository(OdmaRepository newRepository) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
-        properties.put(OdmaTypes.PROPERTY_REPOSITORY,new OdmaPropertyImpl(OdmaTypes.PROPERTY_REPOSITORY,newRepository,OdmaTypes.TYPE_REFERENCE,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_REPOSITORY,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_REPOSITORY,newRepository,OdmaType.REFERENCE,false,true));
     }
 
     // =============================================================================================
@@ -201,7 +202,7 @@ public class OdmaStaticSystemObject
     {
         try
         {
-            return (OdmaClass)getProperty(OdmaTypes.PROPERTY_CLASS).getReference();
+            return (OdmaClass)getProperty(OdmaCommonNames.PROPERTY_CLASS).getReference();
         }
         catch(ClassCastException cce)
         {
@@ -230,7 +231,7 @@ public class OdmaStaticSystemObject
     {
         try
         {
-            return getProperty(OdmaTypes.PROPERTY_ID).getId();
+            return getProperty(OdmaCommonNames.PROPERTY_ID).getId();
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -255,7 +256,7 @@ public class OdmaStaticSystemObject
     {
         try
         {
-            return getProperty(OdmaTypes.PROPERTY_GUID).getGuid();
+            return getProperty(OdmaCommonNames.PROPERTY_GUID).getGuid();
         }
         catch(OdmaInvalidDataTypeException oidte)
         {
@@ -280,7 +281,7 @@ public class OdmaStaticSystemObject
     {
         try
         {
-            return (OdmaRepository)getProperty(OdmaTypes.PROPERTY_REPOSITORY).getReference();
+            return (OdmaRepository)getProperty(OdmaCommonNames.PROPERTY_REPOSITORY).getReference();
         }
         catch(ClassCastException cce)
         {

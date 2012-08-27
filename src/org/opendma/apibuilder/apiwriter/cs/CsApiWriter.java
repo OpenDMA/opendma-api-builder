@@ -185,15 +185,35 @@ public class CsApiWriter extends AbstractApiWriter
     // C O N S T A N T S   F I L E
     //-------------------------------------------------------------------------
 
-    protected OutputStream getConstantsFileStream(String outputFolder) throws IOException
+    protected void createDataTypesFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        return createCsFile(outputFolder,"OpenDMA","OdmaTypes");
+        // create type enumeration
+        PrintWriter out = new PrintWriter(createCsFile(outputFolder,"OpenDMA.Api","OdmaType"));
+        out.println("using OpenDMA.Api;");
+        out.println("");
+        out.println("namespace OpenDMA.Api");
+        out.println("{");
+        out.println("");
+        out.println("    /// <summary>OpenDMA property data types.</summary>");
+        out.println("    public enum OdmaType");
+        out.println("    {");
+        List scalarTypes = apiDescription.getScalarTypes();
+        Iterator itScalarTypes = scalarTypes.iterator();
+        while(itScalarTypes.hasNext())
+        {
+            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+            out.println("        "+scalarTypeDescription.getName().toUpperCase()+" = "+scalarTypeDescription.getNumericID()+(itScalarTypes.hasNext()?",":""));
+        }
+        out.println("    }");
+        out.println("");
+        out.println("}");
+        out.close();
     }
 
     protected void createConstantsFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         CsConstantsFileWriter constantsFileWriter = new CsConstantsFileWriter();
-        constantsFileWriter.createConstantsFile(apiDescription, getConstantsFileStream(outputFolder));
+        constantsFileWriter.createConstantsFile(apiDescription, createCsFile(outputFolder,"OpenDMA.Api","OdmaCommonNames"));
     }
 
     //-------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-package org.opendma.apibuilder.apiwriter.java5;
+package org.opendma.apibuilder.apiwriter.php;
 
 import java.io.PrintWriter;
 
@@ -8,19 +8,14 @@ import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
-public class Java5ConstantsFileWriter extends AbstractConstantsFileWriter
+public class PhpConstantsFileWriter extends AbstractConstantsFileWriter
 {
     protected void writeConstantsFileHeader(ApiDescription apiDescription, PrintWriter out)
     {
-        out.println("package org.opendma.api;");
+        out.println("<?php");
         out.println("");
-        out.println("/**");
-        out.println(" * Static declaration of all type constants used in the OpenDMA spcification.");
-        out.println(" *");
-        out.println(" * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board");
-        out.println(" */");
-        out.println("public class OdmaCommonNames");
-        out.println("{");
+        out.println("require_once 'OdmaQName.php';");
+        out.println("");
     }
 
     protected void writeConstantsClassesSectionHeader(ApiDescription apiDescription, PrintWriter out)
@@ -52,14 +47,14 @@ public class Java5ConstantsFileWriter extends AbstractConstantsFileWriter
     {
         out.println("");
         out.println("    /** qualified name of the OpenDMA system class <code>"+classDescription.getOdmaName().getName()+"</code> */");
-        out.println("    public final static OdmaQName "+constantName+" = new OdmaQName(\""+classDescription.getOdmaName().getQualifier()+"\", \""+classDescription.getOdmaName().getName()+"\");");
+        out.println("    $"+constantName+" = new OdmaQName('"+classDescription.getOdmaName().getQualifier()+"', '"+classDescription.getOdmaName().getName()+"');");
     }
 
     protected void writeConstantsPropertynameConstant(PropertyDescription propertyDescription, String constantName, PrintWriter out)
     {
         out.println("");
         out.println("    /** qualified name of the OpenDMA system property <code>"+propertyDescription.getOdmaName().getName()+"</code> */");
-        out.println("    public final static OdmaQName "+constantName+" = new OdmaQName(\""+propertyDescription.getOdmaName().getQualifier()+"\", \""+propertyDescription.getOdmaName().getName()+"\");");
+        out.println("    $"+constantName+" = new OdmaQName('"+propertyDescription.getOdmaName().getQualifier()+"', '"+propertyDescription.getOdmaName().getName()+"');");
     }
 
     protected void writeConstantsBackrefPropertynameHint(PropertyDescription propertyDescription, String propertyName, PrintWriter out)
@@ -71,15 +66,6 @@ public class Java5ConstantsFileWriter extends AbstractConstantsFileWriter
     protected void writeConstantsFileFooter(ApiDescription apiDescription, PrintWriter out)
     {
         out.println("");
-        out.println("    /**");
-        out.println("     * Empty private constructor to prevent instantiation of this class.");
-        out.println("     */");
-        out.println("    private OdmaCommonNames()");
-        out.println("    {");
-        out.println("        // empty constructor");
-        out.println("    }");
-        out.println("");
-        out.println("}");
     }
 
 }
