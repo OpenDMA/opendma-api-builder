@@ -302,7 +302,7 @@ public class Java5ApiWriter extends AbstractApiWriter
         }
         else if(pn.equals("DATATYPE"))
         {
-            ScalarTypeDescription scalarTypeDescription = apiDescription.getScalarTypeDescription(propertyDescription.getDataType());
+            ScalarTypeDescription scalarTypeDescription = propertyDescription.getDataType();
             printX(out,"DATATYPE","new Integer("+scalarTypeDescription.getNumericID()+")","INTEGER");
         }
         else if(pn.equals("REFERENCECLASS"))
@@ -555,7 +555,7 @@ public class Java5ApiWriter extends AbstractApiWriter
             while(itPropertyDescriptions.hasNext())
             {
                 PropertyDescription propertyDescription = (PropertyDescription)itPropertyDescriptions.next();
-                if(propertyDescription.getDataType() != OdmaBasicTypes.TYPE_REFERENCE)
+                if(!propertyDescription.getDataType().isReference())
                     continue;
                 String propName = propertyDescription.getOdmaName().getName();
                 String constantPropertyName = "PROPERTY_" + propName.toUpperCase();

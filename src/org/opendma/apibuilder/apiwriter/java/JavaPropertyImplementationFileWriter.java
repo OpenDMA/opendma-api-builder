@@ -116,9 +116,9 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
                 String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
                 String javaReturnType = multivalue
                                         ?
-                                        (scalarTypeDescription.isReference() ? "OdmaObjectEnumeration" : apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()))
+                                        (scalarTypeDescription.isReference() ? "OdmaObjectEnumeration" : apiWriter.getScalarDataType(scalarTypeDescription,true))
                                         :
-                                        (scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getProgrammingLanguageSpecificScalarDataType(false,scalarTypeDescription.getNumericID()));
+                                        (scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false));
 
                 out.println("            case OdmaTypes."+constantScalarTypeName+":");
                 out.println("                if(newValue instanceof "+javaReturnType+")");
@@ -140,7 +140,7 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
     protected void writeSingleValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String javaReturnType = scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getProgrammingLanguageSpecificScalarDataType(false,scalarTypeDescription.getNumericID());
+        String javaReturnType = scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false);
         out.println("");
         out.println("    /**");
         out.println("     * Returns the <code>"+javaReturnType+"</code> value of this property if and only if");
@@ -170,7 +170,7 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String javaReturnType = scalarTypeDescription.isReference() ? "OdmaObjectEnumeration" : apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID());
+        String javaReturnType = scalarTypeDescription.isReference() ? "OdmaObjectEnumeration" : apiWriter.getScalarDataType(scalarTypeDescription,true);
         out.println("");
         out.println("    /**");
         out.println("     * Returns the <code>"+javaReturnType+"</code> value of this property if and only if");
@@ -215,8 +215,8 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
             requiredImports.registerImport("org.opendma.api.collections.OdmaObjectEnumeration");
             return;
         }
-        requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(false,scalarTypeDescription.getNumericID()));
-        requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(true,scalarTypeDescription.getNumericID()));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true));
     }
     
 }

@@ -21,7 +21,7 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
     protected boolean readOnly;
 
     /** the data type of this property */
-    protected int dataType;
+    protected ScalarTypeDescription dataType;
 
     /** the multi value attribute of this property */
     protected boolean multiValue;
@@ -98,7 +98,7 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
      * 
      * @return the data type of this property
      */
-    public int getDataType()
+    public ScalarTypeDescription getDataType()
     {
         return dataType;
     }
@@ -190,8 +190,7 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public boolean isReference()
     {
-        ScalarTypeDescription scalarTypeDescription = ContainingClass.getContainingApiDescription().getScalarTypeDescription(dataType);
-        return scalarTypeDescription.isReference();
+        return dataType.isReference();
     }
     
     /**
@@ -266,7 +265,7 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
         String referenceName = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_REFERENCENAME);
         boolean referenceQualifierEmpty = ((referenceQualifier==null) || (referenceQualifier.trim().length()==0) );
         boolean referenceNameEmpty = ((referenceName==null) || (referenceName.trim().length()==0) );
-        if(dataType == TYPE_REFERENCE)
+        if(isReference())
         {
             if(referenceQualifierEmpty)
             {
@@ -389,14 +388,14 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
      * 
      * @throws DescriptionFileSyntaxException if the given String does not represent a data type
      */
-    protected int parseDataType(String value, String attributeName) throws DescriptionFileSyntaxException
+    protected ScalarTypeDescription parseDataType(String value, String attributeName) throws DescriptionFileSyntaxException
     {
         ScalarTypeDescription scalarTypeDescription = ContainingClass.getContainingApiDescription().getScalarTypeDescription(value);
         if(scalarTypeDescription == null)
         {
             throw new DescriptionFileSyntaxException("Invalid scalar type value in attribute "+attributeName+" of property "+this.OdmaName.toString()+" in class "+this.ContainingClass.toString());
         }
-        return scalarTypeDescription.getNumericID();
+        return scalarTypeDescription;
     }
     
 }

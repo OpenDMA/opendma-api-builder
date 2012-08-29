@@ -68,7 +68,7 @@ public class Java5PropertyFileWriter extends AbstractPropertyFileWriter
     protected void writeSingleValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String javaReturnType = scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getProgrammingLanguageSpecificScalarDataType(false,scalarTypeDescription.getNumericID());
+        String javaReturnType = scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false);
         out.println("");
         out.println("    /**");
         out.println("     * Returns the <code>"+javaReturnType+"</code> value of this property if and only if");
@@ -87,7 +87,7 @@ public class Java5PropertyFileWriter extends AbstractPropertyFileWriter
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String javaReturnType = scalarTypeDescription.isReference() ? "Iterable<? extends OdmaObject>" : apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID());
+        String javaReturnType = scalarTypeDescription.isReference() ? "Iterable<? extends OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true);
         out.println("");
         out.println("    /**");
         out.println("     * Returns the <code>"+javaReturnType+"</code> value of this property if and only if");
@@ -116,8 +116,8 @@ public class Java5PropertyFileWriter extends AbstractPropertyFileWriter
             requiredImports.registerImport("org.opendma.api.OdmaObject");
             return;
         }
-        requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(false,scalarTypeDescription.getNumericID()));
-        requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(true,scalarTypeDescription.getNumericID()));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true));
     }
 
 }

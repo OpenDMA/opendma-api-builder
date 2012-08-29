@@ -22,8 +22,8 @@ public class JavaListImplementationFileWriter extends AbstractListFileWriter
     protected void appendRequiredImportsGlobal(ScalarTypeDescription scalarTypeDescription, ImportsList requiredImports)
     {
         requiredImports.registerImport("java.util.ArrayList");
-        requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(false,scalarTypeDescription.getNumericID()));
-        requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(true,scalarTypeDescription.getNumericID()));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true));
     }
 
     protected void writeListFileHeader(ScalarTypeDescription scalarTypeDescription, List requiredImports, PrintWriter out)
@@ -39,7 +39,7 @@ public class JavaListImplementationFileWriter extends AbstractListFileWriter
                 out.println("import "+importDeclaration+";");
             }
         }
-        String interfaceName = apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID());
+        String interfaceName = apiWriter.getScalarDataType(scalarTypeDescription,true);
         out.println("");
         out.println("/**");
         out.println(" * Implementation of the <code>{@link x}</code> interface based on an <code>ArrayList</code>.");
@@ -55,7 +55,7 @@ public class JavaListImplementationFileWriter extends AbstractListFileWriter
 
     protected void writeListFileMethods(ScalarTypeDescription scalarTypeDescription, PrintWriter out)
     {
-        String singleValueDataType = apiWriter.getProgrammingLanguageSpecificScalarDataType(false,scalarTypeDescription.getNumericID());
+        String singleValueDataType = apiWriter.getScalarDataType(scalarTypeDescription,false);
         out.println("");
         out.println("    /**");
         out.println("     * Returns the <code>"+singleValueDataType+"</code> element at the specified position in");

@@ -22,7 +22,7 @@ public class JavaListFileWriter extends AbstractListFileWriter
     protected void appendRequiredImportsGlobal(ScalarTypeDescription scalarTypeDescription, ImportsList requiredImports)
     {
         requiredImports.registerImport("java.util.List");
-        requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(false,scalarTypeDescription.getNumericID()));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false));
     }
 
     protected void writeListFileHeader(ScalarTypeDescription scalarTypeDescription, List requiredImports, PrintWriter out)
@@ -45,13 +45,13 @@ public class JavaListFileWriter extends AbstractListFileWriter
         out.println(" * ");
         out.println(" * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board");
         out.println(" */");
-        out.println("public interface "+apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID())+" extends List");
+        out.println("public interface "+apiWriter.getScalarDataType(scalarTypeDescription,true)+" extends List");
         out.println("{");
     }
 
     protected void writeListFileMethods(ScalarTypeDescription scalarTypeDescription, PrintWriter out)
     {
-        String singleValueDataType = apiWriter.getProgrammingLanguageSpecificScalarDataType(false,scalarTypeDescription.getNumericID());
+        String singleValueDataType = apiWriter.getScalarDataType(scalarTypeDescription,false);
         out.println("");
         out.println("    /**");
         out.println("     * Returns the <code>"+singleValueDataType+"</code> element at the specified position in");

@@ -337,7 +337,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
             while(itPropertyDescriptions.hasNext())
             {
                 PropertyDescription propertyDescription = (PropertyDescription)itPropertyDescriptions.next();
-                if(propertyDescription.getDataType() == TYPE_REFERENCE)
+                if(propertyDescription.getDataType().isReference())
                 {
                     if(!classNameMap.containsKey(propertyDescription.getReferenceClassName()))
                     {

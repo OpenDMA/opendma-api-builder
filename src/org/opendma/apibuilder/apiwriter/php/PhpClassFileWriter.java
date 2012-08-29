@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
-import org.opendma.apibuilder.OdmaBasicTypes;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
@@ -134,7 +133,7 @@ public class PhpClassFileWriter extends AbstractClassFileWriter
 
     protected String getReturnDataType(PropertyDescription property)
     {
-        if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
+        if(property.getDataType().isReference())
         {
             if(property.getMultiValue())
             {
@@ -147,13 +146,13 @@ public class PhpClassFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            return apiWriter.getProgrammingLanguageSpecificScalarDataType(property.getMultiValue(),property.getDataType());
+            return apiWriter.getScalarDataType(property.getDataType(),property.getMultiValue());
         }
     }
     
     protected String[] getRequiredImports(PropertyDescription property)
     {
-        if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
+        if(property.getDataType().isReference())
         {
             if(property.getMultiValue())
             {
@@ -167,7 +166,7 @@ public class PhpClassFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            return apiWriter.getRequiredScalarDataTypeImports(property.getMultiValue(),property.getDataType());
+            return apiWriter.getScalarDataTypeImports(property.getDataType(),property.getMultiValue());
         }
     }
 
@@ -180,12 +179,12 @@ public class PhpClassFileWriter extends AbstractClassFileWriter
         out.println("");
         out.println("    /**");
         out.println("     * Returns "+property.getAbstract()+".<br>");
-        String standardGetterName = "get" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? javaDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
+        String standardGetterName = "get" + ((!property.getDataType().isReference()) ? javaDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
         out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</code>.");
         out.println("     * ");
-        ScalarTypeDescription scalarTypeDescription = property.getContainingClass().getContainingApiDescription().getScalarTypeDescription(property.getDataType());
+        ScalarTypeDescription scalarTypeDescription = property.getDataType();
         String dataTypeName = scalarTypeDescription.isInternal() ? scalarTypeDescription.getBaseScalar() : scalarTypeDescription.getName();
-        if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
+        if(property.getDataType().isReference())
         {
             dataTypeName = dataTypeName + " to " + property.getReferenceClassName().getName() + " ("+property.getReferenceClassName().getQualifier()+")";
         }
@@ -202,7 +201,7 @@ public class PhpClassFileWriter extends AbstractClassFileWriter
             out.println("");
             out.println("    /**");
             out.println("     * Sets "+property.getAbstract()+".<br>");
-            String standardSetterName = "set" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? javaDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
+            String standardSetterName = "set" + ((!property.getDataType().isReference()) ? javaDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
             out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value)</code>.");
             out.println("     * ");
             out.println("     * <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getQualifier()+"): <b>"+dataTypeName+"</b><br>");

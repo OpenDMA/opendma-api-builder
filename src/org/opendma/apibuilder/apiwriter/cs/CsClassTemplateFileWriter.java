@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
-import org.opendma.apibuilder.OdmaBasicTypes;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
@@ -138,7 +137,7 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
 
     protected String getReturnDataType(PropertyDescription property)
     {
-        if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
+        if(property.getDataType().isReference())
         {
             if(property.getMultiValue())
             {
@@ -151,13 +150,13 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            return apiWriter.getProgrammingLanguageSpecificScalarDataType(property.getMultiValue(),property.getDataType());
+            return apiWriter.getScalarDataType(property.getDataType(),property.getMultiValue());
         }
     }
     
     protected String[] getRequiredImports(PropertyDescription property)
     {
-        if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
+        if(property.getDataType().isReference())
         {
             if(property.getMultiValue())
             {
@@ -171,7 +170,7 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            return apiWriter.getRequiredScalarDataTypeImports(property.getMultiValue(),property.getDataType());
+            return apiWriter.getScalarDataTypeImports(property.getDataType(),property.getMultiValue());
         }
     }
 
@@ -179,17 +178,17 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
     {
         // generate names
         String csDataType = getReturnDataType(property);
-        ScalarTypeDescription scalarType = property.getContainingClass().getContainingApiDescription().getScalarTypeDescription(property.getDataType());
+        ScalarTypeDescription scalarType = property.getDataType();
         String constantPropertyName = "PROPERTY_" + property.getOdmaName().getName().toUpperCase();
         // getter
         out.println("");
         out.println("        /// <summary>");
         out.println("        /// Property for "+property.getAbstract()+".<br>");
-        String standardGetterName = "get" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceEnumeration" : "Reference"));
+        String standardGetterName = "get" + ((!property.getDataType().isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceEnumeration" : "Reference"));
         out.println("        // ");
-        ScalarTypeDescription scalarTypeDescription = property.getContainingClass().getContainingApiDescription().getScalarTypeDescription(property.getDataType());
+        ScalarTypeDescription scalarTypeDescription = property.getDataType();
         String dataTypeName = scalarTypeDescription.isInternal() ? scalarTypeDescription.getBaseScalar() : scalarTypeDescription.getName();
-        if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
+        if(property.getDataType().isReference())
         {
             dataTypeName = dataTypeName + " to " + property.getReferenceClassName().getName() + " ("+property.getReferenceClassName().getQualifier()+")";
         }

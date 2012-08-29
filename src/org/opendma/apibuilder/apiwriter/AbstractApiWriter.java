@@ -15,6 +15,20 @@ import org.opendma.apibuilder.structure.ScalarTypeDescription;
 public abstract class AbstractApiWriter implements OdmaApiWriter
 {
     
+    public abstract String getProgrammingLanguageSpecificScalarDataType(boolean multiValue, int dataType);
+
+    public abstract String[] getRequiredScalarDataTypeImports(boolean multiValue, int dataType);
+    
+    public String getScalarDataType(ScalarTypeDescription scalarTypeDescription, boolean multiValue)
+    {
+        return getProgrammingLanguageSpecificScalarDataType(multiValue, scalarTypeDescription.getNumericID());
+    }
+    
+    public String[] getScalarDataTypeImports(ScalarTypeDescription scalarTypeDescription, boolean multiValue)
+    {
+        return getRequiredScalarDataTypeImports(multiValue, scalarTypeDescription.getNumericID());
+    }
+
     protected abstract String getProgrammingLanguageSpecificFolderName();
 
     public void writeOdmaApi(ApiDescription apiDescription, String outputFolderRoot) throws IOException, ApiWriterException

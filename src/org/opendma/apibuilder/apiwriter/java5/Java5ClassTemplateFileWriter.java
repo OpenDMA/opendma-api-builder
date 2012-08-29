@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
-import org.opendma.apibuilder.OdmaBasicTypes;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
@@ -162,7 +161,7 @@ public class Java5ClassTemplateFileWriter extends AbstractClassFileWriter
 
     protected String getReturnDataType(PropertyDescription property)
     {
-        if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
+        if(property.getDataType().isReference())
         {
             if(property.getMultiValue())
             {
@@ -175,13 +174,13 @@ public class Java5ClassTemplateFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            return apiWriter.getProgrammingLanguageSpecificScalarDataType(property.getMultiValue(),property.getDataType());
+            return apiWriter.getScalarDataType(property.getDataType(),property.getMultiValue());
         }
     }
     
     protected String[] getRequiredImports(PropertyDescription property)
     {
-        if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
+        if(property.getDataType().isReference())
         {
             if(property.getMultiValue())
             {
@@ -194,7 +193,7 @@ public class Java5ClassTemplateFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            return apiWriter.getRequiredScalarDataTypeImports(property.getMultiValue(),property.getDataType());
+            return apiWriter.getScalarDataTypeImports(property.getDataType(),property.getMultiValue());
         }
     }
 
@@ -202,17 +201,17 @@ public class Java5ClassTemplateFileWriter extends AbstractClassFileWriter
     {
         // generate names
         String javaDataType = getReturnDataType(property);
-        ScalarTypeDescription scalarType = property.getContainingClass().getContainingApiDescription().getScalarTypeDescription(property.getDataType());
+        ScalarTypeDescription scalarType = property.getDataType();
         String constantPropertyName = "PROPERTY_" + property.getOdmaName().getName().toUpperCase();
         // getter
         out.println("");
         out.println("    /**");
         out.println("     * Returns "+property.getAbstract()+".<br>");
-        String standardGetterName = "get" + ((property.getDataType() != OdmaBasicTypes.TYPE_REFERENCE) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceIterable" : "Reference"));
+        String standardGetterName = "get" + ((!property.getDataType().isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceIterable" : "Reference"));
         out.println("     * ");
-        ScalarTypeDescription scalarTypeDescription = property.getContainingClass().getContainingApiDescription().getScalarTypeDescription(property.getDataType());
+        ScalarTypeDescription scalarTypeDescription = property.getDataType();
         String dataTypeName = scalarTypeDescription.isInternal() ? scalarTypeDescription.getBaseScalar() : scalarTypeDescription.getName();
-        if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE)
+        if(property.getDataType().isReference())
         {
             dataTypeName = dataTypeName + " to " + property.getReferenceClassName().getName() + " ("+property.getReferenceClassName().getQualifier()+")";
         }
@@ -222,7 +221,7 @@ public class Java5ClassTemplateFileWriter extends AbstractClassFileWriter
         out.println("     * ");
         out.println("     * @return "+property.getAbstract());
         out.println("     */");
-        if(property.getDataType() == OdmaBasicTypes.TYPE_REFERENCE && property.getMultiValue())
+        if(property.getDataType().isReference() && property.getMultiValue())
         {
             out.println("     @SuppressWarnings(\"unchecked\")");
         }

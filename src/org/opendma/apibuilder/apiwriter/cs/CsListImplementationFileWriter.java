@@ -26,7 +26,7 @@ public class CsListImplementationFileWriter extends AbstractListFileWriter
         requiredImports.registerImport("System.Linq");
         requiredImports.registerImport("System.Text");
         requiredImports.registerImport("System.Collections");
-        requiredImports.registerImports(apiWriter.getRequiredScalarDataTypeImports(false,scalarTypeDescription.getNumericID()));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false));
     }
 
     protected void writeListFileHeader(ScalarTypeDescription scalarTypeDescription, List requiredImports, PrintWriter out)
@@ -45,7 +45,7 @@ public class CsListImplementationFileWriter extends AbstractListFileWriter
         out.println("    /// Type safe version of the <code>List</code> interface for the <i>"+scalarTypeDescription.getName()+"</i>");
         out.println("    /// data type.");
         out.println("    /// </summary>");
-        out.println("    public interface "+apiWriter.getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID())+" : IList");
+        out.println("    public interface "+apiWriter.getScalarDataType(scalarTypeDescription,true)+" : IList");
         out.println("    {");
     }
 
