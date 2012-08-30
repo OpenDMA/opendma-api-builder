@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import org.opendma.apibuilder.OdmaApiWriter;
 import org.opendma.apibuilder.structure.ApiDescription;
@@ -15,18 +16,64 @@ import org.opendma.apibuilder.structure.ScalarTypeDescription;
 public abstract class AbstractApiWriter implements OdmaApiWriter
 {
     
-    public abstract String getProgrammingLanguageSpecificScalarDataType(boolean multiValue, int dataType);
-
-    public abstract String[] getRequiredScalarDataTypeImports(boolean multiValue, int dataType);
+    private final Properties scalarDataTypes = new Properties();
+    
+    protected AbstractApiWriter()
+    {
+        InputStream is = getClass().getResourceAsStream("scalarDataTypes.properties");
+        if(is == null)
+        {
+            throw new RuntimeException("Resource 'scalarDataTypes.properties' not found in package of " + getClass().getName());
+        }
+        try
+        {
+            scalarDataTypes.load(is);
+        }
+        catch(IOException ioe)
+        {
+            throw new RuntimeException("Error loading resource 'scalarDataTypes.properties': " + ioe.getMessage(), ioe);
+        }
+        finally
+        {
+            try
+            {
+                is.close();
+            }
+            catch(IOException ioe)
+            {
+                throw new RuntimeException("Error closing stream: " + ioe.getMessage(), ioe);                
+            }
+        }
+    }
     
     public String getScalarDataType(ScalarTypeDescription scalarTypeDescription, boolean multiValue)
     {
-        return getProgrammingLanguageSpecificScalarDataType(multiValue, scalarTypeDescription.getNumericID());
+        if(scalarTypeDescription.isReference())
+        {
+            throw new ApiCreationException("REFERENCE data type is not scalar");
+        }
+        String key = scalarTypeDescription.getName()+"."+(multiValue?"multi":"single");
+        String value = scalarDataTypes.getProperty(key);
+        if(value == null || value.length() == 0)
+        {
+            throw new RuntimeException("Resource 'scalarDataTypes.properties' is missing key " + key);
+        }
+        return value;
     }
     
     public String[] getScalarDataTypeImports(ScalarTypeDescription scalarTypeDescription, boolean multiValue)
     {
-        return getRequiredScalarDataTypeImports(multiValue, scalarTypeDescription.getNumericID());
+        if(scalarTypeDescription.isReference())
+        {
+            throw new ApiCreationException("REFERENCE data type is not scalar");
+        }
+        String key = scalarTypeDescription.getName()+"."+(multiValue?"multi":"single")+".imports";
+        String value = scalarDataTypes.getProperty(key);
+        if(value == null)
+        {
+            throw new RuntimeException("Resource 'scalarDataTypes.properties' is missing key " + key);
+        }
+        return value.length() == 0 ? null : value.split(",");
     }
 
     protected abstract String getProgrammingLanguageSpecificFolderName();

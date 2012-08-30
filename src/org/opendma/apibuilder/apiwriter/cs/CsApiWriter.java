@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.opendma.apibuilder.OdmaBasicTypes;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
-import org.opendma.apibuilder.apiwriter.ApiCreationException;
 import org.opendma.apibuilder.structure.ApiDescription;
 import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
@@ -46,139 +44,6 @@ public class CsApiWriter extends AbstractApiWriter
     protected String getProgrammingLanguageSpecificFolderName()
     {
         return "cs";
-    }
-    
-    public String getProgrammingLanguageSpecificScalarDataType(boolean multiValue, int dataType)
-    {
-        if(multiValue)
-        {
-            switch(dataType)
-            {
-            case OdmaBasicTypes.TYPE_STRING:
-                return "IStringList";
-            case OdmaBasicTypes.TYPE_INTEGER:
-                return "IIntegerList";
-            case OdmaBasicTypes.TYPE_SHORT:
-                return "IShortList";
-            case OdmaBasicTypes.TYPE_LONG:
-                return "ILongList";
-            case OdmaBasicTypes.TYPE_FLOAT:
-                return "IFloatList";
-            case OdmaBasicTypes.TYPE_DOUBLE:
-                return "IDoubleList";
-            case OdmaBasicTypes.TYPE_BOOLEAN:
-                return "IBooleanList";
-            case OdmaBasicTypes.TYPE_DATETIME:
-                return "IDateTimeList";
-            case OdmaBasicTypes.TYPE_BLOB:
-                return "IBlobList";
-            case OdmaBasicTypes.TYPE_REFERENCE:
-                throw new ApiCreationException("REFERENCE data type is not scalar");
-            case OdmaBasicTypes.TYPE_CONTENT:
-                return "IOdmaContentList";
-            case OdmaBasicTypes.TYPE_ID:
-                return "OdmaIdList";
-            case OdmaBasicTypes.TYPE_GUID:
-                return "OdmaGuidList";
-            default:
-                throw new ApiCreationException("Unhandled data type "+dataType);
-            }
-        }
-        else
-        {
-            switch(dataType)
-            {
-            case OdmaBasicTypes.TYPE_STRING:
-                return "string";
-            case OdmaBasicTypes.TYPE_INTEGER:
-                return "int";
-            case OdmaBasicTypes.TYPE_SHORT:
-                return "short";
-            case OdmaBasicTypes.TYPE_LONG:
-                return "long";
-            case OdmaBasicTypes.TYPE_FLOAT:
-                return "float";
-            case OdmaBasicTypes.TYPE_DOUBLE:
-                return "double";
-            case OdmaBasicTypes.TYPE_BOOLEAN:
-                return "bool";
-            case OdmaBasicTypes.TYPE_DATETIME:
-                return "DateTime";
-            case OdmaBasicTypes.TYPE_BLOB:
-                return "byte[]";
-            case OdmaBasicTypes.TYPE_REFERENCE:
-                throw new ApiCreationException("REFERENCE data type is not scalar");
-            case OdmaBasicTypes.TYPE_CONTENT:
-                return "IOdmaContent";
-            case OdmaBasicTypes.TYPE_ID:
-                return "OdmaId";
-            case OdmaBasicTypes.TYPE_GUID:
-                return "OdmaGuid";
-            default:
-                throw new ApiCreationException("Unhandled data type "+dataType);
-            }
-        }
-    }
-
-    public String[] getRequiredScalarDataTypeImports(boolean multiValue, int dataType)
-    {
-        if(multiValue)
-        {
-            switch(dataType)
-            {
-            case OdmaBasicTypes.TYPE_STRING:
-            case OdmaBasicTypes.TYPE_INTEGER:
-            case OdmaBasicTypes.TYPE_SHORT:
-            case OdmaBasicTypes.TYPE_LONG:
-            case OdmaBasicTypes.TYPE_FLOAT:
-            case OdmaBasicTypes.TYPE_DOUBLE:
-            case OdmaBasicTypes.TYPE_BOOLEAN:
-            case OdmaBasicTypes.TYPE_DATETIME:
-            case OdmaBasicTypes.TYPE_BLOB:
-            case OdmaBasicTypes.TYPE_CONTENT:
-            case OdmaBasicTypes.TYPE_ID:
-            case OdmaBasicTypes.TYPE_GUID:
-                return new String[] { "OpenDMA.Api.Collections" };
-            case OdmaBasicTypes.TYPE_REFERENCE:
-                throw new ApiCreationException("REFERENCE data type is not scalar");
-            default:
-                throw new ApiCreationException("Unhandled data type "+dataType);
-            }
-        }
-        else
-        {
-            switch(dataType)
-            {
-            case OdmaBasicTypes.TYPE_STRING:
-                return null;
-            case OdmaBasicTypes.TYPE_INTEGER:
-                return null;
-            case OdmaBasicTypes.TYPE_SHORT:
-                return null;
-            case OdmaBasicTypes.TYPE_LONG:
-                return null;
-            case OdmaBasicTypes.TYPE_FLOAT:
-                return null;
-            case OdmaBasicTypes.TYPE_DOUBLE:
-                return null;
-            case OdmaBasicTypes.TYPE_BOOLEAN:
-                return null;
-            case OdmaBasicTypes.TYPE_DATETIME:
-                return null;
-            case OdmaBasicTypes.TYPE_BLOB:
-                return null;
-            case OdmaBasicTypes.TYPE_REFERENCE:
-                throw new ApiCreationException("REFERENCE data type is not scalar");
-            case OdmaBasicTypes.TYPE_CONTENT:
-                return new String[] { "OpenDMA.Api" };
-            case OdmaBasicTypes.TYPE_ID:
-                return new String[] { "OpenDMA.Api" };
-            case OdmaBasicTypes.TYPE_GUID:
-                return new String[] { "OpenDMA.Api" };
-            default:
-                throw new ApiCreationException("Unhandled data type "+dataType);
-            }
-        }
     }
 
     //-------------------------------------------------------------------------
@@ -346,7 +211,7 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected OutputStream getListFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
     {
-        return createCsFile(baseFolder,"OpenDMA.Api.Collections",getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()));
+        return createCsFile(baseFolder,"OpenDMA.Api.Collections",getScalarDataType(scalarTypeDescription,true));
     }
 
     protected void createListFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
@@ -367,7 +232,7 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected OutputStream getListImplementationFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
     {
-        return createCsFile(baseFolder,"OpenDMA.Impl.Collections",getProgrammingLanguageSpecificScalarDataType(true,scalarTypeDescription.getNumericID()));
+        return createCsFile(baseFolder,"OpenDMA.Impl.Collections",getScalarDataType(scalarTypeDescription,true));
     }
 
     protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
