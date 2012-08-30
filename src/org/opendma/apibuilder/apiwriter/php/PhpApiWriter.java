@@ -150,7 +150,7 @@ public class PhpApiWriter extends AbstractApiWriter
     
     protected void internalCreateSessionManagementFile(String outputFolder, String className) throws IOException
     {
-        OutputStream to = createPhpFile(outputFolder,"org.opendma",className);
+        OutputStream to = getBasicFileStream(className,outputFolder);
         InputStream from = getResourceAsStream("/templates/php/"+className+".template");
         streamCopy(from,to);
         from.close();

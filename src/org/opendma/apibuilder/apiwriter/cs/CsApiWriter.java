@@ -162,7 +162,7 @@ public class CsApiWriter extends AbstractApiWriter
     
     protected void internalCreateSessionManagementFile(String outputFolder, String className) throws IOException
     {
-        OutputStream to = createCsFile(outputFolder,"org.opendma",className);
+        OutputStream to =  getBasicFileStream(className,outputFolder);
         InputStream from = getResourceAsStream("/templates/cs/"+className+".template");
         streamCopy(from,to);
         from.close();

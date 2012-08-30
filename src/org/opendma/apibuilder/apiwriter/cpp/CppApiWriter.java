@@ -87,11 +87,6 @@ public class CppApiWriter extends AbstractApiWriter
     // B A S I C   F I L E S
     //-------------------------------------------------------------------------
 
-    protected OutputStream getBasicFileStream(String classname, String outputFolder) throws IOException
-    {
-        return createCppFile(outputFolder,"org.opendma.api",classname);
-    }
-
     protected void createQNameFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = createHeaderFile(outputFolder,"OdmaQName");
@@ -164,7 +159,7 @@ public class CppApiWriter extends AbstractApiWriter
     
     protected void internalCreateSessionManagementFile(String outputFolder, String className) throws IOException
     {
-        OutputStream to = createCppFile(outputFolder,"org.opendma",className);
+        OutputStream to = createHeaderFile(outputFolder,className);
         InputStream from = getResourceAsStream("/templates/cpp/"+className+".template");
         streamCopy(from,to);
         from.close();
