@@ -7,7 +7,7 @@
         /// <summary>
         /// the data type of this property
         /// </summary>
-        protected int dataType;
+        protected OdmaType dataType;
     
         /// <summary>
         /// flag indicating if this property is multivalue or not
@@ -54,7 +54,7 @@
         /// You can find a list of all data types in the <c>OdmaTypes</c> class.
         /// </summary>
         /// <returns>Returns the numeric identifier of the data type of this property.</returns>
-        public int getType()
+        public OdmaType getType()
         {
             return dataType;
         }
@@ -80,7 +80,7 @@
         /// <summary>
         /// Mark this property as dirty meaning that the value has been changed and not yet persisted.
         /// </summary>
-        public setDirty()
+        public void setDirty()
         {
             dirty = true;
         }

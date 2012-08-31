@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OpenDMA.Api.Collections;
 
 namespace OpenDMA.Api
 {
@@ -17,7 +18,7 @@ namespace OpenDMA.Api
         /// found or <code>null</code> if no obejcts have been found.
         /// </summary>
         /// <returns>the collection of objects found by the search if at least one object has been found</returns>
-        IOdmaObjectEnumeration getObjects();
+        IOdmaObjectEnumerable getObjects();
 
         /// <summary>
         /// Returns the number of objects found by the search.

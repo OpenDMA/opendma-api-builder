@@ -77,7 +77,7 @@ public class CsConstantsFileWriter extends AbstractConstantsFileWriter
         out.println("        //");
         out.println("        // Empty private constructor to prevent instantiation of this class.");
         out.println("        //");
-        out.println("        private OdmaTypes()");
+        out.println("        private OdmaCommonNames()");
         out.println("        {");
         out.println("            // empty constructor");
         out.println("        }");

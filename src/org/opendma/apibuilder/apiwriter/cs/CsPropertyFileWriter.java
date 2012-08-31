@@ -82,7 +82,7 @@ public class CsPropertyFileWriter extends AbstractPropertyFileWriter
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String csReturnType = scalarTypeDescription.isReference() ? "IOdmaObjectEnumeration" : apiWriter.getScalarDataType(scalarTypeDescription,true);
+        String csReturnType = scalarTypeDescription.isReference() ? "IOdmaObjectEnumerable" : apiWriter.getScalarDataType(scalarTypeDescription,true);
         out.println("");
         out.println("        /// <summary>");
         out.println("        /// Returns the <c>"+csReturnType+"</c> value of this property if and only if");
@@ -90,7 +90,7 @@ public class CsPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("        /// an <code>OdmaInvalidDataTypeException</code> otherwise.");
         out.println("        /// </summary>");
         out.println("        /// <returns>Returns the <c>"+csReturnType+"</c> value of this property</returns>");
-        out.println("        "+csReturnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Enumeration":"List")+"();");
+        out.println("        "+csReturnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Enumerable":"List")+"();");
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)

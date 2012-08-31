@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OpenDMA.Api;
 
 namespace OpenDMA.Exceptions
 {
@@ -16,7 +17,7 @@ namespace OpenDMA.Exceptions
         /// <summary>
         /// The data type expected by the user
         /// </summary>
-        private int expectedDataType;
+        private OdmaType expectedDataType;
 
         /// <summary>
         /// The multi-value / single-value property expected by the user
@@ -31,7 +32,7 @@ namespace OpenDMA.Exceptions
         /// <summary>
         /// The real data type that is present in OpenDMA
         /// </summary>
-        private int foundDataType;
+        private OdmaType foundDataType;
 
         /// <summary>
         /// The real multi-value / single-value property that is present in OpenDMA
@@ -43,11 +44,38 @@ namespace OpenDMA.Exceptions
         /// </summary>
         /// <param name="expectedDataType">the data type expected by the user</param>
         /// <param name="expectedMultivalue">the multi-value / single-value property expected by the user</param>
-        public OdmaInvalidDataTypeException(int expectedDataType, bool expectedMultivalue)
+        public OdmaInvalidDataTypeException(OdmaType expectedDataType, bool expectedMultivalue) : base(getDefaultMessage(expectedDataType, expectedMultivalue))
         {
+            this.hasFound = false;
             this.expectedDataType = expectedDataType;
             this.expectedMultivalue = expectedMultivalue;
+        }
+
+        /// <summary>
+        /// Create a new <c>OdmaInvalidDataTypeException</c> with the given parameters.
+        /// </summary>
+        /// <param name="msg">a message string for the user</param>
+        /// <param name="expectedDataType">the data type expected by the user</param>
+        /// <param name="expectedMultivalue">the multi-value / single-value property expected by the user</param>
+        public OdmaInvalidDataTypeException(string msg, OdmaType expectedDataType, bool expectedMultivalue) : base(msg)
+        {
             this.hasFound = false;
+            this.expectedDataType = expectedDataType;
+            this.expectedMultivalue = expectedMultivalue;
+        }
+
+        /// <summary>
+        /// Create a new <c>OdmaInvalidDataTypeException</c> with the given parameters.
+        /// </summary>
+        /// <param name="msg">a message string for the user</param>
+        /// <param name="innerException">a message string for the user</param>
+        /// <param name="expectedDataType">the data type expected by the user</param>
+        /// <param name="expectedMultivalue">the multi-value / single-value property expected by the user</param>
+        public OdmaInvalidDataTypeException(string msg, Exception innerException, OdmaType expectedDataType, bool expectedMultivalue) : base(msg, innerException)
+        {
+            this.hasFound = false;
+            this.expectedDataType = expectedDataType;
+            this.expectedMultivalue = expectedMultivalue;
         }
 
         /// <summary>
@@ -57,13 +85,98 @@ namespace OpenDMA.Exceptions
         /// <param name="expectedMultivalue">the multi-value / single-value property expected by the user</param>
         /// <param name="foundDataType">the data type that has been found</param>
         /// <param name="foundMultivalue">the multi-value / single-value property that has been found</param>
-        public OdmaInvalidDataTypeException(int expectedDataType, bool expectedMultivalue, int foundDataType, bool foundMultivalue)
+        public OdmaInvalidDataTypeException(OdmaType expectedDataType, bool expectedMultivalue, OdmaType foundDataType, bool foundMultivalue) : base(getDefaultMessage(expectedDataType, expectedMultivalue, foundDataType, foundMultivalue))
         {
+            this.hasFound = true;
             this.expectedDataType = expectedDataType;
             this.expectedMultivalue = expectedMultivalue;
-            this.hasFound = true;
             this.foundDataType = foundDataType;
             this.foundMultivalue = foundMultivalue;
+        }
+
+        /// <summary>
+        /// Create a new <c>OdmaInvalidDataTypeException</c> with the given parameters.
+        /// </summary>
+        /// <param name="msg">a message string for the user</param>
+        /// <param name="expectedDataType">the data type expected by the user</param>
+        /// <param name="expectedMultivalue">the multi-value / single-value property expected by the user</param>
+        /// <param name="foundDataType">the data type that has been found</param>
+        /// <param name="foundMultivalue">the multi-value / single-value property that has been found</param>
+        public OdmaInvalidDataTypeException(string msg, OdmaType expectedDataType, bool expectedMultivalue, OdmaType foundDataType, bool foundMultivalue) : base(msg)
+        {
+            this.hasFound = true;
+            this.expectedDataType = expectedDataType;
+            this.expectedMultivalue = expectedMultivalue;
+            this.foundDataType = foundDataType;
+            this.foundMultivalue = foundMultivalue;
+        }
+
+        /// <summary>
+        /// Create a new <c>OdmaInvalidDataTypeException</c> with the given parameters.
+        /// </summary>
+        /// <param name="msg">a message string for the user</param>
+        /// <param name="innerException">a message string for the user</param>
+        /// <param name="expectedDataType">the data type expected by the user</param>
+        /// <param name="expectedMultivalue">the multi-value / single-value property expected by the user</param>
+        /// <param name="foundDataType">the data type that has been found</param>
+        /// <param name="foundMultivalue">the multi-value / single-value property that has been found</param>
+        public OdmaInvalidDataTypeException(string msg, Exception innerException, OdmaType expectedDataType, bool expectedMultivalue, OdmaType foundDataType, bool foundMultivalue) : base(msg, innerException)
+        {
+            this.hasFound = true;
+            this.expectedDataType = expectedDataType;
+            this.expectedMultivalue = expectedMultivalue;
+            this.foundDataType = foundDataType;
+            this.foundMultivalue = foundMultivalue;
+        }
+        
+        private static string getDefaultMessage(OdmaType expectedDataType, bool expectedMultivalue)
+        {
+            return "Invalid data type. Expected " + (expectedMultivalue?"multi-valued ":"single-valued ") + expectedDataType;
+        }
+        
+        private static string getDefaultMessage(OdmaType expectedDataType, bool expectedMultivalue, OdmaType foundDataType, bool foundMultivalue)
+        {
+            return "Invalid data type. Expected " + (expectedMultivalue?"multi-valued ":"single-valued ") + expectedDataType + " but found " + (foundMultivalue?"multi-valued ":"single-valued ") + foundDataType;
+        }
+        
+        public OdmaType ExpectedDataType
+        {
+            get
+            {
+                return expectedDataType;
+            }
+        }
+        
+        public bool ExpectedMultivalue
+        {
+            get
+            {
+                return expectedMultivalue;
+            }
+        }
+        
+        public bool HasFound
+        {
+            get
+            {
+                return hasFound;
+            }
+        }
+        
+        public OdmaType FoundDataType
+        {
+            get
+            {
+                return foundDataType;
+            }
+        }
+        
+        public bool FoundMultivalue
+        {
+            get
+            {
+                return foundMultivalue;
+            }
         }
 
         public override string ToString()

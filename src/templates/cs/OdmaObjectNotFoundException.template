@@ -19,6 +19,60 @@ namespace OpenDMA.Exceptions
         /// The ID of the object that could not be found. Can be null.
         /// </summary>
         private OdmaId unknownId;
+
+        /// <summary>
+        /// Create a new <c>OdmaObjectNotFoundException</c> with the given parameters.
+        /// </summary>
+        /// <param name="unknownObject">The qualified name of the object that could not be found.</param>
+        public OdmaObjectNotFoundException(OdmaQName unknownObject) : base((unknownObject != null) ? "Unknown object " + unknownObject.ToString() : "Unknown object")
+        {
+            this.unknownObject = unknownObject;
+        }
+
+        /// <summary>
+        /// Create a new <c>OdmaObjectNotFoundException</c> with the given parameters.
+        /// </summary>
+        /// <param name="msg">a message string for the user</param>
+        /// <param name="unknownObject">The qualified name of the object that could not be found.</param>
+        public OdmaObjectNotFoundException(string msg, OdmaQName unknownObject) : base(msg)
+        {
+            this.unknownObject = unknownObject;
+        }
+
+        /// <summary>
+        /// Create a new <c>OdmaObjectNotFoundException</c> with the given parameters.
+        /// </summary>
+        /// <param name="unknownId"> The ID of the object that could not be found.</param>
+        public OdmaObjectNotFoundException(OdmaId unknownId) : base((unknownId != null) ? "Unknown object " + unknownId.ToString() : "Unknown object")
+        {
+            this.unknownId = unknownId;
+        }
+
+        /// <summary>
+        /// Create a new <c>OdmaObjectNotFoundException</c> with the given parameters.
+        /// </summary>
+        /// <param name="msg">a message string for the user</param>
+        /// <param name="unknownId"> The ID of the object that could not be found.</param>
+        public OdmaObjectNotFoundException(string msg, OdmaId unknownId) : base(msg)
+        {
+            this.unknownId = unknownId;
+        }
+        
+        public OdmaQName UnknownObject
+        {
+            get
+            {
+                return unknownObject;
+            }
+        }
+        
+        public OdmaQName UnknownId
+        {
+            get
+            {
+                return UnknownId;
+            }
+        }
         
         public override string ToString()
         {

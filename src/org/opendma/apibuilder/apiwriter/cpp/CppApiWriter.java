@@ -1,6 +1,5 @@
 package org.opendma.apibuilder.apiwriter.cpp;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,28 +21,9 @@ public class CppApiWriter extends AbstractApiWriter
         return "C++";
     }
     
-    private OutputStream createCppFile(String outputFolder, String packageName, String className) throws IOException
-    {
-        String packageDirectory = outputFolder + packageName.replace('.',File.separatorChar);
-        File containingDir = new File(packageDirectory);
-        if(!containingDir.exists())
-        {
-            if(!containingDir.mkdirs())
-            {
-                throw new IOException("Can not create package directory");
-            }
-        }
-        return new FileOutputStream(packageDirectory+File.separator+className+".java");
-    }
-    
     private OutputStream createHeaderFile(String outputFolder, String headerName) throws IOException
     {
         return new FileOutputStream(outputFolder+headerName+".h");
-    }
-    
-    private OutputStream createCppFile(String outputFolder, String headerName) throws IOException
-    {
-        return new FileOutputStream(outputFolder+headerName+".cpp");
     }
     
     protected String getProgrammingLanguageSpecificFolderName()
@@ -191,31 +171,13 @@ public class CppApiWriter extends AbstractApiWriter
     //-------------------------------------------------------------------------
     // C O L L E C T I O N   F I L E S
     //-------------------------------------------------------------------------
-
-    protected OutputStream getEnumerationFileStream(String baseFolder, ClassDescription classDescription) throws IOException
-    {
-        return createCppFile(baseFolder,"org.opendma.api.collections",classDescription.getApiName()+"Enumeration");
-    }
     
     protected void createEnumerationFile(ClassDescription classDescription, String baseFolder) throws IOException
     {
-        /*
-        JavaEnumerationFileWriter enumerationFileWriter = new JavaEnumerationFileWriter();
-        enumerationFileWriter.createEnumerationFile(classDescription, getEnumerationFileStream(baseFolder,classDescription));
-        */
-    }
-
-    protected OutputStream getListFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
-    {
-        return createCppFile(baseFolder,"org.opendma.api.collections",getScalarDataType(scalarTypeDescription,true));
     }
 
     protected void createListFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
     {
-        /*
-        JavaListFileWriter listFileWriter = new JavaListFileWriter(this);
-        listFileWriter.createListFile(scalarTypeDescription, getListFileStream(baseFolder,scalarTypeDescription));
-        */
     }
     
     //-------------------------------------------------------------------------
@@ -224,23 +186,10 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected void createPropertyImplementationFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        /*
-        CppPropertyImplementationFileWriter cppPropertyImplementationFileWriter = new CppPropertyImplementationFileWriter(this);
-        cppPropertyImplementationFileWriter.createPropertyFile(apiDescription, createCppFile(outputFolder,"org.opendma.impl","OdmaProperty"));
-        */
-    }
-
-    protected OutputStream getListImplementationFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
-    {
-        return createCppFile(baseFolder,"org.opendma.impl.collections",getScalarDataType(scalarTypeDescription,true));
     }
 
     protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
     {
-        /*
-        JavaListFileWriter listFileWriter = new JavaListFileWriter(this);
-        listFileWriter.createListFile(scalarTypeDescription, getListImplementationFileStream(baseFolder,scalarTypeDescription));
-        */
     }
 
     //-------------------------------------------------------------------------
@@ -249,8 +198,6 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected void createClassTemplateFile(ClassDescription classDescription, String outputFolder) throws IOException
     {
-        CppClassTemplateFileWriter classTemplateFileWriter = new CppClassTemplateFileWriter(this);
-        classTemplateFileWriter.createClassFile(classDescription, createCppFile(outputFolder, classDescription.getApiName()));
     }
    
     //-------------------------------------------------------------------------

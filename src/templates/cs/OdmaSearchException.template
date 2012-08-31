@@ -10,9 +10,8 @@ namespace OpenDMA.Exceptions
     public class OdmaSearchException : ApplicationException
     {
     
-        public OdmaSearchException(string message)
+        public OdmaSearchException(string message) : base(message)
         {
-            base(message);
         }
         
         public override string ToString()

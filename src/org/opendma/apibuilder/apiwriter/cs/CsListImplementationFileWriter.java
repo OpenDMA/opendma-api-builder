@@ -22,11 +22,12 @@ public class CsListImplementationFileWriter extends AbstractListFileWriter
     protected void appendRequiredImportsGlobal(ScalarTypeDescription scalarTypeDescription, ImportsList requiredImports)
     {
         requiredImports.registerImport("System");
-        requiredImports.registerImport("System.Collections.Generic");
-        requiredImports.registerImport("System.Linq");
-        requiredImports.registerImport("System.Text");
+        //requiredImports.registerImport("System.Collections.Generic");
+        //requiredImports.registerImport("System.Linq");
+        //requiredImports.registerImport("System.Text");
         requiredImports.registerImport("System.Collections");
         requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true));
     }
 
     protected void writeListFileHeader(ScalarTypeDescription scalarTypeDescription, List requiredImports, PrintWriter out)
@@ -38,35 +39,31 @@ public class CsListImplementationFileWriter extends AbstractListFileWriter
             out.println("using "+importPackage+";");
         }
         out.println("");
-        out.println("namespace OpenDMA.Api.Collections");
+        out.println("namespace OpenDMA.Impl.Collections");
         out.println("{");
         out.println("");
         out.println("    /// <summary>");
         out.println("    /// Type safe version of the <code>List</code> interface for the <i>"+scalarTypeDescription.getName()+"</i>");
         out.println("    /// data type.");
         out.println("    /// </summary>");
-        out.println("    public interface "+apiWriter.getScalarDataType(scalarTypeDescription,true)+" : IList");
+        out.println("    public class Array"+apiWriter.getScalarDataType(scalarTypeDescription,true).substring(1)+" : ArrayList, "+apiWriter.getScalarDataType(scalarTypeDescription,true));
         out.println("    {");
     }
 
     protected void writeListFileMethods(ScalarTypeDescription scalarTypeDescription, PrintWriter out)
     {
-        /*
-        String singleValueDataType = apiWriter.getProgrammingLanguageSpecificScalarDataType(false,scalarTypeDescription.getNumericID());
+        String singleValueDataType = apiWriter.getScalarDataType(scalarTypeDescription,false);
         out.println("");
-        out.println("        // Returns the <code>"+singleValueDataType+"</code> element at the specified position in");
-        out.println("        // this list.");
-        out.println("        // ");
-        out.println("        // @param index");
-        out.println("        //            position of the element to return");
-        out.println("        // ");
-        out.println("        // @return the <code>"+singleValueDataType+"</code> element at the specified position in");
-        out.println("        //         this list.");
-        out.println("        // ");
-        out.println("        // @throws IndexOutOfBoundsException");
-        out.println("        //             if the index is out of range (index < 0 || index >= size()).");
-        out.println("        public "+singleValueDataType+" get"+scalarTypeDescription.getName()+"(int index);");
-        */
+        out.println("        /// <summary>");
+        out.println("        /// Returns the <c>"+singleValueDataType+"</c> element at the specified position in");
+        out.println("        /// this list.");
+        out.println("        /// </summary>");
+        out.println("        /// <param name=\"index\">position of the element to return</param>");
+        out.println("        /// <returns>the <c>"+singleValueDataType+"</c> element at the specified position in</returns>");
+        out.println("        public "+singleValueDataType+" get"+scalarTypeDescription.getName()+"(int index)");
+        out.println("        {");
+        out.println("            return ("+singleValueDataType+")this[index];");
+        out.println("        }");
     }
 
     protected void writeListFileFooter(ScalarTypeDescription scalarTypeDescription, PrintWriter out)

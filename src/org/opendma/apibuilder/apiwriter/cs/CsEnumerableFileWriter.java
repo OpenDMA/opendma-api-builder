@@ -7,7 +7,7 @@ import org.opendma.apibuilder.apiwriter.AbstractEnumerationFileWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ClassDescription;
 
-public class CsEnumerationFileWriter extends AbstractEnumerationFileWriter
+public class CsEnumerableFileWriter extends AbstractEnumerationFileWriter
 {
 
     protected void appendRequiredImportsGlobal(ClassDescription classDescription, ImportsList requiredImports)
@@ -55,7 +55,7 @@ public class CsEnumerationFileWriter extends AbstractEnumerationFileWriter
         out.println("    /// An implementation of OpenDMA should load the items on demand in pages from");
         out.println("    /// the server instead of retrieving all ietms at once.");
         out.println("    /// </summary>");
-        out.println("    public interface I"+classDescription.getApiName()+"Enumeration : IEnumerable");
+        out.println("    public interface I"+classDescription.getApiName()+"Enumerable : IEnumerable");
         out.println("    {");
     }
 

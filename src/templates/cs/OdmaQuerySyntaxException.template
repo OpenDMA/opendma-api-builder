@@ -10,9 +10,8 @@ namespace OpenDMA.Exceptions
     public class OdmaQuerySyntaxException : ApplicationException
     {
     
-        public OdmaQuerySyntaxException(string message)
+        public OdmaQuerySyntaxException(string message) : base(message)
         {
-            base(message);
         }
         
         public override string ToString()

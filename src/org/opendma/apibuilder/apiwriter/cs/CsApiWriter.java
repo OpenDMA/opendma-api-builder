@@ -75,10 +75,15 @@ public class CsApiWriter extends AbstractApiWriter
         out.close();
     }
 
+    protected OutputStream getConstantsFileStream(String outputFolder) throws IOException
+    {
+        return createCsFile(outputFolder,"OpenDMA.Api","OdmaCommonNames");
+    }
+
     protected void createConstantsFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         CsConstantsFileWriter constantsFileWriter = new CsConstantsFileWriter();
-        constantsFileWriter.createConstantsFile(apiDescription, createCsFile(outputFolder,"OpenDMA.Api","OdmaCommonNames"));
+        constantsFileWriter.createConstantsFile(apiDescription, getConstantsFileStream(outputFolder));
     }
 
     //-------------------------------------------------------------------------
@@ -156,8 +161,8 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createSessionManagementFiles(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        internalCreateSessionManagementFile(outputFolder,"OdmaDataSource");
-        internalCreateSessionManagementFile(outputFolder,"OdmaSession");
+        internalCreateSessionManagementFile(outputFolder,"IOdmaDataSource");
+        internalCreateSessionManagementFile(outputFolder,"IOdmaSession");
     }
     
     protected void internalCreateSessionManagementFile(String outputFolder, String className) throws IOException
@@ -200,13 +205,13 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected OutputStream getEnumerationFileStream(String baseFolder, ClassDescription classDescription) throws IOException
     {
-        return createCsFile(baseFolder,"OpenDMA.Api.Collections","I"+classDescription.getApiName()+"Enumeration");
+        return createCsFile(baseFolder,"OpenDMA.Api.Collections","I"+classDescription.getApiName()+"Enumerable");
     }
     
     protected void createEnumerationFile(ClassDescription classDescription, String baseFolder) throws IOException
     {
-        CsEnumerationFileWriter enumerationFileWriter = new CsEnumerationFileWriter();
-        enumerationFileWriter.createEnumerationFile(classDescription, getEnumerationFileStream(baseFolder,classDescription));
+        CsEnumerableFileWriter enumerableFileWriter = new CsEnumerableFileWriter();
+        enumerableFileWriter.createEnumerationFile(classDescription, getEnumerationFileStream(baseFolder,classDescription));
     }
 
     protected OutputStream getListFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
@@ -232,7 +237,7 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected OutputStream getListImplementationFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
     {
-        return createCsFile(baseFolder,"OpenDMA.Impl.Collections",getScalarDataType(scalarTypeDescription,true));
+        return createCsFile(baseFolder,"OpenDMA.Impl.Collections","Array"+getScalarDataType(scalarTypeDescription,true).substring(1));
     }
 
     protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
@@ -245,7 +250,6 @@ public class CsApiWriter extends AbstractApiWriter
     // C L A S S   T E M P L A T E S
     //-------------------------------------------------------------------------
     
-
     protected OutputStream getClassTemplateFileStream(String outputFolder, ClassDescription classDescription) throws IOException
     {
         return createCsFile(outputFolder,"OpenDMA.Templates",classDescription.getApiName()+"Template");

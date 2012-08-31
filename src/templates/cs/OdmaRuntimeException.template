@@ -10,9 +10,8 @@ namespace OpenDMA.Exceptions
     public class OdmaRuntimeException : ApplicationException
     {
     
-        public OdmaRuntimeException(string message)
+        public OdmaRuntimeException(string message) : base(message)
         {
-            base(message);
         }
         
         public override string ToString()

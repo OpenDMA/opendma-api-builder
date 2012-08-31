@@ -31,7 +31,7 @@ namespace OpenDMA.Api
         /// </summary>
         /// <param name="idRepository">The <c>OdmaId</c> of the Repository</param>
         /// <param name="idObject">The <c>OdmaId</c> of the Object inside the Repository.</param>
-        public OdmaQName(OdmaId idRepository, OdmaId idObject)
+        public OdmaGuid(OdmaId idRepository, OdmaId idObject)
         {
             this.repositoryId = idRepository;
             this.objectId = idObject;
@@ -40,7 +40,7 @@ namespace OpenDMA.Api
         /// <summary>
         /// the ID of the Repository
         /// </summary>
-        public string RepositoryId
+        public OdmaId RepositoryId
         {
             get
             {
@@ -51,7 +51,7 @@ namespace OpenDMA.Api
         /// <summary>
         /// the ID of the Object
         /// </summary>
-        public string ObjectId
+        public OdmaId ObjectId
         {
             get
             {
@@ -59,14 +59,14 @@ namespace OpenDMA.Api
             }
         }
 
-        public override bool Equals(object qn)
+        public override bool Equals(object guid)
         {
-            return  object.ReferenceEquals(this,qn) || ((qn != null) && (qn is OdmaQName) && repositoryId.Equals(((OdmaQName) qn).repositoryId) && objectId.Equals(((OdmaQName) qn).objectId)));
+            return  object.ReferenceEquals(this,guid) || ((guid != null) && (guid is OdmaGuid) && repositoryId.Equals(((OdmaGuid) guid).repositoryId) && objectId.Equals(((OdmaGuid) guid).objectId));
         }
 
         public override int GetHashCode()
         {
-            return repositoryId.GetHashCode()) + objectId.GetHashCode());
+            return repositoryId.GetHashCode() + objectId.GetHashCode();
         }
 
         /// <summary>

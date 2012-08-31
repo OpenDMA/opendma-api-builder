@@ -35,7 +35,7 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
                 out.println("        /// "+apiHelper.getAbstract()+".<br>");
                 out.println("        /// "+apiHelper.getDescription()+"</p>");
                 out.println("        /// </summary>");
-                out.println("        OdmaQName QName");
+                out.println("        public OdmaQName QName");
                 out.println("        {");
                 out.println("            get");
                 out.println("            {");
@@ -102,10 +102,11 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
     protected void appendRequiredImportsGlobal(ClassDescription classDescription, ImportsList requiredImports)
     {
         requiredImports.registerImport("System");
-        requiredImports.registerImport("System.Collections.Generic");
+        requiredImports.registerImport("System.Collections");
         requiredImports.registerImport("System.Linq");
         requiredImports.registerImport("System.Text");
         requiredImports.registerImport("OpenDMA.Api");
+        requiredImports.registerImport("OpenDMA.Api.Collections");
     }
 
     protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
@@ -141,7 +142,7 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         {
             if(property.getMultiValue())
             {
-                return "I"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration";
+                return "I"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumerable";
             }
             else
             {
@@ -184,7 +185,7 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         out.println("");
         out.println("        /// <summary>");
         out.println("        /// Property for "+property.getAbstract()+".<br>");
-        String standardGetterName = "get" + ((!property.getDataType().isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceEnumeration" : "Reference"));
+        String standardGetterName = "get" + ((!property.getDataType().isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceEnumerable" : "Reference"));
         out.println("        // ");
         ScalarTypeDescription scalarTypeDescription = property.getDataType();
         String dataTypeName = scalarTypeDescription.isInternal() ? scalarTypeDescription.getBaseScalar() : scalarTypeDescription.getName();
@@ -200,14 +201,14 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         out.println("        {");
         out.println("            get");
         out.println("            {");
-        out.println("                return "+(property.isReference()?"("+csDataType+")":"")+"getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"();");
+        out.println("                return "+(property.isReference()?"("+csDataType+")":"")+"getProperty(OdmaCommonNames."+constantPropertyName+")."+standardGetterName+"();");
         out.println("            }");
         if( (!property.isReadOnly()) && (!property.getMultiValue()) )
         {
             String standardSetterName = "setValue";
             out.println("            set");
             out.println("            {");
-            out.println("                getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value);");
+            out.println("                getProperty(OdmaCommonNames."+constantPropertyName+")."+standardSetterName+"(value);");
             out.println("            }");
         }
         out.println("        }");
