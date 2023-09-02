@@ -98,7 +98,7 @@ public class CsApiWriter extends AbstractApiWriter
     protected void createQNameFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("OdmaQName",outputFolder);
-        InputStream from = getResourceAsStream("/templates/cs/OdmaQName.template");
+        InputStream from = getTemplateAsStream("OdmaQName");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -107,7 +107,7 @@ public class CsApiWriter extends AbstractApiWriter
     protected void createIdFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("OdmaId",outputFolder);
-        InputStream from = getResourceAsStream("/templates/cs/OdmaId.template");
+        InputStream from = getTemplateAsStream("OdmaId");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -116,7 +116,7 @@ public class CsApiWriter extends AbstractApiWriter
     protected void createGuidFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("OdmaGuid",outputFolder);
-        InputStream from = getResourceAsStream("/templates/cs/OdmaGuid.template");
+        InputStream from = getTemplateAsStream("OdmaGuid");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -125,7 +125,7 @@ public class CsApiWriter extends AbstractApiWriter
     protected void createContentFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("IOdmaContent",outputFolder);
-        InputStream from = getResourceAsStream("/templates/cs/IOdmaContent.template");
+        InputStream from = getTemplateAsStream("IOdmaContent");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -134,7 +134,7 @@ public class CsApiWriter extends AbstractApiWriter
     protected void createSearchResultFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("IOdmaSearchResult",outputFolder);
-        InputStream from = getResourceAsStream("/templates/cs/IOdmaSearchResult.template");
+        InputStream from = getTemplateAsStream("IOdmaSearchResult");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -153,7 +153,7 @@ public class CsApiWriter extends AbstractApiWriter
     protected void internalCreateExceptionFile(String outputFolder, String exceptionClassName) throws IOException
     {
         OutputStream to = createCsFile(outputFolder,"OpenDMA.Exceptions",exceptionClassName);
-        InputStream from = getResourceAsStream("/templates/cs/"+exceptionClassName+".template");
+        InputStream from = getTemplateAsStream(exceptionClassName);
         streamCopy(from,to);
         from.close();
         to.close();
@@ -168,7 +168,7 @@ public class CsApiWriter extends AbstractApiWriter
     protected void internalCreateSessionManagementFile(String outputFolder, String className) throws IOException
     {
         OutputStream to =  getBasicFileStream(className,outputFolder);
-        InputStream from = getResourceAsStream("/templates/cs/"+className+".template");
+        InputStream from = getTemplateAsStream(className);
         streamCopy(from,to);
         from.close();
         to.close();
@@ -268,7 +268,7 @@ public class CsApiWriter extends AbstractApiWriter
     protected void createBuildFile(ApiDescription apiDescription, String baseFolder) throws IOException
     {
         OutputStream to = new FileOutputStream(baseFolder+"OpenDMA.Api.csproj");
-        InputStream headerFrom = getResourceAsStream("/templates/cs/CsprojFileHeader.template");
+        InputStream headerFrom = getTemplateAsStream("CsprojFileHeader");
         streamCopy(headerFrom, to);
         headerFrom.close();
         PrintWriter out = new PrintWriter(to);
@@ -279,19 +279,19 @@ public class CsApiWriter extends AbstractApiWriter
             out.println("    <Compile Include=\""+fileName+"\" />");
         }
         out.flush();
-        InputStream footerFrom = getResourceAsStream("/templates/cs/CsprojFileFoot.template");
+        InputStream footerFrom = getTemplateAsStream("CsprojFileFoot");
         streamCopy(footerFrom, to);
         footerFrom.close();
         to.close();
         // create Properties file
         to = createCsFile(baseFolder,"Properties","AssemblyInfo");
-        InputStream assemblyInfoFrom = getResourceAsStream("/templates/cs/AssemblyInfo.template");
+        InputStream assemblyInfoFrom = getTemplateAsStream("AssemblyInfo");
         streamCopy(assemblyInfoFrom, to);
         assemblyInfoFrom.close();
         to.close();
         // create solution file
         to = new FileOutputStream(baseFolder+"OpenDMA.Api.sln");
-        InputStream solutionFrom = getResourceAsStream("/templates/cs/OpenDMA.Api.template");
+        InputStream solutionFrom = getTemplateAsStream("OpenDMA.Api");
         streamCopy(solutionFrom, to);
         solutionFrom.close();
         to.close();

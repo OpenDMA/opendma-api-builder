@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
-import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractPropertyImplementationFileWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ApiDescription;
@@ -39,7 +38,7 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
             }
         }
         out.println("");
-        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java/OdmaPropertyImplementation.Header.template");
+        InputStream templateIn = apiWriter.getTemplateAsStream("OdmaPropertyImplementation.Header");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)
@@ -56,7 +55,7 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
 
     protected void writeGenericSection(ApiDescription apiDescription, PrintWriter out) throws IOException
     {
-        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java/OdmaPropertyImplementation.Generic.template");
+        InputStream templateIn = apiWriter.getTemplateAsStream("OdmaPropertyImplementation.Generic");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)

@@ -70,7 +70,7 @@ public class CppApiWriter extends AbstractApiWriter
     protected void createQNameFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = createHeaderFile(outputFolder,"OdmaQName");
-        InputStream from = getResourceAsStream("/templates/cpp/OdmaQName.template");
+        InputStream from = getTemplateAsStream("OdmaQName");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -79,7 +79,7 @@ public class CppApiWriter extends AbstractApiWriter
     protected void createIdFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = createHeaderFile(outputFolder,"OdmaId");
-        InputStream from = getResourceAsStream("/templates/cpp/OdmaId.template");
+        InputStream from = getTemplateAsStream("OdmaId");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -88,7 +88,7 @@ public class CppApiWriter extends AbstractApiWriter
     protected void createGuidFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = createHeaderFile(outputFolder,"OdmaGuid");
-        InputStream from = getResourceAsStream("/templates/cpp/OdmaGuid.template");
+        InputStream from = getTemplateAsStream("OdmaGuid");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -97,7 +97,7 @@ public class CppApiWriter extends AbstractApiWriter
     protected void createContentFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = createHeaderFile(outputFolder,"OdmaContent");
-        InputStream from = getResourceAsStream("/templates/cpp/OdmaContent.template");
+        InputStream from = getTemplateAsStream("OdmaContent");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -106,7 +106,7 @@ public class CppApiWriter extends AbstractApiWriter
     protected void createSearchResultFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = createHeaderFile(outputFolder,"OdmaSearchResult");
-        InputStream from = getResourceAsStream("/templates/cpp/OdmaSearchResult.template");
+        InputStream from = getTemplateAsStream("OdmaSearchResult");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -125,7 +125,7 @@ public class CppApiWriter extends AbstractApiWriter
     protected void internalCreateExceptionFile(String outputFolder, String exceptionClassName) throws IOException
     {
         OutputStream to = createHeaderFile(outputFolder,exceptionClassName);
-        InputStream from = getResourceAsStream("/templates/cpp/"+exceptionClassName+".template");
+        InputStream from = getTemplateAsStream(exceptionClassName);
         streamCopy(from,to);
         from.close();
         to.close();
@@ -140,7 +140,7 @@ public class CppApiWriter extends AbstractApiWriter
     protected void internalCreateSessionManagementFile(String outputFolder, String className) throws IOException
     {
         OutputStream to = createHeaderFile(outputFolder,className);
-        InputStream from = getResourceAsStream("/templates/cpp/"+className+".template");
+        InputStream from = getTemplateAsStream(className);
         streamCopy(from,to);
         from.close();
         to.close();

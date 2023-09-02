@@ -173,7 +173,7 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         createBuildFile(apiDescription,baseFolder);
     }
 
-    public static InputStream getResourceAsStream(String resource)
+    public static InputStream internalGetResourceAsStream(String resource)
     {
         String stripped = resource.startsWith("/") ? resource.substring(1) : resource;
         InputStream stream = null;
@@ -195,6 +195,11 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
             throw new RuntimeException("Can not read resource " + resource);
         }
         return stream;
+    }
+
+    public InputStream getTemplateAsStream(String templateName)
+    {
+        return internalGetResourceAsStream("/templates/"+getProgrammingLanguageSpecificFolderName()+"/"+templateName+".template");
     }
     
     public static void streamCopy(InputStream from, OutputStream to) throws IOException

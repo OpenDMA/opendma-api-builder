@@ -81,7 +81,7 @@ public class PhpApiWriter extends AbstractApiWriter
     protected void createQNameFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("OdmaQName",outputFolder);
-        InputStream from = getResourceAsStream("/templates/java/OdmaQName.template");
+        InputStream from = getTemplateAsStream("OdmaQName");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -90,7 +90,7 @@ public class PhpApiWriter extends AbstractApiWriter
     protected void createIdFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("OdmaId",outputFolder);
-        InputStream from = getResourceAsStream("/templates/java/OdmaId.template");
+        InputStream from = getTemplateAsStream("OdmaId");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -99,7 +99,7 @@ public class PhpApiWriter extends AbstractApiWriter
     protected void createGuidFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("OdmaGuid",outputFolder);
-        InputStream from = getResourceAsStream("/templates/java/OdmaGuid.template");
+        InputStream from = getTemplateAsStream("OdmaGuid");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -108,7 +108,7 @@ public class PhpApiWriter extends AbstractApiWriter
     protected void createContentFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("OdmaContent",outputFolder);
-        InputStream from = getResourceAsStream("/templates/java/OdmaContent.template");
+        InputStream from = getTemplateAsStream("OdmaContent");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -117,7 +117,7 @@ public class PhpApiWriter extends AbstractApiWriter
     protected void createSearchResultFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("OdmaSearchResult",outputFolder);
-        InputStream from = getResourceAsStream("/templates/java/OdmaSearchResult.template");
+        InputStream from = getTemplateAsStream("OdmaSearchResult");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -136,7 +136,7 @@ public class PhpApiWriter extends AbstractApiWriter
     protected void internalCreateExceptionFile(String outputFolder, String exceptionClassName) throws IOException
     {
         OutputStream to = createPhpFile(outputFolder,"OpenDMA/Exceptions",exceptionClassName);
-        InputStream from = getResourceAsStream("/templates/php/"+exceptionClassName+".template");
+        InputStream from = getTemplateAsStream(exceptionClassName);
         streamCopy(from,to);
         from.close();
         to.close();
@@ -151,7 +151,7 @@ public class PhpApiWriter extends AbstractApiWriter
     protected void internalCreateSessionManagementFile(String outputFolder, String className) throws IOException
     {
         OutputStream to = getBasicFileStream(className,outputFolder);
-        InputStream from = getResourceAsStream("/templates/php/"+className+".template");
+        InputStream from = getTemplateAsStream(className);
         streamCopy(from,to);
         from.close();
         to.close();

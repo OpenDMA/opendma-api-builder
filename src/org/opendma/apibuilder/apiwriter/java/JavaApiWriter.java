@@ -99,7 +99,7 @@ public class JavaApiWriter extends AbstractApiWriter
     private void copyStaticClassHelperTemplate(String className, String outputFolder) throws IOException
     {
         OutputStream to = createJavaFile(outputFolder,"org.opendma.impl.core",className);
-        InputStream from = getResourceAsStream("/templates/java/statics/"+className+".template");
+        InputStream from = getTemplateAsStream("statics/"+className);
         streamCopy(from, to);
         from.close();
         to.close();
@@ -317,7 +317,7 @@ public class JavaApiWriter extends AbstractApiWriter
     {
         OutputStream staticClassStream = createJavaFile(outputFolder,"org.opendma.impl.core","OdmaStaticClassHierarchy");
         PrintWriter out = new PrintWriter(staticClassStream);
-        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java/statics/OdmaStaticClassHierarchy.head.template");
+        InputStream templateIn = getTemplateAsStream("statics/OdmaStaticClassHierarchy.head");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)
@@ -463,7 +463,7 @@ public class JavaApiWriter extends AbstractApiWriter
     protected void createQNameFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("OdmaQName",outputFolder);
-        InputStream from = getResourceAsStream("/templates/java/OdmaQName.template");
+        InputStream from = getTemplateAsStream("OdmaQName");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -472,7 +472,7 @@ public class JavaApiWriter extends AbstractApiWriter
     protected void createIdFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("OdmaId",outputFolder);
-        InputStream from = getResourceAsStream("/templates/java/OdmaId.template");
+        InputStream from = getTemplateAsStream("OdmaId");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -481,7 +481,7 @@ public class JavaApiWriter extends AbstractApiWriter
     protected void createGuidFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("OdmaGuid",outputFolder);
-        InputStream from = getResourceAsStream("/templates/java/OdmaGuid.template");
+        InputStream from = getTemplateAsStream("OdmaGuid");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -490,7 +490,7 @@ public class JavaApiWriter extends AbstractApiWriter
     protected void createContentFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("OdmaContent",outputFolder);
-        InputStream from = getResourceAsStream("/templates/java/OdmaContent.template");
+        InputStream from = getTemplateAsStream("OdmaContent");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -499,7 +499,7 @@ public class JavaApiWriter extends AbstractApiWriter
     protected void createSearchResultFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         OutputStream to = getBasicFileStream("OdmaSearchResult",outputFolder);
-        InputStream from = getResourceAsStream("/templates/java/OdmaSearchResult.template");
+        InputStream from = getTemplateAsStream("OdmaSearchResult");
         streamCopy(from, to);
         from.close();
         to.close();
@@ -519,7 +519,7 @@ public class JavaApiWriter extends AbstractApiWriter
     protected void internalCreateExceptionFile(String outputFolder, String exceptionClassName) throws IOException
     {
         OutputStream to = createJavaFile(outputFolder,"org.opendma.exceptions",exceptionClassName);
-        InputStream from = getResourceAsStream("/templates/java/"+exceptionClassName+".template");
+        InputStream from = getTemplateAsStream(exceptionClassName);
         streamCopy(from,to);
         from.close();
         to.close();
@@ -534,7 +534,7 @@ public class JavaApiWriter extends AbstractApiWriter
     protected void internalCreateSessionManagementFile(String outputFolder, String className) throws IOException
     {
         OutputStream to = createJavaFile(outputFolder,"org.opendma",className);
-        InputStream from = getResourceAsStream("/templates/java/"+className+".template");
+        InputStream from = getTemplateAsStream(className);
         streamCopy(from,to);
         from.close();
         to.close();

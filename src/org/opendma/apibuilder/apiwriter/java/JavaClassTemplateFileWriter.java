@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
-import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
@@ -126,7 +125,7 @@ public class JavaClassTemplateFileWriter extends AbstractClassFileWriter
         out.println("    // =============================================================================================");
         out.println("    // Generic property access");
         out.println("    // =============================================================================================");
-        InputStream templateIn = AbstractApiWriter.getResourceAsStream("/templates/java/OdmaObjectTemplate.GenericPropertyAccess.template");
+        InputStream templateIn = apiWriter.getTemplateAsStream("OdmaObjectTemplate.GenericPropertyAccess");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)
