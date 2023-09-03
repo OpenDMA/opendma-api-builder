@@ -171,6 +171,8 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         }
         // create build file
         createBuildFile(apiDescription,baseFolder);
+        // create any extras
+        createExtras(apiDescription,baseFolder);
     }
 
     public static InputStream internalGetResourceAsStream(String resource)
@@ -277,4 +279,13 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
     //-------------------------------------------------------------------------
     
     protected abstract void createBuildFile(ApiDescription apiDescription, String baseFolder) throws IOException;
+    
+    //-------------------------------------------------------------------------
+    // E X T R A S
+    //-------------------------------------------------------------------------
+    
+    protected void createExtras(ApiDescription apiDescription, String baseFolder) throws IOException, ApiWriterException
+    {
+    }
+
 }
