@@ -12,8 +12,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.opendma.apibuilder.apiwriter.cpp.CppApiWriter;
 import org.opendma.apibuilder.apiwriter.cs.CsApiWriter;
+import org.opendma.apibuilder.apiwriter.java.Java5ApiWriter;
 import org.opendma.apibuilder.apiwriter.java14.Java14ApiWriter;
-import org.opendma.apibuilder.apiwriter.java5.Java5ApiWriter;
 import org.opendma.apibuilder.apiwriter.php.PhpApiWriter;
 import org.opendma.apibuilder.structure.ApiDescription;
 import org.w3c.dom.Document;
