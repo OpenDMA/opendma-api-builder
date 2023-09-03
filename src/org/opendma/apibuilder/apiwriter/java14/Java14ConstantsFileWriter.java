@@ -8,7 +8,7 @@ import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
-public class JavaConstantsFileWriter extends AbstractConstantsFileWriter
+public class Java14ConstantsFileWriter extends AbstractConstantsFileWriter
 {
     protected void writeConstantsFileHeader(ApiDescription apiDescription, PrintWriter out)
     {

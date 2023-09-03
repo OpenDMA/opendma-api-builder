@@ -19,7 +19,7 @@ import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
-public class JavaApiWriter extends AbstractApiWriter
+public class Java14ApiWriter extends AbstractApiWriter
 {
 
     public String getName()
@@ -447,7 +447,7 @@ public class JavaApiWriter extends AbstractApiWriter
 
     protected void createConstantsFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        JavaConstantsFileWriter constantsFileWriter = new JavaConstantsFileWriter();
+        Java14ConstantsFileWriter constantsFileWriter = new Java14ConstantsFileWriter();
         constantsFileWriter.createConstantsFile(apiDescription, getConstantsFileStream(outputFolder));
     }
 
@@ -546,7 +546,7 @@ public class JavaApiWriter extends AbstractApiWriter
 
     protected void createPropertyFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        JavaPropertyFileWriter javaPropertyFileWriter = new JavaPropertyFileWriter(this);
+        Java14PropertyFileWriter javaPropertyFileWriter = new Java14PropertyFileWriter(this);
         javaPropertyFileWriter.createPropertyFile(apiDescription, getBasicFileStream("OdmaProperty",outputFolder));
     }
 
@@ -561,7 +561,7 @@ public class JavaApiWriter extends AbstractApiWriter
 
     protected void createClassFile(ClassDescription classDescription, String outputFolder) throws IOException
     {
-        JavaClassFileWriter classFileWriter = new JavaClassFileWriter(this);
+        Java14ClassFileWriter classFileWriter = new Java14ClassFileWriter(this);
         classFileWriter.createClassFile(classDescription, getClassFileStream(outputFolder,classDescription));
     }
     
@@ -576,7 +576,7 @@ public class JavaApiWriter extends AbstractApiWriter
     
     protected void createEnumerationFile(ClassDescription classDescription, String baseFolder) throws IOException
     {
-        JavaEnumerationFileWriter enumerationFileWriter = new JavaEnumerationFileWriter();
+        Java14EnumerationFileWriter enumerationFileWriter = new Java14EnumerationFileWriter();
         enumerationFileWriter.createEnumerationFile(classDescription, getEnumerationFileStream(baseFolder,classDescription));
     }
 
@@ -587,7 +587,7 @@ public class JavaApiWriter extends AbstractApiWriter
 
     protected void createListFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
     {
-        JavaListFileWriter listFileWriter = new JavaListFileWriter(this);
+        Java14ListFileWriter listFileWriter = new Java14ListFileWriter(this);
         listFileWriter.createListFile(scalarTypeDescription, getListFileStream(baseFolder,scalarTypeDescription));
     }
     
@@ -597,7 +597,7 @@ public class JavaApiWriter extends AbstractApiWriter
 
     protected void createPropertyImplementationFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        JavaPropertyImplementationFileWriter javaPropertyImplementationFileWriter = new JavaPropertyImplementationFileWriter(this);
+        Java14PropertyImplementationFileWriter javaPropertyImplementationFileWriter = new Java14PropertyImplementationFileWriter(this);
         javaPropertyImplementationFileWriter.createPropertyFile(apiDescription, createJavaFile(outputFolder,"org.opendma.impl","OdmaPropertyImpl"));
     }
 
@@ -608,7 +608,7 @@ public class JavaApiWriter extends AbstractApiWriter
 
     protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
     {
-        JavaListImplementationFileWriter listImplementationFileWriter = new JavaListImplementationFileWriter(this);
+        Java14ListImplementationFileWriter listImplementationFileWriter = new Java14ListImplementationFileWriter(this);
         listImplementationFileWriter.createListFile(scalarTypeDescription, getListImplementationFileStream(baseFolder,scalarTypeDescription));
     }
 
@@ -623,7 +623,7 @@ public class JavaApiWriter extends AbstractApiWriter
 
     protected void createClassTemplateFile(ClassDescription classDescription, String outputFolder) throws IOException
     {
-       JavaClassTemplateFileWriter classtemplateFileWriter = new JavaClassTemplateFileWriter(this);
+       Java14ClassTemplateFileWriter classtemplateFileWriter = new Java14ClassTemplateFileWriter(this);
        classtemplateFileWriter.createClassFile(classDescription, getClassTemplateFileStream(outputFolder,classDescription));
     }
    

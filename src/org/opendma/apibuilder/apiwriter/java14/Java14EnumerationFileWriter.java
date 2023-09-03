@@ -7,7 +7,7 @@ import org.opendma.apibuilder.apiwriter.AbstractEnumerationFileWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ClassDescription;
 
-public class JavaEnumerationFileWriter extends AbstractEnumerationFileWriter
+public class Java14EnumerationFileWriter extends AbstractEnumerationFileWriter
 {
 
     protected void appendRequiredImportsGlobal(ClassDescription classDescription, ImportsList requiredImports)
@@ -34,7 +34,7 @@ public class JavaEnumerationFileWriter extends AbstractEnumerationFileWriter
         while(itRequiredImports.hasNext())
         {
             String importDeclaration = (String)itRequiredImports.next();
-            if(JavaApiWriter.needToImportPackage(importDeclaration,"org.opendma.api.collections"))
+            if(Java14ApiWriter.needToImportPackage(importDeclaration,"org.opendma.api.collections"))
             {
                 out.println("import "+importDeclaration+";");
             }

@@ -14,12 +14,12 @@ import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ApiDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
-public class JavaPropertyFileWriter extends AbstractPropertyFileWriter
+public class Java14PropertyFileWriter extends AbstractPropertyFileWriter
 {
     
     protected OdmaApiWriter apiWriter;
     
-    public JavaPropertyFileWriter(OdmaApiWriter writer)
+    public Java14PropertyFileWriter(OdmaApiWriter writer)
     {
         apiWriter = writer;
     }
@@ -32,7 +32,7 @@ public class JavaPropertyFileWriter extends AbstractPropertyFileWriter
         while(itRequiredImports.hasNext())
         {
             String importDeclaration = (String)itRequiredImports.next();
-            if(JavaApiWriter.needToImportPackage(importDeclaration,"org.opendma.api"))
+            if(Java14ApiWriter.needToImportPackage(importDeclaration,"org.opendma.api"))
             {
                 out.println("import "+importDeclaration+";");
             }
