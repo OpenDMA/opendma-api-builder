@@ -12,7 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.opendma.apibuilder.apiwriter.cpp.CppApiWriter;
 import org.opendma.apibuilder.apiwriter.cs.CsApiWriter;
-import org.opendma.apibuilder.apiwriter.java14.JavaApiWriter;
+import org.opendma.apibuilder.apiwriter.java14.Java14ApiWriter;
 import org.opendma.apibuilder.apiwriter.java5.Java5ApiWriter;
 import org.opendma.apibuilder.apiwriter.php.PhpApiWriter;
 import org.opendma.apibuilder.structure.ApiDescription;
@@ -126,7 +126,7 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
     protected List getApiWriters()
     {
         List result = new ArrayList();
-        result.add(new JavaApiWriter());
+        result.add(new Java14ApiWriter());
         result.add(new Java5ApiWriter());
         result.add(new CsApiWriter());
         result.add(new CppApiWriter());
