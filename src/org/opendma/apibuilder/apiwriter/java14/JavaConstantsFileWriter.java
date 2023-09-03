@@ -1,4 +1,4 @@
-package org.opendma.apibuilder.apiwriter.java;
+package org.opendma.apibuilder.apiwriter.java14;
 
 import java.io.PrintWriter;
 

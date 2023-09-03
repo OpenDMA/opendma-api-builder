@@ -1,4 +1,4 @@
-package org.opendma.apibuilder.apiwriter.java;
+package org.opendma.apibuilder.apiwriter.java14;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,7 +24,7 @@ public class JavaApiWriter extends AbstractApiWriter
 
     public String getName()
     {
-        return "Java";
+        return "Java 1.4";
     }
     
     private OutputStream createJavaFile(String outputFolder, String packageName, String className) throws IOException
@@ -43,7 +43,7 @@ public class JavaApiWriter extends AbstractApiWriter
     
     protected String getProgrammingLanguageSpecificFolderName()
     {
-        return "java";
+        return "java14";
     }
     
     public void writeOdmaApi(ApiDescription apiDescription, String outputFolderRoot) throws IOException, ApiWriterException
