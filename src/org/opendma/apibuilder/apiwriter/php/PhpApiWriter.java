@@ -22,6 +22,15 @@ public class PhpApiWriter extends AbstractApiWriter
         return "PHP";
     }
     
+    protected String getProgrammingLanguageSpecificFolderName()
+    {
+        return "php";
+    }
+
+    //-------------------------------------------------------------------------
+    // S O U R C E   F I L E   H E L P E R
+    //-------------------------------------------------------------------------
+    
     private OutputStream createPhpFile(String outputFolder, String packageName, String className) throws IOException
     {
         String packageDirectory = outputFolder + packageName;
@@ -34,11 +43,6 @@ public class PhpApiWriter extends AbstractApiWriter
             }
         }
         return new FileOutputStream(packageDirectory+(packageName.length()==0?"":File.separator)+className+".php");
-    }
-    
-    protected String getProgrammingLanguageSpecificFolderName()
-    {
-        return "php";
     }
 
     //-------------------------------------------------------------------------

@@ -23,6 +23,15 @@ public class CsApiWriter extends AbstractApiWriter
         return "C#";
     }
     
+    protected String getProgrammingLanguageSpecificFolderName()
+    {
+        return "cs";
+    }
+
+    //-------------------------------------------------------------------------
+    // S O U R C E   F I L E   H E L P E R
+    //-------------------------------------------------------------------------
+    
     /** List of files that need to be compiled by the build file */
     protected List compileFileList = new ArrayList();
     
@@ -39,11 +48,6 @@ public class CsApiWriter extends AbstractApiWriter
         }
         compileFileList.add(packageName+File.separator+className+".cs");
         return new FileOutputStream(packageDirectory+File.separator+className+".cs");
-    }
-    
-    protected String getProgrammingLanguageSpecificFolderName()
-    {
-        return "cs";
     }
 
     //-------------------------------------------------------------------------

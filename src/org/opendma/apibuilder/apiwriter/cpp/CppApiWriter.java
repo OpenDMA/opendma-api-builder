@@ -21,14 +21,18 @@ public class CppApiWriter extends AbstractApiWriter
         return "C++";
     }
     
-    private OutputStream createHeaderFile(String outputFolder, String headerName) throws IOException
-    {
-        return new FileOutputStream(outputFolder+headerName+".h");
-    }
-    
     protected String getProgrammingLanguageSpecificFolderName()
     {
         return "cpp";
+    }
+
+    //-------------------------------------------------------------------------
+    // S O U R C E   F I L E   H E L P E R
+    //-------------------------------------------------------------------------
+    
+    private OutputStream createHeaderFile(String outputFolder, String headerName) throws IOException
+    {
+        return new FileOutputStream(outputFolder+headerName+".h");
     }
 
     //-------------------------------------------------------------------------

@@ -27,6 +27,15 @@ public class Java14ApiWriter extends AbstractApiWriter
         return "Java 1.4";
     }
     
+    protected String getProgrammingLanguageSpecificFolderName()
+    {
+        return "java14";
+    }
+
+    //-------------------------------------------------------------------------
+    // S O U R C E   F I L E   H E L P E R
+    //-------------------------------------------------------------------------
+    
     private OutputStream createJavaFile(String outputFolder, String packageName, String className) throws IOException
     {
         String packageDirectory = outputFolder + packageName.replace('.',File.separatorChar);
@@ -39,11 +48,6 @@ public class Java14ApiWriter extends AbstractApiWriter
             }
         }
         return new FileOutputStream(packageDirectory+File.separator+className+".java");
-    }
-    
-    protected String getProgrammingLanguageSpecificFolderName()
-    {
-        return "java14";
     }
 
     //-------------------------------------------------------------------------
