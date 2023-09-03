@@ -19,7 +19,7 @@ import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
-public class Java5ApiWriter extends AbstractApiWriter
+public class JavaApiWriter extends AbstractApiWriter
 {
 
     public String getName()
@@ -479,7 +479,7 @@ public class Java5ApiWriter extends AbstractApiWriter
     protected void createConstantsFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         // create common names file
-        Java5ConstantsFileWriter constantsFileWriter = new Java5ConstantsFileWriter();
+        JavaConstantsFileWriter constantsFileWriter = new JavaConstantsFileWriter();
         constantsFileWriter.createConstantsFile(apiDescription, createJavaFile(outputFolder,"org.opendma.api","OdmaCommonNames"));
     }
 
@@ -578,7 +578,7 @@ public class Java5ApiWriter extends AbstractApiWriter
 
     protected void createPropertyFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        Java5PropertyFileWriter javaPropertyFileWriter = new Java5PropertyFileWriter(this);
+        JavaPropertyFileWriter javaPropertyFileWriter = new JavaPropertyFileWriter(this);
         javaPropertyFileWriter.createPropertyFile(apiDescription, getBasicFileStream("OdmaProperty",outputFolder));
     }
 
@@ -593,7 +593,7 @@ public class Java5ApiWriter extends AbstractApiWriter
 
     protected void createClassFile(ClassDescription classDescription, String outputFolder) throws IOException
     {
-        Java5ClassFileWriter classFileWriter = new Java5ClassFileWriter(this);
+        JavaClassFileWriter classFileWriter = new JavaClassFileWriter(this);
         classFileWriter.createClassFile(classDescription, getClassFileStream(outputFolder,classDescription));
     }
     
@@ -617,7 +617,7 @@ public class Java5ApiWriter extends AbstractApiWriter
 
     protected void createPropertyImplementationFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        Java5PropertyImplementationFileWriter javaPropertyImplementationFileWriter = new Java5PropertyImplementationFileWriter(this);
+        JavaPropertyImplementationFileWriter javaPropertyImplementationFileWriter = new JavaPropertyImplementationFileWriter(this);
         javaPropertyImplementationFileWriter.createPropertyFile(apiDescription, createJavaFile(outputFolder,"org.opendma.impl","OdmaPropertyImpl"));
     }
 
@@ -637,7 +637,7 @@ public class Java5ApiWriter extends AbstractApiWriter
 
     protected void createClassTemplateFile(ClassDescription classDescription, String outputFolder) throws IOException
     {
-       Java5ClassTemplateFileWriter classtemplateFileWriter = new Java5ClassTemplateFileWriter(this);
+       JavaClassTemplateFileWriter classtemplateFileWriter = new JavaClassTemplateFileWriter(this);
        classtemplateFileWriter.createClassFile(classDescription, getClassTemplateFileStream(outputFolder,classDescription));
     }
    
