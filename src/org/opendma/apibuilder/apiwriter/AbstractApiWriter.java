@@ -76,7 +76,7 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         return value.length() == 0 ? null : value.split(",");
     }
 
-    protected abstract String getProgrammingLanguageSpecificFolderName();
+    protected abstract String getTargetFolderName();
 
     public void writeOdmaApi(ApiDescription apiDescription, String outputFolderRoot) throws IOException, ApiWriterException
     {
@@ -101,7 +101,7 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         {
             baseFolder = baseFolder + File.separator;
         }
-        baseFolder = baseFolder + getProgrammingLanguageSpecificFolderName();
+        baseFolder = baseFolder + getTargetFolderName();
         File baseFolderFile = new File(baseFolder);
         if(!baseFolderFile.exists())
         {
@@ -201,7 +201,7 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
 
     public InputStream getTemplateAsStream(String templateName)
     {
-        return internalGetResourceAsStream("/templates/"+getProgrammingLanguageSpecificFolderName()+"/"+templateName+".template");
+        return internalGetResourceAsStream("/templates/"+getTargetFolderName()+"/"+templateName+".template");
     }
     
     public static void streamCopy(InputStream from, OutputStream to) throws IOException

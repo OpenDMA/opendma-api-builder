@@ -22,7 +22,7 @@ public class PhpApiWriter extends AbstractApiWriter
         return "PHP";
     }
     
-    protected String getProgrammingLanguageSpecificFolderName()
+    protected String getTargetFolderName()
     {
         return "php";
     }

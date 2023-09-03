@@ -27,7 +27,7 @@ public class Java14ApiWriter extends AbstractApiWriter
         return "Java 1.4";
     }
     
-    protected String getProgrammingLanguageSpecificFolderName()
+    protected String getTargetFolderName()
     {
         return "java14";
     }

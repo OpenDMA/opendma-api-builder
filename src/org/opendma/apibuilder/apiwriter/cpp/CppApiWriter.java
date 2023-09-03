@@ -21,7 +21,7 @@ public class CppApiWriter extends AbstractApiWriter
         return "C++";
     }
     
-    protected String getProgrammingLanguageSpecificFolderName()
+    protected String getTargetFolderName()
     {
         return "cpp";
     }

@@ -23,7 +23,7 @@ public class CsApiWriter extends AbstractApiWriter
         return "C#";
     }
     
-    protected String getProgrammingLanguageSpecificFolderName()
+    protected String getTargetFolderName()
     {
         return "cs";
     }

@@ -27,7 +27,7 @@ public class JavaApiWriter extends AbstractApiWriter
         return "Java";
     }
     
-    protected String getProgrammingLanguageSpecificFolderName()
+    protected String getTargetFolderName()
     {
         return "java";
     }
