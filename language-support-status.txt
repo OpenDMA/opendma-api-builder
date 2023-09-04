@@ -1,0 +1,31 @@
+
+                                       | Java  |  C#   |  C++  |  PHP  |  PY   |  JS   |  TS   |  GO   | Rust  | Swift | Jav14 |
+-- infra ------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+getName()                              |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |
+getTargetFolderName()                  |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |
+-- constants --------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+scalarDataTypes.properties             |       |       |       |       |       |       |       |       |       |       |       |
+createDataTypesFile                    |       |       |       |       |       |       |       |       |       |       |       |
+createConstantsFile                    |       |       |       |       |       |       |       |       |       |       |       |
+-- basic classes ----------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+createQNameFile                        |       |       |       |       |       |       |       |       |       |       |       |
+createIdFile                           |       |       |       |       |       |       |       |       |       |       |       |
+createGuidFile                         |       |       |       |       |       |       |       |       |       |       |       |
+createContentFile                      |       |       |       |       |       |       |       |       |       |       |       |
+createSearchResultFile                 |       |       |       |       |       |       |       |       |       |       |       |
+createExceptionFiles                   |       |       |       |       |       |       |       |       |       |       |       |
+createSessionManagementFiles           |       |       |       |       |       |       |       |       |       |       |       |
+-- generated API ----------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+createPropertyFile                     |       |       |       |       |       |       |       |       |       |       |       |
+createClassFile                        |       |       |       |       |       |       |       |       |       |       |       |
+createEnumerationFile                  |       |       |       |       |       |       |       |       |       |       |       |
+createListFile                         |       |       |       |       |       |       |       |       |       |       |       |
+-- generated impl ---------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+createPropertyImplementationFile       |       |       |       |       |       |       |       |       |       |       |       |
+createListImplementationFile           |       |       |       |       |       |       |       |       |       |       |       |
+createClassTemplateFile                |       |       |       |       |       |       |       |       |       |       |       |
+-- build and extra --------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+createBuildFile                        |       |       |       |       |       |       |       |       |       |       |       |
+createExtras                           |       |       |       |       |       |       |       |       |       |       |       |
+
+
