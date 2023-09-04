@@ -2,7 +2,6 @@ package org.opendma.apibuilder.apiwriter.cpp;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Iterator;
@@ -34,6 +33,11 @@ public class CppApiWriter extends AbstractApiWriter
     {
         return new FileOutputStream(outputFolder+headerName+".h");
     }
+    
+    private void createHeaderFromTemplate(String outputFolder, String headerName) throws IOException
+    {
+        copyTemplateToStream(headerName,createHeaderFile(outputFolder,headerName));
+    }
 
     //-------------------------------------------------------------------------
     // C O N S T A N T S   F I L E
@@ -63,6 +67,7 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected void createConstantsFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
+        // create common names file
         CppConstantsFileWriter constantsFileWriter = new CppConstantsFileWriter();
         constantsFileWriter.createConstantsFile(apiDescription, createHeaderFile(outputFolder,"OdmaCommonNames"));
     }
@@ -73,81 +78,43 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected void createQNameFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = createHeaderFile(outputFolder,"OdmaQName");
-        InputStream from = getTemplateAsStream("OdmaQName");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        createHeaderFromTemplate(outputFolder,"OdmaQName");
     }
 
     protected void createIdFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = createHeaderFile(outputFolder,"OdmaId");
-        InputStream from = getTemplateAsStream("OdmaId");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        createHeaderFromTemplate(outputFolder,"OdmaId");
     }
 
     protected void createGuidFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = createHeaderFile(outputFolder,"OdmaGuid");
-        InputStream from = getTemplateAsStream("OdmaGuid");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        createHeaderFromTemplate(outputFolder,"OdmaGuid");
     }
 
     protected void createContentFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = createHeaderFile(outputFolder,"OdmaContent");
-        InputStream from = getTemplateAsStream("OdmaContent");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        createHeaderFromTemplate(outputFolder,"OdmaContent");
     }
 
     protected void createSearchResultFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = createHeaderFile(outputFolder,"OdmaSearchResult");
-        InputStream from = getTemplateAsStream("OdmaSearchResult");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        createHeaderFromTemplate(outputFolder,"OdmaSearchResult");
     }
 
     protected void createExceptionFiles(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        internalCreateExceptionFile(outputFolder,"OdmaException");
-        internalCreateExceptionFile(outputFolder,"OdmaObjectNotFoundException");
-        internalCreateExceptionFile(outputFolder,"OdmaInvalidDataTypeException");
-        internalCreateExceptionFile(outputFolder,"OdmaAccessDeniedException");
-        internalCreateExceptionFile(outputFolder,"OdmaQuerySyntaxException");
-        internalCreateExceptionFile(outputFolder,"OdmaSearchException");
-    }
-    
-    protected void internalCreateExceptionFile(String outputFolder, String exceptionClassName) throws IOException
-    {
-        OutputStream to = createHeaderFile(outputFolder,exceptionClassName);
-        InputStream from = getTemplateAsStream(exceptionClassName);
-        streamCopy(from,to);
-        from.close();
-        to.close();
+        createHeaderFromTemplate(outputFolder,"OdmaException");
+        createHeaderFromTemplate(outputFolder,"OdmaObjectNotFoundException");
+        createHeaderFromTemplate(outputFolder,"OdmaInvalidDataTypeException");
+        createHeaderFromTemplate(outputFolder,"OdmaAccessDeniedException");
+        createHeaderFromTemplate(outputFolder,"OdmaQuerySyntaxException");
+        createHeaderFromTemplate(outputFolder,"OdmaSearchException");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        internalCreateSessionManagementFile(outputFolder,"OdmaDataSource");
-        internalCreateSessionManagementFile(outputFolder,"OdmaSession");
-    }
-    
-    protected void internalCreateSessionManagementFile(String outputFolder, String className) throws IOException
-    {
-        OutputStream to = createHeaderFile(outputFolder,className);
-        InputStream from = getTemplateAsStream(className);
-        streamCopy(from,to);
-        from.close();
-        to.close();
+        createHeaderFromTemplate(outputFolder,"OdmaDataSource");
+        createHeaderFromTemplate(outputFolder,"OdmaSession");
     }
 
     //-------------------------------------------------------------------------
@@ -156,10 +123,6 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected void createPropertyFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        /*
-        JavaPropertyFileWriter javaPropertyFileWriter = new JavaPropertyFileWriter(this);
-        javaPropertyFileWriter.createPropertyFile(apiDescription, getBasicFileStream("OdmaProperty",outputFolder));
-        */
     }
 
     //-------------------------------------------------------------------------

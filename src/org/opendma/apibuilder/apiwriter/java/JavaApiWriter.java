@@ -49,6 +49,11 @@ public class JavaApiWriter extends AbstractApiWriter
         }
         return new FileOutputStream(packageDirectory+File.separator+className+".java");
     }
+    
+    private void createClassFromTemplate(String outputFolder, String packageName, String className) throws IOException
+    {
+        copyTemplateToStream(className,createJavaFile(outputFolder,packageName,className));
+    }
 
     //-------------------------------------------------------------------------
     // C O N S T A N T S   F I L E
@@ -110,89 +115,46 @@ public class JavaApiWriter extends AbstractApiWriter
     // B A S I C   F I L E S
     //-------------------------------------------------------------------------
 
-    protected OutputStream getBasicFileStream(String classname, String outputFolder) throws IOException
-    {
-        return createJavaFile(outputFolder,"org.opendma.api",classname);
-    }
-
     protected void createQNameFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("OdmaQName",outputFolder);
-        InputStream from = getTemplateAsStream("OdmaQName");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        createClassFromTemplate(outputFolder,"org.opendma.api","OdmaQName");
     }
 
     protected void createIdFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("OdmaId",outputFolder);
-        InputStream from = getTemplateAsStream("OdmaId");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        createClassFromTemplate(outputFolder,"org.opendma.api","OdmaId");
     }
 
     protected void createGuidFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("OdmaGuid",outputFolder);
-        InputStream from = getTemplateAsStream("OdmaGuid");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        createClassFromTemplate(outputFolder,"org.opendma.api","OdmaGuid");
     }
 
     protected void createContentFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("OdmaContent",outputFolder);
-        InputStream from = getTemplateAsStream("OdmaContent");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        createClassFromTemplate(outputFolder,"org.opendma.api","OdmaContent");
     }
 
     protected void createSearchResultFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("OdmaSearchResult",outputFolder);
-        InputStream from = getTemplateAsStream("OdmaSearchResult");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        createClassFromTemplate(outputFolder,"org.opendma.api","OdmaSearchResult");
     }
 
     protected void createExceptionFiles(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        internalCreateExceptionFile(outputFolder,"OdmaException");
-        internalCreateExceptionFile(outputFolder,"OdmaObjectNotFoundException");
-        internalCreateExceptionFile(outputFolder,"OdmaInvalidDataTypeException");
-        internalCreateExceptionFile(outputFolder,"OdmaAccessDeniedException");
-        internalCreateExceptionFile(outputFolder,"OdmaRuntimeException");
-        internalCreateExceptionFile(outputFolder,"OdmaQuerySyntaxException");
-        internalCreateExceptionFile(outputFolder,"OdmaSearchException");
-    }
-    
-    protected void internalCreateExceptionFile(String outputFolder, String exceptionClassName) throws IOException
-    {
-        OutputStream to = createJavaFile(outputFolder,"org.opendma.exceptions",exceptionClassName);
-        InputStream from = getTemplateAsStream(exceptionClassName);
-        streamCopy(from,to);
-        from.close();
-        to.close();
+        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaException");
+        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaObjectNotFoundException");
+        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaInvalidDataTypeException");
+        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaAccessDeniedException");
+        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaRuntimeException");
+        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaQuerySyntaxException");
+        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaSearchException");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        internalCreateSessionManagementFile(outputFolder,"OdmaDataSource");
-        internalCreateSessionManagementFile(outputFolder,"OdmaSession");
-    }
-    
-    protected void internalCreateSessionManagementFile(String outputFolder, String className) throws IOException
-    {
-        OutputStream to = createJavaFile(outputFolder,"org.opendma",className);
-        InputStream from = getTemplateAsStream(className);
-        streamCopy(from,to);
-        from.close();
-        to.close();
+        createClassFromTemplate(outputFolder,"org.opendma","OdmaDataSource");
+        createClassFromTemplate(outputFolder,"org.opendma","OdmaSession");
     }
 
     //-------------------------------------------------------------------------
@@ -202,22 +164,17 @@ public class JavaApiWriter extends AbstractApiWriter
     protected void createPropertyFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
         JavaPropertyFileWriter javaPropertyFileWriter = new JavaPropertyFileWriter(this);
-        javaPropertyFileWriter.createPropertyFile(apiDescription, getBasicFileStream("OdmaProperty",outputFolder));
+        javaPropertyFileWriter.createPropertyFile(apiDescription, createJavaFile(outputFolder,"org.opendma.api","OdmaProperty"));
     }
 
     //-------------------------------------------------------------------------
     // C L A S S   F I L E
     //-------------------------------------------------------------------------
 
-    protected OutputStream getClassFileStream(String outputFolder, ClassDescription classDescription) throws IOException
-    {
-        return createJavaFile(outputFolder,"org.opendma.api",classDescription.getApiName());
-    }
-
     protected void createClassFile(ClassDescription classDescription, String outputFolder) throws IOException
     {
         JavaClassFileWriter classFileWriter = new JavaClassFileWriter(this);
-        classFileWriter.createClassFile(classDescription, getClassFileStream(outputFolder,classDescription));
+        classFileWriter.createClassFile(classDescription, createJavaFile(outputFolder,"org.opendma.api",classDescription.getApiName()));
     }
     
     //-------------------------------------------------------------------------
@@ -253,15 +210,10 @@ public class JavaApiWriter extends AbstractApiWriter
     // C L A S S   T E M P L A T E S
     //-------------------------------------------------------------------------
 
-    protected OutputStream getClassTemplateFileStream(String outputFolder, ClassDescription classDescription) throws IOException
-    {
-        return createJavaFile(outputFolder,"org.opendma.templates",classDescription.getApiName()+"Template");
-    }
-
     protected void createClassTemplateFile(ClassDescription classDescription, String outputFolder) throws IOException
     {
        JavaClassTemplateFileWriter classtemplateFileWriter = new JavaClassTemplateFileWriter(this);
-       classtemplateFileWriter.createClassFile(classDescription, getClassTemplateFileStream(outputFolder,classDescription));
+       classtemplateFileWriter.createClassFile(classDescription, createJavaFile(outputFolder,"org.opendma.templates",classDescription.getApiName()+"Template"));
     }
    
     //-------------------------------------------------------------------------
@@ -277,7 +229,8 @@ public class JavaApiWriter extends AbstractApiWriter
     // S T A T I C   H E L P E R
     //-------------------------------------------------------------------------
     
-    public static boolean needToImportPackage(String importDeclaration, String intoPackage) {
+    public static boolean needToImportPackage(String importDeclaration, String intoPackage)
+    {
         boolean notNeeded = importDeclaration.startsWith(intoPackage+".") && importDeclaration.substring(intoPackage.length()+1).indexOf(".") < 0;
         return !notNeeded;
     }

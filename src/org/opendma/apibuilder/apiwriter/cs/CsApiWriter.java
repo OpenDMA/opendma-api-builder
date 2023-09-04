@@ -50,6 +50,11 @@ public class CsApiWriter extends AbstractApiWriter
         return new FileOutputStream(packageDirectory+File.separator+className+".cs");
     }
 
+    private void createClassFromTemplate(String outputFolder, String packageName, String className) throws IOException
+    {
+        copyTemplateToStream(className,createCsFile(outputFolder,packageName,className));
+    }
+
     //-------------------------------------------------------------------------
     // C O N S T A N T S   F I L E
     //-------------------------------------------------------------------------
@@ -79,15 +84,11 @@ public class CsApiWriter extends AbstractApiWriter
         out.close();
     }
 
-    protected OutputStream getConstantsFileStream(String outputFolder) throws IOException
-    {
-        return createCsFile(outputFolder,"OpenDMA.Api","OdmaCommonNames");
-    }
-
     protected void createConstantsFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
+        // create common names file
         CsConstantsFileWriter constantsFileWriter = new CsConstantsFileWriter();
-        constantsFileWriter.createConstantsFile(apiDescription, getConstantsFileStream(outputFolder));
+        constantsFileWriter.createConstantsFile(apiDescription, createCsFile(outputFolder,"OpenDMA.Api","OdmaCommonNames"));
     }
 
     //-------------------------------------------------------------------------
@@ -101,81 +102,43 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createQNameFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("OdmaQName",outputFolder);
-        InputStream from = getTemplateAsStream("OdmaQName");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        createClassFromTemplate(outputFolder,"OpenDMA.Api","OdmaQName");
     }
 
     protected void createIdFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("OdmaId",outputFolder);
-        InputStream from = getTemplateAsStream("OdmaId");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        createClassFromTemplate(outputFolder,"OpenDMA.Api","OdmaId");
     }
 
     protected void createGuidFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("OdmaGuid",outputFolder);
-        InputStream from = getTemplateAsStream("OdmaGuid");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        createClassFromTemplate(outputFolder,"OpenDMA.Api","OdmaGuid");
     }
 
     protected void createContentFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("IOdmaContent",outputFolder);
-        InputStream from = getTemplateAsStream("IOdmaContent");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        createClassFromTemplate(outputFolder,"OpenDMA.Api","IOdmaContent");
     }
 
     protected void createSearchResultFile(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        OutputStream to = getBasicFileStream("IOdmaSearchResult",outputFolder);
-        InputStream from = getTemplateAsStream("IOdmaSearchResult");
-        streamCopy(from, to);
-        from.close();
-        to.close();
+        createClassFromTemplate(outputFolder,"OpenDMA.Api","IOdmaSearchResult");
     }
 
     protected void createExceptionFiles(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        internalCreateExceptionFile(outputFolder,"OdmaObjectNotFoundException");
-        internalCreateExceptionFile(outputFolder,"OdmaInvalidDataTypeException");
-        internalCreateExceptionFile(outputFolder,"OdmaRuntimeException");
-        internalCreateExceptionFile(outputFolder,"OdmaAccessDeniedException");
-        internalCreateExceptionFile(outputFolder,"OdmaQuerySyntaxException");
-        internalCreateExceptionFile(outputFolder,"OdmaSearchException");
-    }
-    
-    protected void internalCreateExceptionFile(String outputFolder, String exceptionClassName) throws IOException
-    {
-        OutputStream to = createCsFile(outputFolder,"OpenDMA.Exceptions",exceptionClassName);
-        InputStream from = getTemplateAsStream(exceptionClassName);
-        streamCopy(from,to);
-        from.close();
-        to.close();
+        createClassFromTemplate(outputFolder,"OpenDMA.Exceptions","OdmaObjectNotFoundException");
+        createClassFromTemplate(outputFolder,"OpenDMA.Exceptions","OdmaInvalidDataTypeException");
+        createClassFromTemplate(outputFolder,"OpenDMA.Exceptions","OdmaRuntimeException");
+        createClassFromTemplate(outputFolder,"OpenDMA.Exceptions","OdmaAccessDeniedException");
+        createClassFromTemplate(outputFolder,"OpenDMA.Exceptions","OdmaQuerySyntaxException");
+        createClassFromTemplate(outputFolder,"OpenDMA.Exceptions","OdmaSearchException");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription, String outputFolder) throws IOException
     {
-        internalCreateSessionManagementFile(outputFolder,"IOdmaDataSource");
-        internalCreateSessionManagementFile(outputFolder,"IOdmaSession");
-    }
-    
-    protected void internalCreateSessionManagementFile(String outputFolder, String className) throws IOException
-    {
-        OutputStream to =  getBasicFileStream(className,outputFolder);
-        InputStream from = getTemplateAsStream(className);
-        streamCopy(from,to);
-        from.close();
-        to.close();
+        createClassFromTemplate(outputFolder,"OpenDMA.Api","IOdmaDataSource");
+        createClassFromTemplate(outputFolder,"OpenDMA.Api","IOdmaSession");
     }
 
     //-------------------------------------------------------------------------
@@ -192,15 +155,10 @@ public class CsApiWriter extends AbstractApiWriter
     // C L A S S   F I L E
     //-------------------------------------------------------------------------
 
-    protected OutputStream getClassFileStream(String outputFolder, ClassDescription classDescription) throws IOException
-    {
-        return createCsFile(outputFolder,"OpenDMA.Api","I"+classDescription.getApiName());
-    }
-
     protected void createClassFile(ClassDescription classDescription, String outputFolder) throws IOException
     {
         CsClassFileWriter classFileWriter = new CsClassFileWriter(this);
-        classFileWriter.createClassFile(classDescription, getClassFileStream(outputFolder,classDescription));
+        classFileWriter.createClassFile(classDescription, createCsFile(outputFolder,"OpenDMA.Api","I"+classDescription.getApiName()));
     }
     
     //-------------------------------------------------------------------------

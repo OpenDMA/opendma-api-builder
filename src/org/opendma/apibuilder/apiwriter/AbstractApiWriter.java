@@ -213,6 +213,26 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
             to.write(buffer,0,num);
         }
     }
+    
+    public void copyTemplateToStream(String templateName, OutputStream out) throws IOException
+    {
+        try
+        {
+            InputStream from = getTemplateAsStream(templateName);
+            try
+            {
+                streamCopy(from, out);
+            }
+            finally
+            {
+                from.close();
+            }
+        }
+        finally
+        {
+            out.close();
+        }
+    }
 
     //-------------------------------------------------------------------------
     // C O N S T A N T S   F I L E
