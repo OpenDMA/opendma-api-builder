@@ -130,7 +130,7 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         result.add(new JavaApiWriter());
         result.add(new CsApiWriter());
         result.add(new CppApiWriter());
-        result.add(new PhpApiWriter());
+        //result.add(new PhpApiWriter());
         return result;
     }
 
