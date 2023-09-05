@@ -164,27 +164,15 @@ public class CsApiWriter extends AbstractApiWriter
     //-------------------------------------------------------------------------
     // C O L L E C T I O N   F I L E S
     //-------------------------------------------------------------------------
-
-    protected OutputStream getEnumerationFileStream(String baseFolder, ClassDescription classDescription) throws IOException
-    {
-        return createCsFile(baseFolder,"OpenDMA.Api.Collections","I"+classDescription.getApiName()+"Enumerable");
-    }
     
     protected void createEnumerationFile(ClassDescription classDescription, String baseFolder) throws IOException
     {
-        CsEnumerableFileWriter enumerableFileWriter = new CsEnumerableFileWriter();
-        enumerableFileWriter.createEnumerationFile(classDescription, getEnumerationFileStream(baseFolder,classDescription));
-    }
-
-    protected OutputStream getListFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
-    {
-        return createCsFile(baseFolder,"OpenDMA.Api.Collections",getScalarDataType(scalarTypeDescription,true));
+        // We are using generics in the form of IEnumerable<OdmaObject>. There is no need for enumeration files
     }
 
     protected void createListFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
     {
-        CsListFileWriter listFileWriter = new CsListFileWriter(this);
-        listFileWriter.createListFile(scalarTypeDescription, getListFileStream(baseFolder,scalarTypeDescription));
+        // We are using generics in the form of IList<Object>. There is no need for list files
     }
     
     //-------------------------------------------------------------------------
@@ -197,15 +185,9 @@ public class CsApiWriter extends AbstractApiWriter
         csPropertyImplementationFileWriter.createPropertyFile(apiDescription, createCsFile(outputFolder,"OpenDMA.Impl","OdmaProperty"));
     }
 
-    protected OutputStream getListImplementationFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
-    {
-        return createCsFile(baseFolder,"OpenDMA.Impl.Collections","Array"+getScalarDataType(scalarTypeDescription,true).substring(1));
-    }
-
     protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
     {
-        CsListImplementationFileWriter listImplementationFileWriter = new CsListImplementationFileWriter(this);
-        listImplementationFileWriter.createListFile(scalarTypeDescription, getListImplementationFileStream(baseFolder,scalarTypeDescription));
+        // We are using generics in the form of IList<Object>. There is no need for list files
     }
 
     //-------------------------------------------------------------------------

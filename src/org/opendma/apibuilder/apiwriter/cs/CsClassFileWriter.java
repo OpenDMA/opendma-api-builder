@@ -98,7 +98,6 @@ public class CsClassFileWriter extends AbstractClassFileWriter
         requiredImports.registerImport("System.Collections.Generic");
         requiredImports.registerImport("System.Linq");
         requiredImports.registerImport("System.Text");
-        requiredImports.registerImport("OpenDMA.Api.Collections");
     }
 
     protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
@@ -134,7 +133,7 @@ public class CsClassFileWriter extends AbstractClassFileWriter
         {
             if(property.getMultiValue())
             {
-                return "I"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumerable";
+                return "IEnumerable<I"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+">";
             }
             else
             {
@@ -151,15 +150,8 @@ public class CsClassFileWriter extends AbstractClassFileWriter
     {
         if(property.getDataType().isReference())
         {
-            if(property.getMultiValue())
-            {
-                return new String[] { "OpenDMA.Api.Collections" };
-            }
-            else
-            {
-                // located in the same package. no import required
-                return null;
-            }
+            // located in the same package. no import required
+            return null;
         }
         else
         {
@@ -177,8 +169,8 @@ public class CsClassFileWriter extends AbstractClassFileWriter
         out.println("");
         out.println("        /// <summary>");
         out.println("        /// Property for "+property.getAbstract()+".<br>");
-        String standardGetterName = "get" + ((!property.getDataType().isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ObjectEnumerable" : "Object"));
-        String standardSetterName = "set" + ((!property.getDataType().isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ObjectEnumerable" : "Object"));
+        String standardGetterName = "get" + ((!property.getDataType().isReference()) ? scalarType.getName() : (property.getMultiValue() ? "IEnumerable<Object>" : "Object"));
+        String standardSetterName = "set" + ((!property.getDataType().isReference()) ? scalarType.getName() : (property.getMultiValue() ? "IEnumerable<Object>" : "Object"));
         out.println("        /// Shortcut for <c>getProperty(OdmaCommonNames."+constantPropertyName+")."+standardGetterName+"()</c> or <c>getProperty(OdmaCommonNames."+constantPropertyName+")."+standardSetterName+"()</c>.");
         out.println("        // ");
         ScalarTypeDescription scalarTypeDescription = property.getDataType();

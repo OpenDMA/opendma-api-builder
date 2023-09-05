@@ -105,7 +105,6 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         requiredImports.registerImport("System.Linq");
         requiredImports.registerImport("System.Text");
         requiredImports.registerImport("OpenDMA.Api");
-        requiredImports.registerImport("OpenDMA.Api.Collections");
     }
 
     protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
@@ -141,7 +140,7 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
         {
             if(property.getMultiValue())
             {
-                return "I"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumerable";
+                return "IEnumerable<I"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+">";
             }
             else
             {
@@ -158,15 +157,8 @@ public class CsClassTemplateFileWriter extends AbstractClassFileWriter
     {
         if(property.getDataType().isReference())
         {
-            if(property.getMultiValue())
-            {
-                return new String[] { "OpenDMA.Api.Collections" };
-            }
-            else
-            {
-                // located in the same package. no import required
-                return null;
-            }
+            // located in the same package. no import required
+            return null;
         }
         else
         {

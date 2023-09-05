@@ -75,13 +75,13 @@
                 {
                     return true;
                 }
-                IOdmaClassEnumerable aspects = test.Aspects;
+                IEnumerable<IOdmaClass> aspects = test.Aspects;
                 if(aspects != null)
                 {
-                    IEnumerator itAspects = aspects.GetEnumerator();
+                    IEnumerator<IOdmaClass> itAspects = aspects.GetEnumerator();
                     while(itAspects.MoveNext())
                     {
-                        IOdmaClass declaredAspect = (IOdmaClass)itAspects.Current;
+                        IOdmaClass declaredAspect = itAspects.Current;
                         if(declaredAspect.QName.Equals(classOrAspectName))
                         {
                             return true;

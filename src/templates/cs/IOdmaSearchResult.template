@@ -18,7 +18,7 @@ namespace OpenDMA.Api
         /// found or <code>null</code> if no obejcts have been found.
         /// </summary>
         /// <returns>the collection of objects found by the search if at least one object has been found</returns>
-        IOdmaObjectEnumerable getObjects();
+        IEnumerable<IOdmaObject> getObjects();
 
         /// <summary>
         /// Returns the number of objects found by the search.
