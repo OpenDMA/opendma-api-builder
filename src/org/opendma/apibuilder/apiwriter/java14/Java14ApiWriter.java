@@ -22,6 +22,11 @@ import org.opendma.apibuilder.structure.ScalarTypeDescription;
 public class Java14ApiWriter extends AbstractApiWriter
 {
 
+    public Java14ApiWriter(File outputFolderRoot) throws ApiWriterException
+    {
+        super(outputFolderRoot);
+    }
+
     public String getName()
     {
         return "Java 1.4";
@@ -36,10 +41,11 @@ public class Java14ApiWriter extends AbstractApiWriter
     // S O U R C E   F I L E   H E L P E R
     //-------------------------------------------------------------------------
     
-    private OutputStream createJavaFile(String outputFolder, String packageName, String className) throws IOException
+    private OutputStream createJavaFile(String packageName, String className) throws IOException
     {
-        String packageDirectory = outputFolder + packageName.replace('.',File.separatorChar);
-        File containingDir = new File(packageDirectory);
+        // String packageDirectory = baseFolder.getAbsolutePath() + File.separatorChar + packageName.replace('.',File.separatorChar);
+        // File containingDir = new File(packageDirectory);
+        File containingDir = new File(baseFolder, packageName.replace('.',File.separatorChar));
         if(!containingDir.exists())
         {
             if(!containingDir.mkdirs())
@@ -47,166 +53,166 @@ public class Java14ApiWriter extends AbstractApiWriter
                 throw new IOException("Can not create package directory");
             }
         }
-        return new FileOutputStream(packageDirectory+File.separator+className+".java");
+        return new FileOutputStream(new File(containingDir, className+".java"));
     }
     
-    private void createClassFromTemplate(String outputFolder, String packageName, String className) throws IOException
+    private void createClassFromTemplate(String packageName, String className) throws IOException
     {
-        copyTemplateToStream(className,createJavaFile(outputFolder,packageName,className));
+        copyTemplateToStream(className,createJavaFile(packageName,className));
     }
 
     //-------------------------------------------------------------------------
     // C O N S T A N T S   F I L E
     //-------------------------------------------------------------------------
 
-    protected void createDataTypesFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createDataTypesFile(ApiDescription apiDescription) throws IOException
     {
         // part of constants file
     }
 
-    protected OutputStream getConstantsFileStream(String outputFolder) throws IOException
+    protected OutputStream getConstantsFileStream() throws IOException
     {
-        return createJavaFile(outputFolder,"org.opendma","OdmaTypes");
+        return createJavaFile("org.opendma","OdmaTypes");
     }
 
-    protected void createConstantsFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createConstantsFile(ApiDescription apiDescription) throws IOException
     {
         Java14ConstantsFileWriter constantsFileWriter = new Java14ConstantsFileWriter();
-        constantsFileWriter.createConstantsFile(apiDescription, getConstantsFileStream(outputFolder));
+        constantsFileWriter.createConstantsFile(apiDescription, getConstantsFileStream());
     }
 
     //-------------------------------------------------------------------------
     // B A S I C   F I L E S
     //-------------------------------------------------------------------------
 
-    protected void createQNameFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createQNameFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(outputFolder,"org.opendma.api","OdmaQName");
+        createClassFromTemplate("org.opendma.api","OdmaQName");
     }
 
-    protected void createIdFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createIdFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(outputFolder,"org.opendma.api","OdmaId");
+        createClassFromTemplate("org.opendma.api","OdmaId");
     }
 
-    protected void createGuidFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createGuidFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(outputFolder,"org.opendma.api","OdmaGuid");
+        createClassFromTemplate("org.opendma.api","OdmaGuid");
     }
 
-    protected void createContentFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createContentFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(outputFolder,"org.opendma.api","OdmaContent");
+        createClassFromTemplate("org.opendma.api","OdmaContent");
     }
 
-    protected void createSearchResultFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createSearchResultFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(outputFolder,"org.opendma.api","OdmaSearchResult");
+        createClassFromTemplate("org.opendma.api","OdmaSearchResult");
     }
 
-    protected void createExceptionFiles(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createExceptionFiles(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaException");
-        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaObjectNotFoundException");
-        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaInvalidDataTypeException");
-        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaAccessDeniedException");
-        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaRuntimeException");
-        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaQuerySyntaxException");
-        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaSearchException");
+        createClassFromTemplate("org.opendma.exceptions","OdmaException");
+        createClassFromTemplate("org.opendma.exceptions","OdmaObjectNotFoundException");
+        createClassFromTemplate("org.opendma.exceptions","OdmaInvalidDataTypeException");
+        createClassFromTemplate("org.opendma.exceptions","OdmaAccessDeniedException");
+        createClassFromTemplate("org.opendma.exceptions","OdmaRuntimeException");
+        createClassFromTemplate("org.opendma.exceptions","OdmaQuerySyntaxException");
+        createClassFromTemplate("org.opendma.exceptions","OdmaSearchException");
     }
 
-    protected void createSessionManagementFiles(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(outputFolder,"org.opendma","OdmaDataSource");
-        createClassFromTemplate(outputFolder,"org.opendma","OdmaSession");
+        createClassFromTemplate("org.opendma","OdmaDataSource");
+        createClassFromTemplate("org.opendma","OdmaSession");
     }
 
     //-------------------------------------------------------------------------
     // P R O P E R T Y   F I L E
     //-------------------------------------------------------------------------
 
-    protected void createPropertyFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createPropertyFile(ApiDescription apiDescription) throws IOException
     {
         Java14PropertyFileWriter javaPropertyFileWriter = new Java14PropertyFileWriter(this);
-        javaPropertyFileWriter.createPropertyFile(apiDescription, createJavaFile(outputFolder,"org.opendma.api","OdmaProperty"));
+        javaPropertyFileWriter.createPropertyFile(apiDescription, createJavaFile("org.opendma.api","OdmaProperty"));
     }
 
     //-------------------------------------------------------------------------
     // C L A S S   F I L E
     //-------------------------------------------------------------------------
 
-    protected void createClassFile(ClassDescription classDescription, String outputFolder) throws IOException
+    protected void createClassFile(ClassDescription classDescription) throws IOException
     {
         Java14ClassFileWriter classFileWriter = new Java14ClassFileWriter(this);
-        classFileWriter.createClassFile(classDescription, createJavaFile(outputFolder,"org.opendma.api",classDescription.getApiName()));
+        classFileWriter.createClassFile(classDescription, createJavaFile("org.opendma.api",classDescription.getApiName()));
     }
     
     //-------------------------------------------------------------------------
     // C O L L E C T I O N   F I L E S
     //-------------------------------------------------------------------------
 
-    protected OutputStream getEnumerationFileStream(String baseFolder, ClassDescription classDescription) throws IOException
+    protected OutputStream getEnumerationFileStream(ClassDescription classDescription) throws IOException
     {
-        return createJavaFile(baseFolder,"org.opendma.api.collections",classDescription.getApiName()+"Enumeration");
+        return createJavaFile("org.opendma.api.collections",classDescription.getApiName()+"Enumeration");
     }
     
-    protected void createEnumerationFile(ClassDescription classDescription, String baseFolder) throws IOException
+    protected void createEnumerationFile(ClassDescription classDescription) throws IOException
     {
         Java14EnumerationFileWriter enumerationFileWriter = new Java14EnumerationFileWriter();
-        enumerationFileWriter.createEnumerationFile(classDescription, getEnumerationFileStream(baseFolder,classDescription));
+        enumerationFileWriter.createEnumerationFile(classDescription, getEnumerationFileStream(classDescription));
     }
 
-    protected OutputStream getListFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
+    protected OutputStream getListFileStream(ScalarTypeDescription scalarTypeDescription) throws IOException
     {
-        return createJavaFile(baseFolder,"org.opendma.api.collections",getScalarDataType(scalarTypeDescription,true,false));
+        return createJavaFile("org.opendma.api.collections",getScalarDataType(scalarTypeDescription,true,false));
     }
 
-    protected void createListFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
+    protected void createListFile(ScalarTypeDescription scalarTypeDescription) throws IOException
     {
         Java14ListFileWriter listFileWriter = new Java14ListFileWriter(this);
-        listFileWriter.createListFile(scalarTypeDescription, getListFileStream(baseFolder,scalarTypeDescription));
+        listFileWriter.createListFile(scalarTypeDescription, getListFileStream(scalarTypeDescription));
     }
     
     //-------------------------------------------------------------------------
     // I M P L E M E N T A T I O N   F I L E S
     //-------------------------------------------------------------------------
 
-    protected void createPropertyImplementationFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createPropertyImplementationFile(ApiDescription apiDescription) throws IOException
     {
         Java14PropertyImplementationFileWriter javaPropertyImplementationFileWriter = new Java14PropertyImplementationFileWriter(this);
-        javaPropertyImplementationFileWriter.createPropertyFile(apiDescription, createJavaFile(outputFolder,"org.opendma.impl","OdmaPropertyImpl"));
+        javaPropertyImplementationFileWriter.createPropertyFile(apiDescription, createJavaFile("org.opendma.impl","OdmaPropertyImpl"));
     }
 
-    protected OutputStream getListImplementationFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
+    protected OutputStream getListImplementationFileStream(ScalarTypeDescription scalarTypeDescription) throws IOException
     {
-        return createJavaFile(baseFolder,"org.opendma.impl.collections","Array"+getScalarDataType(scalarTypeDescription,true,false));
+        return createJavaFile("org.opendma.impl.collections","Array"+getScalarDataType(scalarTypeDescription,true,false));
     }
 
-    protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
+    protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription) throws IOException
     {
         Java14ListImplementationFileWriter listImplementationFileWriter = new Java14ListImplementationFileWriter(this);
-        listImplementationFileWriter.createListFile(scalarTypeDescription, getListImplementationFileStream(baseFolder,scalarTypeDescription));
+        listImplementationFileWriter.createListFile(scalarTypeDescription, getListImplementationFileStream(scalarTypeDescription));
     }
 
     //-------------------------------------------------------------------------
     // C L A S S   T E M P L A T E S
     //-------------------------------------------------------------------------
 
-    protected void createClassTemplateFile(ClassDescription classDescription, String outputFolder) throws IOException
+    protected void createClassTemplateFile(ClassDescription classDescription) throws IOException
     {
        Java14ClassTemplateFileWriter classtemplateFileWriter = new Java14ClassTemplateFileWriter(this);
-       classtemplateFileWriter.createClassFile(classDescription, createJavaFile(outputFolder,"org.opendma.templates",classDescription.getApiName()+"Template"));
+       classtemplateFileWriter.createClassFile(classDescription, createJavaFile("org.opendma.templates",classDescription.getApiName()+"Template"));
     }
    
     //-------------------------------------------------------------------------
     // B U I L D   F I L E
     //-------------------------------------------------------------------------
     
-    protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription, String baseFolder) throws IOException
+    protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
     }
     
-    protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription, String baseFolder) throws IOException
+    protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
     }
     
@@ -223,20 +229,20 @@ public class Java14ApiWriter extends AbstractApiWriter
     // E X T R A S
     //-------------------------------------------------------------------------
     
-    protected void createExtras(ApiDescription apiDescription, String baseFolder) throws IOException, ApiWriterException
+    protected void createExtras(ApiDescription apiDescription) throws IOException, ApiWriterException
     {
         // copy static helper templates
-        copyStaticClassHelperTemplate("OdmaArrayListClassEnumeration",baseFolder);
-        copyStaticClassHelperTemplate("OdmaArrayListObjectEnumeration",baseFolder);
-        copyStaticClassHelperTemplate("OdmaArrayListPropertyInfoEnumeration",baseFolder);
+        copyStaticClassHelperTemplate("OdmaArrayListClassEnumeration");
+        copyStaticClassHelperTemplate("OdmaArrayListObjectEnumeration");
+        copyStaticClassHelperTemplate("OdmaArrayListPropertyInfoEnumeration");
         // CHECKTEMPLATE: OdmaObjectTemplate
-        copyStaticClassHelperTemplate("OdmaStaticSystemObject",baseFolder);
+        copyStaticClassHelperTemplate("OdmaStaticSystemObject");
         // CHECKTEMPLATE: OdmaPropertyInfoTemplate
-        copyStaticClassHelperTemplate("OdmaStaticSystemPropertyInfo",baseFolder);
+        copyStaticClassHelperTemplate("OdmaStaticSystemPropertyInfo");
         // CHECKTEMPLATE: OdmaClassTemplate
-        copyStaticClassHelperTemplate("OdmaStaticSystemClass",baseFolder);
+        copyStaticClassHelperTemplate("OdmaStaticSystemClass");
         // CHECKTEMPLATE: OdmaRepositoryTemplate
-        copyStaticClassHelperTemplate("OdmaStaticSystemRepository",baseFolder);
+        copyStaticClassHelperTemplate("OdmaStaticSystemRepository");
         // additionally create static class hierarchy helper files
         List classes = apiDescription.getDescribedClasses();
         // property
@@ -249,7 +255,7 @@ public class Java14ApiWriter extends AbstractApiWriter
             while(itDeclaredProperties.hasNext())
             {
                 PropertyDescription propertyDescription = (PropertyDescription)itDeclaredProperties.next();
-                createStaticClassHierarchyHelperProperty(apiDescription,propertyDescription,baseFolder);
+                createStaticClassHierarchyHelperProperty(apiDescription,propertyDescription);
             }
         }
         // class
@@ -257,25 +263,25 @@ public class Java14ApiWriter extends AbstractApiWriter
         while(itClasses.hasNext())
         {
             ClassDescription classDescription = (ClassDescription)itClasses.next();
-            createStaticClassHierarchyHelperClass(apiDescription,classDescription,baseFolder);
+            createStaticClassHierarchyHelperClass(apiDescription,classDescription);
         }
         // hierarchy
-        createStaticClassHierarchyHelper(apiDescription,baseFolder);
+        createStaticClassHierarchyHelper(apiDescription);
    }
 
-    private void copyStaticClassHelperTemplate(String className, String outputFolder) throws IOException
+    private void copyStaticClassHelperTemplate(String className) throws IOException
     {
-        OutputStream to = createJavaFile(outputFolder,"org.opendma.impl.core",className);
+        OutputStream to = createJavaFile("org.opendma.impl.core",className);
         InputStream from = getTemplateAsStream("statics/"+className);
         streamCopy(from, to);
         from.close();
         to.close();
     }
 
-    private void createStaticClassHierarchyHelperProperty(ApiDescription apiDescription, PropertyDescription propertyDescription, String outputFolder) throws IOException, ApiWriterException
+    private void createStaticClassHierarchyHelperProperty(ApiDescription apiDescription, PropertyDescription propertyDescription) throws IOException, ApiWriterException
     {
         String propName = propertyDescription.getOdmaName().getName();
-        OutputStream staticPropertyInfoStream = createJavaFile(outputFolder,"org.opendma.impl.core","OdmaStaticSystemPropertyInfo"+propName);
+        OutputStream staticPropertyInfoStream = createJavaFile("org.opendma.impl.core","OdmaStaticSystemPropertyInfo"+propName);
         PrintWriter out = new PrintWriter(staticPropertyInfoStream);
         out.println("package org.opendma.impl.core;");
         out.println("");
@@ -374,10 +380,10 @@ public class Java14ApiWriter extends AbstractApiWriter
         out.println("        properties.put(OdmaTypes.PROPERTY_"+propertyNameConstant+",new OdmaPropertyImpl(OdmaTypes.PROPERTY_"+propertyNameConstant+","+value+",OdmaTypes.TYPE_"+typeConstantName+",true,true));");        
     }
 
-    protected void createStaticClassHierarchyHelperClass(ApiDescription apiDescription, ClassDescription classDescription, String outputFolder) throws IOException, ApiWriterException
+    protected void createStaticClassHierarchyHelperClass(ApiDescription apiDescription, ClassDescription classDescription) throws IOException, ApiWriterException
     {
         String className = classDescription.getOdmaName().getName();
-        OutputStream staticClassStream = createJavaFile(outputFolder,"org.opendma.impl.core","OdmaStaticSystemClass"+className);
+        OutputStream staticClassStream = createJavaFile("org.opendma.impl.core","OdmaStaticSystemClass"+className);
         PrintWriter out = new PrintWriter(staticClassStream);
         out.println("package org.opendma.impl.core;");
         out.println("");
@@ -480,9 +486,9 @@ public class Java14ApiWriter extends AbstractApiWriter
         }
     }
 
-    private void createStaticClassHierarchyHelper(ApiDescription apiDescription, String outputFolder) throws IOException
+    private void createStaticClassHierarchyHelper(ApiDescription apiDescription) throws IOException
     {
-        OutputStream staticClassStream = createJavaFile(outputFolder,"org.opendma.impl.core","OdmaStaticClassHierarchy");
+        OutputStream staticClassStream = createJavaFile("org.opendma.impl.core","OdmaStaticClassHierarchy");
         PrintWriter out = new PrintWriter(staticClassStream);
         InputStream templateIn = getTemplateAsStream("statics/OdmaStaticClassHierarchy.head");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));

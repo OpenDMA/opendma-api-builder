@@ -18,8 +18,30 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
     
     private final Properties scalarDataTypes = new Properties();
     
-    protected AbstractApiWriter()
+    protected File baseFolder;
+    
+    public AbstractApiWriter(File outputFolderRoot) throws ApiWriterException
     {
+        // output target
+        if(outputFolderRoot == null)
+        {
+            throw new NullPointerException("AbstractApiWriter: outputFolderRoot must not be null.");
+        }
+        // check root folder
+        if(!outputFolderRoot.isDirectory())
+        {
+            throw new ApiWriterException("The output folder '"+outputFolderRoot+"' does not exist or is not a directory.");
+        }
+        // create base folder
+        baseFolder = new File(outputFolderRoot, getTargetFolderName());
+        if(!baseFolder.exists())
+        {
+            if(!baseFolder.mkdir())
+            {
+                throw new ApiWriterException("Can not create API specific folder '"+baseFolder+".");
+            }
+        }
+        // initialise scalarDataTypes
         InputStream is = getClass().getResourceAsStream("scalarDataTypes.properties");
         if(is == null)
         {
@@ -80,69 +102,43 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
 
     protected abstract String getTargetFolderName();
 
-    public void writeOdmaApi(ApiDescription apiDescription, String outputFolderRoot) throws IOException, ApiWriterException
+    public void writeOdmaApi(ApiDescription apiDescription) throws IOException, ApiWriterException
     {
         // sanity checks
         if(apiDescription == null)
         {
             throw new NullPointerException("OdmaAbstractApiWriter.writeOdmaApi: apiDescription must not be null.");
         }
-        if(outputFolderRoot == null)
-        {
-            throw new NullPointerException("OdmaAbstractApiWriter.writeOdmaApi: outputFolderRoot must not be null.");
-        }
-        // check root folder
-        File outputFolderRootFile = new File(outputFolderRoot);
-        if(!outputFolderRootFile.isDirectory())
-        {
-            throw new ApiWriterException("The output folder '"+outputFolderRoot+"' does not exist or is not a directory.");
-        }
-        // create base folder
-        String baseFolder = outputFolderRoot;
-        if(!baseFolder.endsWith(File.separator))
-        {
-            baseFolder = baseFolder + File.separator;
-        }
-        baseFolder = baseFolder + getTargetFolderName();
-        File baseFolderFile = new File(baseFolder);
-        if(!baseFolderFile.exists())
-        {
-            if(!baseFolderFile.mkdir())
-            {
-                throw new ApiWriterException("Can not create API specific folder '"+baseFolder+".");
-            }
-        }
-        baseFolder = baseFolder + File.separator;
         // prepare project structure
-        prepareProjectStructureAndBuildFiles(apiDescription,baseFolder);
+        prepareProjectStructureAndBuildFiles(apiDescription);
         // create the constants file
-        createDataTypesFile(apiDescription,baseFolder);
-        createConstantsFile(apiDescription,baseFolder);
+        createDataTypesFile(apiDescription);
+        createConstantsFile(apiDescription);
         // create basic files that are NOT autocreated
-        createQNameFile(apiDescription,baseFolder);
-        createIdFile(apiDescription,baseFolder);
-        createGuidFile(apiDescription,baseFolder);
-        createContentFile(apiDescription,baseFolder);
-        createSearchResultFile(apiDescription,baseFolder);
-        createExceptionFiles(apiDescription,baseFolder);
+        createQNameFile(apiDescription);
+        createIdFile(apiDescription);
+        createGuidFile(apiDescription);
+        createContentFile(apiDescription);
+        createSearchResultFile(apiDescription);
+        createExceptionFiles(apiDescription);
         // create language depending files for the session management
-        createSessionManagementFiles(apiDescription,baseFolder);
+        createSessionManagementFiles(apiDescription);
         // create the properties file
-        createPropertyFile(apiDescription,baseFolder);
+        createPropertyFile(apiDescription);
         // create class files
         List classes = apiDescription.getDescribedClasses();
         Iterator itClasses = classes.iterator();
         while(itClasses.hasNext())
         {
             ClassDescription classDescription = (ClassDescription)itClasses.next();
-            createClassFile(classDescription,baseFolder);
+            createClassFile(classDescription);
         }
         // create collection files (Lists and Enumerations)
         itClasses = classes.iterator();
         while(itClasses.hasNext())
         {
             ClassDescription classDescription = (ClassDescription)itClasses.next();
-            createEnumerationFile(classDescription,baseFolder);
+            createEnumerationFile(classDescription);
         }
         List scalarTypes = apiDescription.getScalarTypes();
         Iterator itScalarTypes = scalarTypes.iterator();
@@ -151,11 +147,11 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
             ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
             if(!scalarTypeDescription.isReference())
             {
-                createListFile(scalarTypeDescription,baseFolder);
+                createListFile(scalarTypeDescription);
             }
         }
         // create properties implementation file
-        createPropertyImplementationFile(apiDescription,baseFolder);
+        createPropertyImplementationFile(apiDescription);
         // create list implementation files
         itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
@@ -163,7 +159,7 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
             ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
             if(!scalarTypeDescription.isReference())
             {
-                createListImplementationFile(scalarTypeDescription,baseFolder);
+                createListImplementationFile(scalarTypeDescription);
             }
         }
         // create class template files
@@ -171,12 +167,12 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         while(itClasses.hasNext())
         {
             ClassDescription classDescription = (ClassDescription)itClasses.next();
-            createClassTemplateFile(classDescription,baseFolder);
+            createClassTemplateFile(classDescription);
         }
         // finalise project structure
-        finaliseProjectStructureAndBuildFiles(apiDescription,baseFolder);
+        finaliseProjectStructureAndBuildFiles(apiDescription);
         // create any extras
-        createExtras(apiDescription,baseFolder);
+        createExtras(apiDescription);
     }
 
     public static InputStream internalGetResourceAsStream(String resource)
@@ -242,75 +238,75 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
     // C O N S T A N T S   F I L E
     //-------------------------------------------------------------------------
 
-    protected abstract void createDataTypesFile(ApiDescription apiDescription, String outputFolder) throws IOException;
+    protected abstract void createDataTypesFile(ApiDescription apiDescription) throws IOException;
 
-    protected abstract void createConstantsFile(ApiDescription apiDescription, String outputFolder) throws IOException;
+    protected abstract void createConstantsFile(ApiDescription apiDescription) throws IOException;
 
     //-------------------------------------------------------------------------
     // B A S I C   F I L E S
     //-------------------------------------------------------------------------
 
-    protected abstract void createQNameFile(ApiDescription apiDescription, String outputFolder) throws IOException;
+    protected abstract void createQNameFile(ApiDescription apiDescription) throws IOException;
 
-    protected abstract void createIdFile(ApiDescription apiDescription, String outputFolder) throws IOException;
+    protected abstract void createIdFile(ApiDescription apiDescription) throws IOException;
 
-    protected abstract void createGuidFile(ApiDescription apiDescription, String outputFolder) throws IOException;
+    protected abstract void createGuidFile(ApiDescription apiDescription) throws IOException;
 
-    protected abstract void createContentFile(ApiDescription apiDescription, String outputFolder) throws IOException;
+    protected abstract void createContentFile(ApiDescription apiDescription) throws IOException;
 
-    protected abstract void createSearchResultFile(ApiDescription apiDescription, String outputFolder) throws IOException;
+    protected abstract void createSearchResultFile(ApiDescription apiDescription) throws IOException;
 
-    protected abstract void createExceptionFiles(ApiDescription apiDescription, String outputFolder) throws IOException;
+    protected abstract void createExceptionFiles(ApiDescription apiDescription) throws IOException;
 
-    protected abstract void createSessionManagementFiles(ApiDescription apiDescription, String outputFolder) throws IOException;
+    protected abstract void createSessionManagementFiles(ApiDescription apiDescription) throws IOException;
 
     //-------------------------------------------------------------------------
     // P R O P E R T Y   F I L E
     //-------------------------------------------------------------------------
 
-    protected abstract void createPropertyFile(ApiDescription apiDescription, String outputFolder) throws IOException;
+    protected abstract void createPropertyFile(ApiDescription apiDescription) throws IOException;
 
     //-------------------------------------------------------------------------
     // C L A S S   F I L E S
     //-------------------------------------------------------------------------
     
-    protected abstract void createClassFile(ClassDescription classDescription, String outputFolder) throws IOException;
+    protected abstract void createClassFile(ClassDescription classDescription) throws IOException;
     
     //-------------------------------------------------------------------------
     // C O L L E C T I O N   F I L E S
     //-------------------------------------------------------------------------
     
-    protected abstract void createEnumerationFile(ClassDescription classDescription, String outputFolder) throws IOException;
+    protected abstract void createEnumerationFile(ClassDescription classDescription) throws IOException;
 
-    protected abstract void createListFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException;
+    protected abstract void createListFile(ScalarTypeDescription scalarTypeDescription) throws IOException;
     
     //-------------------------------------------------------------------------
     // I M P L E M E N T A T I O N   F I L E S
     //-------------------------------------------------------------------------
 
-    protected abstract void createPropertyImplementationFile(ApiDescription apiDescription, String outputFolder) throws IOException;
+    protected abstract void createPropertyImplementationFile(ApiDescription apiDescription) throws IOException;
 
-    protected abstract void createListImplementationFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException;
+    protected abstract void createListImplementationFile(ScalarTypeDescription scalarTypeDescription) throws IOException;
 
     //-------------------------------------------------------------------------
     // C L A S S   T E M P L A T E S
     //-------------------------------------------------------------------------
     
-    protected abstract void createClassTemplateFile(ClassDescription classDescription, String outputFolder) throws IOException;
+    protected abstract void createClassTemplateFile(ClassDescription classDescription) throws IOException;
     
     //-------------------------------------------------------------------------
     // P R O J E C T   S T R U C T U R E   A N  D   B U I L D   F I L E
     //-------------------------------------------------------------------------
     
-    protected abstract void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription, String baseFolder) throws IOException;
+    protected abstract void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException;
     
-    protected abstract void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription, String baseFolder) throws IOException;
+    protected abstract void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException;
     
     //-------------------------------------------------------------------------
     // E X T R A S
     //-------------------------------------------------------------------------
     
-    protected void createExtras(ApiDescription apiDescription, String baseFolder) throws IOException, ApiWriterException
+    protected void createExtras(ApiDescription apiDescription) throws IOException, ApiWriterException
     {
     }
 

@@ -10,7 +10,7 @@ import org.opendma.apibuilder.structure.ScalarTypeDescription;
 public interface OdmaApiWriter
 {
     
-    public void writeOdmaApi(ApiDescription classHierarchy, String outputFolderRoot) throws IOException, ApiWriterException;
+    public void writeOdmaApi(ApiDescription classHierarchy) throws IOException, ApiWriterException;
     
     public String getScalarDataType(ScalarTypeDescription scalarTypeDescription, boolean multiValue, boolean notNull);
     

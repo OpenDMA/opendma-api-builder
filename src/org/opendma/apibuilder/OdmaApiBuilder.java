@@ -10,11 +10,17 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.opendma.apibuilder.apiwriter.ApiWriterException;
 import org.opendma.apibuilder.apiwriter.cpp.CppApiWriter;
 import org.opendma.apibuilder.apiwriter.cs.CsApiWriter;
+import org.opendma.apibuilder.apiwriter.go.GoApiWriter;
 import org.opendma.apibuilder.apiwriter.java.JavaApiWriter;
-import org.opendma.apibuilder.apiwriter.java14.Java14ApiWriter;
+import org.opendma.apibuilder.apiwriter.js.JavaScriptApiWriter;
 import org.opendma.apibuilder.apiwriter.php.PhpApiWriter;
+import org.opendma.apibuilder.apiwriter.py.PythonApiWriter;
+import org.opendma.apibuilder.apiwriter.rust.RustApiWriter;
+import org.opendma.apibuilder.apiwriter.swift.SwiftApiWriter;
+import org.opendma.apibuilder.apiwriter.ts.TypeScriptApiWriter;
 import org.opendma.apibuilder.structure.ApiDescription;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -91,7 +97,17 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         }
         //-----< STEP 6: create API for each programming language >------------
         String outputFolderRoot = args[1];
-        List odmaApiWriters = getApiWriters();
+        List odmaApiWriters;
+        try
+        {
+            odmaApiWriters = getApiWriters(outputFolderRoot);
+        }
+        catch (ApiWriterException e)
+        {
+            System.out.println("Error preparing api writer");
+            e.printStackTrace(System.out);
+            return;
+        }
         Iterator itOdmaApiWriters = odmaApiWriters.iterator();
         while(itOdmaApiWriters.hasNext())
         {
@@ -99,7 +115,7 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
             try
             {
                 System.out.println("Writing "+apiWriter.getName()+" API...");
-                apiWriter.writeOdmaApi(odmaClassHierarchy, outputFolderRoot);
+                apiWriter.writeOdmaApi(odmaClassHierarchy);
             }
             catch(Exception e)
             {
@@ -123,14 +139,25 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         return descriptionDocument.getDocumentElement();
     }
     
-    protected List getApiWriters()
+    protected List getApiWriters(String outputFolderRoot) throws ApiWriterException
     {
+        File outputFolderRootFile = new File(outputFolderRoot);
+        if(!outputFolderRootFile.isDirectory())
+        {
+            throw new ApiWriterException("The output folder '"+outputFolderRoot+"' does not exist or is not a directory.");
+        }
         List result = new ArrayList();
-        result.add(new Java14ApiWriter());
-        result.add(new JavaApiWriter());
-        result.add(new CsApiWriter());
-        result.add(new CppApiWriter());
-        //result.add(new PhpApiWriter());
+        result.add(new JavaApiWriter(outputFolderRootFile));
+        result.add(new CsApiWriter(outputFolderRootFile));
+        result.add(new CppApiWriter(outputFolderRootFile));
+        result.add(new PhpApiWriter(outputFolderRootFile));
+        result.add(new PythonApiWriter(outputFolderRootFile));
+        result.add(new JavaScriptApiWriter(outputFolderRootFile));
+        result.add(new TypeScriptApiWriter(outputFolderRootFile));
+        result.add(new GoApiWriter(outputFolderRootFile));
+        result.add(new RustApiWriter(outputFolderRootFile));
+        result.add(new SwiftApiWriter(outputFolderRootFile));
+        //result.add(new Java14ApiWriter(outputFolderRootFile));
         return result;
     }
 

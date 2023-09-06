@@ -4,17 +4,20 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.List;
 
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
+import org.opendma.apibuilder.apiwriter.ApiWriterException;
 import org.opendma.apibuilder.structure.ApiDescription;
 import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
 public class PhpApiWriter extends AbstractApiWriter
 {
+
+    public PhpApiWriter(File outputFolderRoot) throws ApiWriterException
+    {
+        super(outputFolderRoot);
+    }
 
     public String getName()
     {
@@ -53,86 +56,86 @@ public class PhpApiWriter extends AbstractApiWriter
     // C O N S T A N T S   F I L E
     //-------------------------------------------------------------------------
 
-    protected void createDataTypesFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createDataTypesFile(ApiDescription apiDescription) throws IOException
     {
-        // create type enumeration
-        PrintWriter out = new PrintWriter(createPhpFile(outputFolder,"OpenDMA/Api","OdmaType"));
-        out.println("<?php");
-        out.println("enum OdmaType");
-        out.println("{");
-        List scalarTypes = apiDescription.getScalarTypes();
-        Iterator itScalarTypes = scalarTypes.iterator();
-        while(itScalarTypes.hasNext())
-        {
-            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
-            out.println("    case "+scalarTypeDescription.getName().toUpperCase()+";");
-        }
-        out.println("}");
-        out.close();
+//        // create type enumeration
+//        PrintWriter out = new PrintWriter(createPhpFile(outputFolder,"OpenDMA/Api","OdmaType"));
+//        out.println("<?php");
+//        out.println("enum OdmaType");
+//        out.println("{");
+//        List scalarTypes = apiDescription.getScalarTypes();
+//        Iterator itScalarTypes = scalarTypes.iterator();
+//        while(itScalarTypes.hasNext())
+//        {
+//            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+//            out.println("    case "+scalarTypeDescription.getName().toUpperCase()+";");
+//        }
+//        out.println("}");
+//        out.close();
     }
 
-    protected void createConstantsFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createConstantsFile(ApiDescription apiDescription) throws IOException
     {
-        // create common names file
-        PhpConstantsFileWriter constantsFileWriter = new PhpConstantsFileWriter();
-        constantsFileWriter.createConstantsFile(apiDescription, createPhpFile(outputFolder,"OpenDMA/Api","OdmaCommonNames"));
+//        // create common names file
+//        PhpConstantsFileWriter constantsFileWriter = new PhpConstantsFileWriter();
+//        constantsFileWriter.createConstantsFile(apiDescription, createPhpFile(outputFolder,"OpenDMA/Api","OdmaCommonNames"));
     }
 
     //-------------------------------------------------------------------------
     // B A S I C   F I L E S
     //-------------------------------------------------------------------------
 
-    protected OutputStream getBasicFileStream(String classname, String outputFolder) throws IOException
+//    protected OutputStream getBasicFileStream(String classname) throws IOException
+//    {
+//        return createPhpFile(outputFolder,"OpenDMA/Api",classname);
+//    }
+
+    protected void createQNameFile(ApiDescription apiDescription) throws IOException
     {
-        return createPhpFile(outputFolder,"OpenDMA/Api",classname);
+//        createClassFromTemplate(outputFolder,"OpenDMA/Api","OdmaQName");
     }
 
-    protected void createQNameFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createIdFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(outputFolder,"OpenDMA/Api","OdmaQName");
+//        createClassFromTemplate(outputFolder,"OpenDMA/Api","OdmaId");
     }
 
-    protected void createIdFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createGuidFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(outputFolder,"OpenDMA/Api","OdmaId");
+//        createClassFromTemplate(outputFolder,"OpenDMA/Api","OdmaGuid");
     }
 
-    protected void createGuidFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createContentFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(outputFolder,"OpenDMA/Api","OdmaGuid");
+//        createClassFromTemplate(outputFolder,"OpenDMA/Api","OdmaContent");
     }
 
-    protected void createContentFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createSearchResultFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(outputFolder,"OpenDMA/Api","OdmaContent");
+//        createClassFromTemplate(outputFolder,"OpenDMA/Api","OdmaSearchResult");
     }
 
-    protected void createSearchResultFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createExceptionFiles(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(outputFolder,"OpenDMA/Api","OdmaSearchResult");
+//        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaException");
+//        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaObjectNotFoundException");
+//        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaInvalidDataTypeException");
+//        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaAccessDeniedException");
+//        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaQuerySyntaxException");
+//        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaSearchException");
     }
 
-    protected void createExceptionFiles(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaException");
-        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaObjectNotFoundException");
-        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaInvalidDataTypeException");
-        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaAccessDeniedException");
-        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaQuerySyntaxException");
-        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaSearchException");
-    }
-
-    protected void createSessionManagementFiles(ApiDescription apiDescription, String outputFolder) throws IOException
-    {
-        createClassFromTemplate(outputFolder,"OpenDMA/Api","OdmaDataSource");
-        createClassFromTemplate(outputFolder,"OpenDMA/Api","OdmaSession");
+//        createClassFromTemplate(outputFolder,"OpenDMA/Api","OdmaDataSource");
+//        createClassFromTemplate(outputFolder,"OpenDMA/Api","OdmaSession");
     }
 
     //-------------------------------------------------------------------------
     // P R O P E R T Y   F I L E
     //-------------------------------------------------------------------------
 
-    protected void createPropertyFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createPropertyFile(ApiDescription apiDescription) throws IOException
     {
     }
 
@@ -140,21 +143,21 @@ public class PhpApiWriter extends AbstractApiWriter
     // C L A S S   F I L E
     //-------------------------------------------------------------------------
 
-    protected void createClassFile(ClassDescription classDescription, String outputFolder) throws IOException
+    protected void createClassFile(ClassDescription classDescription) throws IOException
     {
-        PhpClassFileWriter classFileWriter = new PhpClassFileWriter(this);
-        classFileWriter.createClassFile(classDescription, createPhpFile(outputFolder,"OpenDMA/Api",classDescription.getApiName()));
+//        PhpClassFileWriter classFileWriter = new PhpClassFileWriter(this);
+//        classFileWriter.createClassFile(classDescription, createPhpFile(outputFolder,"OpenDMA/Api",classDescription.getApiName()));
     }
     
     //-------------------------------------------------------------------------
     // C O L L E C T I O N   F I L E S
     //-------------------------------------------------------------------------
     
-    protected void createEnumerationFile(ClassDescription classDescription, String baseFolder) throws IOException
+    protected void createEnumerationFile(ClassDescription classDescription) throws IOException
     {
     }
 
-    protected void createListFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
+    protected void createListFile(ScalarTypeDescription scalarTypeDescription) throws IOException
     {
     }
     
@@ -162,11 +165,11 @@ public class PhpApiWriter extends AbstractApiWriter
     // I M P L E M E N T A T I O N   F I L E S
     //-------------------------------------------------------------------------
 
-    protected void createPropertyImplementationFile(ApiDescription apiDescription, String outputFolder) throws IOException
+    protected void createPropertyImplementationFile(ApiDescription apiDescription) throws IOException
     {
     }
 
-    protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
+    protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription) throws IOException
     {
     }
 
@@ -174,21 +177,21 @@ public class PhpApiWriter extends AbstractApiWriter
     // C L A S S   T E M P L A T E S
     //-------------------------------------------------------------------------
 
-    protected void createClassTemplateFile(ClassDescription classDescription, String outputFolder) throws IOException
+    protected void createClassTemplateFile(ClassDescription classDescription) throws IOException
     {
-        PhpClassTemplateFileWriter classTemplateFileWriter = new PhpClassTemplateFileWriter(this);
-        classTemplateFileWriter.createClassFile(classDescription, createPhpFile(outputFolder,"OpenDMA/Templates",classDescription.getApiName()));
+//        PhpClassTemplateFileWriter classTemplateFileWriter = new PhpClassTemplateFileWriter(this);
+//        classTemplateFileWriter.createClassFile(classDescription, createPhpFile(outputFolder,"OpenDMA/Templates",classDescription.getApiName()));
     }
    
     //-------------------------------------------------------------------------
     // B U I L D   F I L E
     //-------------------------------------------------------------------------
     
-    protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription, String baseFolder) throws IOException
+    protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
     }
     
-    protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription, String baseFolder) throws IOException
+    protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
     }
 
