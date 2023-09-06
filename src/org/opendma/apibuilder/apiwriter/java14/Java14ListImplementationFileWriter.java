@@ -22,8 +22,8 @@ public class Java14ListImplementationFileWriter extends AbstractListFileWriter
     protected void appendRequiredImportsGlobal(ScalarTypeDescription scalarTypeDescription, ImportsList requiredImports)
     {
         requiredImports.registerImport("java.util.ArrayList");
-        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false));
-        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false,false));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true,false));
     }
 
     protected void writeListFileHeader(ScalarTypeDescription scalarTypeDescription, List requiredImports, PrintWriter out)
@@ -39,7 +39,7 @@ public class Java14ListImplementationFileWriter extends AbstractListFileWriter
                 out.println("import "+importDeclaration+";");
             }
         }
-        String interfaceName = apiWriter.getScalarDataType(scalarTypeDescription,true);
+        String interfaceName = apiWriter.getScalarDataType(scalarTypeDescription,true,false);
         out.println("");
         out.println("/**");
         out.println(" * Implementation of the <code>{@link x}</code> interface based on an <code>ArrayList</code>.");
@@ -55,7 +55,7 @@ public class Java14ListImplementationFileWriter extends AbstractListFileWriter
 
     protected void writeListFileMethods(ScalarTypeDescription scalarTypeDescription, PrintWriter out)
     {
-        String singleValueDataType = apiWriter.getScalarDataType(scalarTypeDescription,false);
+        String singleValueDataType = apiWriter.getScalarDataType(scalarTypeDescription,false,false);
         out.println("");
         out.println("    /**");
         out.println("     * Returns the <code>"+singleValueDataType+"</code> element at the specified position in");

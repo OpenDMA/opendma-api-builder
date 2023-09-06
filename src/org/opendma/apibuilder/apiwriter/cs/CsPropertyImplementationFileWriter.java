@@ -101,11 +101,11 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
                 String csReturnType;
                 if(multivalue)
                 {
-                    csReturnType = scalarTypeDescription.isReference() ? "IEnumerable<IOdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true);
+                    csReturnType = scalarTypeDescription.isReference() ? "IEnumerable<IOdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,false);
                 }
                 else
                 {
-                    csReturnType = scalarTypeDescription.isReference() ? "IOdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false);
+                    csReturnType = scalarTypeDescription.isReference() ? "IOdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
                 }
                 out.println("                case OdmaType."+constantScalarTypeName+":");
                 out.println("                    if(newValue is "+csReturnType+")");
@@ -127,10 +127,10 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
     protected void writeSingleValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String csReturnType = scalarTypeDescription.isReference() ? "IOdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false);
+        String csReturnType = scalarTypeDescription.isReference() ? "IOdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
         out.println("");
         out.println("        /// <summary>");
-        out.println("        /// Returns the <c>"+csReturnType+"</c> value of this property if and only if");
+        out.println("        /// Returns the <c>"+scalarName+"</c> value of this property if and only if");
         out.println("        /// the data type of this property is a single valued <i>"+scalarName+"</i>. Throws");
         out.println("        /// an <code>OdmaInvalidDataTypeException</code> otherwise.");
         out.println("        /// </summary>");
@@ -152,10 +152,10 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String csReturnType = scalarTypeDescription.isReference() ? "IEnumerable<IOdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true);
+        String csReturnType = scalarTypeDescription.isReference() ? "IEnumerable<IOdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,false);
         out.println("");
         out.println("        /// <summary>");
-        out.println("        /// Returns the <c>"+csReturnType+"</c> value of this property if and only if");
+        out.println("        /// Returns the <c>"+scalarName+"</c> value of this property if and only if");
         out.println("        /// the data type of this property is a multi valued <i>"+scalarName+"</i>. Throws");
         out.println("        /// an <code>OdmaInvalidDataTypeException</code> otherwise.");
         out.println("        /// </summary>");
@@ -189,8 +189,8 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
         {
             return;
         }
-        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false));
-        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false,false));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true,false));
     }
 
 }

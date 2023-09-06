@@ -31,6 +31,11 @@ public class JavaApiWriter extends AbstractApiWriter
     {
         return "java";
     }
+    
+    public boolean supportNullability()
+    {
+        return false;
+    }
 
     //-------------------------------------------------------------------------
     // S O U R C E   F I L E   H E L P E R

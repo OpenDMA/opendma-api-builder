@@ -171,7 +171,7 @@ public class Java14ClassTemplateFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            return apiWriter.getScalarDataType(property.getDataType(),property.getMultiValue());
+            return apiWriter.getScalarDataType(property.getDataType(),property.getMultiValue(),property.getRequired());
         }
     }
     
@@ -190,7 +190,7 @@ public class Java14ClassTemplateFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            return apiWriter.getScalarDataTypeImports(property.getDataType(),property.getMultiValue());
+            return apiWriter.getScalarDataTypeImports(property.getDataType(),property.getMultiValue(),property.getRequired());
         }
     }
 
@@ -213,7 +213,7 @@ public class Java14ClassTemplateFileWriter extends AbstractClassFileWriter
             dataTypeName = dataTypeName + " to " + property.getReferenceClassName().getName() + " ("+property.getReferenceClassName().getQualifier()+")";
         }
         out.println("     * <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getQualifier()+"): <b>"+dataTypeName+"</b><br>");
-        out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[Nullable]")+"<br>");
+        out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[NotRequired]")+"<br>");
         out.println("     * "+property.getDescription()+"</p>");
         out.println("     * ");
         out.println("     * @return "+property.getAbstract());
@@ -249,7 +249,7 @@ public class Java14ClassTemplateFileWriter extends AbstractClassFileWriter
             String standardSetterName = "setValue";
             out.println("     * ");
             out.println("     * <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getQualifier()+"): <b>"+dataTypeName+"</b><br>");
-            out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[Nullable]")+"<br>");
+            out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[NotRequired]")+"<br>");
             out.println("     * "+property.getDescription()+"</p>");
             out.println("     * ");
             out.println("     * @throws OdmaAccessDeniedException");

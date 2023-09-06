@@ -158,7 +158,7 @@ public class Java14ApiWriter extends AbstractApiWriter
 
     protected OutputStream getListFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
     {
-        return createJavaFile(baseFolder,"org.opendma.api.collections",getScalarDataType(scalarTypeDescription,true));
+        return createJavaFile(baseFolder,"org.opendma.api.collections",getScalarDataType(scalarTypeDescription,true,false));
     }
 
     protected void createListFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException
@@ -179,7 +179,7 @@ public class Java14ApiWriter extends AbstractApiWriter
 
     protected OutputStream getListImplementationFileStream(String baseFolder, ScalarTypeDescription scalarTypeDescription) throws IOException
     {
-        return createJavaFile(baseFolder,"org.opendma.impl.collections","Array"+getScalarDataType(scalarTypeDescription,true));
+        return createJavaFile(baseFolder,"org.opendma.impl.collections","Array"+getScalarDataType(scalarTypeDescription,true,false));
     }
 
     protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription, String baseFolder) throws IOException

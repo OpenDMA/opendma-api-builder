@@ -8,7 +8,6 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
-import org.opendma.apibuilder.OdmaApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
@@ -20,9 +19,9 @@ import org.opendma.apibuilder.structure.ScalarTypeDescription;
 public class JavaClassFileWriter extends AbstractClassFileWriter
 {
     
-    protected OdmaApiWriter apiWriter;
+    protected JavaApiWriter apiWriter;
     
-    public JavaClassFileWriter(OdmaApiWriter writer)
+    public JavaClassFileWriter(JavaApiWriter writer)
     {
         apiWriter = writer;
         this.apiHelperWriters.put("getQName", new ApiHelperWriter(){
@@ -138,16 +137,16 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         {
             if(property.getMultiValue())
             {
-                return "Iterable<"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+">";
+                return (apiWriter.supportNullability() ? "@NotNull " : "") + "Iterable<"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+">";
             }
             else
             {
-                return property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
+                return (apiWriter.supportNullability() ? (property.getRequired() ? "@NotNull " : "@Nullable ") : "") + property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
             }
         }
         else
         {
-            return apiWriter.getScalarDataType(property.getDataType(),property.getMultiValue());
+            return apiWriter.getScalarDataType(property.getDataType(),property.getMultiValue(),property.getRequired());
         }
     }
     
@@ -159,7 +158,7 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         }
         else
         {
-            return apiWriter.getScalarDataTypeImports(property.getDataType(),property.getMultiValue());
+            return apiWriter.getScalarDataTypeImports(property.getDataType(),property.getMultiValue(),property.getRequired());
         }
     }
 
@@ -183,7 +182,7 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
             dataTypeName = dataTypeName + " to " + property.getReferenceClassName().getName() + " ("+property.getReferenceClassName().getQualifier()+")";
         }
         out.println("     * <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getQualifier()+"): <b>"+dataTypeName+"</b><br>");
-        out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[Nullable]")+"<br>");
+        out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[NotRequired]")+"<br>");
         out.println("     * "+property.getDescription()+"</p>");
         out.println("     * ");
         out.println("     * @return "+property.getAbstract());
@@ -199,7 +198,7 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
             out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value)</code>.");
             out.println("     * ");
             out.println("     * <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getQualifier()+"): <b>"+dataTypeName+"</b><br>");
-            out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[Nullable]")+"<br>");
+            out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[NotRequired]")+"<br>");
             out.println("     * "+property.getDescription()+"</p>");
             out.println("     * ");
             out.println("     * @throws OdmaAccessDeniedException");

@@ -115,9 +115,9 @@ public class Java14PropertyImplementationFileWriter extends AbstractPropertyImpl
                 String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
                 String javaReturnType = multivalue
                                         ?
-                                        (scalarTypeDescription.isReference() ? "OdmaObjectEnumeration" : apiWriter.getScalarDataType(scalarTypeDescription,true))
+                                        (scalarTypeDescription.isReference() ? "OdmaObjectEnumeration" : apiWriter.getScalarDataType(scalarTypeDescription,true,false))
                                         :
-                                        (scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false));
+                                        (scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,false));
 
                 out.println("            case OdmaTypes."+constantScalarTypeName+":");
                 out.println("                if(newValue instanceof "+javaReturnType+")");
@@ -139,7 +139,7 @@ public class Java14PropertyImplementationFileWriter extends AbstractPropertyImpl
     protected void writeSingleValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String javaReturnType = scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false);
+        String javaReturnType = scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
         out.println("");
         out.println("    /**");
         out.println("     * Returns the <code>"+javaReturnType+"</code> value of this property if and only if");
@@ -169,7 +169,7 @@ public class Java14PropertyImplementationFileWriter extends AbstractPropertyImpl
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String javaReturnType = scalarTypeDescription.isReference() ? "OdmaObjectEnumeration" : apiWriter.getScalarDataType(scalarTypeDescription,true);
+        String javaReturnType = scalarTypeDescription.isReference() ? "OdmaObjectEnumeration" : apiWriter.getScalarDataType(scalarTypeDescription,true,false);
         out.println("");
         out.println("    /**");
         out.println("     * Returns the <code>"+javaReturnType+"</code> value of this property if and only if");
@@ -214,8 +214,8 @@ public class Java14PropertyImplementationFileWriter extends AbstractPropertyImpl
             requiredImports.registerImport("org.opendma.api.collections.OdmaObjectEnumeration");
             return;
         }
-        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false));
-        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false,false));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true,false));
     }
     
 }

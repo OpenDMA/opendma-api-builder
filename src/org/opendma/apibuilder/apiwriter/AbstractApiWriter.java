@@ -46,14 +46,15 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         }
     }
     
-    public String getScalarDataType(ScalarTypeDescription scalarTypeDescription, boolean multiValue)
+    public String getScalarDataType(ScalarTypeDescription scalarTypeDescription, boolean multiValue, boolean notNull)
     {
         if(scalarTypeDescription.isReference())
         {
             throw new ApiCreationException("REFERENCE data type is not scalar");
         }
         String key = scalarTypeDescription.getName()+"."+(multiValue?"multi":"single");
-        String value = scalarDataTypes.getProperty(key);
+        String nullabilitySuffix = notNull ? ".notNull" : ".nullable";
+        String value = scalarDataTypes.getProperty(key+nullabilitySuffix) != null ? scalarDataTypes.getProperty(key+nullabilitySuffix) : scalarDataTypes.getProperty(key);
         if(value == null || value.length() == 0)
         {
             throw new RuntimeException("Resource 'scalarDataTypes.properties' is missing key " + key);
@@ -61,17 +62,18 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         return value;
     }
     
-    public String[] getScalarDataTypeImports(ScalarTypeDescription scalarTypeDescription, boolean multiValue)
+    public String[] getScalarDataTypeImports(ScalarTypeDescription scalarTypeDescription, boolean multiValue, boolean notNull)
     {
         if(scalarTypeDescription.isReference())
         {
             throw new ApiCreationException("REFERENCE data type is not scalar");
         }
-        String key = scalarTypeDescription.getName()+"."+(multiValue?"multi":"single")+".imports";
-        String value = scalarDataTypes.getProperty(key);
+        String key = scalarTypeDescription.getName()+"."+(multiValue?"multi":"single");
+        String nullabilitySuffix = notNull ? ".notNull" : ".nullable";
+        String value = scalarDataTypes.getProperty(key+nullabilitySuffix+".imports") != null ? scalarDataTypes.getProperty(key+nullabilitySuffix+".imports") : scalarDataTypes.getProperty(key+".imports");
         if(value == null)
         {
-            throw new RuntimeException("Resource 'scalarDataTypes.properties' is missing key " + key);
+            throw new RuntimeException("Resource 'scalarDataTypes.properties' is missing key " + key+".imports");
         }
         return value.length() == 0 ? null : value.split(",");
     }

@@ -12,9 +12,9 @@ public interface OdmaApiWriter
     
     public void writeOdmaApi(ApiDescription classHierarchy, String outputFolderRoot) throws IOException, ApiWriterException;
     
-    public String getScalarDataType(ScalarTypeDescription scalarTypeDescription, boolean multiValue);
+    public String getScalarDataType(ScalarTypeDescription scalarTypeDescription, boolean multiValue, boolean notNull);
     
-    public String[] getScalarDataTypeImports(ScalarTypeDescription scalarTypeDescription, boolean multiValue);
+    public String[] getScalarDataTypeImports(ScalarTypeDescription scalarTypeDescription, boolean multiValue, boolean notNull);
     
     public String getName();
     

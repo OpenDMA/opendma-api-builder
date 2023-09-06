@@ -8,7 +8,6 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
-import org.opendma.apibuilder.OdmaApiWriter;
 import org.opendma.apibuilder.apiwriter.AbstractPropertyImplementationFileWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ApiDescription;
@@ -17,9 +16,9 @@ import org.opendma.apibuilder.structure.ScalarTypeDescription;
 public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplementationFileWriter
 {
     
-    protected OdmaApiWriter apiWriter;
+    protected JavaApiWriter apiWriter;
     
-    public JavaPropertyImplementationFileWriter(OdmaApiWriter writer)
+    public JavaPropertyImplementationFileWriter(JavaApiWriter writer)
     {
         apiWriter = writer;
     }
@@ -63,7 +62,14 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
             out.println(templateLine);
         }
         out.println("");
-        out.println("    private boolean checkListAndValues(Object obj, Class<?> expectedElementsClass)");
+        if(apiWriter.supportNullability())
+        {
+            out.println("    private boolean checkListAndValues(@NotNull Object obj, @NotNull Class<?> expectedElementsClass)");
+        }
+        else
+        {
+            out.println("    private boolean checkListAndValues(Object obj, Class<?> expectedElementsClass)");
+        }
         out.println("    {");
         out.println("        if(!(obj instanceof List<?>))");
         out.println("        {");
@@ -94,7 +100,14 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         out.println("     * @throws OdmaAccessDeniedException");
         out.println("     *             if this property can not be set by the current user");
         out.println("     */");
-        out.println("    public void setValue(Object newValue) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
+        if(apiWriter.supportNullability())
+        {
+            out.println("    public void setValue(@Nullable Object newValue) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
+        }
+        else
+        {
+            out.println("    public void setValue(Object newValue) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
+        }
         out.println("    {");
         out.println("        if(readonly)");
         out.println("        {");
@@ -115,6 +128,15 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         out.println("        }");
         out.println("        dirty = true;");
         out.println("    }");
+    }
+    
+    private String stripAnnotation(String s)
+    {
+        if(s.startsWith("@") && s.indexOf(' ') > 0)
+        {
+            return s.substring(s.indexOf(' ')+1);
+        }
+        return s;
     }
 
     protected void writeGenericSectionSwitch(ApiDescription apiDescription, PrintWriter out, boolean multivalue) throws IOException
@@ -138,13 +160,13 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
                     }
                     else
                     {
-                        out.println("                if(checkListAndValues(newValue,"+apiWriter.getScalarDataType(scalarTypeDescription,false)+".class))");
+                        out.println("                if(checkListAndValues(newValue,"+stripAnnotation(apiWriter.getScalarDataType(scalarTypeDescription,false,false))+".class))");
                     }
                 }
                 else
                 {
-                    String javaReturnType = (scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false));
-                    out.println("                if(newValue instanceof "+javaReturnType+")");
+                    String javaReturnType = (scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,false));
+                    out.println("                if(newValue instanceof "+stripAnnotation(javaReturnType)+")");
                 }
                 out.println("                {");
                 out.println("                    value = newValue;");
@@ -164,14 +186,14 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
     protected void writeSingleValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String javaReturnType = scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false);
+        String javaReturnType = scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
         out.println("");
         out.println("    /**");
-        out.println("     * Returns the <code>"+javaReturnType+"</code> value of this property if and only if");
+        out.println("     * Returns the <code>"+scalarName+"</code> value of this property if and only if");
         out.println("     * the data type of this property is a single valued <i>"+scalarName+"</i>. Throws");
         out.println("     * an <code>OdmaInvalidDataTypeException</code> otherwise.");
         out.println("     * ");
-        out.println("     * @return the <code>"+javaReturnType+"</code> value of this property");
+        out.println("     * @return the <code>"+scalarName+"</code> value of this property");
         out.println("     * ");
         out.println("     * @throws OdmaInvalidDataTypeException");
         out.println("     *             if and only if this property is not a single valued <i>"+scalarName+"</i>");
@@ -182,7 +204,7 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
         out.println("        if( (multivalue == false) && (dataType == OdmaType."+constantScalarTypeName+") )");
         out.println("        {");
-        out.println("            return ("+javaReturnType+")value;");
+        out.println("            return ("+stripAnnotation(javaReturnType)+")value;");
         out.println("        }");
         out.println("        else");
         out.println("        {");
@@ -194,14 +216,14 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String javaReturnType = scalarTypeDescription.isReference() ? "Iterable<? extends OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true);
+        String javaReturnType = scalarTypeDescription.isReference() ? (apiWriter.supportNullability() ? "@NotNull " : "") + "Iterable<? extends OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,false);
         out.println("");
         out.println("    /**");
-        out.println("     * Returns the <code>"+javaReturnType+"</code> value of this property if and only if");
+        out.println("     * Returns the <code>"+scalarName+"</code> value of this property if and only if");
         out.println("     * the data type of this property is a multi valued <i>"+scalarName+"</i>. Throws");
         out.println("     * an <code>OdmaInvalidDataTypeException</code> otherwise.");
         out.println("     * ");
-        out.println("     * @return the <code>"+javaReturnType+"</code> value of this property");
+        out.println("     * @return the <code>"+scalarName+"</code> value of this property");
         out.println("     * ");
         out.println("     * @throws OdmaInvalidDataTypeException");
         out.println("     *             if and only if this property is not a multi valued <i>"+scalarName+"</i>");
@@ -213,7 +235,7 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
         out.println("        if( (multivalue == true) && (dataType == OdmaType."+constantScalarTypeName+") )");
         out.println("        {");
-        out.println("            return ("+javaReturnType+")value;");
+        out.println("            return ("+stripAnnotation(javaReturnType)+")value;");
         out.println("        }");
         out.println("        else");
         out.println("        {");
@@ -239,8 +261,8 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
             requiredImports.registerImport("org.opendma.api.OdmaObject");
             return;
         }
-        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false));
-        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false,false));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true,false));
     }
     
 }
