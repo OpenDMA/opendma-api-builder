@@ -125,9 +125,12 @@ public class PythonApiWriter extends AbstractApiWriter
     // B U I L D   F I L E
     //-------------------------------------------------------------------------
     
-    protected void createBuildFile(ApiDescription apiDescription, String baseFolder) throws IOException
+    protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription, String baseFolder) throws IOException
     {
-        // we do not create a build file for now. We use Eclipse.
+    }
+    
+    protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription, String baseFolder) throws IOException
+    {
     }
     
     //-------------------------------------------------------------------------

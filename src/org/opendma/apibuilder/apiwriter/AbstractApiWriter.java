@@ -113,6 +113,8 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
             }
         }
         baseFolder = baseFolder + File.separator;
+        // prepare project structure
+        prepareProjectStructureAndBuildFiles(apiDescription,baseFolder);
         // create the constants file
         createDataTypesFile(apiDescription,baseFolder);
         createConstantsFile(apiDescription,baseFolder);
@@ -171,8 +173,8 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
             ClassDescription classDescription = (ClassDescription)itClasses.next();
             createClassTemplateFile(classDescription,baseFolder);
         }
-        // create build file
-        createBuildFile(apiDescription,baseFolder);
+        // finalise project structure
+        finaliseProjectStructureAndBuildFiles(apiDescription,baseFolder);
         // create any extras
         createExtras(apiDescription,baseFolder);
     }
@@ -297,10 +299,12 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
     protected abstract void createClassTemplateFile(ClassDescription classDescription, String outputFolder) throws IOException;
     
     //-------------------------------------------------------------------------
-    // B U I L D   F I L E
+    // P R O J E C T   S T R U C T U R E   A N  D   B U I L D   F I L E
     //-------------------------------------------------------------------------
     
-    protected abstract void createBuildFile(ApiDescription apiDescription, String baseFolder) throws IOException;
+    protected abstract void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription, String baseFolder) throws IOException;
+    
+    protected abstract void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription, String baseFolder) throws IOException;
     
     //-------------------------------------------------------------------------
     // E X T R A S
