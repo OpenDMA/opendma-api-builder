@@ -184,11 +184,23 @@ public class PhpApiWriter extends AbstractApiWriter
     }
    
     //-------------------------------------------------------------------------
-    // B U I L D   F I L E
+    // P R O J E C T   S T R U C T U R E   A N  D   B U I L D   F I L E
     //-------------------------------------------------------------------------
+    
+    private File opendmaApiFolder;
+    
+    private File opendmaTemplatesFolder;
     
     protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
+        // opendma-api folder structure
+        opendmaApiFolder = new File(baseFolder, "opendma-api");
+        opendmaApiFolder.mkdirs();
+        // opendma-api composer file - see https://getcomposer.org/doc/
+        copyTemplateToStream("opendma-api-composer", new FileOutputStream(new File(opendmaApiFolder, "composer.json")));
+        // opendma-templates folder structure
+        opendmaTemplatesFolder = new File(baseFolder, "opendma-templates");
+        opendmaTemplatesFolder.mkdirs();
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

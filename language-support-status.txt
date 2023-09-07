@@ -4,28 +4,30 @@
 getName()                              |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |
 getTargetFolderName()                  |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |
 -- constants --------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-scalarDataTypes.properties             |       |       |       |       |       |       |       |       |       |       |       |
-createDataTypesFile                    |       |       |       |       |       |       |       |       |       |       |       |
-createConstantsFile                    |       |       |       |       |       |       |       |       |       |       |       |
+scalarDataTypes.properties             |       |       |       |       |       |       |       |       |       |       |   o   |
+createDataTypesFile                    |       |       |       |       |       |       |       |       |       |       |   o   |
+createConstantsFile                    |       |       |       |       |       |       |       |       |       |       |   o   |
 -- basic classes ----------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-createQNameFile                        |       |       |       |       |       |       |       |       |       |       |       |
-createIdFile                           |       |       |       |       |       |       |       |       |       |       |       |
-createGuidFile                         |       |       |       |       |       |       |       |       |       |       |       |
-createContentFile                      |       |       |       |       |       |       |       |       |       |       |       |
-createSearchResultFile                 |       |       |       |       |       |       |       |       |       |       |       |
-createExceptionFiles                   |       |       |       |       |       |       |       |       |       |       |       |
-createSessionManagementFiles           |       |       |       |       |       |       |       |       |       |       |       |
+createQNameFile                        |       |       |       |       |       |       |       |       |       |       |   o   |
+createIdFile                           |       |       |       |       |       |       |       |       |       |       |   o   |
+createGuidFile                         |       |       |       |       |       |       |       |       |       |       |   o   |
+createContentFile                      |       |       |       |       |       |       |       |       |       |       |   o   |
+createSearchResultFile                 |       |       |       |       |       |       |       |       |       |       |   o   |
+createExceptionFiles                   |       |       |       |       |       |       |       |       |       |       |   o   |
+createSessionManagementFiles           |       |       |       |       |       |       |       |       |       |       |   o   |
 -- generated API ----------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-createPropertyFile                     |       |       |       |       |       |       |       |       |       |       |       |
-createClassFile                        |       |       |       |       |       |       |       |       |       |       |       |
-createEnumerationFile                  |       |       |       |       |       |       |       |       |       |       |       |
-createListFile                         |       |       |       |       |       |       |       |       |       |       |       |
+createPropertyFile                     |       |       |       |       |       |       |       |       |       |       |   o   |
+createClassFile                        |       |       |       |       |       |       |       |       |       |       |   o   |
+createEnumerationFile                  |       |       |       |       |       |       |       |       |       |       |   o   |
+createListFile                         |       |       |       |       |       |       |       |       |       |       |   o   |
 -- generated impl ---------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-createPropertyImplementationFile       |       |       |       |       |       |       |       |       |       |       |       |
-createListImplementationFile           |       |       |       |       |       |       |       |       |       |       |       |
-createClassTemplateFile                |       |       |       |       |       |       |       |       |       |       |       |
--- build and extra --------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-createBuildFile                        |       |       |       |       |       |       |       |       |       |       |       |
-createExtras                           |       |       |       |       |       |       |       |       |       |       |       |
+createPropertyImplementationFile       |       |       |       |       |       |       |       |       |       |       |   o   |
+createListImplementationFile           |       |       |       |       |       |       |       |       |       |       |   o   |
+createClassTemplateFile                |       |       |       |       |       |       |       |       |       |       |   o   |
+-- build ------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+prepareProjectStructureAndBuildFiles   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
+finaliseProjectStructureAndBuildFiles  |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
+-- extras -----------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+createExtras                           |       |       |       |       |       |       |       |       |       |       |   o   |
 
 

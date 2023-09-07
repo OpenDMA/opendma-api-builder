@@ -1,7 +1,11 @@
 package org.opendma.apibuilder.apiwriter.py;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.ApiWriterException;
@@ -129,15 +133,100 @@ public class PythonApiWriter extends AbstractApiWriter
     }
    
     //-------------------------------------------------------------------------
-    // B U I L D   F I L E
+    // P R O J E C T   S T R U C T U R E   A N  D   B U I L D   F I L E
     //-------------------------------------------------------------------------
     
-    protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
+    private File opendmaApiProjectFolder;
+    
+    private File opendmaApiSourceFolder;
+    
+    private FileOutputStream opendmaApiInterfacesFOS;
+    
+    private FileOutputStream opendmaApiHelpersFOS;
+    
+    private File opendmaTemplatesFolder;
+    
+    private List<String> classesImportFromInterfaces = new LinkedList<String>();
+    
+    private List<String> classesImportFromHelpers = new LinkedList<String>();
+    
+    protected void prepareProjectStructureAndBuildFiles(final ApiDescription apiDescription) throws IOException
     {
+        PlaceholderResolver resolver = new PlaceholderResolver()
+        {
+            public String resolve(String placeholder)
+            {
+                if("version".equals(placeholder))
+                {
+                    return apiDescription.getVersion();
+                }
+                throw new RuntimeException("Unknown placefolder: {{"+placeholder+"}}");
+            }
+        };
+        // opendma-api folder structure
+        opendmaApiProjectFolder = new File(baseFolder, "opendma-api");
+        opendmaApiProjectFolder.mkdirs();
+        opendmaApiSourceFolder = new File(opendmaApiProjectFolder, "opendma/api");
+        opendmaApiSourceFolder.mkdirs();
+        opendmaApiInterfacesFOS = new FileOutputStream(new File(opendmaApiSourceFolder, "interfaces.py"));
+        copyTemplateToStream("opendma-api-interfaces-header", opendmaApiInterfacesFOS, false);
+        opendmaApiHelpersFOS = new FileOutputStream(new File(opendmaApiSourceFolder, "helpers.py"));
+        copyTemplateToStream("opendma-api-helpers-header", opendmaApiHelpersFOS, false);
+        // build file
+        copyTemplateToStream("opendma-api-pyproject", new FileOutputStream(new File(opendmaApiProjectFolder, "pyproject.toml")), resolver);
+        // templates folder
+        opendmaTemplatesFolder = new File(baseFolder, "opendma-templates");
+        opendmaTemplatesFolder.mkdirs();
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
+        // flush and close files
+        opendmaApiInterfacesFOS.flush();
+        opendmaApiInterfacesFOS.close();
+        opendmaApiHelpersFOS.flush();
+        opendmaApiHelpersFOS.close();
+        // generate __INIT__.py file importing classes into namespace
+        FileOutputStream initFOS = new FileOutputStream(new File(opendmaApiSourceFolder, "__INIT__.py"));
+        copyTemplateToStream("opendma-api-init-header", initFOS, false);
+        PrintWriter out = new PrintWriter(initFOS);
+        if(!classesImportFromInterfaces.isEmpty())
+        {
+            out.print("from .interfaces import ");
+            boolean needSep = false;
+            for(String className : classesImportFromInterfaces)
+            {
+                if(needSep)
+                {
+                    out.print(", ");
+                }
+                else
+                {
+                    needSep = true;
+                }
+                out.print(className);
+            }
+            out.println();
+        }
+        if(!classesImportFromHelpers.isEmpty())
+        {
+            out.print("from .helpers import ");
+            boolean needSep = false;
+            for(String className : classesImportFromHelpers)
+            {
+                if(needSep)
+                {
+                    out.print(", ");
+                }
+                else
+                {
+                    needSep = true;
+                }
+                out.print(className);
+            }
+            out.println();
+        }
+        out.close();
     }
     
     //-------------------------------------------------------------------------

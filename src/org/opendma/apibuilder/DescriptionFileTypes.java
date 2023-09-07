@@ -5,6 +5,8 @@ public interface DescriptionFileTypes
 
     public final static String DESCRIPTION_ELEMENT_ROOT = "ApiDescription";
 
+    public final static String DESCRIPTION_ELEMENT_VERSION = "Version";
+
     public final static String DESCRIPTION_ELEMENT_SCALARTYPES = "ScalarTypes";
 
     public final static String DESCRIPTION_ELEMENT_SCALARTYPE = "ScalarType";

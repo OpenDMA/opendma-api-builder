@@ -205,7 +205,7 @@ public class Java14ApiWriter extends AbstractApiWriter
     }
    
     //-------------------------------------------------------------------------
-    // B U I L D   F I L E
+    // P R O J E C T   S T R U C T U R E   A N  D   B U I L D   F I L E
     //-------------------------------------------------------------------------
     
     protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

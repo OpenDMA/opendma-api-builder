@@ -219,11 +219,46 @@ public class JavaApiWriter extends AbstractApiWriter
     }
    
     //-------------------------------------------------------------------------
-    // B U I L D   F I L E
+    // P R O J E C T   S T R U C T U R E   A N  D   B U I L D   F I L E
     //-------------------------------------------------------------------------
     
-    protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
+    private File opendmaApiProjectFolder;
+    
+    private File opendmaApiSourceFolder;
+    
+    private File opendmaTemplatesProjectFolder;
+    
+    private File opendmaTemplatesSourceFolder;
+    
+    protected void prepareProjectStructureAndBuildFiles(final ApiDescription apiDescription) throws IOException
     {
+        PlaceholderResolver resolver = new PlaceholderResolver()
+        {
+            public String resolve(String placeholder)
+            {
+                if("version".equals(placeholder))
+                {
+                    return apiDescription.getVersion();
+                }
+                throw new RuntimeException("Unknown placefolder: {{"+placeholder+"}}");
+            }
+        };
+        // parent maven pom
+        copyTemplateToStream("maven-parent-pom", new FileOutputStream(new File(baseFolder, "pom.xml")), resolver);
+        // opendma-api folder structure
+        opendmaApiProjectFolder = new File(baseFolder, "opendma-api");
+        opendmaApiProjectFolder.mkdirs();
+        opendmaApiSourceFolder = new File(opendmaApiProjectFolder, "src/main/java");
+        opendmaApiSourceFolder.mkdirs();
+        // opendma-api maven pom
+        copyTemplateToStream("maven-opendma-api-pom", new FileOutputStream(new File(opendmaApiProjectFolder, "pom.xml")), resolver);
+        // opendma-templates folder structure
+        opendmaTemplatesProjectFolder = new File(baseFolder, "opendma-templates");
+        opendmaTemplatesProjectFolder.mkdirs();
+        opendmaTemplatesSourceFolder = new File(opendmaTemplatesProjectFolder, "src/main/java");
+        opendmaTemplatesSourceFolder.mkdirs();
+        // opendma-api maven pom
+        copyTemplateToStream("maven-opendma-templates-pom", new FileOutputStream(new File(opendmaTemplatesProjectFolder, "pom.xml")), resolver);
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

@@ -1,6 +1,7 @@
 package org.opendma.apibuilder.apiwriter.ts;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
@@ -129,11 +130,39 @@ public class TypeScriptApiWriter extends AbstractApiWriter
     }
    
     //-------------------------------------------------------------------------
-    // B U I L D   F I L E
+    // P R O J E C T   S T R U C T U R E   A N  D   B U I L D   F I L E
     //-------------------------------------------------------------------------
     
-    protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
+    private File opendmaApiProjectFolder;
+    
+    private File opendmaApiSourceFolder;
+    
+    private File opendmaTemplatesFolder;
+    
+    protected void prepareProjectStructureAndBuildFiles(final ApiDescription apiDescription) throws IOException
     {
+        PlaceholderResolver resolver = new PlaceholderResolver()
+        {
+            public String resolve(String placeholder)
+            {
+                if("version".equals(placeholder))
+                {
+                    return apiDescription.getVersion();
+                }
+                throw new RuntimeException("Unknown placefolder: {{"+placeholder+"}}");
+            }
+        };
+        // opendma-api folder structure
+        opendmaApiProjectFolder = new File(baseFolder, "opendma-api");
+        opendmaApiProjectFolder.mkdirs();
+        opendmaApiSourceFolder = new File(opendmaApiProjectFolder, "src");
+        opendmaApiSourceFolder.mkdirs();
+        // opendma-api package.json and tsconfig.json
+        copyTemplateToStream("opendma-api-package", new FileOutputStream(new File(opendmaApiProjectFolder, "package.json")), resolver);
+        copyTemplateToStream("opendma-api-tsconfig", new FileOutputStream(new File(opendmaApiProjectFolder, "tsconfig.json")), resolver);
+        // opendma-templates folder
+        opendmaTemplatesFolder = new File(baseFolder, "opendma-templates");
+        opendmaTemplatesFolder.mkdirs();
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

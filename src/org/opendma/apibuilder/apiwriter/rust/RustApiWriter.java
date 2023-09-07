@@ -1,6 +1,7 @@
 package org.opendma.apibuilder.apiwriter.rust;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
@@ -129,15 +130,55 @@ public class RustApiWriter extends AbstractApiWriter
     }
    
     //-------------------------------------------------------------------------
-    // B U I L D   F I L E
+    // P R O J E C T   S T R U C T U R E   A N  D   B U I L D   F I L E
     //-------------------------------------------------------------------------
     
-    protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
+    private File opendmaApiProjectFolder;
+    
+    private File opendmaApiSourceFolder;
+    
+    private FileOutputStream opendmaApiLibFOS;
+    
+    private FileOutputStream opendmaApiHelpersFOS;
+    
+    private File opendmaTemplatesFolder;
+    
+    protected void prepareProjectStructureAndBuildFiles(final ApiDescription apiDescription) throws IOException
     {
+        PlaceholderResolver resolver = new PlaceholderResolver()
+        {
+            public String resolve(String placeholder)
+            {
+                if("version".equals(placeholder))
+                {
+                    return apiDescription.getVersion();
+                }
+                throw new RuntimeException("Unknown placefolder: {{"+placeholder+"}}");
+            }
+        };
+        // opendma-api folder structure
+        opendmaApiProjectFolder = new File(baseFolder, "opendma-api");
+        opendmaApiProjectFolder.mkdirs();
+        opendmaApiSourceFolder = new File(opendmaApiProjectFolder, "src");
+        opendmaApiSourceFolder.mkdirs();
+        opendmaApiLibFOS = new FileOutputStream(new File(opendmaApiSourceFolder, "lib.rs"));
+        copyTemplateToStream("opendma-api-lib-header", opendmaApiLibFOS, false);
+        opendmaApiHelpersFOS = new FileOutputStream(new File(opendmaApiSourceFolder, "helpers.rs"));
+        copyTemplateToStream("opendma-api-helpers-header", opendmaApiHelpersFOS, false);
+        // opendma-api Cargo.toml
+        copyTemplateToStream("opendma-api-cargo", new FileOutputStream(new File(opendmaApiProjectFolder, "Cargo.toml")), resolver);
+        // opendma-templates folder
+        opendmaTemplatesFolder = new File(baseFolder, "opendma-templates");
+        opendmaTemplatesFolder.mkdirs();
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
+        // flush and close files
+        opendmaApiLibFOS.flush();
+        opendmaApiLibFOS.close();
+        opendmaApiHelpersFOS.flush();
+        opendmaApiHelpersFOS.close();
     }
     
     //-------------------------------------------------------------------------

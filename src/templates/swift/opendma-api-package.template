@@ -1,0 +1,19 @@
+import PackageDescription
+
+let package = Package(
+    name: "OpenDMA-API",
+    platforms: [
+        .iOS(.v13), .macOS(.v12)
+    ],
+    products: [
+        .library(name: "OpenDMA-API", targets: ["OpenDMA-API"]),
+    ],
+    dependencies: [],
+    targets: [
+        .target(
+            name: "OpenDMA-API",
+            dependencies: [],
+            path: "Sources"
+        ),
+    ]
+)

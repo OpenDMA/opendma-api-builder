@@ -1,6 +1,7 @@
 package org.opendma.apibuilder.apiwriter.js;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
@@ -129,15 +130,21 @@ public class JavaScriptApiWriter extends AbstractApiWriter
     }
    
     //-------------------------------------------------------------------------
-    // B U I L D   F I L E
+    // P R O J E C T   S T R U C T U R E   A N  D   B U I L D   F I L E
     //-------------------------------------------------------------------------
+    
+    private FileOutputStream opendmaApiFOS;
     
     protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
+        opendmaApiFOS = new FileOutputStream(new File(baseFolder, "opendma-api.js"));
+        copyTemplateToStream("opendma-api-header", opendmaApiFOS, false);
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
+        opendmaApiFOS.flush();
+        opendmaApiFOS.close();
     }
     
     //-------------------------------------------------------------------------

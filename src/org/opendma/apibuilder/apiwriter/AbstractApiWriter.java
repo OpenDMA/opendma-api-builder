@@ -1,9 +1,14 @@
 package org.opendma.apibuilder.apiwriter;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -214,14 +219,79 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         }
     }
     
+    public static void streamCopy(InputStream from, OutputStream to, PlaceholderResolver placeholderResolver) throws IOException
+    {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(from, StandardCharsets.UTF_8));
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(to, StandardCharsets.UTF_8));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            writer.write(replacePlaceholders(line, placeholderResolver));
+            writer.newLine();
+        }
+        writer.flush();
+    }
+
+    private static String replacePlaceholders(String text, PlaceholderResolver placeholderResolver) {
+        StringBuilder result = new StringBuilder();
+        int startIndex = 0;
+        while (true) {
+            int openBraceIndex = text.indexOf("{{", startIndex);
+            if (openBraceIndex == -1) {
+                result.append(text.substring(startIndex));
+                break;
+            }
+            int closeBraceIndex = text.indexOf("}}", openBraceIndex);
+            if (closeBraceIndex == -1) {
+                result.append(text.substring(startIndex));
+                break;
+            }
+            result.append(text, startIndex, openBraceIndex);
+            String placeholderName = text.substring(openBraceIndex + 2, closeBraceIndex);
+            String replacement = placeholderResolver.resolve(placeholderName);
+            if (replacement == null) {
+                replacement = "";
+            }
+            result.append(replacement);
+            startIndex = closeBraceIndex + 2;
+        }
+        return result.toString();
+    }    
+
+    public interface PlaceholderResolver
+    {
+        String resolve(String placeholder);
+    }
+    
     public void copyTemplateToStream(String templateName, OutputStream out) throws IOException
+    {
+        copyTemplateToStream(templateName, out, null, true);
+    }
+    
+    public void copyTemplateToStream(String templateName, OutputStream out, PlaceholderResolver placeholderResolver) throws IOException
+    {
+        copyTemplateToStream(templateName, out, placeholderResolver, true);
+    }
+    
+    public void copyTemplateToStream(String templateName, OutputStream out, boolean closeOutput) throws IOException
+    {
+        copyTemplateToStream(templateName, out, null, closeOutput);
+    }
+    
+    public void copyTemplateToStream(String templateName, OutputStream out, PlaceholderResolver placeholderResolver, boolean closeOutput) throws IOException
     {
         try
         {
             InputStream from = getTemplateAsStream(templateName);
             try
             {
-                streamCopy(from, out);
+                if(placeholderResolver != null)
+                {
+                    streamCopy(from, out, placeholderResolver);
+                }
+                else
+                {
+                    streamCopy(from, out);
+                }
             }
             finally
             {
@@ -230,7 +300,10 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         }
         finally
         {
-            out.close();
+            if(closeOutput)
+            {
+                out.close();
+            }
         }
     }
 

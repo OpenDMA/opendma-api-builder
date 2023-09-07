@@ -18,6 +18,9 @@ import org.w3c.dom.NodeList;
 public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
 {
     
+    /** the version of this OpenDMA API */
+    protected String version = null;
+    
     /** the List of all described classes */
     protected List describedClasses = new ArrayList();
     
@@ -63,6 +66,16 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
     public ApiDescription(Element apiDescriptionElement) throws DescriptionFileSyntaxException, DescriptionFileSemanticException
     {
         parse(apiDescriptionElement);
+    }
+    
+    /**
+     * Returns the version of this OpenDMA API.
+     * 
+     * @return the version of this OpenDMA API
+     */
+    public String getVersion()
+    {
+        return version;
     }
     
     /**
@@ -190,6 +203,23 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
             throw new DescriptionFileSyntaxException("Can not find required <"+DESCRIPTION_ELEMENT_SCALARTYPES+"> element in api description.");
         }
         parseScalarTypes(scalarTypesElement);
+        // find version number
+        for (int i = 0; i < childElementsList.getLength(); i++)
+        {
+            Node testchild = childElementsList.item(i);
+            if ((testchild.getNodeType() == Node.ELEMENT_NODE) && ((Element) testchild).getTagName().equals(DESCRIPTION_ELEMENT_VERSION))
+            {
+                if(version != null)
+                {
+                    throw new DescriptionFileSyntaxException("Found multiple <"+DESCRIPTION_ELEMENT_VERSION+"> elements");
+                }
+                version = ((Element)testchild).getTextContent();
+            }
+        }
+        if(version == null)
+        {
+            throw new DescriptionFileSyntaxException("Can not find required <"+DESCRIPTION_ELEMENT_VERSION+"> element in api description.");
+        }
         // iterate through all elements below this element and read in all class descriptions
         for (int i = 0; i < childElementsList.getLength(); i++)
         {

@@ -1,0 +1,4 @@
+[package]
+name = "opendma-api"
+version = "{{version}}"
+edition = "2021"

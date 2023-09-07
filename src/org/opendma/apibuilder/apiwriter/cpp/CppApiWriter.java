@@ -173,11 +173,19 @@ public class CppApiWriter extends AbstractApiWriter
     }
    
     //-------------------------------------------------------------------------
-    // B U I L D   F I L E
+    // P R O J E C T   S T R U C T U R E   A N  D   B U I L D   F I L E
     //-------------------------------------------------------------------------
+    
+    private File includeFolder;
+    
+    private File templatesFolder;
     
     protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
+        includeFolder = new File(baseFolder, "include");
+        includeFolder.mkdirs();
+        templatesFolder = new File(baseFolder, "templates");
+        templatesFolder.mkdirs();
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

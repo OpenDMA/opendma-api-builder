@@ -208,29 +208,27 @@ public class CsApiWriter extends AbstractApiWriter
     }
    
     //-------------------------------------------------------------------------
-    // B U I L D   F I L E
+    // P R O J E C T   S T R U C T U R E   A N  D   B U I L D   F I L E
     //-------------------------------------------------------------------------
+    
+    private File opendmaApiFolder;
+    
+    private File opendmaTemplatesFolder;
     
     protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
-//        // create Api project files
-//        OutputStream to = new FileOutputStream(baseFolder+File.separator+"OpenDMA.Api"+File.separator+"OpenDMA.Api.csproj");
-//        InputStream csprojFrom = getTemplateAsStream("OpenDMA.Api.csproj");
-//        streamCopy(csprojFrom, to);
-//        csprojFrom.close();
-//        to.close();
-//        // create Templates project files
-//        to = new FileOutputStream(baseFolder+File.separator+"OpenDMA.Templates"+File.separator+"OpenDMA.Templates.csproj");
-//        csprojFrom = getTemplateAsStream("OpenDMA.Templates.csproj");
-//        streamCopy(csprojFrom, to);
-//        csprojFrom.close();
-//        to.close();
-//        // create solution file
-//        to = new FileOutputStream(baseFolder+"OpenDMA.sln");
-//        InputStream solutionFrom = getTemplateAsStream("OpenDMA.sln");
-//        streamCopy(solutionFrom, to);
-//        solutionFrom.close();
-//        to.close();
+        // solution
+        copyTemplateToStream("OpenDMA.sln", new FileOutputStream(new File(baseFolder, "OpenDMA.sln")));
+        // OpenDMA.Api folder structure
+        opendmaApiFolder = new File(baseFolder, "OpenDMA.Api");
+        opendmaApiFolder.mkdirs();
+        // OpenDMA.Api project file
+        copyTemplateToStream("OpenDMA.Api.csproj", new FileOutputStream(new File(opendmaApiFolder, "OpenDMA.Api.csproj")));
+        // OpenDMA.Templates folder structure
+        opendmaTemplatesFolder = new File(baseFolder, "OpenDMA.Templates");
+        opendmaTemplatesFolder.mkdirs();
+        // OpenDMA.Api project file
+        copyTemplateToStream("OpenDMA.Templates.csproj", new FileOutputStream(new File(opendmaTemplatesFolder, "OpenDMA.Templates.csproj")));
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
