@@ -1,5 +1,5 @@
-#ifndef ODMA_CONTENT_H
-#define ODMA_CONTENT_H
+#ifndef _OdmaContent_h_
+#define _OdmaContent_h_
 
 #include <iostream>
 #include <memory>
@@ -28,4 +28,4 @@ public:
 
 };
 
-#endif // ODMA_CONTENT_H
+#endif // _OdmaContent_h_

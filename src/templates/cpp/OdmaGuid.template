@@ -1,5 +1,5 @@
-#ifndef ODMA_GUID_H
-#define ODMA_GUID_H
+#ifndef _OdmaGuid_h_
+#define _OdmaGuid_h_
 
 #include <stdexcept>
 #include <string>
@@ -88,4 +88,4 @@ private:
 
 };
 
-#endif // ODMA_GUID_H
+#endif // _OdmaGuid_h_

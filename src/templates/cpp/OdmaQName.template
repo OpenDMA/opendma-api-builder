@@ -1,5 +1,5 @@
-#ifndef ODMA_QNAME_H
-#define ODMA_QNAME_H
+#ifndef _OdmaQName_h_
+#define _OdmaQName_h_
 
 #include <string>
 #include <stdexcept>
@@ -102,4 +102,4 @@ private:
 
 };
 
-#endif // ODMA_QNAME_H
+#endif // _OdmaQName_h_
