@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
 
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.ApiWriterException;
@@ -49,6 +52,18 @@ public class SwiftApiWriter extends AbstractApiWriter
 
     protected void createDataTypesFile(ApiDescription apiDescription) throws IOException
     {
+        // create type enumeration
+        PrintWriter out = new PrintWriter(createSwiftFile(opendmaApiSourcesFolder, "OdmaType"));
+        out.println("enum OdmaType: Int {");
+        List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
+        Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
+        while(itScalarTypes.hasNext())
+        {
+            ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
+            out.println("    case "+scalarTypeDescription.getName().toLowerCase()+" = "+scalarTypeDescription.getNumericID());
+        }
+        out.println("}");
+        out.close();
     }
 
     protected void createConstantsFile(ApiDescription apiDescription) throws IOException

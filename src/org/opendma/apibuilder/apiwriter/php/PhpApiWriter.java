@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
 
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.ApiWriterException;
@@ -49,20 +52,23 @@ public class PhpApiWriter extends AbstractApiWriter
 
     protected void createDataTypesFile(ApiDescription apiDescription) throws IOException
     {
-//        // create type enumeration
-//        PrintWriter out = new PrintWriter(createPhpFile(outputFolder,"OpenDMA/Api","OdmaType"));
-//        out.println("<?php");
-//        out.println("enum OdmaType");
-//        out.println("{");
-//        List scalarTypes = apiDescription.getScalarTypes();
-//        Iterator itScalarTypes = scalarTypes.iterator();
-//        while(itScalarTypes.hasNext())
-//        {
-//            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
-//            out.println("    case "+scalarTypeDescription.getName().toUpperCase()+";");
-//        }
-//        out.println("}");
-//        out.close();
+        // create type enumeration
+        PrintWriter out = new PrintWriter(createPhpFile(opendmaApiFolder, "OdmaType"));
+        out.println("<?php");
+        out.println("");
+        out.println("namespace OpenDMA\\Api;");
+        out.println("");
+        out.println("enum OdmaType");
+        out.println("{");
+        List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
+        Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
+        while(itScalarTypes.hasNext())
+        {
+            ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
+            out.println("    case "+scalarTypeDescription.getName().toUpperCase()+";");
+        }
+        out.println("}");
+        out.close();
     }
 
     protected void createConstantsFile(ApiDescription apiDescription) throws IOException

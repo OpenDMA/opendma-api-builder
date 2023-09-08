@@ -28,7 +28,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
     protected Map classNameMap = new HashMap();
     
     /** the List of all defined scalar types */
-    protected List scalarTypes = new ArrayList();
+    protected List<ScalarTypeDescription> scalarTypes = new ArrayList<ScalarTypeDescription>();
     
     /** the Map between the scalar type names and the scalar type descriptions */
     protected Map scalarTypesNameToDescriptionMap = new HashMap();
@@ -107,7 +107,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
      * 
      * @return the List of all defined scalar types
      */
-    public List getScalarTypes()
+    public List<ScalarTypeDescription> getScalarTypes()
     {
         return scalarTypes;
     }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -51,6 +52,21 @@ public class PythonApiWriter extends AbstractApiWriter
 
     protected void createDataTypesFile(ApiDescription apiDescription) throws IOException
     {
+        // create type enumeration
+        PrintWriter out = new PrintWriter(opendmaApiHelpersFOS);
+        out.println();
+        out.println();
+        out.println("from enum import Enum");
+        out.println();
+        out.println("class OdmaType(Enum):");
+        List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
+        Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
+        while(itScalarTypes.hasNext())
+        {
+            ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
+            out.println("    "+scalarTypeDescription.getName().toUpperCase()+" = "+scalarTypeDescription.getNumericID());
+        }
+        out.flush();
     }
 
     protected void createConstantsFile(ApiDescription apiDescription) throws IOException

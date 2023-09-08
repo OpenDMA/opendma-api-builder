@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
 
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.ApiWriterException;
@@ -50,24 +53,42 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected void createDataTypesFile(ApiDescription apiDescription) throws IOException
     {
-//        // create type enumeration
-//        PrintWriter out = new PrintWriter(createHeaderFile(outputFolder,"OdmaType"));
-//        out.println("#ifndef _OdmaType_h_");
-//        out.println("#define _OdmaType_h_");
-//        out.println("");
-//        out.println("enum OdmaType");
-//        out.println("{");
-//        List scalarTypes = apiDescription.getScalarTypes();
-//        Iterator itScalarTypes = scalarTypes.iterator();
-//        while(itScalarTypes.hasNext())
-//        {
-//            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
-//            out.println("        "+scalarTypeDescription.getName().toUpperCase()+" = "+scalarTypeDescription.getNumericID()+(itScalarTypes.hasNext()?",":""));
-//        }
-//        out.println("}");
-//        out.println("");
-//        out.println("#endif");
-//        out.close();
+        // create type enumeration
+        PrintWriter out = new PrintWriter(createHeaderFile(includeFolder,"OdmaType"));
+        out.println("#ifndef _OdmaType_h_");
+        out.println("#define _OdmaType_h_");
+        out.println("");
+        out.println("enum class OdmaType : int");
+        out.println("{");
+        List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
+        Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
+        while(itScalarTypes.hasNext())
+        {
+            ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
+            out.println("    "+scalarTypeDescription.getName().toUpperCase()+" = "+scalarTypeDescription.getNumericID()+(itScalarTypes.hasNext()?",":""));
+        }
+        out.println("}");
+        out.println("");
+        out.println("int numericIdFromOdmaType(OdmaType odmaType) {");
+        out.println("    return static_cast<int>(odmaType);");
+        out.println("}");
+        out.println("");
+        out.println("OdmaType odmaTypeFromNumericId(int numericId) {");
+        out.println("    switch (numericId) {");
+        itScalarTypes = scalarTypes.iterator();
+        while(itScalarTypes.hasNext())
+        {
+            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+            out.println("        case "+scalarTypeDescription.getNumericID()+":");
+            out.println("            return OdmaType::"+scalarTypeDescription.getName().toUpperCase()+";");
+        }
+        out.println("        default:");
+        out.println("            throw std::invalid_argument(\"Unknown numericId \" + std::to_string(numericId));");
+        out.println("    }");
+        out.println("}");
+        out.println("");
+        out.println("#endif");
+        out.close();
     }
 
     protected void createConstantsFile(ApiDescription apiDescription) throws IOException
