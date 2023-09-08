@@ -34,14 +34,14 @@ public class CppApiWriter extends AbstractApiWriter
     // S O U R C E   F I L E   H E L P E R
     //-------------------------------------------------------------------------
     
-    private OutputStream createHeaderFile(String outputFolder, String headerName) throws IOException
+    private OutputStream createHeaderFile(File targetFolder, String headerName) throws IOException
     {
-        return new FileOutputStream(outputFolder+headerName+".h");
+        return new FileOutputStream(new File(targetFolder, headerName+".h"));
     }
     
-    private void createHeaderFromTemplate(String outputFolder, String headerName) throws IOException
+    private void createHeaderFromTemplate(File targetFolder, String headerName) throws IOException
     {
-        copyTemplateToStream(headerName,createHeaderFile(outputFolder,headerName));
+        copyTemplateToStream(headerName,createHeaderFile(targetFolder,headerName));
     }
 
     //-------------------------------------------------------------------------
@@ -83,22 +83,22 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected void createQNameFile(ApiDescription apiDescription) throws IOException
     {
-//        createHeaderFromTemplate(outputFolder,"OdmaQName");
+        createHeaderFromTemplate(includeFolder, "OdmaQName");
     }
 
     protected void createIdFile(ApiDescription apiDescription) throws IOException
     {
-//        createHeaderFromTemplate(outputFolder,"OdmaId");
+        createHeaderFromTemplate(includeFolder,"OdmaId");
     }
 
     protected void createGuidFile(ApiDescription apiDescription) throws IOException
     {
-//        createHeaderFromTemplate(outputFolder,"OdmaGuid");
+        createHeaderFromTemplate(includeFolder,"OdmaGuid");
     }
 
     protected void createContentFile(ApiDescription apiDescription) throws IOException
     {
-//        createHeaderFromTemplate(outputFolder,"OdmaContent");
+        createHeaderFromTemplate(includeFolder,"OdmaContent");
     }
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException

@@ -1,32 +1,26 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace OpenDMA.Api
 {
 
     /// <summary>
-    /// Represents the <c>Conent</c> data type in OpenDMA.
+    /// Represents the Content data type in OpenDMA.
+    /// Provides access to the content stream and its size.
     /// </summary>
     public interface IOdmaContent
     {
 
         /// <summary>
-        /// Returns the data as <c>InputStream</c>.<br>
-        /// <b>The caller has to close this stream after she/he has finished reading
-        /// the data.</b>
-        /// <summary>
-        /// <returns>Returns the data as <c>InputStream</c>.</returns>
-        Stream getStream();
-
-        /// <summary>
-        /// Returns the size of the data in octests.
+        /// Gets the stream to access the content's binary data.
         /// </summary>
-        /// <returns>Returns the size of the data in octests.</returns>
-        long getSize();
+        /// <returns>A Stream for reading the content's binary data.</returns>
+        Stream GetStream();
 
+        /// <summary>
+        /// Gets the size of the content in bytes.
+        /// </summary>
+        /// <returns>The size of the content in bytes as a long.</returns>
+        long GetSize();
     }
 
 }

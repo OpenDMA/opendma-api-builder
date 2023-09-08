@@ -33,33 +33,14 @@ public class CsApiWriter extends AbstractApiWriter
     // S O U R C E   F I L E   H E L P E R
     //-------------------------------------------------------------------------
     
-    private OutputStream createGenericCsFile(String outputFolder, String projectName, String className) throws IOException
+    private OutputStream createCsFile(File targetFolder, String className) throws IOException
     {
-        String packageDirectory = outputFolder + projectName;
-        File containingDir = new File(packageDirectory);
-        if(!containingDir.exists())
-        {
-            if(!containingDir.mkdirs())
-            {
-                throw new IOException("Can not create package directory");
-            }
-        }
-        return new FileOutputStream(packageDirectory+File.separator+className+".cs");
-    }
-    
-    private OutputStream createOdmaApiCsFile(String outputFolder, String className) throws IOException
-    {
-        return createGenericCsFile(outputFolder,"OpenDMA.Api",className);
-    }
-    
-    private OutputStream createOdmaTemplatesCsFile(String outputFolder, String className) throws IOException
-    {
-        return createGenericCsFile(outputFolder,"OpenDMA.Templates",className);
+        return new FileOutputStream(new File(targetFolder, className+".cs"));
     }
 
-    private void createClassFromTemplate(String outputFolder, String className) throws IOException
+    private void createClassFromTemplate(File targetFolder, String className) throws IOException
     {
-        copyTemplateToStream(className,createOdmaApiCsFile(outputFolder,className));
+        copyTemplateToStream(className,createCsFile(targetFolder, className));
     }
 
     //-------------------------------------------------------------------------
@@ -104,22 +85,22 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createQNameFile(ApiDescription apiDescription) throws IOException
     {
-//        createClassFromTemplate(outputFolder,"OdmaQName");
+        createClassFromTemplate(opendmaApiFolder, "OdmaQName");
     }
 
     protected void createIdFile(ApiDescription apiDescription) throws IOException
     {
-//        createClassFromTemplate(outputFolder,"OdmaId");
+        createClassFromTemplate(opendmaApiFolder,"OdmaId");
     }
 
     protected void createGuidFile(ApiDescription apiDescription) throws IOException
     {
-//        createClassFromTemplate(outputFolder,"OdmaGuid");
+        createClassFromTemplate(opendmaApiFolder,"OdmaGuid");
     }
 
     protected void createContentFile(ApiDescription apiDescription) throws IOException
     {
-//        createClassFromTemplate(outputFolder,"IOdmaContent");
+        createClassFromTemplate(opendmaApiFolder,"IOdmaContent");
     }
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException

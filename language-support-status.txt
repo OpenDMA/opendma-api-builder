@@ -8,10 +8,10 @@ scalarDataTypes.properties             |       |       |       |       |       |
 createDataTypesFile                    |       |       |       |       |       |       |       |       |       |       |   o   |
 createConstantsFile                    |       |       |       |       |       |       |       |       |       |       |   o   |
 -- basic classes ----------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-createQNameFile                        |       |       |       |       |       |       |       |       |       |       |   o   |
-createIdFile                           |       |       |       |       |       |       |       |       |       |       |   o   |
-createGuidFile                         |       |       |       |       |       |       |       |       |       |       |   o   |
-createContentFile                      |       |       |       |       |       |       |       |       |       |       |   o   |
+createQNameFile                        |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
+createIdFile                           |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
+createGuidFile                         |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
+createContentFile                      |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 createSearchResultFile                 |       |       |       |       |       |       |       |       |       |       |   o   |
 createExceptionFiles                   |       |       |       |       |       |       |       |       |       |       |   o   |
 createSessionManagementFiles           |       |       |       |       |       |       |       |       |       |       |   o   |

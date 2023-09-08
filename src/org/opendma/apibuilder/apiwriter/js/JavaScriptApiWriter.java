@@ -3,6 +3,7 @@ package org.opendma.apibuilder.apiwriter.js;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.ApiWriterException;
@@ -32,7 +33,14 @@ public class JavaScriptApiWriter extends AbstractApiWriter
     // S O U R C E   F I L E   H E L P E R
     //-------------------------------------------------------------------------
     
-    // basic tools to create files for target programming language
+    private void copyClassToApi(String className) throws IOException
+    {
+        PrintWriter out = new PrintWriter(opendmaApiFOS);
+        out.println();
+        out.println();
+        out.flush();
+        copyTemplateToStream(className, opendmaApiFOS, false);
+    }
 
     //-------------------------------------------------------------------------
     // C O N S T A N T S   F I L E
@@ -52,18 +60,22 @@ public class JavaScriptApiWriter extends AbstractApiWriter
 
     protected void createQNameFile(ApiDescription apiDescription) throws IOException
     {
+        copyClassToApi("OdmaQName");
     }
 
     protected void createIdFile(ApiDescription apiDescription) throws IOException
     {
+        copyClassToApi("OdmaId");
     }
 
     protected void createGuidFile(ApiDescription apiDescription) throws IOException
     {
+        copyClassToApi("OdmaGuid");
     }
 
     protected void createContentFile(ApiDescription apiDescription) throws IOException
     {
+        copyClassToApi("OdmaContent");
     }
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException

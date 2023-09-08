@@ -1,60 +1,96 @@
 package org.opendma.api;
 
 /**
- * Representation of the <i>global unique object identifier<i> that can be used
- * to globally identify an <code>OdmaObject</code>. A reference to the containing
- * <code>OdmaRepository</code> is included in this ID.<br>
- * To identify an object only inside an <code>OdmaRepository</code>, you can
- * use the <code>OdmaId</code>.
- * 
- * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ * OdmaGuid represents a globally unique identifier for an <code>OdmaObject</code>.
+ * It combines the <code>OdmaId</code> of the object with the <code>OdmaId</code> of the repository it is contained in.
+ * <p>
+ * This class is immutable and thread-safe.
  */
-public class OdmaGuid
-{
+public final class OdmaGuid {
 
-    /** The <code>OdmaId</code> of the Repository */
-    protected OdmaId repositoryId;
-    
-    /** The <code>OdmaId</code> of the Object inside the Repository */
-    protected OdmaId objectId;
-    
+    /** The <code>OdmaId</code> of the object. */
+    private final OdmaId objectId;
+
+    /** The <code>OdmaId</code> of the repository. */
+    private final OdmaId repositoryId;
+
     /**
-     * Create a new OdmaGuid from the IDs of the repository and the object.
-     * 
-     * @param idRepository
-     *            The <code>OdmaId</code> of the Repository
-     * @param idObject
-     *            The <code>OdmaId</code> of the Object inside the Repository
+     * Constructs an OdmaGuid with the specified object ID and repository ID.
+     *
+     * @param objectId     The <code>OdmaId</code> of the object. Must not be null.
+     * @param repositoryId The <code>OdmaId</code> of the repository. Must not be null.
+     * @throws IllegalArgumentException if either objectId or repositoryId is null.
      */
-    public OdmaGuid(OdmaId idRepository, OdmaId idObject)
-    {
-        repositoryId = idRepository;
-        objectId = idObject;
+    public OdmaGuid(OdmaId objectId, OdmaId repositoryId) {
+        if (objectId == null) {
+            throw new IllegalArgumentException("objectId must not be null");
+        }
+        if (repositoryId == null) {
+            throw new IllegalArgumentException("repositoryId must not be null");
+        }
+        this.objectId = objectId;
+        this.repositoryId = repositoryId;
     }
 
     /**
-     * Returns true if the given Object is a <code>OdmaGuid</code> or an
-     * <code>OdmaGuid</code> identifying the same object.
-     * 
-     * @param obj
-     *            The object to compare this Id to
-     * 
-     * @return true if and only if the given Object is a <code>OdmaId</code>
-     *         or an <code>OdmaGuid</code> identifying the same object.
+     * Returns the OdmaId of the object.
+     *
+     * @return The OdmaId of the object.
      */
-    public boolean equals(Object obj)
-    {
-        return (obj instanceof OdmaGuid) && ((OdmaGuid)obj).repositoryId.equals(repositoryId) && ((OdmaGuid)obj).objectId.equals(objectId);
+    public OdmaId getObjectId() {
+        return objectId;
     }
 
     /**
-     * Returns the <code>String</code> representation of this Identifier.
-     * 
-     * @return the <code>String</code> representation of this Identifier.
+     * Returns the OdmaId of the repository.
+     *
+     * @return The OdmaId of the repository.
      */
-    public String toString()
-    {
-        return repositoryId.toString() + ":" + objectId.toString();
+    public OdmaId getRepositoryId() {
+        return repositoryId;
+    }
+
+    /**
+     * Compares this OdmaGuid to another object for equality.
+     * Two OdmaGuid objects are considered equal if their objectId and repositoryId are equal.
+     *
+     * @param obj The object to compare with this OdmaGuid.
+     * @return true if the given object is equal to this OdmaGuid, false otherwise.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        OdmaGuid other = (OdmaGuid) obj;
+        return objectId.equals(other.objectId) && repositoryId.equals(other.repositoryId);
+    }
+
+    /**
+     * Returns a hash code value for this OdmaGuid.
+     * The hash code is based on the objectId and repositoryId.
+     *
+     * @return The hash code value for this OdmaGuid.
+     */
+    @Override
+    public int hashCode() {
+        int result = objectId.hashCode();
+        result = 31 * result + repositoryId.hashCode();
+        return result;
+    }
+
+    /**
+     * Returns a string representation of this OdmaGuid.
+     * The format is "objectId:repositoryId".
+     *
+     * @return A string representation of this OdmaGuid.
+     */
+    @Override
+    public String toString() {
+        return objectId.toString() + ":" + repositoryId.toString();
     }
 
 }

@@ -3,6 +3,7 @@ package org.opendma.apibuilder.apiwriter.rust;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.ApiWriterException;
@@ -32,7 +33,15 @@ public class RustApiWriter extends AbstractApiWriter
     // S O U R C E   F I L E   H E L P E R
     //-------------------------------------------------------------------------
     
-    // basic tools to create files for target programming language
+    private OutputStream createRsFile(File targetFolder, String className) throws IOException
+    {
+        return new FileOutputStream(new File(targetFolder, className+".rs"));
+    }
+    
+    private void createClassFromTemplate(File targetFolder, String className) throws IOException
+    {
+        copyTemplateToStream(className,createRsFile(targetFolder,className));
+    }
 
     //-------------------------------------------------------------------------
     // C O N S T A N T S   F I L E
@@ -52,18 +61,22 @@ public class RustApiWriter extends AbstractApiWriter
 
     protected void createQNameFile(ApiDescription apiDescription) throws IOException
     {
+        createClassFromTemplate(opendmaApiSourceFolder, "OdmaQName");
     }
 
     protected void createIdFile(ApiDescription apiDescription) throws IOException
     {
+        createClassFromTemplate(opendmaApiSourceFolder, "OdmaId");
     }
 
     protected void createGuidFile(ApiDescription apiDescription) throws IOException
     {
+        createClassFromTemplate(opendmaApiSourceFolder, "OdmaGuid");
     }
 
     protected void createContentFile(ApiDescription apiDescription) throws IOException
     {
+        createClassFromTemplate(opendmaApiSourceFolder, "OdmaContent");
     }
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException
@@ -137,9 +150,9 @@ public class RustApiWriter extends AbstractApiWriter
     
     private File opendmaApiSourceFolder;
     
-    private FileOutputStream opendmaApiLibFOS;
+    //private FileOutputStream opendmaApiLibFOS;
     
-    private FileOutputStream opendmaApiHelpersFOS;
+    //private FileOutputStream opendmaApiHelpersFOS;
     
     private File opendmaTemplatesFolder;
     
@@ -161,10 +174,10 @@ public class RustApiWriter extends AbstractApiWriter
         opendmaApiProjectFolder.mkdirs();
         opendmaApiSourceFolder = new File(opendmaApiProjectFolder, "src");
         opendmaApiSourceFolder.mkdirs();
-        opendmaApiLibFOS = new FileOutputStream(new File(opendmaApiSourceFolder, "lib.rs"));
-        copyTemplateToStream("opendma-api-lib-header", opendmaApiLibFOS, false);
-        opendmaApiHelpersFOS = new FileOutputStream(new File(opendmaApiSourceFolder, "helpers.rs"));
-        copyTemplateToStream("opendma-api-helpers-header", opendmaApiHelpersFOS, false);
+        //opendmaApiLibFOS = new FileOutputStream(new File(opendmaApiSourceFolder, "lib.rs"));
+        //copyTemplateToStream("opendma-api-lib-header", opendmaApiLibFOS, false);
+        //opendmaApiHelpersFOS = new FileOutputStream(new File(opendmaApiSourceFolder, "helpers.rs"));
+        //copyTemplateToStream("opendma-api-helpers-header", opendmaApiHelpersFOS, false);
         // opendma-api Cargo.toml
         copyTemplateToStream("opendma-api-cargo", new FileOutputStream(new File(opendmaApiProjectFolder, "Cargo.toml")), resolver);
         // opendma-templates folder
@@ -175,10 +188,10 @@ public class RustApiWriter extends AbstractApiWriter
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
         // flush and close files
-        opendmaApiLibFOS.flush();
-        opendmaApiLibFOS.close();
-        opendmaApiHelpersFOS.flush();
-        opendmaApiHelpersFOS.close();
+        //opendmaApiLibFOS.flush();
+        //opendmaApiLibFOS.close();
+        //opendmaApiHelpersFOS.flush();
+        //opendmaApiHelpersFOS.close();
     }
     
     //-------------------------------------------------------------------------

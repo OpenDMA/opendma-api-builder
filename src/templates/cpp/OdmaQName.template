@@ -1,152 +1,105 @@
-#ifndef _OdmaQName_h_
-#define _OdmaQName_h_
+#ifndef ODMA_QNAME_H
+#define ODMA_QNAME_H
 
 #include <string>
+#include <stdexcept>
+#include <iostream>
+#include <sstream>
 
 /**
- * Representation of a <i>qualified name</i> consisting of a name <i>qualifier</i>
- * and the <i>name</i> iteself.<br>
- * Using qualified names instead of simple Strings enables OpenDMA to mix
- * different architectures with identical names and distinguish them by their
- * qualifier.
- * 
- * \author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ * @class OdmaQName
+ * @brief Represents an ODMA qualified name, consisting of a qualifier and a name.
+ *
+ * Both the qualifier and the name must not be empty, and they are immutable after creation.
  */
-class OdmaQName
-{
-
-private:
-
-	static int cmp_nocase(const string& s1, const string& s2)
-	{
-		string::const_iterator p1 = s1.begin();
-		string::const_iterator p2 = s2.begin();
-		while( (p1 != s1.end()) && (p2 != s2.end()) )
-		{
-			if( toupper(*p1) != toupper(*p2) )
-			{
-				return (toupper(*p1)<toupper(*p2)) ? -1 : +1;
-			}
-			++p1;
-			++p2;
-		}
-		return(s2.size()==s1.size()) ? 0 : (s1.size()<s2.size())?-1:+1;
-	}
-
-protected:
-
-    /** the name <i>qualifier</i> of this qualified name */
-    std::string qualifier;
-
-    /** the <i>name</i> of this qualified name */
-    std::string name;
-
+class OdmaQName {
 public:
 
     /**
-     * Create a new <code>OdmaQName</code> with an empty name qualifier.
-     * 
-     * @param name
-     *            The <i>name</i> of this qualified name. Must not be null.
-     *            Must not be empty.
-     * 
-     * @throws IllegalArgumentException
-     *             if the name is null or empty
+     * @brief Constructs an OdmaQName object with the specified qualifier and name.
+     *
+     * @param qualifier The qualifier part of the qualified name. Must not be empty.
+     * @param name The name part of the qualified name. Must not be empty.
+     * @throws std::invalid_argument if either the qualifier or name is empty.
      */
-    OdmaQName(const string& name_)
-    {
-        name = name_;
+    inline OdmaQName(const std::string& qualifier, const std::string& name) {
+        if (qualifier.empty()) {
+            throw std::invalid_argument("Qualifier must not be empty");
+        }
+        if (name.empty()) {
+            throw std::invalid_argument("Name must not be empty");
+        }
+        this->qualifier_ = qualifier;
+        this->name_ = name;
     }
 
     /**
-     * Create a new <code>OdmaQName</code> for a given <i>name qualifier</i>
-     * and <i>name</i>.
-     * 
-     * \param qualifier
-     *            The name <i>qualifier</i> of this qualified name. Can be
-     *            null. Must not be empty (if not null).
-     * \param name
-     *            The <i>name</i> of this qualified name. Must not be null.
-     *            Must not be empty.
-     * 
-     * \throws IllegalArgumentException
-     *             if the name is null or empty or if the qualifier is not null
-     *             and empty
+     * @brief Gets the qualifier part of the qualified name.
+     *
+     * @return The qualifier as a const reference to a string.
      */
-    OdmaQName(const string& qualifier_, const string& name_)
-    {
-        qualifier = qualifier_;
-        name = name_;
+    inline const std::string& getQualifier() const {
+        return qualifier_;
     }
 
     /**
-     * Returns the name <i>qualifier</i> of this qualified name.
-     * 
-     * \return the qualifier of this qualified name.
+     * @brief Gets the name part of the qualified name.
+     *
+     * @return The name as a const reference to a string.
      */
-    const std::string& getQualifier()
-    {
-        return qualifier;
+    inline const std::string& getName() const {
+        return name_;
     }
 
     /**
-     * Returns the <i>name</i> of this qualified name.
-     * 
-     * \return the name of this qualified name.
+     * @brief Equality comparison operator.
+     * Two OdmaQName objects are considered equal if their qualifier and name are both equal.
+     *
+     * @param other The other OdmaQName to compare with.
+     * @return True if both OdmaQName objects are equal, false otherwise.
      */
-    const std::string& getName()
-    {
-        return name;
+    inline bool operator==(const OdmaGuid& other) const {
+        return qualifier_ == other.qualifier_ && name_ == other.name_;
     }
 
     /**
-     * Compares this <code>OdmaQName</code> to the given object and returns
-     * true if and only if the given object is not null and both object are
-     * recognized as equal.<br>
-     * Two <code>OdmaQName</code>s are equal if:<br>
-     * (a) at least one qualifier is null and the names are equal, or<br>
-     * (b) both qualifiers are equal and both names are equal.<br>
-     * This implicates that a <code>OdmaQName</code> without a qualifier will
-     * be equal to any <code>OdmaQName</code> with the same name.
-     * 
-     * \param qn
-     *            the Object to compare this <code>OdmaQName</code> to
-     * 
-     * \return true if and only if this <code>OdmaQName</code> equals the
-     *         given object
+     * @brief Inequality comparison operator.
+     * @param other The other OdmaQName to compare with.
+     * @return True if the OdmaQName objects are not equal.
      */
-	bool equals(const OdmaQName& qn)
-	{
-		return ( (qualifier.empty() || qn.qualifier.empty()) && (name == qn.name) )
-			   ||
-			   ( (qualifier == qn.qualifier) && (name == qn.name) );
-	}
+    inline bool operator!=(const OdmaQName& other) const {
+        return !(*this == other);
+    }
 
     /**
-     * Compares this <code>OdmaQName</code> to the given object and returns
-     * true if and only if the given object is not null and both object are
-     * recognized as equal, ignoring case considerations.<br>
-     * Two <code>OdmaQName</code>s are equal if:<br>
-     * (a) at least one qualifier is null and both names are equal (ignoring
-     * case considerations), or<br>
-     * (b) both qualifiers are equal (ignoring case considerations) and both
-     * names are equal (ignoring case considerations).<br>
-     * This implicates that a <code>OdmaQName</code> without a qualifier will
-     * be equal to any <code>OdmaQName</code> with the same name.
-     * 
-     * \param qn
-     *            the Object to compare this <code>OdmaQName</code> to
-     * 
-     * \return true if and only if this <code>OdmaQName</code> equals the
-     *         given object
+     * @brief Returns a string representation of the OdmaQName object.
+     * The format is "qualifier:name".
+     *
+     * @return The string representation of this OdmaQName.
      */
-    bool equalsIgnoreCase(const OdmaQName& qn)
-    {
-        return ( (qualifier.empty() || qn.qualifier.empty()) && (cmp_nocase(name,qn.name) == 0) )
-               ||
-               ( (cmp_nocase(qualifier,qn.qualifier) == 0) && (cmp_nocase(name,qn.name) == 0) );
-	}
+    inline std::string toString() const {
+        std::ostringstream oss;
+        oss << qualifier_ << ":" << name_;
+        return oss.str();
+    }
+
+    /**
+     * @brief Overloads the stream insertion operator for OdmaQName.
+     * Allows outputting the object using `std::cout`.
+     *
+     * @param os The output stream.
+     * @param obj The OdmaQName object to be output.
+     * @return The modified output stream.
+     */
+    friend inline std::ostream& operator<<(std::ostream& os, const OdmaQName& obj) {
+        os << obj.toString();
+        return os;
+    }
+
+private:
+    std::string qualifier_; ///< The qualifier part of the qualified name.
+    std::string name_;      ///< The name part of the qualified name.
 
 };
 
-#endif
+#endif // ODMA_QNAME_H

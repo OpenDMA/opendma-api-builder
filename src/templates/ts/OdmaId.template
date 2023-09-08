@@ -1,0 +1,45 @@
+/**
+ * Represents a unique identifier for an OdmaObject in an OdmaRepository.
+ */
+class OdmaId {
+
+    /**
+     * The unique identifier string.
+     */
+    private readonly id: string;
+
+    /**
+     * Constructs an OdmaId with the specified ID.
+     *
+     * @param id The unique identifier string. Must not be empty.
+     * @throws Error If the id is empty.
+     */
+    constructor(id: string) {
+        if (!id.trim()) {
+            throw new Error('ID must not be empty');
+        }
+        this.id = id;
+    }
+
+    /**
+     * Compares this OdmaId with another OdmaId for value equality.
+     *
+     * @param other The OdmaId to compare against.
+     * @return True if the objects are equal, false otherwise.
+     */
+    public equals(other: OdmaId): boolean {
+        return other instanceof OdmaId && this.id === other.id;
+    }
+
+    /**
+     * Returns a string representation of this OdmaId.
+     *
+     * @return The ID string.
+     */
+    public toString(): string {
+        return this.id;
+    }
+
+}
+
+export default OdmaId;

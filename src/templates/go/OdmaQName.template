@@ -1,0 +1,41 @@
+package opendma
+
+import (
+	"errors"
+	"fmt"
+	"strings"
+)
+
+// OdmaQName represents a qualified name in OpenDMA, consisting of a qualifier and a name.
+// Both the qualifier and the name must not be null or empty.
+type OdmaQName struct {
+	qualifier string
+	name      string
+}
+
+// NewOdmaQName is a constructor function for creating a new OdmaQName.
+// It validates that the qualifier and name are non-empty.
+func NewOdmaQName(qualifier string, name string) (*OdmaQName, error) {
+	if strings.TrimSpace(qualifier) == "" {
+		return nil, errors.New("qualifier must not be empty")
+	}
+	if strings.TrimSpace(name) == "" {
+		return nil, errors.New("name must not be empty")
+	}
+	return &OdmaQName{qualifier: qualifier, name: name}, nil
+}
+
+// Qualifier returns the qualifier part of the qualified name.
+func (q *OdmaQName) Qualifier() string {
+	return q.qualifier
+}
+
+// Name returns the name part of the qualified name.
+func (q *OdmaQName) Name() string {
+	return q.name
+}
+
+// String returns a string representation of the OdmaQName object in the format "qualifier:name".
+func (q *OdmaQName) String() string {
+	return fmt.Sprintf("%s:%s", q.qualifier, q.name)
+}

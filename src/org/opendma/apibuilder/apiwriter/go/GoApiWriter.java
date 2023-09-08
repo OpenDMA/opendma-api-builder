@@ -3,6 +3,7 @@ package org.opendma.apibuilder.apiwriter.go;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.ApiWriterException;
@@ -32,7 +33,15 @@ public class GoApiWriter extends AbstractApiWriter
     // S O U R C E   F I L E   H E L P E R
     //-------------------------------------------------------------------------
     
-    // basic tools to create files for target programming language
+    private OutputStream createGoFile(File targetFolder, String className) throws IOException
+    {
+        return new FileOutputStream(new File(targetFolder, className+".go"));
+    }
+    
+    private void createClassFromTemplate(File targetFolder, String className) throws IOException
+    {
+        copyTemplateToStream(className,createGoFile(targetFolder,className));
+    }
 
     //-------------------------------------------------------------------------
     // C O N S T A N T S   F I L E
@@ -52,18 +61,22 @@ public class GoApiWriter extends AbstractApiWriter
 
     protected void createQNameFile(ApiDescription apiDescription) throws IOException
     {
+        createClassFromTemplate(opendmaApiProjectFolder, "OdmaQName");
     }
 
     protected void createIdFile(ApiDescription apiDescription) throws IOException
     {
+        createClassFromTemplate(opendmaApiProjectFolder, "OdmaId");
     }
 
     protected void createGuidFile(ApiDescription apiDescription) throws IOException
     {
+        createClassFromTemplate(opendmaApiProjectFolder, "OdmaGuid");
     }
 
     protected void createContentFile(ApiDescription apiDescription) throws IOException
     {
+        createClassFromTemplate(opendmaApiProjectFolder, "OdmaContent");
     }
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException

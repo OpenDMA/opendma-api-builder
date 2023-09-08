@@ -1,166 +1,94 @@
 package org.opendma.api;
 
 /**
- * Representation of a <i>qualified name</i> consisting of a name <i>qualifier</i>
- * and the <i>name</i> iteself.<br>
- * Using qualified names instead of simple Strings enables OpenDMA to mix
- * different architectures with identical names and distinguish them by their
- * qualifier.
- * 
- * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ * Represents a qualified name in OpenDMA, consisting of a qualifier and a name.
+ * Both the qualifier and the name must not be null or empty, and they are immutable after creation.
+ * This class is designed to be immutable and thread-safe.
  */
-public final class OdmaQName
-{
+public final class OdmaQName {
 
-    /** the name <i>qualifier</i> of this qualified name */
-    protected String qualifier;
+    /** the qualifier part of the qualified name */
+    private final String qualifier;
 
-    /** the <i>name</i> of this qualified name */
-    protected String name;
-
-    /**
-     * Create a new <code>OdmaQName</code> with an empty name qualifier.
-     * 
-     * @param name
-     *            The <i>name</i> of this qualified name. Must not be null.
-     *            Must not be empty.
-     * 
-     * @throws IllegalArgumentException
-     *             if the name is null or empty
-     */
-    public OdmaQName(String name)
-    {
-        if (name == null)
-        {
-            throw new IllegalArgumentException("The name of a OdmaQName must not be null.");
-        }
-        if (name.length() == 0)
-        {
-            throw new IllegalArgumentException("The name of a OdmaQName must have at least 1 character.");
-        }
-        this.qualifier = null;
-        this.name = name;
-    }
+    /** the name part of the qualified name */
+    private final String name;
 
     /**
-     * Create a new <code>OdmaQName</code> for a given <i>name qualifier</i>
-     * and <i>name</i>.
-     * 
-     * @param qualifier
-     *            The name <i>qualifier</i> of this qualified name. Can be
-     *            null. Must not be empty (if not null).
-     * @param name
-     *            The <i>name</i> of this qualified name. Must not be null.
-     *            Must not be empty.
-     * 
-     * @throws IllegalArgumentException
-     *             if the name is null or empty or if the qualifier is not null
-     *             and empty
+     * Constructs an <code>OdmaQName</code> with the specified qualifier and name.
+     *
+     * @param qualifier the qualifier part of the qualified name, must not be null or empty
+     * @param name      the name part of the qualified name, must not be null or empty
+     * @throws IllegalArgumentException if either the qualifier or name is null or empty
      */
-    public OdmaQName(String qualifier, String name)
-    {
-        if (name == null)
-        {
-            throw new IllegalArgumentException("The name of a OdmaQName may not be null.");
+    public OdmaQName(String qualifier, String name) {
+        if (qualifier == null || qualifier.trim().isEmpty()) {
+            throw new IllegalArgumentException("Qualifier must not be null or empty");
         }
-        if ((qualifier != null) && (qualifier.length() == 0))
-        {
-            throw new IllegalArgumentException("The qualifier of a OdmaQName must have at least 1 character.");
-        }
-        if (name.length() == 0)
-        {
-            throw new IllegalArgumentException("The name of a OdmaQName must have at least 1 character.");
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name must not be null or empty");
         }
         this.qualifier = qualifier;
         this.name = name;
     }
 
     /**
-     * Returns the name <i>qualifier</i> of this qualified name.
-     * 
-     * @return the qualifier of this qualified name.
+     * Returns the qualifier part of this OpenDMA qualified name.
+     *
+     * @return the qualifier as a String
      */
-    public String getQualifier()
-    {
+    public String getQualifier() {
         return qualifier;
     }
 
     /**
-     * Returns the <i>name</i> of this qualified name.
-     * 
-     * @return the name of this qualified name.
+     * Returns the name part of this OpenDMA qualified name.
+     *
+     * @return the name as a String
      */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     /**
-     * Compares this <code>OdmaQName</code> to the given object and returns
-     * true if and only if the given object is not null and both object are
-     * recognized as equal.<br>
-     * Two <code>OdmaQName</code>s are equal if:<br>
-     * (a) at least one qualifier is null and the names are equal, or<br>
-     * (b) both qualifiers are equal and both names are equal.<br>
-     * This implicates that a <code>OdmaQName</code> without a qualifier will
-     * be equal to any <code>OdmaQName</code> with the same name.
-     * 
-     * @param qn
-     *            the Object to compare this <code>OdmaQName</code> to
-     * 
-     * @return true if and only if this <code>OdmaQName</code> equals the
-     *         given object
+     * Checks if this OdmaQName is equal to another object.
+     * Two <code>OdmaQName</code> objects are considered equal if their qualifier and name are both equal.
+     *
+     * @param obj the object to compare with
+     * @return true if the given object is equal to this <code>OdmaQName</code>, false otherwise
      */
-    public boolean equals(Object qn)
-    {
-        return (qn != null) && (qn instanceof OdmaQName) && ((((qualifier == null) || (((OdmaQName) qn).qualifier == null)) && name.equals(((OdmaQName) qn).name)) || ((qualifier != null) && qualifier
-                .equals(((OdmaQName) qn).qualifier) && name.equals(((OdmaQName) qn).name)));
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        OdmaQName that = (OdmaQName) obj;
+        return qualifier.equals(that.qualifier) && name.equals(that.name);
     }
 
     /**
-     * Compares this <code>OdmaQName</code> to the given object and returns
-     * true if and only if the given object is not null and both object are
-     * recognized as equal, ignoring case considerations.<br>
-     * Two <code>OdmaQName</code>s are equal if:<br>
-     * (a) at least one qualifier is null and both names are equal (ignoring
-     * case considerations), or<br>
-     * (b) both qualifiers are equal (ignoring case considerations) and both
-     * names are equal (ignoring case considerations).<br>
-     * This implicates that a <code>OdmaQName</code> without a qualifier will
-     * be equal to any <code>OdmaQName</code> with the same name.
-     * 
-     * @param qn
-     *            the Object to compare this <code>OdmaQName</code> to
-     * 
-     * @return true if and only if this <code>OdmaQName</code> equals the
-     *         given object
+     * Returns a hash code value for this <code>OdmaQName</code>.
+     * The hash code is based on both the qualifier and the name.
+     *
+     * @return the hash code value
      */
-    public boolean equalsIgnoreCase(OdmaQName qn)
-    {
-        return (qn != null) && (qn instanceof OdmaQName) && ((((qualifier == null) || (((OdmaQName) qn).qualifier == null)) && this.name.equalsIgnoreCase(qn.name)) || ((qualifier != null) && this.qualifier
-                .equalsIgnoreCase(qn.qualifier) && this.name.equalsIgnoreCase(qn.name)));
+    @Override
+    public int hashCode() {
+        int result = qualifier.hashCode();
+        result = 31 * result + name.hashCode();
+        return result;
     }
 
     /**
-     * Returns the hash code for this qualified name. The hash code for a
-     * <code>OdmaQName</code> object is computed as the sum of the hash code
-     * of the name <i>qualifier</i> and the hash code of the <i>name</i>.
-     * 
-     * @return the hash code for this qualified name
+     * Returns a string representation of this <code>OdmaQName</code>.
+     *
+     * @return the string representation of this <code>OdmaQName</code>
      */
-    public int hashCode()
-    {
-        return (((qualifier == null) ? 0 : qualifier.hashCode()) + name.hashCode());
-    }
-
-    /**
-     * Retruns a string representation of this qualified name.
-     * 
-     * @return a string representation of this qualified name.
-     */
-    public String toString()
-    {
-        return (qualifier == null ? "<null>" : qualifier) + ":" + name;
+    @Override
+    public String toString() {
+        return qualifier + ":" + name;
     }
 
 }

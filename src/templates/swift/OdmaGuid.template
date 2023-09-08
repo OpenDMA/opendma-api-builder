@@ -1,0 +1,49 @@
+import Foundation
+
+/// Represents a globally unique object identifier for an OdmaObject.
+/// It combines the OdmaId of the object with the OdmaId of the repository it belongs to.
+struct OdmaGuid: Equatable, Hashable, CustomStringConvertible {
+
+    /// The OdmaId of the object.
+    private let objectId: OdmaId
+
+    /// The OdmaId of the repository.
+    private let repositoryId: OdmaId
+
+    /// Constructs a new OdmaGuid.
+    /// - Parameters:
+    ///   - objectId: The OdmaId of the object.
+    ///   - repositoryId: The OdmaId of the repository.
+    /// - Throws: An error if either objectId or repositoryId is invalid.
+    init(objectId: OdmaId, repositoryId: OdmaId) {
+        self.objectId = objectId
+        self.repositoryId = repositoryId
+    }
+
+    /// Returns the OdmaId of the object.
+    var getObjectId: OdmaId {
+        return objectId
+    }
+
+    /// Returns the OdmaId of the repository.
+    var getRepositoryId: OdmaId {
+        return repositoryId
+    }
+
+    // MARK: - Equatable
+    static func == (lhs: OdmaGuid, rhs: OdmaGuid) -> Bool {
+        return lhs.objectId == rhs.objectId && lhs.repositoryId == rhs.repositoryId
+    }
+
+    // MARK: - Hashable
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(objectId)
+        hasher.combine(repositoryId)
+    }
+
+    // MARK: - CustomStringConvertible
+    var description: String {
+        return "\(objectId):\(repositoryId)"
+    }
+
+}

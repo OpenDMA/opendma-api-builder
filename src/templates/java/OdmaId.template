@@ -1,51 +1,69 @@
 package org.opendma.api;
 
 /**
- * Representation of the <i>unique object identifier<i> that can be used to
- * identify an <ocde>OdmaObject</code> inside a <code>OdmaRepository</code>.<br>
- * To globally identify an object you have to use the <code>OdmaGuid</code>.
+ * Represents a unique identifier for an <code>OdmaObject</code> in an
+ * <code>OdmaRepository</code>.
+ * <p>
+ * This class is designed to be immutable and thread-safe.
  * 
- * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ * @see OdmaGuid
  */
-public class OdmaId
-{
+public final class OdmaId {
 
-    protected String uuid;
-    
+    /** The unique identifier string */
+    private final String id;
+
     /**
-     * Create a new OdmaId from a String representation of an id.
+     * Constructs an OdmaId with the specified ID.
      * 
-     * @param id
-     *            The string representation to create this OdmaId from
+     * @param id The unique identifier string. Must not be null or empty.
+     * @throws IllegalArgumentException if the id is null or empty.
      */
-    public OdmaId(String id)
-    {
-        uuid = id;
+    public OdmaId(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new IllegalArgumentException("ID must not be null or empty");
+        }
+        this.id = id;
     }
 
     /**
-     * Returns true if the given Object is a <code>OdmaId</code> or an
-     * <code>OdmaGuid</code> identifying the same object.
-     * 
-     * @param obj
-     *            The object to compare this Id to
-     * 
-     * @return true if and only if the given Object is a <code>OdmaId</code>
-     *         or an <code>OdmaGuid</code> identifying the same object.
+     * Checks if this OdmaId is equal to another object.
+     * Two OdmaId objects are considered equal if their ID strings are equal.
+     *
+     * @param obj The object to compare with.
+     * @return true if the given object is equal to this OdmaId, false otherwise.
      */
-    public boolean equals(Object obj)
-    {
-        return (obj instanceof OdmaId) && ((OdmaId)obj).uuid.equals(uuid);
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        OdmaId other = (OdmaId) obj;
+        return id.equals(other.id);
     }
 
     /**
-     * Returns the <code>String</code> representation of this Identifier.
-     * 
-     * @return the <code>String</code> representation of this Identifier.
+     * Returns a hash code value for this OdmaId.
+     * The hash code is based on the ID string.
+     *
+     * @return the hash code value.
      */
-    public String toString()
-    {
-        return uuid;
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    /**
+     * Returns a string representation of this OdmaId.
+     * 
+     * @return the ID string of this OdmaId.
+     */
+    @Override
+    public String toString() {
+        return id;
     }
 
 }

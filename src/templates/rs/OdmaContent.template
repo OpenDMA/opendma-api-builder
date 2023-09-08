@@ -1,0 +1,13 @@
+use std::io::{Read, Result};
+
+/// Represents the Content data type in OpenDMA.
+/// Provides access to the content stream and its size.
+pub trait OdmaContent {
+
+    /// Returns a reader for the content's binary data.
+    fn get_stream(&self) -> Result<Box<dyn Read>>;
+
+    /// Returns the size of the content in bytes.
+    fn get_size(&self) -> Result<u64>;
+
+}

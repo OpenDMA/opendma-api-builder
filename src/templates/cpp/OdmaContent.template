@@ -1,32 +1,31 @@
-#ifndef _OdmaContent_h_
-#define _OdmaContent_h_
+#ifndef ODMA_CONTENT_H
+#define ODMA_CONTENT_H
+
+#include <iostream>
+#include <memory>
 
 /**
- * Represents the <code>Content</code> data type in OpenDMA.
- * 
- * \author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ * @class OdmaContent
+ * @brief Represents the Content data type in OpenDMA.
+ * Provides access to the content stream and its size.
  */
-class OdmaContent
-{
-
+class OdmaContent {
 public:
 
-    /**
-     * Returns the data as <code>InputStream</code>.<br>
-     * <b>The caller has to close this stream after she/he has finished reading
-     * the data.</b>
-     * 
-     * \return the data as <code>InputStream</code>.
-     */
-    virtual InputStream getStream(void) = 0;
+    virtual ~OdmaContent() = default;
 
     /**
-     * Returns the size of the data in octests.
-     * 
-     * \return the size of the data in octests.
+     * @brief Gets the stream to access the content's binary data.
+     * @return A unique_ptr to an istream for reading the content's binary data.
      */
-    virtual long getSize(void);
+    virtual std::unique_ptr<std::istream> getStream() = 0;
 
-}
+    /**
+     * @brief Gets the size of the content in bytes.
+     * @return The size of the content in bytes as a std::size_t.
+     */
+    virtual std::size_t getSize() const = 0;
 
-#endif
+};
+
+#endif // ODMA_CONTENT_H

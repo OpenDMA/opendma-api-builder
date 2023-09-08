@@ -1,25 +1,25 @@
-package org.opendma.api;
+<?php
 
-import java.io.InputStream;
+namespace OpenDMA\Api;
 
 /**
  * Represents the Content data type in OpenDMA.
  * Provides access to the content stream and its size.
  */
-public interface OdmaContent {
+interface OdmaContent {
 
     /**
      * Gets the stream to access the content's binary data.
      *
-     * @return An InputStream for reading the content's binary data.
+     * @return resource A resource representing the stream.
      */
-    InputStream getStream();
+    public function getStream();
 
     /**
      * Gets the size of the content in bytes.
      *
-     * @return The size of the content in bytes as a long.
+     * @return int The size of the content in bytes.
      */
-    long getSize();
+    public function getSize(): int;
 
 }

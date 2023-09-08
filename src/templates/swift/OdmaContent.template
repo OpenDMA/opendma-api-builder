@@ -1,0 +1,13 @@
+import Foundation
+
+// Represents the Content data type in OpenDMA.
+// Provides access to the content stream and its size.
+protocol OdmaContent {
+
+    // Returns a binary stream of the content data
+    func getStream() throws -> InputStream
+    
+    // Returns the size of the content in bytes
+    func getSize() throws -> Int
+
+}

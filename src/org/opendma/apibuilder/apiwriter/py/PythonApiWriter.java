@@ -35,7 +35,15 @@ public class PythonApiWriter extends AbstractApiWriter
     // S O U R C E   F I L E   H E L P E R
     //-------------------------------------------------------------------------
     
-    // basic tools to create files for target programming language
+    private void copyClassToApiHelpers(String className) throws IOException
+    {
+        PrintWriter out = new PrintWriter(opendmaApiHelpersFOS);
+        out.println();
+        out.println();
+        out.flush();
+        copyTemplateToStream(className, opendmaApiHelpersFOS, false);
+        classesImportFromHelpers.add(className);
+    }
 
     //-------------------------------------------------------------------------
     // C O N S T A N T S   F I L E
@@ -55,18 +63,22 @@ public class PythonApiWriter extends AbstractApiWriter
 
     protected void createQNameFile(ApiDescription apiDescription) throws IOException
     {
+        copyClassToApiHelpers("OdmaQName");
     }
 
     protected void createIdFile(ApiDescription apiDescription) throws IOException
     {
+        copyClassToApiHelpers("OdmaId");
     }
 
     protected void createGuidFile(ApiDescription apiDescription) throws IOException
     {
+        copyClassToApiHelpers("OdmaGuid");
     }
 
     protected void createContentFile(ApiDescription apiDescription) throws IOException
     {
+        copyClassToApiHelpers("OdmaContent");
     }
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException

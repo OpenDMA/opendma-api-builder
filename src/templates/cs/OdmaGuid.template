@@ -1,81 +1,79 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace OpenDMA.Api
 {
 
     /// <summary>
-    /// Representation of the <i>global unique object identifier<i> that can be used
-    /// to globally identify an <c>OdmaObject</c>. A reference to the containing
-    /// <c>OdmaRepository</c> is included in this ID.<br>
-    /// To identify an object only inside an <c>OdmaRepository</c>, you can
-    /// use the <see cref="OdmaId"/>.
+    /// OdmaGuid represents a globally unique identifier for an OdmaObject.
+    /// It combines the OdmaId of the object with the OdmaId of the repository it is contained in.
+    /// This class is designed to be immutable and thread-safe.
     /// </summary>
-    public class OdmaGuid
+    /// <seealso cref="OdmaId" />
+    public sealed class OdmaGuid
     {
 
         /// <summary>
-        /// The <c>OdmaId</c> of the Repository</param>
+        /// Gets the OdmaId of the object.
         /// </summary>
-        protected OdmaId repositoryId;
+        public OdmaId ObjectId { get; }
 
         /// <summary>
-        /// The <c>OdmaId</c> of the Object inside the Repository.
+        /// Gets the OdmaId of the repository.
         /// </summary>
-        protected OdmaId objectId;
+        public OdmaId RepositoryId { get; }
 
         /// <summary>
-        /// Create a new <c>OdmaGuid</c> from the IDs of the repository and the object.
+        /// Constructs an OdmaGuid with the specified object ID and repository ID.
         /// </summary>
-        /// <param name="idRepository">The <c>OdmaId</c> of the Repository</param>
-        /// <param name="idObject">The <c>OdmaId</c> of the Object inside the Repository.</param>
-        public OdmaGuid(OdmaId idRepository, OdmaId idObject)
+        /// <param name="objectId">The OdmaId of the object. Must not be null.</param>
+        /// <param name="repositoryId">The OdmaId of the repository. Must not be null.</param>
+        /// <exception cref="ArgumentNullException">Thrown if either objectId or repositoryId is null.</exception>
+        public OdmaGuid(OdmaId objectId, OdmaId repositoryId)
         {
-            this.repositoryId = idRepository;
-            this.objectId = idObject;
+            ObjectId = objectId ?? throw new ArgumentNullException(nameof(objectId), "ObjectId must not be null");
+            RepositoryId = repositoryId ?? throw new ArgumentNullException(nameof(repositoryId), "RepositoryId must not be null");
         }
 
         /// <summary>
-        /// the ID of the Repository
+        /// Compares this OdmaGuid to another object for equality.
+        /// Two OdmaGuid objects are considered equal if their ObjectId and RepositoryId are equal.
         /// </summary>
-        public OdmaId RepositoryId
+        /// <param name="obj">The object to compare with this OdmaGuid.</param>
+        /// <returns>true if the given object is equal to this OdmaGuid, false otherwise.</returns>
+        public override bool Equals(object? obj)
         {
-            get
+            if (ReferenceEquals(this, obj))
             {
-                return this.repositoryId;
+                return true;
             }
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            var other = (OdmaGuid)obj;
+            return ObjectId.Equals(other.ObjectId) && RepositoryId.Equals(other.RepositoryId);
         }
 
         /// <summary>
-        /// the ID of the Object
+        /// Returns a hash code value for this OdmaGuid.
+        /// The hash code is based on the ObjectId and RepositoryId.
         /// </summary>
-        public OdmaId ObjectId
-        {
-            get
-            {
-                return this.objectId;
-            }
-        }
-
-        public override bool Equals(object guid)
-        {
-            return  object.ReferenceEquals(this,guid) || ((guid != null) && (guid is OdmaGuid) && repositoryId.Equals(((OdmaGuid) guid).repositoryId) && objectId.Equals(((OdmaGuid) guid).objectId));
-        }
-
+        /// <returns>The hash code value for this OdmaGuid.</returns>
         public override int GetHashCode()
         {
-            return repositoryId.GetHashCode() + objectId.GetHashCode();
+            return HashCode.Combine(ObjectId, RepositoryId);
         }
 
         /// <summary>
-        /// Retruns a string representation of this Identifier.
+        /// Returns a string representation of this OdmaGuid.
+        /// The format is "objectId:repositoryId".
         /// </summary>
-        /// <returns>Retruns a string representation of this Identifier.</returns>
+        /// <returns>A string representation of this OdmaGuid.</returns>
         public override string ToString()
         {
-            return repositoryId + ":" + objectId;
+            return $"{ObjectId}:{RepositoryId}";
         }
 
     }

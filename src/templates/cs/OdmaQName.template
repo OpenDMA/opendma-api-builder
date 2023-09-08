@@ -1,83 +1,90 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace OpenDMA.Api
 {
-    public class OdmaQName
+
+    /// <summary>
+    /// Represents a qualified name in OpenDMA, consisting of a qualifier and a name.
+    /// Both the qualifier and the name must not be null or empty, and they are immutable after creation.
+    /// This class is designed to be immutable and thread-safe.
+    /// </summary>
+    public sealed class OdmaQName
     {
-        /// <summary>
-        /// the <i>qualifier</i> of this qualified name
-        /// </summary>
-        protected string qualifier;
 
         /// <summary>
-        /// the <i>name</i> of this qualified name
+        /// Gets the qualifier part of the qualified name.
         /// </summary>
-        protected string name;
+        public string Qualifier { get; }
 
         /// <summary>
-        /// Create a new <c>OdmaQName</c> with an empty name qualifier.
+        /// Gets the name part of the qualified name.
         /// </summary>
-        /// <param name="name">The <i>name</i> of this qualified name. Must not be null. Must not be empty.</param>
-        public OdmaQName(string name)
-        {
-            this.qualifier = null;
-            this.name = name;
-        }
+        public string Name { get; }
 
         /// <summary>
-        /// Create a new <c>OdmaQName</c> for a given <i>name qualifier</i> and <i>name</i>.
+        /// Initializes a new instance of the <see cref="OdmaQName"/> class with the specified qualifier and name.
         /// </summary>
-        /// <param name="qualifier">The name <i>qualifier</i> of this qualified name. Can be null. Must not be empty (if not null).</param>
-        /// <param name="name">The <i>name</i> of this qualified name. Must not be null. Must not be empty.</param>
+        /// <param name="qualifier">The qualifier part of the qualified name. Must not be null or empty.</param>
+        /// <param name="name">The name part of the qualified name. Must not be null or empty.</param>
+        /// <exception cref="ArgumentException">Thrown when the qualifier or name is null or empty.</exception>
         public OdmaQName(string qualifier, string name)
         {
-            this.qualifier = qualifier;
-            this.name = name;
+            if (string.IsNullOrWhiteSpace(qualifier))
+            {
+                throw new ArgumentException("Qualifier must not be null or empty", nameof(qualifier));
+            }
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("Name must not be null or empty", nameof(name));
+            }
+            Qualifier = qualifier;
+            Name = name;
         }
 
         /// <summary>
-        /// the name <i>qualifier</i> of this qualified name
+        /// Determines whether the specified object is equal to the current object.
+        /// Two <see cref="OdmaQName"/> objects are considered equal if their qualifier and name are both equal.
         /// </summary>
-        public string Qualifier
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns>
+        /// <c>true</c> if the specified object is equal to the current object; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object? obj)
         {
-            get
+            if (ReferenceEquals(this, obj))
             {
-                return this.qualifier;
+                return true;
             }
+            if (obj == null || obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+            OdmaQName other = (OdmaQName)obj;
+            return Qualifier == other.Qualifier && Name == other.Name;
         }
 
         /// <summary>
-        /// the <i>name</i> of this qualified name
+        /// Serves as the default hash function.
+        /// The hash code is based on both the qualifier and the name.
         /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-        }
-
-        public override bool Equals(object qn)
-        {
-            return  object.ReferenceEquals(this,qn) || ((qn != null) && (qn is OdmaQName) && ((((qualifier == null) || (((OdmaQName) qn).qualifier == null)) && name.Equals(((OdmaQName) qn).name)) || ((qualifier != null) && qualifier.Equals(((OdmaQName) qn).qualifier) && name.Equals(((OdmaQName) qn).name))));
-        }
-
+        /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
-            return (((qualifier == null) ? 0 : qualifier.GetHashCode()) + name.GetHashCode());
+            return HashCode.Combine(Qualifier, Name);
         }
 
         /// <summary>
-        /// Retruns a string representation of this qualified name.
+        /// Returns a string that represents the current object.
+        /// The format is "qualifier:name".
         /// </summary>
-        /// <returns>Retruns a string representation of this qualified name.</returns>
+        /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
-            return (qualifier == null ? "<null>" : qualifier) + ":" + name;
+            return $"{Qualifier}:{Name}";
         }
 
     }
+
 }

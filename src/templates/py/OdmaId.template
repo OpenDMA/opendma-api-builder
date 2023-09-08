@@ -1,0 +1,34 @@
+class OdmaId:
+    """
+    Represents a unique identifier for an OdmaObject in an OdmaRepository.
+    """
+
+    def __init__(self, id: str) -> None:
+        """
+        Constructs an OdmaId with the specified ID.
+
+        :param id: The unique identifier string. Must not be empty.
+        :raises ValueError: If the id is empty.
+        """
+        if not id or id.strip() == "":
+            raise ValueError("ID must not be empty")
+        self._id = id
+
+    def __eq__(self, other: object) -> bool:
+        """
+        Overrides the default implementation of equality comparison.
+
+        :param other: The object to compare with.
+        :return: True if the objects are equal, False otherwise.
+        """
+        if not isinstance(other, OdmaId):
+            return False
+        return self._id == other._id
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of this OdmaId.
+
+        :return: The ID string.
+        """
+        return self._id

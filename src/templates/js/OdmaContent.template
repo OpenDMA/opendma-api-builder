@@ -1,0 +1,23 @@
+/**
+ * Represents the Content data type in OpenDMA.
+ * Provides access to the content stream and its size.
+ */
+class OdmaContent {
+
+    /**
+     * Abstract method to get the stream.
+     * Should be implemented by subclasses.
+     */
+    getStream() {
+        throw new Error("Method 'getStream()' must be implemented.");
+    }
+
+    /**
+     * Abstract method to get the size of the content.
+     * Should be implemented by subclasses.
+     */
+    getSize() {
+        throw new Error("Method 'getSize()' must be implemented.");
+    }
+
+}

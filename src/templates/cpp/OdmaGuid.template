@@ -1,71 +1,91 @@
-#ifndef _OdmaGuid_h_
-#define _OdmaGuid_h_
+#ifndef ODMA_GUID_H
+#define ODMA_GUID_H
+
+#include <stdexcept>
+#include <string>
+#include <iostream>
+
+#include "OdmaId.h"
 
 /**
- * Representation of the <i>global unique object identifier<i> that can be used
- * to globally identify an <code>OdmaObject</code>. A reference to the containing
- * <code>OdmaRepository</code> is included in this ID.<br>
- * To identify an object only inside an <code>OdmaRepository</code>, you can
- * use the <code>OdmaId</code>.
- * 
- * \author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ * @class OdmaGuid
+ * @brief Represents a globally unique object identifier for an OdmaObject.
+ * Combines the OdmaId of the object and the OdmaId of the repository it is contained in.
+ * This class is immutable and thread-safe.
  */
-class OdmaGuid
-{
-
-protected:
-
-    /** The <code>OdmaId</code> of the Repository */
-    OdmaId repositoryId;
-
-    /** The <code>OdmaId</code> of the Object inside the Repository */
-    OdmaId objectId;
-
+class OdmaGuid {
 public:
 
     /**
-     * Create a new OdmaGuid from the IDs of the repository and the object.
-     * 
-     * \param repositoryId
-     *            The <code>OdmaId</code> of the Repository
-     * \param objectId
-     *            The <code>OdmaId</code> of the Object inside the Repository
-     * 
-     * \throws IllegalArgumentException
-     *             if the name is null or empty or if the qualifier is not null
-     *             and empty
+     * @brief Constructs an OdmaGuid with the specified object ID and repository ID.
+     *
+     * @param objectId The OdmaId of the object. Must not be null.
+     * @param repositoryId The OdmaId of the repository. Must not be null.
+     * @throws std::invalid_argument if either objectId or repositoryId is null.
      */
-    OdmaQName(const string& repositoryId_, const string& objectId_)
-    {
-        repositoryId = repositoryId_;
-        objectId = objectId_;
+    OdmaGuid(const OdmaId& objectId, const OdmaId& repositoryId)
+        : objectId_(objectId), repositoryId_(repositoryId) {}
+
+    /**
+     * @brief Returns the OdmaId of the object.
+     * @return The object OdmaId.
+     */
+    inline const OdmaId& getObjectId() const {
+        return objectId_;
     }
 
     /**
-     * Returns true if the given Object is a <code>OdmaGuid</code> or an
-     * <code>OdmaGuid</code> identifying the same object.
-     * 
-     * \param obj
-     *            The object to compare this Id to
-     * 
-     * \return true if and only if the given Object is a <code>OdmaId</code>
-     *         or an <code>OdmaGuid</code> identifying the same object.
+     * @brief Returns the OdmaId of the repository.
+     * @return The repository OdmaId.
      */
-	bool equals(const OdmaQName& guid)
-	{
-		return repositoryId.equals(guid.repositoryId) && objectId.equals(guid.objectId);
-	}
-
-    /**
-     * Returns the <code>String</code> representation of this Identifier.
-     * 
-     * @return the <code>String</code> representation of this Identifier.
-     */
-    const std::string& toString()
-    {
-        return repositoryId + ":" + objectId;
+    inline const OdmaId& getRepositoryId() const {
+        return repositoryId_;
     }
 
-}
+    /**
+     * @brief Equality comparison operator.
+     * Two OdmaGuid objects are considered equal if both their objectId and repositoryId are equal.
+     *
+     * @param other The other OdmaGuid to compare with.
+     * @return True if both OdmaGuid objects are equal, false otherwise.
+     */
+    inline bool operator==(const OdmaGuid& other) const {
+        return objectId_ == other.objectId_ && repositoryId_ == other.repositoryId_;
+    }
 
-#endif
+    /**
+     * @brief Inequality comparison operator.
+     * @param other The other OdmaGuid to compare with.
+     * @return True if the OdmaGuid objects are not equal.
+     */
+    inline bool operator!=(const OdmaGuid& other) const {
+        return !(*this == other);
+    }
+
+    /**
+     * @brief Returns a string representation of the OdmaGuid.
+     * The format is "objectId:repositoryId".
+     * @return The string representation of this OdmaGuid.
+     */
+    inline std::string toString() const {
+        return objectId_.toString() + ":" + repositoryId_.toString();
+    }
+
+    /**
+     * @brief Overload the stream insertion operator to output the OdmaGuid.
+     * @param os The output stream.
+     * @param guid The OdmaGuid object to output.
+     * @return The modified output stream.
+     */
+    friend std::ostream& operator<<(std::ostream& os, const OdmaGuid& guid) {
+        os << guid.toString();
+        return os;
+    }
+
+private:
+    const OdmaId objectId_;     ///< The OdmaId of the object.
+    const OdmaId repositoryId_; ///< The OdmaId of the repository.
+
+};
+
+#endif // ODMA_GUID_H

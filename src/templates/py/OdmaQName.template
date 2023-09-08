@@ -1,0 +1,61 @@
+class OdmaQName:
+    """
+    Represents a qualified name in OpenDMA, consisting of a qualifier and a name.
+
+    Both the qualifier and the name must not be empty, and they are immutable after creation.
+    """
+
+    def __init__(self, qualifier: str, name: str) -> None:
+        """
+        Constructs an OdmaQName object with the specified qualifier and name.
+
+        :param qualifier: The qualifier part of the qualified name. Must not be empty.
+        :param name: The name part of the qualified name. Must not be empty.
+        :raises ValueError: If either the qualifier or name is empty.
+        """
+        if not qualifier.strip():
+            raise ValueError("Qualifier must not be empty")
+        if not name.strip():
+            raise ValueError("Name must not be empty")
+
+        self._qualifier = qualifier
+        self._name = name
+
+    @property
+    def qualifier(self) -> str:
+        """
+        Gets the qualifier part of the qualified name.
+
+        :return: The qualifier string.
+        """
+        return self._qualifier
+
+    @property
+    def name(self) -> str:
+        """
+        Gets the name part of the qualified name.
+
+        :return: The name string.
+        """
+        return self._name
+
+    def __eq__(self, other) -> bool:
+        """
+        Compares two OdmaQName objects for equality.
+        Two OdmaQName objects are considered equal if their qualifier and name are both equal.
+
+        :param other: The OdmaQName object to compare with.
+        :return: True if the objects are equal, otherwise False.
+        """
+        if isinstance(other, OdmaQName):
+            return self.qualifier == other.qualifier and self.name == other.name
+        return False
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the OdmaQName object.
+        The format is "qualifier:name".
+
+        :return: The string representation of this OdmaQName.
+        """
+        return f"{self.qualifier}:{self.name}"

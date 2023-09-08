@@ -1,0 +1,33 @@
+use std::fmt;
+
+/// Represents a unique identifier for an OdmaObject in an OdmaRepository.
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct OdmaId {
+    id: String,
+}
+
+impl OdmaId {
+
+    /// Constructs a new OdmaId.
+    ///
+    /// # Panics
+    /// Panics if the id is empty or whitespace.
+    pub fn new(id: &str) -> Self {
+        if id.trim().is_empty() {
+            panic!("ID must not be empty");
+        }
+        Self {
+            id: id.to_string(),
+        }
+    }
+
+}
+
+impl fmt::Display for OdmaId {
+
+    /// Returns a string representation of this OdmaId.
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.id)
+    }
+
+}

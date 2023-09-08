@@ -1,0 +1,69 @@
+/**
+ * Represents a qualified name in OpenDMA, consisting of a qualifier and a name.
+ * Both the qualifier and the name must not be null or empty, and they are immutable after creation.
+ */
+class OdmaQName {
+
+    /**
+     * Constructs an OdmaQName object with the specified qualifier and name.
+     *
+     * @param {string} qualifier - The qualifier part of the qualified name. Must not be empty.
+     * @param {string} name - The name part of the qualified name. Must not be empty.
+     * @throws {Error} If either the qualifier or name is empty.
+     */
+    constructor(qualifier, name) {
+        if (typeof qualifier !== 'string' || qualifier.trim() === '') {
+            throw new Error("Qualifier must not be empty");
+        }
+        if (typeof name !== 'string' || name.trim() === '') {
+            throw new Error("Name must not be empty");
+        }
+
+        this._qualifier = qualifier;
+        this._name = name;
+        Object.freeze(this); // Ensure immutability
+    }
+
+    /**
+     * Gets the qualifier part of the qualified name.
+     *
+     * @returns {string} The qualifier.
+     */
+    get qualifier() {
+        return this._qualifier;
+    }
+
+    /**
+     * Gets the name part of the qualified name.
+     *
+     * @returns {string} The name.
+     */
+    get name() {
+        return this._name;
+    }
+
+    /**
+     * Compares this OdmaQName with another OdmaQName for value equality.
+     * Two OdmaQName objects are considered equal if their qualifier and name are both equal.
+     *
+     * @param {OdmaQName} other - The OdmaQName to compare against.
+     * @returns {boolean} True if the objects are equal, false otherwise.
+     */
+    equals(other) {
+        if (!(other instanceof OdmaQName)) {
+            return false;
+        }
+        return this._qualifier === other.qualifier && this._name === other.name;
+    }
+
+    /**
+     * Returns a string representation of the OdmaQName object.
+     * The format is "qualifier:name".
+     *
+     * @returns {string} The string representation of this OdmaQName.
+     */
+    toString() {
+        return `${this._qualifier}:${this._name}`;
+    }
+
+}

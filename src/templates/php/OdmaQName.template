@@ -1,0 +1,85 @@
+<?php
+
+namespace OpenDMA\Api;
+
+/**
+ * Represents a qualified name in OpenDMA, consisting of a qualifier and a name.
+ *
+ * Both the qualifier and the name must not be null or empty, and they are immutable after creation.
+ * This class is designed to be immutable and thread-safe.
+ */
+class OdmaQName
+{
+    /**
+     * @var string The qualifier part of the qualified name.
+     */
+    private string $qualifier;
+
+    /**
+     * @var string The name part of the qualified name.
+     */
+    private string $name;
+
+    /**
+     * Constructs an OdmaQName object with the specified qualifier and name.
+     *
+     * @param string $qualifier The qualifier part of the qualified name. Must not be empty.
+     * @param string $name The name part of the qualified name. Must not be empty.
+     * @throws \InvalidArgumentException if either the qualifier or name is empty.
+     */
+    public function __construct(string $qualifier, string $name)
+    {
+        if (empty(trim($qualifier))) {
+            throw new \InvalidArgumentException("Qualifier must not be empty");
+        }
+        if (empty(trim($name))) {
+            throw new \InvalidArgumentException("Name must not be empty");
+        }
+
+        $this->qualifier = $qualifier;
+        $this->name = $name;
+    }
+
+    /**
+     * Gets the qualifier part of the qualified name.
+     *
+     * @return string The qualifier.
+     */
+    public function getQualifier(): string
+    {
+        return $this->qualifier;
+    }
+
+    /**
+     * Gets the name part of the qualified name.
+     *
+     * @return string The name.
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * Compares two OdmaQName objects for equality.
+     * Two OdmaQName objects are considered equal if their qualifier and name are both equal.
+     *
+     * @param OdmaQName $other The OdmaQName to compare against.
+     * @return bool True if the objects are equal, false otherwise.
+     */
+    public function equals(OdmaQName $other): bool
+    {
+        return $this->qualifier === $other->getQualifier() && $this->name === $other->getName();
+    }
+
+    /**
+     * Returns a string representation of the OdmaQName object.
+     *
+     * @return string The string representation of this OdmaQName.
+     */
+    public function __toString(): string
+    {
+        return $this->qualifier . ':' . $this->name;
+    }
+
+}
