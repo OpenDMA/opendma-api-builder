@@ -34,7 +34,7 @@ public class ClassDescription implements DescriptionFileTypes
     protected String descriptionComment;
 
     /** the List of declared properties in this class */
-    protected List propertyDescriptions;
+    protected List<PropertyDescription> propertyDescriptions;
 
     /** the List of ApiHelpers for this class */
     protected List apiHelpers;
@@ -139,7 +139,7 @@ public class ClassDescription implements DescriptionFileTypes
      * 
      * @return the List of declared properties in this class
      */
-    public List getPropertyDescriptions()
+    public List<PropertyDescription> getPropertyDescriptions()
     {
         return propertyDescriptions;
     }

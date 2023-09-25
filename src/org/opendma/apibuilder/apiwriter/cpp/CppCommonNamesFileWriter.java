@@ -8,12 +8,12 @@ import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
-public class CppConstantsFileWriter extends AbstractConstantsFileWriter
+public class CppCommonNamesFileWriter extends AbstractConstantsFileWriter
 {
     protected void writeConstantsFileHeader(ApiDescription apiDescription, PrintWriter out)
     {
-        out.println("#ifndef ODMA_COMMONNAMES_H");
-        out.println("#define ODMA_COMMONNAMES_H");
+        out.println("#ifndef _OdmaCommonNames_h_");
+        out.println("#define _OdmaCommonNames_h_");
         out.println("");
     }
 
@@ -69,7 +69,7 @@ public class CppConstantsFileWriter extends AbstractConstantsFileWriter
     protected void writeConstantsFileFooter(ApiDescription apiDescription, PrintWriter out)
     {
         out.println("");
-        out.println("#endif // ODMA_COMMONNAMES_H");
+        out.println("#endif // _OdmaCommonNames_h_");
     }
 
 }

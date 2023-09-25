@@ -85,6 +85,9 @@ public class GoApiWriter extends AbstractApiWriter
 
     protected void createConstantsFile(ApiDescription apiDescription) throws IOException
     {
+        // create common names file
+        GoCommonNamesFileWriter constantsFileWriter = new GoCommonNamesFileWriter();
+        constantsFileWriter.createConstantsFile(apiDescription, createGoFile(opendmaApiProjectFolder, "OdmaCommonNames"));
     }
 
     //-------------------------------------------------------------------------

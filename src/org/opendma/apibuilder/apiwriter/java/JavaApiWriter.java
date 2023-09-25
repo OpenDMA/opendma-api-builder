@@ -108,9 +108,9 @@ public class JavaApiWriter extends AbstractApiWriter
 
     protected void createConstantsFile(ApiDescription apiDescription) throws IOException
     {
-//        // create common names file
-//        JavaConstantsFileWriter constantsFileWriter = new JavaConstantsFileWriter();
-//        constantsFileWriter.createConstantsFile(apiDescription, createJavaFile(outputFolder,"org.opendma.api","OdmaCommonNames"));
+        // create common names file
+        JavaCommonNamesFileWriter constantsFileWriter = new JavaCommonNamesFileWriter();
+        constantsFileWriter.createConstantsFile(apiDescription, createJavaFile(opendmaApiSourceFolder,"org.opendma.api","OdmaCommonNames"));
     }
 
     //-------------------------------------------------------------------------

@@ -6,7 +6,7 @@ getTargetFolderName()                  |   x   |   x   |   x   |   x   |   x   |
 -- constants --------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 scalarDataTypes.properties             |       |       |       |       |       |       |       |       |       |       |   o   |
 createDataTypesFile                    |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
-createConstantsFile                    |       |       |       |       |       |       |       |       |       |       |   o   |
+createConstantsFile                    |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 -- basic classes ----------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 createQNameFile                        |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 createIdFile                           |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |

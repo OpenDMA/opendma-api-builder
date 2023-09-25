@@ -73,9 +73,9 @@ public class PhpApiWriter extends AbstractApiWriter
 
     protected void createConstantsFile(ApiDescription apiDescription) throws IOException
     {
-//        // create common names file
-//        PhpConstantsFileWriter constantsFileWriter = new PhpConstantsFileWriter();
-//        constantsFileWriter.createConstantsFile(apiDescription, createPhpFile(outputFolder,"OpenDMA/Api","OdmaCommonNames"));
+        // create common names file
+        PhpCommonNamesFileWriter constantsFileWriter = new PhpCommonNamesFileWriter();
+        constantsFileWriter.createConstantsFile(apiDescription, createPhpFile(opendmaApiFolder, "OdmaCommonNames"));
     }
 
     //-------------------------------------------------------------------------

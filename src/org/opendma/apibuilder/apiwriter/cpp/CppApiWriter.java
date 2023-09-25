@@ -93,9 +93,9 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected void createConstantsFile(ApiDescription apiDescription) throws IOException
     {
-//        // create common names file
-//        CppConstantsFileWriter constantsFileWriter = new CppConstantsFileWriter();
-//        constantsFileWriter.createConstantsFile(apiDescription, createHeaderFile(outputFolder,"OdmaCommonNames"));
+        // create common names file
+        CppCommonNamesFileWriter constantsFileWriter = new CppCommonNamesFileWriter();
+        constantsFileWriter.createConstantsFile(apiDescription, createHeaderFile(includeFolder,"OdmaCommonNames"));
     }
 
     //-------------------------------------------------------------------------

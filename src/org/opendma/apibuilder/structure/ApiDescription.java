@@ -22,7 +22,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
     protected String version = null;
     
     /** the List of all described classes */
-    protected List describedClasses = new ArrayList();
+    protected List<ClassDescription> describedClasses = new ArrayList<ClassDescription>();
     
     /** the Map between the qualified class name and a ClassDescription */
     protected Map classNameMap = new HashMap();
@@ -83,7 +83,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
      * 
      * @return the List of all described classes
      */
-    public List getDescribedClasses()
+    public List<ClassDescription> getDescribedClasses()
     {
         return describedClasses;
     }

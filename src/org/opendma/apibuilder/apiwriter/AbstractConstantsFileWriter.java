@@ -18,10 +18,10 @@ public abstract class AbstractConstantsFileWriter
 {
     
     /** list of all unique class names across the entire hierarchy */
-    protected Map uniqueClassNames = new LinkedHashMap();
+    protected Map<String, ClassDescription> uniqueClassNames = new LinkedHashMap<String, ClassDescription>();
     
     /** list of all unique property names across the entire hierarchy */
-    protected Map uniquePropertyNames = new LinkedHashMap();
+    protected Map<String, PropertyDescription> uniquePropertyNames = new LinkedHashMap<String, PropertyDescription>();
     
     protected abstract void writeConstantsFileHeader(ApiDescription apiDescription, PrintWriter out);
     
@@ -43,6 +43,11 @@ public abstract class AbstractConstantsFileWriter
     
     public void createConstantsFile(ApiDescription apiDescription, OutputStream constantsOutputStream) throws IOException
     {
+        createConstantsFile(apiDescription, constantsOutputStream, true);
+    }
+
+    public void createConstantsFile(ApiDescription apiDescription, OutputStream constantsOutputStream, boolean closeStream) throws IOException
+    {
         // create output Writer
         PrintWriter out = new PrintWriter(constantsOutputStream);
         // write Header
@@ -50,11 +55,11 @@ public abstract class AbstractConstantsFileWriter
         // write Header of types section
         writeConstantsTypesSectionHeader(apiDescription,out);
         // iterate through all scalar types
-        List scalarTypes = apiDescription.getScalarTypes();
-        Iterator itScalarTypes = scalarTypes.iterator();
+        List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
+        Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
         {
-            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+            ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
             String constantScalarTypeName = "TYPE_" + scalarTypeDescription.getName().toUpperCase();
             //if(!scalarTypeDescription.isInternal())
             //{
@@ -66,11 +71,11 @@ public abstract class AbstractConstantsFileWriter
         // iterate through all classes and all properties
         uniqueClassNames.clear();
         uniquePropertyNames.clear();
-        List describedClasses = apiDescription.getDescribedClasses();
-        Iterator itDescribedClasses = describedClasses.iterator();
+        List<ClassDescription> describedClasses = apiDescription.getDescribedClasses();
+        Iterator<ClassDescription> itDescribedClasses = describedClasses.iterator();
         while(itDescribedClasses.hasNext())
         {
-            ClassDescription classDescription = (ClassDescription)itDescribedClasses.next();
+            ClassDescription classDescription = itDescribedClasses.next();
             writeConstantsClassSeperator(classDescription,out);
             OdmaApiBuilderQName classOdmaName = classDescription.getOdmaName();
             String constantClassName = "CLASS_" + classOdmaName.getName().toUpperCase();
@@ -79,11 +84,11 @@ public abstract class AbstractConstantsFileWriter
                 writeConstantsClassnameConstant(classDescription,constantClassName,out);
                 uniqueClassNames.put(constantClassName, classDescription);
             }
-            List declaredProperties = classDescription.getPropertyDescriptions();
-            Iterator itDeclaredProperties = declaredProperties.iterator();
+            List<PropertyDescription> declaredProperties = classDescription.getPropertyDescriptions();
+            Iterator<PropertyDescription> itDeclaredProperties = declaredProperties.iterator();
             while(itDeclaredProperties.hasNext())
             {
-                PropertyDescription propertyDescription = (PropertyDescription)itDeclaredProperties.next();
+                PropertyDescription propertyDescription = itDeclaredProperties.next();
                 OdmaApiBuilderQName propertyOdmaName = propertyDescription.getOdmaName();
                 String constantPropertyName = "PROPERTY_" + propertyOdmaName.getName().toUpperCase();
                 if(!uniquePropertyNames.containsKey(constantPropertyName))
@@ -99,9 +104,12 @@ public abstract class AbstractConstantsFileWriter
         }
         // write Footer
         writeConstantsFileFooter(apiDescription,out);
-        // close writer and streams
-        out.close();
-        constantsOutputStream.close();
+        // flush writer and optionally close streams
+        out.flush();
+        if(closeStream)
+        {
+            constantsOutputStream.close();
+        }
     }
 
 }

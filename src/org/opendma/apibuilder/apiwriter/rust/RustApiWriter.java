@@ -69,6 +69,9 @@ public class RustApiWriter extends AbstractApiWriter
 
     protected void createConstantsFile(ApiDescription apiDescription) throws IOException
     {
+        // create common names file
+        RustCommonNamesFileWriter constantsFileWriter = new RustCommonNamesFileWriter();
+        constantsFileWriter.createConstantsFile(apiDescription, createRsFile(opendmaApiSourceFolder, "OdmaCommonNames"));
     }
 
     //-------------------------------------------------------------------------

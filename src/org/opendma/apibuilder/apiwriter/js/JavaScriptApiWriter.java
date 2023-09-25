@@ -68,6 +68,9 @@ public class JavaScriptApiWriter extends AbstractApiWriter
 
     protected void createConstantsFile(ApiDescription apiDescription) throws IOException
     {
+        // create common names
+        JavaScriptCommonNamesFileWriter constantsFileWriter = new JavaScriptCommonNamesFileWriter();
+        constantsFileWriter.createConstantsFile(apiDescription, opendmaApiFOS, false);
     }
 
     //-------------------------------------------------------------------------

@@ -68,6 +68,9 @@ public class TypeScriptApiWriter extends AbstractApiWriter
 
     protected void createConstantsFile(ApiDescription apiDescription) throws IOException
     {
+        // create common names file
+        TypeScriptCommonNamesFileWriter constantsFileWriter = new TypeScriptCommonNamesFileWriter();
+        constantsFileWriter.createConstantsFile(apiDescription, createTsFile(opendmaApiSourceFolder, "OdmaCommonNames"));
     }
 
     //-------------------------------------------------------------------------

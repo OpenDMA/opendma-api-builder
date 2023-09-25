@@ -68,6 +68,9 @@ public class SwiftApiWriter extends AbstractApiWriter
 
     protected void createConstantsFile(ApiDescription apiDescription) throws IOException
     {
+        // create common names file
+        SwiftCommonNamesFileWriter constantsFileWriter = new SwiftCommonNamesFileWriter();
+        constantsFileWriter.createConstantsFile(apiDescription, createSwiftFile(opendmaApiSourcesFolder, "OdmaCommonNames"));
     }
 
     //-------------------------------------------------------------------------

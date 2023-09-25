@@ -67,10 +67,15 @@ public class PythonApiWriter extends AbstractApiWriter
             out.println("    "+scalarTypeDescription.getName().toUpperCase()+" = "+scalarTypeDescription.getNumericID());
         }
         out.flush();
+        classesImportFromHelpers.add("OdmaType");
     }
 
     protected void createConstantsFile(ApiDescription apiDescription) throws IOException
     {
+        // create constants file
+        PythonConstantsFileWriter constantsFileWriter = new PythonConstantsFileWriter();
+        constantsFileWriter.createConstantsFile(apiDescription, new FileOutputStream(new File(opendmaApiSourceFolder, "constants.py")));
+        classesImportFromConstants.addAll(constantsFileWriter.getDefinedConstants());
     }
 
     //-------------------------------------------------------------------------
@@ -178,6 +183,8 @@ public class PythonApiWriter extends AbstractApiWriter
     
     private List<String> classesImportFromHelpers = new LinkedList<String>();
     
+    private List<String> classesImportFromConstants = new LinkedList<String>();
+    
     protected void prepareProjectStructureAndBuildFiles(final ApiDescription apiDescription) throws IOException
     {
         PlaceholderResolver resolver = new PlaceholderResolver()
@@ -241,6 +248,24 @@ public class PythonApiWriter extends AbstractApiWriter
             out.print("from .helpers import ");
             boolean needSep = false;
             for(String className : classesImportFromHelpers)
+            {
+                if(needSep)
+                {
+                    out.print(", ");
+                }
+                else
+                {
+                    needSep = true;
+                }
+                out.print(className);
+            }
+            out.println();
+        }
+        if(!classesImportFromConstants.isEmpty())
+        {
+            out.print("from .constants import ");
+            boolean needSep = false;
+            for(String className : classesImportFromConstants)
             {
                 if(needSep)
                 {

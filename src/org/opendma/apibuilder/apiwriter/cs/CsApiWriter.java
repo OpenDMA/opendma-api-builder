@@ -77,9 +77,9 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createConstantsFile(ApiDescription apiDescription) throws IOException
     {
-//        // create common names file
-//        CsConstantsFileWriter constantsFileWriter = new CsConstantsFileWriter();
-//        constantsFileWriter.createConstantsFile(apiDescription, createOdmaApiCsFile(outputFolder,"OdmaCommonNames"));
+        // create common names file
+        CsCommonNamesFileWriter constantsFileWriter = new CsCommonNamesFileWriter();
+        constantsFileWriter.createConstantsFile(apiDescription, createCsFile(opendmaApiFolder,"OdmaCommonNames"));
     }
 
     //-------------------------------------------------------------------------
