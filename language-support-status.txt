@@ -4,7 +4,7 @@
 getName()                              |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |
 getTargetFolderName()                  |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |
 -- constants --------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-scalarDataTypes.properties             |       |       |       |       |       |       |       |       |       |       |   o   |
+scalarDataTypes.properties             |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 createDataTypesFile                    |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 createConstantsFile                    |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 -- basic classes ----------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
