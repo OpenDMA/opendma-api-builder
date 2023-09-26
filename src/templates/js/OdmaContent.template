@@ -4,17 +4,25 @@
  */
 class OdmaContent {
 
+    constructor() {
+        if (new.target === OdmaContent) {
+            throw new Error("OdmaContent is an abstract class and cannot be instantiated directly.");
+        }
+    }
+
     /**
-     * Abstract method to get the stream.
-     * Should be implemented by subclasses.
+     * Gets the stream to access the content's binary data.
+     * @abstract
+     * @returns {ReadableStream | NodeJS.ReadableStream} A ReadableStream for reading the content's binary data.
      */
     getStream() {
         throw new Error("Method 'getStream()' must be implemented.");
     }
 
     /**
-     * Abstract method to get the size of the content.
-     * Should be implemented by subclasses.
+     * Gets the size of the content in bytes.
+     * @abstract
+     * @returns {number} The size of the content in bytes as a long.
      */
     getSize() {
         throw new Error("Method 'getSize()' must be implemented.");
