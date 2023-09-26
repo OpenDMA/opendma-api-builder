@@ -10,7 +10,7 @@ import org.opendma.apibuilder.structure.ScalarTypeDescription;
 public abstract class AbstractListFileWriter
 {
 
-    protected abstract void writeListFileHeader(ScalarTypeDescription scalarTypeDescription, List requiredImports, PrintWriter out);
+    protected abstract void writeListFileHeader(ScalarTypeDescription scalarTypeDescription, List<String> requiredImports, PrintWriter out);
 
     protected abstract void writeListFileMethods(ScalarTypeDescription scalarTypeDescription, PrintWriter out);
 

@@ -37,7 +37,7 @@ public class CppClassFileWriter extends AbstractClassFileWriter
                 out.println("     */");
                 out.println("    virtual OdmaQName* getQName(void) = 0;");
             }
-            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List requiredImports)
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List<String> requiredImports)
             {
                 if(!requiredImports.contains("\"OdmaQName.h\""))
                 {
@@ -46,15 +46,15 @@ public class CppClassFileWriter extends AbstractClassFileWriter
             }});
     }
 
-    protected void writeClassFileHeader(ClassDescription classDescription, List requiredImports, PrintWriter out)
+    protected void writeClassFileHeader(ClassDescription classDescription, List<String> requiredImports, PrintWriter out)
     {
         out.println("#ifndef _"+classDescription.getApiName()+"_h_");
         out.println("#define _"+classDescription.getApiName()+"_h_");
         out.println("");
-        Iterator itRequiredImports = requiredImports.iterator();
+        Iterator<String> itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
         {
-            String importPackage = (String)itRequiredImports.next();
+            String importPackage = itRequiredImports.next();
             out.println("#include "+importPackage);
         }
         String extendsApiName = classDescription.getExtendsApiName();

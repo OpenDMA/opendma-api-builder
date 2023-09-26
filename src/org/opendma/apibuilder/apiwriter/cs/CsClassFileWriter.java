@@ -36,20 +36,20 @@ public class CsClassFileWriter extends AbstractClassFileWriter
                 out.println("        /// </summary>");
                 out.println("        OdmaQName QName { get; }");
             }
-            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List requiredImports)
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List<String> requiredImports)
             {
                 // TODO Auto-generated method stub
                 
             }});
     }
 
-    protected void writeClassFileHeader(ClassDescription classDescription, List requiredImports, PrintWriter out)
+    protected void writeClassFileHeader(ClassDescription classDescription, List<String> requiredImports, PrintWriter out)
     {
         String extendsApiName = classDescription.getExtendsApiName();
-        Iterator itRequiredImports = requiredImports.iterator();
+        Iterator<String> itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
         {
-            String importPackage = (String)itRequiredImports.next();
+            String importPackage = itRequiredImports.next();
             out.println("using "+importPackage+";");
         }
         out.println("");

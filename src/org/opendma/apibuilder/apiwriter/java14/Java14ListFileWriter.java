@@ -25,14 +25,14 @@ public class Java14ListFileWriter extends AbstractListFileWriter
         requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false,false));
     }
 
-    protected void writeListFileHeader(ScalarTypeDescription scalarTypeDescription, List requiredImports, PrintWriter out)
+    protected void writeListFileHeader(ScalarTypeDescription scalarTypeDescription, List<String> requiredImports, PrintWriter out)
     {
         out.println("package org.opendma.api.collections;");
         out.println("");
-        Iterator itRequiredImports = requiredImports.iterator();
+        Iterator<String> itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
         {
-            String importDeclaration = (String)itRequiredImports.next();
+            String importDeclaration = itRequiredImports.next();
             if(Java14ApiWriter.needToImportPackage(importDeclaration,"org.opendma.api.collections"))
             {
                 out.println("import "+importDeclaration+";");

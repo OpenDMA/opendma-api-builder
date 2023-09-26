@@ -23,11 +23,11 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         apiWriter = writer;
     }
 
-    protected void writePropertyImplementationFileHeader(ApiDescription apiDescription, List requiredImports, PrintWriter out) throws IOException
+    protected void writePropertyImplementationFileHeader(ApiDescription apiDescription, List<String> requiredImports, PrintWriter out) throws IOException
     {
         out.println("package org.opendma.impl;");
         out.println("");
-        Iterator itRequiredImports = requiredImports.iterator();
+        Iterator<String> itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
         {
             String importDeclaration = (String)itRequiredImports.next();
@@ -141,13 +141,13 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
 
     protected void writeGenericSectionSwitch(ApiDescription apiDescription, PrintWriter out, boolean multivalue) throws IOException
     {
-        List scalarTypes = apiDescription.getScalarTypes();
+        List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
         out.println("            switch(dataType)");
         out.println("            {");
-        Iterator itScalarTypes = scalarTypes.iterator();
+        Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
         {
-            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+            ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
             //if(!scalarTypeDescription.isInternal())
             //{
                 String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();

@@ -12,7 +12,7 @@ import org.opendma.apibuilder.structure.ScalarTypeDescription;
 public abstract class AbstractPropertyImplementationFileWriter
 {
     
-    protected abstract void writePropertyImplementationFileHeader(ApiDescription apiDescription, List requiredImports, PrintWriter out) throws IOException;
+    protected abstract void writePropertyImplementationFileHeader(ApiDescription apiDescription, List<String> requiredImports, PrintWriter out) throws IOException;
     
     protected abstract void writeGenericSection(ApiDescription apiDescription, PrintWriter out) throws IOException;
     
@@ -33,11 +33,11 @@ public abstract class AbstractPropertyImplementationFileWriter
         // collect required imports
         ImportsList requiredImports = new ImportsList();
         appendRequiredImportsGlobal(requiredImports);
-        List scalarTypes = apiDescription.getScalarTypes();
-        Iterator itScalarTypes = scalarTypes.iterator();
+        List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
+        Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
         {
-            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+            ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
             //if(!scalarTypeDescription.isInternal())
             //{
                 appendRequiredImportsScalarAccess(requiredImports,scalarTypeDescription);

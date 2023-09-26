@@ -24,14 +24,14 @@ public class Java14PropertyFileWriter extends AbstractPropertyFileWriter
         apiWriter = writer;
     }
 
-    protected void writePropertyFileHeader(ApiDescription apiDescription, List requiredImports, PrintWriter out) throws IOException
+    protected void writePropertyFileHeader(ApiDescription apiDescription, List<String> requiredImports, PrintWriter out) throws IOException
     {
         out.println("package org.opendma.api;");
         out.println("");
-        Iterator itRequiredImports = requiredImports.iterator();
+        Iterator<String> itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
         {
-            String importDeclaration = (String)itRequiredImports.next();
+            String importDeclaration = itRequiredImports.next();
             if(Java14ApiWriter.needToImportPackage(importDeclaration,"org.opendma.api"))
             {
                 out.println("import "+importDeclaration+";");

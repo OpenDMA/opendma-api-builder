@@ -30,10 +30,10 @@ public class Java14EnumerationFileWriter extends AbstractEnumerationFileWriter
         }
         out.println("package org.opendma.api.collections;");
         out.println("");
-        Iterator itRequiredImports = requiredImports.iterator();
+        Iterator<String> itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
         {
-            String importDeclaration = (String)itRequiredImports.next();
+            String importDeclaration = itRequiredImports.next();
             if(Java14ApiWriter.needToImportPackage(importDeclaration,"org.opendma.api.collections"))
             {
                 out.println("import "+importDeclaration+";");

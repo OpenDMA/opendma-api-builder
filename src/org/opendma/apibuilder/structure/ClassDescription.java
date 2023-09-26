@@ -37,7 +37,7 @@ public class ClassDescription implements DescriptionFileTypes
     protected List<PropertyDescription> propertyDescriptions;
 
     /** the List of ApiHelpers for this class */
-    protected List apiHelpers;
+    protected List<ApiHelperDescription> apiHelpers;
     
     /** the ApiDescription this class description is part of */
     protected ApiDescription containingApiDescription;
@@ -149,7 +149,7 @@ public class ClassDescription implements DescriptionFileTypes
      * 
      * @return the List of ApiHelpers for this class
      */
-    public List getApiHelpers()
+    public List<ApiHelperDescription> getApiHelpers()
     {
         return apiHelpers;
     }
@@ -235,8 +235,8 @@ public class ClassDescription implements DescriptionFileTypes
         instantiable = parseBoolean(instantiableString,DESCRIPTION_ATTRIBUTE_INSTANTIABLE);
         aspect = parseBoolean(aspectString,DESCRIPTION_ATTRIBUTE_ASPECT);
         // iterate through all elements below the <Class> Element
-        propertyDescriptions = new ArrayList();
-        apiHelpers = new ArrayList();
+        propertyDescriptions = new ArrayList<PropertyDescription>();
+        apiHelpers = new ArrayList<ApiHelperDescription>();
         Element descriptionElement = null;
         NodeList pluginlist = classDescriptionElement.getChildNodes();
         for (int i = 0; i < pluginlist.getLength(); i++)

@@ -15,9 +15,9 @@ import org.opendma.apibuilder.structure.PropertyDescription;
 public abstract class AbstractClassFileWriter
 {
     
-    protected Map apiHelperWriters = new HashMap();
+    protected Map<String,ApiHelperWriter> apiHelperWriters = new HashMap<String,ApiHelperWriter>();
 
-    protected abstract void writeClassFileHeader(ClassDescription classDescription, List requiredImports, PrintWriter out);
+    protected abstract void writeClassFileHeader(ClassDescription classDescription, List<String> requiredImports, PrintWriter out);
 
     protected abstract void writeClassFileFooter(ClassDescription classDescription, PrintWriter out);
 
@@ -41,11 +41,11 @@ public abstract class AbstractClassFileWriter
     
     protected void appendRequiredImportsApiHelper(ClassDescription classDescription, ImportsList requiredImports)
     {
-        Iterator itApiHelperDescriptions = classDescription.getApiHelpers().iterator();
+        Iterator<ApiHelperDescription> itApiHelperDescriptions = classDescription.getApiHelpers().iterator();
         while(itApiHelperDescriptions.hasNext())
         {
-            ApiHelperDescription apiHelper = (ApiHelperDescription)itApiHelperDescriptions.next();
-            ApiHelperWriter helperWriter = (ApiHelperWriter)apiHelperWriters.get(apiHelper.getApiName());
+            ApiHelperDescription apiHelper = itApiHelperDescriptions.next();
+            ApiHelperWriter helperWriter = apiHelperWriters.get(apiHelper.getApiName());
             if(helperWriter == null)
             {
                 throw new RuntimeException("No ApiHelperWriter registered for ApiHelper "+apiHelper.getApiName());
@@ -71,11 +71,11 @@ public abstract class AbstractClassFileWriter
         {
             appendRequiredImportsGenericPropertyAccess(requiredImports);
         }
-        List propertyDescriptions = classDescription.getPropertyDescriptions();
-        Iterator itPropertyDescriptions = propertyDescriptions.iterator();
+        List<PropertyDescription> propertyDescriptions = classDescription.getPropertyDescriptions();
+        Iterator<PropertyDescription> itPropertyDescriptions = propertyDescriptions.iterator();
         while(itPropertyDescriptions.hasNext())
         {
-            PropertyDescription property = (PropertyDescription)itPropertyDescriptions.next();
+            PropertyDescription property = itPropertyDescriptions.next();
             appendRequiredImportsClassPropertyAccess(requiredImports,property);
         }
         // write Header
@@ -95,10 +95,10 @@ public abstract class AbstractClassFileWriter
             writeClassPropertyAccess(property,out);
         }
         // write all ApiHelper for this class
-        Iterator itApiHelperDescriptions = classDescription.getApiHelpers().iterator();
+        Iterator<ApiHelperDescription> itApiHelperDescriptions = classDescription.getApiHelpers().iterator();
         while(itApiHelperDescriptions.hasNext())
         {
-            ApiHelperDescription apiHelper = (ApiHelperDescription)itApiHelperDescriptions.next();
+            ApiHelperDescription apiHelper = itApiHelperDescriptions.next();
             writeClassApiHelper(classDescription,apiHelper,out);
         }
         // write Footer

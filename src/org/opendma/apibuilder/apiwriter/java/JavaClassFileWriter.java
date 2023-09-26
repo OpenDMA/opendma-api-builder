@@ -36,7 +36,7 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
                 out.println("     */");
                 out.println("    public OdmaQName getQName();");
             }
-            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List requiredImports)
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List<String> requiredImports)
             {
                 if(!requiredImports.contains("org.opendma.api.OdmaQName"))
                 {
@@ -45,15 +45,15 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
             }});
     }
 
-    protected void writeClassFileHeader(ClassDescription classDescription, List requiredImports, PrintWriter out)
+    protected void writeClassFileHeader(ClassDescription classDescription, List<String> requiredImports, PrintWriter out)
     {
         String extendsApiName = classDescription.getExtendsApiName();
         out.println("package org.opendma.api;");
         out.println("");
-        Iterator itRequiredImports = requiredImports.iterator();
+        Iterator<String> itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
         {
-            String importDeclaration = (String)itRequiredImports.next();
+            String importDeclaration = itRequiredImports.next();
             if(JavaApiWriter.needToImportPackage(importDeclaration,"org.opendma.api"))
             {
                 out.println("import "+importDeclaration+";");

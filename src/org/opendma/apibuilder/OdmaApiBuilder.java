@@ -97,7 +97,7 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         }
         //-----< STEP 6: create API for each programming language >------------
         String outputFolderRoot = args[1];
-        List odmaApiWriters;
+        List<OdmaApiWriter> odmaApiWriters;
         try
         {
             odmaApiWriters = getApiWriters(outputFolderRoot);
@@ -108,10 +108,10 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
             e.printStackTrace(System.out);
             return;
         }
-        Iterator itOdmaApiWriters = odmaApiWriters.iterator();
+        Iterator<OdmaApiWriter> itOdmaApiWriters = odmaApiWriters.iterator();
         while(itOdmaApiWriters.hasNext())
         {
-            OdmaApiWriter apiWriter = (OdmaApiWriter)itOdmaApiWriters.next();
+            OdmaApiWriter apiWriter = itOdmaApiWriters.next();
             try
             {
                 System.out.println("Writing "+apiWriter.getName()+" API...");
@@ -139,14 +139,14 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         return descriptionDocument.getDocumentElement();
     }
     
-    protected List getApiWriters(String outputFolderRoot) throws ApiWriterException
+    protected List<OdmaApiWriter> getApiWriters(String outputFolderRoot) throws ApiWriterException
     {
         File outputFolderRootFile = new File(outputFolderRoot);
         if(!outputFolderRootFile.isDirectory())
         {
             throw new ApiWriterException("The output folder '"+outputFolderRoot+"' does not exist or is not a directory.");
         }
-        List result = new ArrayList();
+        List<OdmaApiWriter> result = new ArrayList<OdmaApiWriter>();
         result.add(new JavaApiWriter(outputFolderRootFile));
         result.add(new CsApiWriter(outputFolderRootFile));
         result.add(new CppApiWriter(outputFolderRootFile));

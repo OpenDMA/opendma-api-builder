@@ -11,6 +11,6 @@ public interface ApiHelperWriter
 
     void writeApiHelper(ClassDescription classDescription, ApiHelperDescription apiHelper, PrintWriter out);
 
-    void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List requiredImports);
+    void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List<String> requiredImports);
 
 }

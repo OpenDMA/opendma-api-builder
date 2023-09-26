@@ -244,17 +244,17 @@ public class Java14ApiWriter extends AbstractApiWriter
         // CHECKTEMPLATE: OdmaRepositoryTemplate
         copyStaticClassHelperTemplate("OdmaStaticSystemRepository");
         // additionally create static class hierarchy helper files
-        List classes = apiDescription.getDescribedClasses();
+        List<ClassDescription> classes = apiDescription.getDescribedClasses();
         // property
-        Iterator itClasses = classes.iterator();
+        Iterator<ClassDescription> itClasses = classes.iterator();
         while(itClasses.hasNext())
         {
-            ClassDescription classDescription = (ClassDescription)itClasses.next();
-            List declaredProperties = classDescription.getPropertyDescriptions();
-            Iterator itDeclaredProperties = declaredProperties.iterator();
+            ClassDescription classDescription = itClasses.next();
+            List<PropertyDescription> declaredProperties = classDescription.getPropertyDescriptions();
+            Iterator<PropertyDescription> itDeclaredProperties = declaredProperties.iterator();
             while(itDeclaredProperties.hasNext())
             {
-                PropertyDescription propertyDescription = (PropertyDescription)itDeclaredProperties.next();
+                PropertyDescription propertyDescription = itDeclaredProperties.next();
                 createStaticClassHierarchyHelperProperty(apiDescription,propertyDescription);
             }
         }
@@ -296,10 +296,10 @@ public class Java14ApiWriter extends AbstractApiWriter
         out.println("    public OdmaStaticSystemPropertyInfo"+propName+"() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
         out.println("    {");
         // iterate through all properties defined in the propertyInfo class
-        Iterator itDeclaredPropertyInfoProperties = apiDescription.getPropertyInfoClass().getPropertyDescriptions().iterator();
+        Iterator<PropertyDescription> itDeclaredPropertyInfoProperties = apiDescription.getPropertyInfoClass().getPropertyDescriptions().iterator();
         while(itDeclaredPropertyInfoProperties.hasNext())
         {
-            PropertyDescription pd = (PropertyDescription)itDeclaredPropertyInfoProperties.next();
+            PropertyDescription pd = itDeclaredPropertyInfoProperties.next();
             printPropertyInfoSystemProperty(out,apiDescription,propertyDescription,pd);
         }
         out.println("    }");
@@ -401,10 +401,10 @@ public class Java14ApiWriter extends AbstractApiWriter
         out.println("    {");
         out.println("        super(parent,subClasses);");
         // iterate through all properties defined in the propertyInfo class
-        Iterator itDeclaredClassProperties = apiDescription.getClassClass().getPropertyDescriptions().iterator();
+        Iterator<PropertyDescription> itDeclaredClassProperties = apiDescription.getClassClass().getPropertyDescriptions().iterator();
         while(itDeclaredClassProperties.hasNext())
         {
-            PropertyDescription pd = (PropertyDescription)itDeclaredClassProperties.next();
+            PropertyDescription pd = itDeclaredClassProperties.next();
             printClassSystemProperty(out,apiDescription,classDescription,pd);
         }
         out.println("        buildProperties();");
@@ -503,12 +503,12 @@ public class Java14ApiWriter extends AbstractApiWriter
         out.println("        OdmaArrayListPropertyInfoEnumeration declaredProperties;");
         out.println("        OdmaStaticSystemClass ssc;");
         out.println("");
-        Iterator itClassDescriptions = apiDescription.getDescribedClasses().iterator();
-        HashMap uniquePropMap = new HashMap();
+        Iterator<ClassDescription> itClassDescriptions = apiDescription.getDescribedClasses().iterator();
+        HashMap<String,Boolean> uniquePropMap = new HashMap<String,Boolean>();
         while(itClassDescriptions.hasNext())
         {
-            ClassDescription classDescription = (ClassDescription)itClassDescriptions.next();
-            Iterator itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
+            ClassDescription classDescription = itClassDescriptions.next();
+            Iterator<PropertyDescription> itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
             while(itPropertyDescriptions.hasNext())
             {
                 PropertyDescription propertyDescription = (PropertyDescription)itPropertyDescriptions.next();
@@ -537,10 +537,10 @@ public class Java14ApiWriter extends AbstractApiWriter
             {
                 out.println("        declaredProperties = new OdmaArrayListPropertyInfoEnumeration();");
             }
-            Iterator itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
+            Iterator<PropertyDescription> itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
             while(itPropertyDescriptions.hasNext())
             {
-                PropertyDescription propertyDescription = (PropertyDescription)itPropertyDescriptions.next();
+                PropertyDescription propertyDescription = itPropertyDescriptions.next();
                 String propName = propertyDescription.getOdmaName().getName();
                 String constantPropertyName = "PROPERTY_" + propName.toUpperCase();
                 out.println("        declaredProperties.add(getPropertyInfo(OdmaTypes."+constantPropertyName+"));");
@@ -582,10 +582,10 @@ public class Java14ApiWriter extends AbstractApiWriter
         while(itClassDescriptions.hasNext())
         {
             ClassDescription classDescription = (ClassDescription)itClassDescriptions.next();
-            Iterator itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
+            Iterator<PropertyDescription> itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
             while(itPropertyDescriptions.hasNext())
             {
-                PropertyDescription propertyDescription = (PropertyDescription)itPropertyDescriptions.next();
+                PropertyDescription propertyDescription = itPropertyDescriptions.next();
                 if(!propertyDescription.getDataType().isReference())
                     continue;
                 String propName = propertyDescription.getOdmaName().getName();

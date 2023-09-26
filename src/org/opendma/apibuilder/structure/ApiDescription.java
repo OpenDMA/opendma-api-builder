@@ -25,16 +25,16 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
     protected List<ClassDescription> describedClasses = new ArrayList<ClassDescription>();
     
     /** the Map between the qualified class name and a ClassDescription */
-    protected Map classNameMap = new HashMap();
+    protected Map<OdmaApiBuilderQName,ClassDescription> classNameMap = new HashMap<OdmaApiBuilderQName,ClassDescription>();
     
     /** the List of all defined scalar types */
     protected List<ScalarTypeDescription> scalarTypes = new ArrayList<ScalarTypeDescription>();
     
     /** the Map between the scalar type names and the scalar type descriptions */
-    protected Map scalarTypesNameToDescriptionMap = new HashMap();
+    protected Map<String,ScalarTypeDescription> scalarTypesNameToDescriptionMap = new HashMap<String,ScalarTypeDescription>();
     
     /** the Map between the scalar type IDs and the scalar type descriptions */
-    protected Map scalarTypesIdToDescriptionMap = new HashMap();
+    protected Map<Integer,ScalarTypeDescription> scalarTypesIdToDescriptionMap = new HashMap<Integer,ScalarTypeDescription>();
     
     /** the qualified name of the class hierarchy root element */
     protected OdmaApiBuilderQName objectClassQName = new OdmaApiBuilderQName("opendma","Object");
@@ -99,7 +99,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public ClassDescription getDescribedClass(OdmaApiBuilderQName name)
     {
-        return (ClassDescription)classNameMap.get(name);
+        return classNameMap.get(name);
     }
     
     /**
@@ -121,7 +121,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public ScalarTypeDescription getScalarTypeDescription(String scalarTypeName)
     {
-        return (ScalarTypeDescription)scalarTypesNameToDescriptionMap.get(scalarTypeName.toLowerCase());
+        return scalarTypesNameToDescriptionMap.get(scalarTypeName.toLowerCase());
     }
     
     /**
@@ -133,7 +133,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public ScalarTypeDescription getScalarTypeDescription(int scalarTypeId)
     {
-        return (ScalarTypeDescription)scalarTypesIdToDescriptionMap.get(new Integer(scalarTypeId));
+        return scalarTypesIdToDescriptionMap.get(new Integer(scalarTypeId));
     }
     
     /**
@@ -275,10 +275,10 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public void checkInternalScalarBaseTypes() throws DescriptionFileSemanticException
     {
-        Iterator itScalarTypes = scalarTypes.iterator();
+        Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
         {
-            ScalarTypeDescription scalarTypeToCheck = (ScalarTypeDescription)itScalarTypes.next();
+            ScalarTypeDescription scalarTypeToCheck = itScalarTypes.next();
             if(scalarTypeToCheck.isInternal())
             {
                 String baseScalarTypeName = scalarTypeToCheck.getBaseScalar();
@@ -300,12 +300,12 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
     public void checkUniqueness() throws DescriptionFileSemanticException
     {
         // map for the uniqueness test of the class names
-        Map uniqueClassnameTestMap = new HashMap();
+        Map<OdmaApiBuilderQName,ClassDescription> uniqueClassnameTestMap = new HashMap<OdmaApiBuilderQName,ClassDescription>();
         // iterate through all described classes
-        Iterator itAllClasses = describedClasses.iterator();
+        Iterator<ClassDescription> itAllClasses = describedClasses.iterator();
         while(itAllClasses.hasNext())
         {
-            ClassDescription classDescription = (ClassDescription)itAllClasses.next();
+            ClassDescription classDescription = itAllClasses.next();
             // test is qualified class name is unique
             if(uniqueClassnameTestMap.containsKey(classDescription.getOdmaName()))
             {
@@ -313,12 +313,12 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
             }
             uniqueClassnameTestMap.put(classDescription.getOdmaName(),classDescription);
             // test uniqueness of all qualified property names within this class
-            Map uniquePropertynameTestMap = new HashMap();
-            List declaredProperties = classDescription.getPropertyDescriptions();
-            Iterator itDeclaredProperties = declaredProperties.iterator();
+            Map<OdmaApiBuilderQName,PropertyDescription> uniquePropertynameTestMap = new HashMap<OdmaApiBuilderQName,PropertyDescription>();
+            List<PropertyDescription> declaredProperties = classDescription.getPropertyDescriptions();
+            Iterator<PropertyDescription> itDeclaredProperties = declaredProperties.iterator();
             while(itDeclaredProperties.hasNext())
             {
-                PropertyDescription propertyDescription = (PropertyDescription)itDeclaredProperties.next();
+                PropertyDescription propertyDescription = itDeclaredProperties.next();
                 if(uniquePropertynameTestMap.containsKey(propertyDescription.getOdmaName()))
                 {
                     throw new DescriptionFileSemanticException("The qualified property name "+propertyDescription.getOdmaName()+" in the class "+classDescription.getOdmaName()+" is not unique.");
@@ -338,10 +338,10 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
     public void checkReferences() throws DescriptionFileSemanticException
     {
         //-----< check all extends relations >---------------------------------
-        Iterator itAllClasses = describedClasses.iterator();
+        Iterator<ClassDescription> itAllClasses = describedClasses.iterator();
         while(itAllClasses.hasNext())
         {
-            ClassDescription classDescription = (ClassDescription)itAllClasses.next();
+            ClassDescription classDescription = itAllClasses.next();
             OdmaApiBuilderQName extendsName = classDescription.getExtendsOdmaName();
             if(extendsName != null)
             {
@@ -362,11 +362,11 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
         while(itAllClasses.hasNext())
         {
             ClassDescription classDescription = (ClassDescription)itAllClasses.next();
-            List propertyDescriptions = classDescription.getPropertyDescriptions();
-            Iterator itPropertyDescriptions = propertyDescriptions.iterator();
+            List<PropertyDescription> propertyDescriptions = classDescription.getPropertyDescriptions();
+            Iterator<PropertyDescription> itPropertyDescriptions = propertyDescriptions.iterator();
             while(itPropertyDescriptions.hasNext())
             {
-                PropertyDescription propertyDescription = (PropertyDescription)itPropertyDescriptions.next();
+                PropertyDescription propertyDescription = itPropertyDescriptions.next();
                 if(propertyDescription.getDataType().isReference())
                 {
                     if(!classNameMap.containsKey(propertyDescription.getReferenceClassName()))
@@ -386,10 +386,10 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public void checkPredefinedClasses() throws DescriptionFileSemanticException
     {
-        Iterator itAllClasses = describedClasses.iterator();
+        Iterator<ClassDescription> itAllClasses = describedClasses.iterator();
         while(itAllClasses.hasNext())
         {
-            ClassDescription classDescription = (ClassDescription)itAllClasses.next();
+            ClassDescription classDescription = itAllClasses.next();
             OdmaApiBuilderQName odmaName = classDescription.getOdmaName();
             if(odmaName.equals(objectClassQName))
             {

@@ -131,11 +131,11 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         // create the properties file
         createPropertyFile(apiDescription);
         // create class files
-        List classes = apiDescription.getDescribedClasses();
-        Iterator itClasses = classes.iterator();
+        List<ClassDescription> classes = apiDescription.getDescribedClasses();
+        Iterator<ClassDescription> itClasses = classes.iterator();
         while(itClasses.hasNext())
         {
-            ClassDescription classDescription = (ClassDescription)itClasses.next();
+            ClassDescription classDescription = itClasses.next();
             createClassFile(classDescription);
         }
         // create collection files (Lists and Enumerations)
@@ -145,11 +145,11 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
             ClassDescription classDescription = (ClassDescription)itClasses.next();
             createEnumerationFile(classDescription);
         }
-        List scalarTypes = apiDescription.getScalarTypes();
-        Iterator itScalarTypes = scalarTypes.iterator();
+        List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
+        Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
         {
-            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+            ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
             if(!scalarTypeDescription.isReference())
             {
                 createListFile(scalarTypeDescription);
