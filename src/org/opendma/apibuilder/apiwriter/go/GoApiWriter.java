@@ -120,6 +120,7 @@ public class GoApiWriter extends AbstractApiWriter
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException
     {
+        // TODO custom error structs
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException
@@ -132,6 +133,8 @@ public class GoApiWriter extends AbstractApiWriter
 
     protected void createPropertyFile(ApiDescription apiDescription) throws IOException
     {
+        GoPropertyFileWriter goPropertyFileWriter = new GoPropertyFileWriter(this);
+        goPropertyFileWriter.createPropertyFile(apiDescription, createGoFile(opendmaApiProjectFolder, "OdmaProperty"));
     }
 
     //-------------------------------------------------------------------------

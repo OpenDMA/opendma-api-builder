@@ -6,8 +6,6 @@
  * change its value by calling the <code>{@link #setValue(Object)}</code>
  * method. Changes are only persisted in the repository after a call to the
  * <code>{@link #save()}</code> method of the containing object.
- * 
- * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
  */
 public interface OdmaProperty
 {

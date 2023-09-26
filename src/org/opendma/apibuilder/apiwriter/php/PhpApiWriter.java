@@ -129,6 +129,8 @@ public class PhpApiWriter extends AbstractApiWriter
 
     protected void createPropertyFile(ApiDescription apiDescription) throws IOException
     {
+        PhpPropertyFileWriter phpPropertyFileWriter = new PhpPropertyFileWriter(this);
+        phpPropertyFileWriter.createPropertyFile(apiDescription, createPhpFile(opendmaApiFolder, "OdmaProperty"));
     }
 
     //-------------------------------------------------------------------------

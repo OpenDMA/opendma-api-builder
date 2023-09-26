@@ -152,7 +152,7 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String csReturnType = scalarTypeDescription.isReference() ? "IEnumerable<IOdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,false);
+        String csReturnType = scalarTypeDescription.isReference() ? "IEnumerable<IOdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
         out.println("");
         out.println("        /// <summary>");
         out.println("        /// Returns the <c>"+scalarName+"</c> value of this property if and only if");

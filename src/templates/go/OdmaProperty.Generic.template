@@ -1,0 +1,24 @@
+
+	// GetName returns the qualified name of this property.
+	GetName() OdmaQName
+
+	// GetType returns the data type of this property.
+	GetType() OdmaType
+
+	// GetValue returns the value of this property.
+	// The concrete object returned by this method depends on the data type of this property.
+	GetValue() interface{}
+
+	// SetValue sets the value of this property.
+	// The type and class of the given $newValue has to match the data type of this OdmaProperty.
+	// Returns an OdmaInvalidDataTypeError if the type of the newValue does not match the data type of this OdmaProperty and an OdmaAccessDeniedError If this OdmaProperty is read-only or cannot be set by the current user
+	SetValue(newValue interface{}) error
+
+	// IsMultiValue returns true if and only if this property is a multi value property.
+	IsMultiValue() bool
+
+	// IsDirty returns true  if and only if this property has unsaved changes.
+	IsDirty() bool
+
+	// IsReadOnly returns true if and only if this property is read-only.
+	IsReadOnly() bool

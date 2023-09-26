@@ -84,7 +84,7 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         String value = scalarDataTypes.getProperty(key+nullabilitySuffix) != null ? scalarDataTypes.getProperty(key+nullabilitySuffix) : scalarDataTypes.getProperty(key);
         if(value == null || value.length() == 0)
         {
-            throw new RuntimeException("Resource 'scalarDataTypes.properties' is missing key " + key);
+            throw new RuntimeException("Resource 'scalarDataTypes.properties' is missing key " + key + " or key " + key+nullabilitySuffix);
         }
         return value;
     }
@@ -100,7 +100,7 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         String value = scalarDataTypes.getProperty(key+nullabilitySuffix+".imports") != null ? scalarDataTypes.getProperty(key+nullabilitySuffix+".imports") : scalarDataTypes.getProperty(key+".imports");
         if(value == null)
         {
-            throw new RuntimeException("Resource 'scalarDataTypes.properties' is missing key " + key+".imports");
+            throw new RuntimeException("Resource 'scalarDataTypes.properties' is missing key " + key+".imports or key "+key+nullabilitySuffix+".imports");
         }
         return value.length() == 0 ? null : value.split(",");
     }

@@ -13,7 +13,9 @@ public class JavaScriptCommonNamesFileWriter extends AbstractConstantsFileWriter
     protected void writeConstantsFileHeader(ApiDescription apiDescription, PrintWriter out)
     {
         out.println("");
-        out.println("// Static declaration of all common names used in the OpenDMA specification.");
+        out.println("/**");
+        out.println(" * Static declaration of all common names used in the OpenDMA specification.");
+        out.println("*/");
         out.println("const OdmaCommonNames = Object.freeze({");
     }
 
@@ -45,14 +47,14 @@ public class JavaScriptCommonNamesFileWriter extends AbstractConstantsFileWriter
     protected void writeConstantsClassnameConstant(ClassDescription classDescription, String constantName, PrintWriter out)
     {
         out.println("");
-        out.println("    // qualified name of the OpenDMA system class "+classDescription.getOdmaName().getName());
+        out.println("    /** qualified name of the OpenDMA system class "+classDescription.getOdmaName().getName()+" */");
         out.println("    "+constantName+": new OdmaQName(\""+classDescription.getOdmaName().getQualifier()+"\", \""+classDescription.getOdmaName().getName()+"\"),");
     }
 
     protected void writeConstantsPropertynameConstant(PropertyDescription propertyDescription, String constantName, PrintWriter out)
     {
         out.println("");
-        out.println("    // qualified name of the OpenDMA system property <code>"+propertyDescription.getOdmaName().getName());
+        out.println("    /** qualified name of the OpenDMA system property <code>"+propertyDescription.getOdmaName().getName()+" */");
         out.println("    "+constantName+": new OdmaQName(\""+propertyDescription.getOdmaName().getQualifier()+"\", \""+propertyDescription.getOdmaName().getName()+"\"),");
     }
 

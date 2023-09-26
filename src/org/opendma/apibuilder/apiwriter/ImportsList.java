@@ -2,7 +2,7 @@ package org.opendma.apibuilder.apiwriter;
 
 import java.util.ArrayList;
 
-public class ImportsList extends ArrayList
+public class ImportsList extends ArrayList<String>
 {
 
     private static final long serialVersionUID = -5081098427617393516L;

@@ -1,0 +1,7 @@
+/// OdmaProperty is a protocol for a Property of an OdmaObject in the OpenDMA
+/// architecture. It is always bound in name, data type and cardinality and can
+/// not change these. If this property is not read only (i.e. isReadOnly()
+/// returns false), it can change its value by calling the setValue(Object)
+/// method. Changes are only persisted in the repository after a call to the
+/// save() method of the containing object.
+protocol OdmaProperty {

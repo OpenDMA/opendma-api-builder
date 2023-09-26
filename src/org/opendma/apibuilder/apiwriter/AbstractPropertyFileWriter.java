@@ -12,7 +12,7 @@ import org.opendma.apibuilder.structure.ScalarTypeDescription;
 public abstract class AbstractPropertyFileWriter
 {
     
-    protected abstract void writePropertyFileHeader(ApiDescription apiDescription, List requiredImports, PrintWriter out) throws IOException;
+    protected abstract void writePropertyFileHeader(ApiDescription apiDescription, List<String> requiredImports, PrintWriter out) throws IOException;
     
     protected abstract void writeGenericSection(ApiDescription apiDescription, PrintWriter out) throws IOException;
     
@@ -26,18 +26,24 @@ public abstract class AbstractPropertyFileWriter
     
     protected abstract void appendRequiredImportsScalarAccess(ImportsList requiredImports, ScalarTypeDescription scalarTypeDescription);
 
+
     public void createPropertyFile(ApiDescription apiDescription, OutputStream propertyOutputStream) throws IOException
+    {
+        createPropertyFile(apiDescription, propertyOutputStream, true);
+    }
+
+    public void createPropertyFile(ApiDescription apiDescription, OutputStream propertyOutputStream, boolean closeSteam) throws IOException
     {
         // create output Writer
         PrintWriter out = new PrintWriter(propertyOutputStream);
         // collect required imports
         ImportsList requiredImports = new ImportsList();
         appendRequiredImportsGlobal(requiredImports);
-        List scalarTypes = apiDescription.getScalarTypes();
-        Iterator itScalarTypes = scalarTypes.iterator();
+        List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
+        Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
         {
-            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+            ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
             //if(!scalarTypeDescription.isInternal())
             //{
                 appendRequiredImportsScalarAccess(requiredImports,scalarTypeDescription);
@@ -51,7 +57,7 @@ public abstract class AbstractPropertyFileWriter
         itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
         {
-            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+            ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
             //if(!scalarTypeDescription.isInternal())
             //{
                 writeSingleValueScalarAccess(scalarTypeDescription,out);
@@ -60,7 +66,7 @@ public abstract class AbstractPropertyFileWriter
         itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
         {
-            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+            ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
             //if(!scalarTypeDescription.isInternal())
             //{
                 writeMultiValueScalarAccess(scalarTypeDescription,out);
@@ -68,9 +74,12 @@ public abstract class AbstractPropertyFileWriter
         }
         // write Footer
         writePropertyFileFooter(apiDescription,out);
-        // close writer and streams
-        out.close();
-        propertyOutputStream.close();
+        // flush writer and optionally close streams
+        out.flush();
+        if(closeSteam)
+        {
+            propertyOutputStream.close();
+        }
     }
 
 }

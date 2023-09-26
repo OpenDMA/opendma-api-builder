@@ -53,7 +53,9 @@ public class JavaScriptApiWriter extends AbstractApiWriter
         // create type enumeration
         PrintWriter out = new PrintWriter(opendmaApiFOS);
         out.println();
-        out.println();
+        out.println("/**");
+        out.println(" * OpenDMA property data types.");
+        out.println(" */");
         out.println("const OdmaType = Object.freeze({");
         List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
         Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
@@ -115,6 +117,8 @@ public class JavaScriptApiWriter extends AbstractApiWriter
 
     protected void createPropertyFile(ApiDescription apiDescription) throws IOException
     {
+        JavaScriptPropertyFileWriter javaScriptPropertyFileWriter = new JavaScriptPropertyFileWriter(this);
+        javaScriptPropertyFileWriter.createPropertyFile(apiDescription, opendmaApiFOS, false);
     }
 
     //-------------------------------------------------------------------------

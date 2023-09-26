@@ -1,0 +1,39 @@
+
+    @abstractmethod
+    def get_name(self) -> OdmaQName:
+        """Returns the qualified name of this property."""
+        pass
+
+    @abstractmethod
+    def get_type(self) -> OdmaType:
+        """Returns the data type of this property."""
+        pass
+
+    @abstractmethod
+    def get_value(self) -> Any:
+        """Returns the value of this property. The concrete object returned
+        by this method depends on the data type of this property.
+        """
+        pass
+
+    @abstractmethod
+    def set_value(self, new_value: Any) -> None:
+        """Sets the value of this property. The type and classof the given
+        new_value has to match the data type of this OdmaProperty.
+        """
+        pass
+
+    @abstractmethod
+    def is_multi_value(self) -> bool:
+        """Checks if this property is a multi-value property."""
+        pass
+
+    @abstractmethod
+    def is_dirty(self) -> bool:
+        """Checks if this property has unsaved changes."""
+        pass
+
+    @abstractmethod
+    def is_read_only(self) -> bool:
+        """Checks if this property is read-only."""
+        pass

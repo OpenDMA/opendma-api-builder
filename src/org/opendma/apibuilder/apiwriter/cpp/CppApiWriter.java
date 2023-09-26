@@ -149,6 +149,8 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected void createPropertyFile(ApiDescription apiDescription) throws IOException
     {
+        CppPropertyFileWriter cppPropertyFileWriter = new CppPropertyFileWriter(this);
+        cppPropertyFileWriter.createPropertyFile(apiDescription, createHeaderFile(includeFolder,"OdmaProperty"));
     }
 
     //-------------------------------------------------------------------------

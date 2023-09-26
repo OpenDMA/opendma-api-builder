@@ -133,8 +133,8 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createPropertyFile(ApiDescription apiDescription) throws IOException
     {
-//        CsPropertyFileWriter csPropertyFileWriter = new CsPropertyFileWriter(this);
-//        csPropertyFileWriter.createPropertyFile(apiDescription, createOdmaApiCsFile(outputFolder,"IOdmaProperty"));
+        CsPropertyFileWriter csPropertyFileWriter = new CsPropertyFileWriter(this);
+        csPropertyFileWriter.createPropertyFile(apiDescription, createCsFile(opendmaApiFolder,"IOdmaProperty"));
     }
 
     //-------------------------------------------------------------------------

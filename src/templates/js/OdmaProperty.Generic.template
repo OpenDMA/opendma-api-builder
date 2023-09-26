@@ -1,0 +1,73 @@
+
+    constructor() {
+        if (new.target === OdmaProperty) {
+            throw new Error("OdmaProperty is an abstract class and cannot be instantiated directly.");
+        }
+    }
+
+    /**
+     * Gets the qualified name of this property.
+     * @abstract
+     * @returns {OdmaQName} The qualified name.
+     */
+    getName() {
+        throw new Error("Method 'getName()' must be implemented.");
+    }
+
+    /**
+     * Gets the data type of this property.
+     * @abstract
+     * @returns {OdmaType} The data type of the property.
+     */
+    getType() {
+        throw new Error("Method 'getType()' must be implemented.");
+    }
+
+    /**
+     * Gets the value of this property. The concrete object returned by this method
+     * depends on the data type of this property.
+     * @abstract
+     * @returns {*} The value of the property.
+     */
+    getValue() {
+        throw new Error("Method 'getValue()' must be implemented.");
+    }
+
+    /**
+     * Sets the value of this property. The type and class of the given newValue has to match the
+     * data type of this OdmaProperty.
+     * @abstract
+     * @param {*} newValue - The new value to set.
+     * @throws {OdmaInvalidDataTypeException} If the type of the newValue does not match the data type of this OdmaProperty.
+     * @throws {OdmaAccessDeniedException} If this OdmaProperty is read-only or cannot be set by the current user.
+     */
+    setValue(newValue) {
+        throw new Error("Method 'setValue()' must be implemented.");
+    }
+
+    /**
+     * Checks if this property is a multi-value property.
+     * @abstract
+     * @returns {boolean} True if and only if this property is a multi value property.
+     */
+    isMultiValue() {
+        throw new Error("Method 'isMultiValue()' must be implemented.");
+    }
+
+    /**
+     * Checks if this property has unsaved changes.
+     * @abstract
+     * @returns {boolean} True if and only if this property has unsaved changes
+     */
+    isDirty() {
+        throw new Error("Method 'isDirty()' must be implemented.");
+    }
+
+    /**
+     * Checks if this property is read-only.
+     * @abstract
+     * @returns {boolean} True if and only if this property is read-only.
+     */
+    isReadOnly() {
+        throw new Error("Method 'isReadOnly()' must be implemented.");
+    }

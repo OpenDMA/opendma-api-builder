@@ -16,7 +16,7 @@ createSearchResultFile                 |       |       |       |       |       |
 createExceptionFiles                   |       |       |       |       |       |       |       |       |       |       |   o   |
 createSessionManagementFiles           |       |       |       |       |       |       |       |       |       |       |   o   |
 -- generated API ----------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-createPropertyFile                     |       |       |       |       |       |       |       |       |       |       |   o   |
+createPropertyFile                     |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 createClassFile                        |       |       |       |       |       |       |       |       |       |       |   o   |
 createEnumerationFile                  |       |       |       |       |       |       |       |       |       |       |   o   |
 createListFile                         |       |       |       |       |       |       |       |       |       |       |   o   |

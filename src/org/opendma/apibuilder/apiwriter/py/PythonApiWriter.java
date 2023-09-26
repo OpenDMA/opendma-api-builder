@@ -120,6 +120,8 @@ public class PythonApiWriter extends AbstractApiWriter
 
     protected void createPropertyFile(ApiDescription apiDescription) throws IOException
     {
+        PythonPropertyFileWriter pythonPropertyFileWriter = new PythonPropertyFileWriter(this);
+        pythonPropertyFileWriter.createPropertyFile(apiDescription, opendmaApiHelpersFOS, false);
     }
 
     //-------------------------------------------------------------------------

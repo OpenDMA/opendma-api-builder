@@ -115,6 +115,8 @@ public class SwiftApiWriter extends AbstractApiWriter
 
     protected void createPropertyFile(ApiDescription apiDescription) throws IOException
     {
+        SwiftPropertyFileWriter swiftPropertyFileWriter = new SwiftPropertyFileWriter(this);
+        swiftPropertyFileWriter.createPropertyFile(apiDescription, createSwiftFile(opendmaApiSourcesFolder, "OdmaProperty"));
     }
 
     //-------------------------------------------------------------------------

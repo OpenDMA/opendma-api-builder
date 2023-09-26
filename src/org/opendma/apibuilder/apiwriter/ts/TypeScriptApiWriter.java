@@ -54,6 +54,9 @@ public class TypeScriptApiWriter extends AbstractApiWriter
     {
         // create type enumeration
         PrintWriter out = new PrintWriter(createTsFile(opendmaApiSourceFolder, "OdmaType"));
+        out.println("/**");
+        out.println(" * OpenDMA property data types.");
+        out.println(" */");
         out.println("enum OdmaType {");
         List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
         Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
@@ -115,6 +118,8 @@ public class TypeScriptApiWriter extends AbstractApiWriter
 
     protected void createPropertyFile(ApiDescription apiDescription) throws IOException
     {
+        TypeScriptPropertyFileWriter typeScriptPropertyFileWriter = new TypeScriptPropertyFileWriter(this);
+        typeScriptPropertyFileWriter.createPropertyFile(apiDescription, createTsFile(opendmaApiSourceFolder, "OdmaProperty"));
     }
 
     //-------------------------------------------------------------------------

@@ -165,8 +165,8 @@ public class JavaApiWriter extends AbstractApiWriter
 
     protected void createPropertyFile(ApiDescription apiDescription) throws IOException
     {
-//        JavaPropertyFileWriter javaPropertyFileWriter = new JavaPropertyFileWriter(this);
-//        javaPropertyFileWriter.createPropertyFile(apiDescription, createJavaFile(outputFolder,"org.opendma.api","OdmaProperty"));
+        JavaPropertyFileWriter javaPropertyFileWriter = new JavaPropertyFileWriter(this);
+        javaPropertyFileWriter.createPropertyFile(apiDescription, createJavaFile(opendmaApiSourceFolder,"org.opendma.api","OdmaProperty"));
     }
 
     //-------------------------------------------------------------------------

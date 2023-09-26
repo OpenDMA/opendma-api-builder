@@ -86,7 +86,7 @@ public class Java14PropertyFileWriter extends AbstractPropertyFileWriter
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String javaReturnType = scalarTypeDescription.isReference() ? "OdmaObjectEnumeration" : apiWriter.getScalarDataType(scalarTypeDescription,true,false);
+        String javaReturnType = scalarTypeDescription.isReference() ? "OdmaObjectEnumeration" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
         out.println("");
         out.println("    /**");
         out.println("     * Returns the <code>"+javaReturnType+"</code> value of this property if and only if");

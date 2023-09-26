@@ -1,4 +1,4 @@
-package org.opendma.apibuilder.apiwriter.cs;
+package org.opendma.apibuilder.apiwriter.cpp;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,12 +14,12 @@ import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ApiDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
-public class CsPropertyFileWriter extends AbstractPropertyFileWriter
+public class CppPropertyFileWriter extends AbstractPropertyFileWriter
 {
     
     protected OdmaApiWriter apiWriter;
     
-    public CsPropertyFileWriter(OdmaApiWriter writer)
+    public CppPropertyFileWriter(OdmaApiWriter writer)
     {
         apiWriter = writer;
     }
@@ -30,13 +30,10 @@ public class CsPropertyFileWriter extends AbstractPropertyFileWriter
         while(itRequiredImports.hasNext())
         {
             String importPackage = itRequiredImports.next();
-            out.println("using "+importPackage+";");
+            out.println("#include "+importPackage);
         }
         out.println("");
-        out.println("namespace OpenDMA.Api");
-        out.println("{");
-        out.println("");
-        InputStream templateIn = apiWriter.getTemplateAsStream("IOdmaProperty.Header");
+        InputStream templateIn = apiWriter.getTemplateAsStream("OdmaProperty.Header");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)
@@ -48,14 +45,12 @@ public class CsPropertyFileWriter extends AbstractPropertyFileWriter
     protected void writePropertyFileFooter(ApiDescription apiDescription, PrintWriter out) throws IOException
     {
         out.println("");
-        out.println("    }");
-        out.println("");
         out.println("}");
     }
 
     protected void writeGenericSection(ApiDescription apiDescription, PrintWriter out) throws IOException
     {
-        InputStream templateIn = apiWriter.getTemplateAsStream("IOdmaProperty.Generic");
+        InputStream templateIn = apiWriter.getTemplateAsStream("OdmaProperty.Generic");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)
@@ -67,45 +62,35 @@ public class CsPropertyFileWriter extends AbstractPropertyFileWriter
     protected void writeSingleValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "IOdmaObject?" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
+        String returnType = scalarTypeDescription.isReference() ? "std::optional<OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
         out.println("");
-        out.println("        /// <summary>");
-        out.println("        /// Retrieves the "+scalarName+" value of this property if and only if");
-        out.println("        /// the data type of this property is a single valued "+scalarName+".");
-        out.println("        /// </summary>");
-        out.println("        /// <returns>");
-        out.println("        /// The "+returnType+" value of this property");
-        out.println("        /// </returns>");
-        out.println("        /// <exception cref=\"OdmaInvalidDataTypeException\">");
-        out.println("        /// Thrown if the data type of this property is not a single-valued "+scalarName+".");
-        out.println("        /// </exception>");
-        out.println("        "+returnType+" Get"+scalarName+"();");
+        out.println("        /**");
+        out.println("        * @brief Retrieves the "+scalarName+" value of this property if and only if");
+        out.println("        * the data type of this property is a single valued "+scalarName+".");
+        out.println("        * @return The "+returnType+" value of this property");
+        out.println("        * @throws OdmaInvalidDataTypeException if the data type of this property is not a single-valued "+scalarName+".");
+        out.println("        */");
+        out.println("        virtual "+returnType+" get"+scalarName+"() = 0;");
     }
 
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "IEnumerable<IOdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
+        String returnType = scalarTypeDescription.isReference() ? "std::vector<OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
         out.println("");
-        out.println("        /// <summary>");
-        out.println("        /// Retrieves the "+scalarName+" value of this property if and only if");
-        out.println("        /// the data type of this property is a multi valued "+scalarName+".");
-        out.println("        /// </summary>");
-        out.println("        /// <returns>");
-        out.println("        /// The "+returnType+" value of this property");
-        out.println("        /// </returns>");
-        out.println("        /// <exception cref=\"OdmaInvalidDataTypeException\">");
-        out.println("        /// Thrown if the data type of this property is not a multi-valued "+scalarName+".");
-        out.println("        /// </exception>");
-        out.println("        "+returnType+" Get"+scalarName+(scalarTypeDescription.isReference()?"Enumerable":"List")+"();");
+        out.println("        /**");
+        out.println("        * @brief Retrieves the "+scalarName+" value of this property if and only if");
+        out.println("        * the data type of this property is a single valued "+scalarName+".");
+        out.println("        * @return The "+returnType+" value of this property");
+        out.println("        * @throws OdmaInvalidDataTypeException if the data type of this property is not a single-valued "+scalarName+".");
+        out.println("        */");
+        out.println("        virtual "+returnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Enumerable":"List")+"() = 0;");
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)
     {
-        requiredImports.registerImport("System");
-        requiredImports.registerImport("System.Collections.Generic");
-        requiredImports.registerImport("System.Linq");
-        requiredImports.registerImport("System.Text");
+        requiredImports.registerImport("\"OdmaQName.h\"");
+        requiredImports.registerImport("\"OdmaType.h\"");
     }
 
     protected void appendRequiredImportsScalarAccess(ImportsList requiredImports, ScalarTypeDescription scalarTypeDescription)
