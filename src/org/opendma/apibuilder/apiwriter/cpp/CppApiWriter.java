@@ -164,26 +164,10 @@ public class CppApiWriter extends AbstractApiWriter
     }
     
     //-------------------------------------------------------------------------
-    // C O L L E C T I O N   F I L E S
-    //-------------------------------------------------------------------------
-    
-    protected void createEnumerationFile(ClassDescription classDescription) throws IOException
-    {
-    }
-
-    protected void createListFile(ScalarTypeDescription scalarTypeDescription) throws IOException
-    {
-    }
-    
-    //-------------------------------------------------------------------------
     // I M P L E M E N T A T I O N   F I L E S
     //-------------------------------------------------------------------------
 
     protected void createPropertyImplementationFile(ApiDescription apiDescription) throws IOException
-    {
-    }
-
-    protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription) throws IOException
     {
     }
 

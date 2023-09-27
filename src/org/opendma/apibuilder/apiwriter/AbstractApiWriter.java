@@ -349,9 +349,15 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
     // C O L L E C T I O N   F I L E S
     //-------------------------------------------------------------------------
     
-    protected abstract void createEnumerationFile(ClassDescription classDescription) throws IOException;
+    protected void createEnumerationFile(ClassDescription classDescription) throws IOException
+    {
+        // We are using generics in the target language instead of creating custom enumeration classes
+    }
 
-    protected abstract void createListFile(ScalarTypeDescription scalarTypeDescription) throws IOException;
+    protected void createListFile(ScalarTypeDescription scalarTypeDescription) throws IOException
+    {
+        // We are using generics in the target language instead of creating custom list classes
+    }
     
     //-------------------------------------------------------------------------
     // I M P L E M E N T A T I O N   F I L E S
@@ -359,7 +365,10 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
 
     protected abstract void createPropertyImplementationFile(ApiDescription apiDescription) throws IOException;
 
-    protected abstract void createListImplementationFile(ScalarTypeDescription scalarTypeDescription) throws IOException;
+    protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription) throws IOException
+    {
+        // We are using generics in the target language instead of creating custom list classes
+    }
 
     //-------------------------------------------------------------------------
     // C L A S S   T E M P L A T E S

@@ -148,20 +148,6 @@ public class CsApiWriter extends AbstractApiWriter
     }
     
     //-------------------------------------------------------------------------
-    // C O L L E C T I O N   F I L E S
-    //-------------------------------------------------------------------------
-    
-    protected void createEnumerationFile(ClassDescription classDescription) throws IOException
-    {
-        // We are using generics in the form of IEnumerable<OdmaObject>. There is no need for enumeration files
-    }
-
-    protected void createListFile(ScalarTypeDescription scalarTypeDescription) throws IOException
-    {
-        // We are using generics in the form of IList<Object>. There is no need for list files
-    }
-    
-    //-------------------------------------------------------------------------
     // I M P L E M E N T A T I O N   F I L E S
     //-------------------------------------------------------------------------
 
@@ -169,11 +155,6 @@ public class CsApiWriter extends AbstractApiWriter
     {
 //        CsPropertyImplementationFileWriter csPropertyImplementationFileWriter = new CsPropertyImplementationFileWriter(this);
 //        csPropertyImplementationFileWriter.createPropertyFile(apiDescription, createOdmaApiCsFile(outputFolder,"OdmaProperty"));
-    }
-
-    protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription) throws IOException
-    {
-        // We are using generics in the form of IList<Object>. There is no need for list files
     }
 
     //-------------------------------------------------------------------------

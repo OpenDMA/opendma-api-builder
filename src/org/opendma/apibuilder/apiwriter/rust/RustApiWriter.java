@@ -129,30 +129,11 @@ public class RustApiWriter extends AbstractApiWriter
     }
     
     //-------------------------------------------------------------------------
-    // C O L L E C T I O N   F I L E S
-    //-------------------------------------------------------------------------
-    
-    protected void createEnumerationFile(ClassDescription classDescription) throws IOException
-    {
-        // We are using generics in the form of Iterable<OdmaObject>. There is no need for enumeration files
-    }
-
-    protected void createListFile(ScalarTypeDescription scalarTypeDescription) throws IOException
-    {
-        // We are using generics in the form of List<Object>. There is no need for list files
-    }
-    
-    //-------------------------------------------------------------------------
     // I M P L E M E N T A T I O N   F I L E S
     //-------------------------------------------------------------------------
 
     protected void createPropertyImplementationFile(ApiDescription apiDescription) throws IOException
     {
-    }
-
-    protected void createListImplementationFile(ScalarTypeDescription scalarTypeDescription) throws IOException
-    {
-        // We are using generics in the form of List<Object>. There is no need for list files
     }
 
     //-------------------------------------------------------------------------
