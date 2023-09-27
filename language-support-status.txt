@@ -18,16 +18,17 @@ createSessionManagementFiles           |       |       |       |       |       |
 -- generated API ----------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 createPropertyFile                     |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 createClassFile                        |       |       |       |       |       |       |       |       |       |       |   o   |
-createEnumerationFile                  |       |       |       |       |       |       |       |       |       |       |   o   |
-createListFile                         |       |       |       |       |       |       |       |       |       |       |   o   |
 -- generated impl ---------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 createPropertyImplementationFile       |       |       |       |       |       |       |       |       |       |       |   o   |
-createListImplementationFile           |       |       |       |       |       |       |       |       |       |       |   o   |
 createClassTemplateFile                |       |       |       |       |       |       |       |       |       |       |   o   |
 -- build ------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 prepareProjectStructureAndBuildFiles   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 finaliseProjectStructureAndBuildFiles  |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 -- extras -----------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 createExtras                           |       |       |       |       |       |       |       |       |       |       |   o   |
+-- deprecated -------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+createEnumerationFile                  |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   o   |
+createListFile                         |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   o   |
+createListImplementationFile           |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   o   |
 
 
