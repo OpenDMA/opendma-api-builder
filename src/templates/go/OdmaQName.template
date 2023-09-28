@@ -1,4 +1,4 @@
-package opendma
+package OpenDMAApi
 
 import (
 	"errors"
