@@ -109,12 +109,13 @@ public class PhpApiWriter extends AbstractApiWriter
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException
     {
-//        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaException");
-//        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaObjectNotFoundException");
-//        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaInvalidDataTypeException");
-//        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaAccessDeniedException");
-//        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaQuerySyntaxException");
-//        createClassFromTemplate(outputFolder,"OpenDMA/Exceptions","OdmaSearchException");
+        createClassFromTemplate(opendmaApiFolder,"OdmaException");
+        // OdmaRuntimeException: Php does not distinguish between checked and unchecked Exceptions
+        createClassFromTemplate(opendmaApiFolder,"OdmaObjectNotFoundException");
+        createClassFromTemplate(opendmaApiFolder,"OdmaPropertyNotFoundException");
+        createClassFromTemplate(opendmaApiFolder,"OdmaInvalidDataTypeException");
+        createClassFromTemplate(opendmaApiFolder,"OdmaAccessDeniedException");
+        createClassFromTemplate(opendmaApiFolder,"OdmaQuerySyntaxException");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException

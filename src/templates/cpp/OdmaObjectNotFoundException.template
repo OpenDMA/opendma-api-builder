@@ -1,104 +1,41 @@
 #ifndef _OdmaObjectNotFoundException_h_
 #define _OdmaObjectNotFoundException_h_
 
+#include "OdmaException.h"
+#include "OdmaGuid.h"
+
 /**
- * Exception thrown whenever an OpenDMA implementation is unable to locate an
- * object requested by the user. This could be a class or property identified by
- * a qualified name or a Object identified by ID.<br>
- * This Exception is able to hold the qualified name or ID that caused it.
- * 
- * \author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ * @brief Thrown when an OpenDMA implementation is unable to locate the requested object.
  */
-class OdmaObjectNotFoundException
-{
-
-private:
-
-    private std::wstring message;
-
-    /** the qualified name of the object that could not be found. Can be null */
-    private OdmaQName unknownObject;
-
-    /** the ID of the object that could not be found. Can be null */
-    private OdmaId unknownId;
-
+class OdmaObjectNotFoundException : public OdmaException {
 public:
 
     /**
-     * Create a new <code>OdmaObjectNotFoundException</code> with the given
-     * parameters.
-     * 
-     * \param unknownObject
-     *            the qualified name of the object that could not be found
+     * @brief Constructs an OdmaObjectNotFoundException with the GUID of the object that was not found.
+     * @param guid The unique identifier (GUID) of the object that was not found.
      */
-    OdmaObjectNotFoundException(const OdmaQName& unknownObject_)
-    {
-        this.unknownObject = unknownObject_;
-    }
+    explicit OdmaObjectNotFoundException(const OdmaGuid& guid) noexcept
+        : OdmaException(guid.isValid() ? "Object not found: "+guid.toString() : "Object not found"), objectGuid_(objectGuid) {}
 
     /**
-     * Create a new <code>OdmaObjectNotFoundException</code> with the given
-     * parameters.
-     * 
-     * \param msg
-     *            a message string for the user
-     * \param unknownObject
-     *            the qualified name of the object that could not be found
+     * @brief Constructs an OdmaObjectNotFoundException with a specific message and the GUID of the object that was not found.
+     * @param message The message that describes the exception.
+     * @param objectGuid The unique identifier (GUID) of the object that was not found.
      */
-    OdmaObjectNotFoundException(const std::wstring& msg_, const OdmaQName& unknownObject_)
-    {
-        message = msg_;
-        unknownObject = unknownObject_;
-    }
+    OdmaObjectNotFoundException(const std::string& message, const OdmaGuid& objectGuid) noexcept
+        : OdmaException(message), objectGuid_(objectGuid) {}
 
     /**
-     * Create a new <code>OdmaObjectNotFoundException</code> with the given
-     * parameters.
-     * 
-     * @param unknownId
-     *            the ID of the object that could not be found
+     * @brief Retrieves the unique identifier (GUID) of the object that was not found.
+     * @return The GUID of the missing object.
      */
-    OdmaObjectNotFoundException(OdmaId unknownId)
-    {
-        super((unknownId != null) ? "Unknown object " + unknownId.toString() : "Unknown object");
-        this.unknownId = unknownId;
+    OdmaGuid getObjectGuid() const noexcept {
+        return objectGuid_;
     }
 
-    /**
-     * Create a new <code>OdmaObjectNotFoundException</code> with the given
-     * parameters.
-     * 
-     * @param msg
-     *            a message string for the user
-     * @param unknownId
-     *            the ID of the object that could not be found
-     */
-    OdmaObjectNotFoundException(String msg, OdmaId unknownId)
-    {
-        super(msg);
-        this.unknownId = unknownId;
-    }
+private:
+    OdmaGuid objectGuid_;
 
-    /**
-     * Returns the qualified name of the object that could not be found.
-     * 
-     * \return the qualified name of the object that could not be found
-     */
-    OdmaQName& getUnknownName()
-    {
-        return unknownObject;
-    }
+};
 
-    /**
-     * Returns the ID of the object that could not be found.
-     * 
-     * \return the ID of the object that could not be found
-     */
-    OdmaId& getUnknownId()
-    {
-        return unknownId;
-    }
-
-}
-
-#endif
+#endif // _OdmaObjectNotFoundException_h_

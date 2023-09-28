@@ -104,6 +104,22 @@ public class RustApiWriter extends AbstractApiWriter
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException
     {
+        /*
+        Errors are explicitly handled by the Result<T, E> return type:
+        ```rust
+        enum Result<T, E> {
+            Ok(T),   // Holds the success value
+            Err(E),  // Holds the error value
+        }
+        ```
+        If a  method can return an OdmaObject or throw an OdmaObjectNotFoundException with
+        the GUID of the missing object, this rust API returns the type
+            Result<OdmaObject, OdmaGuid>
+        and either
+            return Ok(theObject)
+        or
+            return Err(missingObjectGuid)
+        */
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException

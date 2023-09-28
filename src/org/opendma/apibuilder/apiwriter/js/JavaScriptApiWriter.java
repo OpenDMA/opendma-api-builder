@@ -105,6 +105,13 @@ public class JavaScriptApiWriter extends AbstractApiWriter
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException
     {
+        copyClassToApi("OdmaError");
+        // OdmaRuntimeException: JavaScript does not distinguish between checked and unchecked Exceptions
+        copyClassToApi("OdmaObjectNotFoundError");
+        copyClassToApi("OdmaPropertyNotFoundError");
+        copyClassToApi("OdmaInvalidDataTypeError");
+        copyClassToApi("OdmaAccessDeniedError");
+        copyClassToApi("OdmaQuerySyntaxError");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException

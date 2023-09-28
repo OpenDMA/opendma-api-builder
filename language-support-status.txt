@@ -1,4 +1,3 @@
-
                                        | Java  |  C#   |  C++  |  PHP  |  PY   |  JS   |  TS   |  GO   | Rust  | Swift | Jav14 |
 -- infra ------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 getName()                              |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |
@@ -13,7 +12,7 @@ createIdFile                           |   x   |   x   |   x   |   x   |   x   |
 createGuidFile                         |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 createContentFile                      |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 createSearchResultFile                 |       |       |       |       |       |       |       |       |       |       |   o   |
-createExceptionFiles                   |       |       |       |       |       |       |       |       |       |       |   o   |
+createExceptionFiles                   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   -   |   x   |   o   |
 createSessionManagementFiles           |       |       |       |       |       |       |       |       |       |       |   o   |
 -- generated API ----------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 createPropertyFile                     |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |

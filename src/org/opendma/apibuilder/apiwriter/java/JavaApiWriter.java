@@ -144,13 +144,13 @@ public class JavaApiWriter extends AbstractApiWriter
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException
     {
-//        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaException");
-//        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaObjectNotFoundException");
-//        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaInvalidDataTypeException");
-//        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaAccessDeniedException");
-//        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaRuntimeException");
-//        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaQuerySyntaxException");
-//        createClassFromTemplate(outputFolder,"org.opendma.exceptions","OdmaSearchException");
+        createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.exceptions","OdmaException");
+        createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.exceptions","OdmaRuntimeException");
+        createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.exceptions","OdmaObjectNotFoundException");
+        createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.exceptions","OdmaPropertyNotFoundException");
+        createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.exceptions","OdmaInvalidDataTypeException");
+        createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.exceptions","OdmaAccessDeniedException");
+        createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.exceptions","OdmaQuerySyntaxException");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException

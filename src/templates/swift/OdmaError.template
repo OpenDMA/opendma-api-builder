@@ -1,0 +1,24 @@
+/**
+ *  OdmaException is the base class for all exceptions related to the OpenDMA framework.
+ */
+/// OdmaError enum for all errors related to the OpenDMA framework
+enum OdmaError: Error {
+
+    /// Thrown when an OpenDMA implementation is unable to locate the requested object
+    case objectNotFound(objectGuid: OdmaGuid)
+
+    /// Thrown when an OpenDMA implementation is unable to locate the requested property
+    case propertyNotFound(propertyName: OdmaQName)
+
+    /// Thrown when the provided data type does not match the expected data type
+    case invalidDataType(details: String)
+
+    /// Thrown when the current user context does not have sufficient permissions for an operation in OpenDMA
+    case accessDenied
+
+    /// Thrown when a query in the OpenDMA framework is syntactically incorrect
+    case querySyntaxError(details: String)
+
+    case generalError(message: String)
+
+}

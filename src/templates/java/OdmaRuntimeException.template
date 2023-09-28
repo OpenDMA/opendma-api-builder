@@ -1,58 +1,43 @@
 package org.opendma.exceptions;
 
 /**
- * Exception thrown whenever an OpenDMA implementation is unable to handle a
- * user request due to an internal failure.<br>
- * <b>This Exception may be thrown by any API method at any time.</b><br>
- * If the cause of this failure falls into one of the predefined categories like
- * object not found or access denied, the implementation has to throw the
- * corresponding OpenDMA Exception (e.g.
- * <code>OdmaObjectNotFoundException</code>).<br>
- * 
- * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ * Base class for all unchecked exceptions related to the OpenDMA framework.
  */
-public class OdmaRuntimeException extends RuntimeException
-{
-
-    /** the serial version ID required for serialization */
-    private static final long serialVersionUID = -6153080123751360870L;
+public class OdmaRuntimeException extends Exception {
 
     /**
-     * Create a new <code>OdmaRuntimeException</code> with the given
-     * parameters.
-     * 
-     * @param msg
-     *            a message string for the user
+     * Constructs a new OdmaRuntimeException without a detail message.
      */
-    public OdmaRuntimeException(String msg)
-    {
-        super(msg);
+    public OdmaRuntimeException() {
+        super();
     }
 
     /**
-     * Create a new <code>OdmaRuntimeException</code> with the given
-     * parameters.
-     * 
-     * @param t
-     *            the <code>Throwable</code> that caused this Exception
+     * Constructs a new OdmaRuntimeException with the specified detail message.
+     *
+     * @param message the detail message
      */
-    public OdmaRuntimeException(Throwable t)
-    {
-        super(t);
+    public OdmaRuntimeException(String message) {
+        super(message);
     }
 
     /**
-     * Create a new <code>OdmaRuntimeException</code> with the given
-     * parameters.
-     * 
-     * @param msg
-     *            a message string for the user
-     * @param t
-     *            the <code>Throwable</code> that caused this Exception
+     * Constructs a new OdmaRuntimeException with the specified detail message and cause.
+     *
+     * @param message the detail message
+     * @param cause the cause
      */
-    public OdmaRuntimeException(String msg, Throwable t)
-    {
-        super(msg, t);
+    public OdmaRuntimeException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * Constructs a new OdmaRuntimeException with the specified cause.
+     *
+     * @param cause the cause
+     */
+    public OdmaRuntimeException(Throwable cause) {
+        super(cause);
     }
 
 }

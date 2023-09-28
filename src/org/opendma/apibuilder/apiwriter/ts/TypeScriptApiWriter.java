@@ -106,6 +106,13 @@ public class TypeScriptApiWriter extends AbstractApiWriter
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException
     {
+        createClassFromTemplate(opendmaApiSourceFolder,"OdmaError");
+        // OdmaRuntimeException: TypeScript does not distinguish between checked and unchecked Exceptions
+        createClassFromTemplate(opendmaApiSourceFolder,"OdmaObjectNotFoundError");
+        createClassFromTemplate(opendmaApiSourceFolder,"OdmaPropertyNotFoundError");
+        createClassFromTemplate(opendmaApiSourceFolder,"OdmaInvalidDataTypeError");
+        createClassFromTemplate(opendmaApiSourceFolder,"OdmaAccessDeniedError");
+        createClassFromTemplate(opendmaApiSourceFolder,"OdmaQuerySyntaxError");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException

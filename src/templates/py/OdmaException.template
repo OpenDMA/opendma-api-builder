@@ -1,0 +1,12 @@
+class OdmaException(Exception):
+    """
+    OdmaException is the base class for all exceptions related to the OpenDMA framework.
+    """
+
+    def __init__(self, message="An error occurred in OpenDMA"):
+        """
+        Initialize the OdmaException with an error message.
+        
+        :param message: The error message describing the exception (default: "An error occurred in OpenDMA").
+        """
+        super().__init__(message)

@@ -1,0 +1,54 @@
+using System;
+
+namespace OpenDMA.Exceptions
+{
+
+    /// <summary>
+    /// Thrown when an OpenDMA implementation is unable to locate the requested property.
+    /// </summary>
+    public class OdmaPropertyNotFoundException : OdmaException
+    {
+
+        private readonly OdmaQName propertyName;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OdmaPropertyNotFoundException"/> class.
+        /// </summary>
+        /// <param name="propertyName">The qualified name of the property that was not found.</param>
+        public OdmaPropertyNotFoundException(OdmaQName propertyName) 
+            : base(propertyName != null ? "Property not found: "+propertyName.ToString() : "Property not found")
+        {
+            this.propertyName = propertyName;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OdmaPropertyNotFoundException"/> class with a specified error message.
+        /// </summary>
+        /// <param name="message">The message that describes the error.</param>
+        /// <param name="propertyName">The qualified name of the property that was not found.</param>
+        public OdmaPropertyNotFoundException(string message, OdmaQName propertyName) 
+            : base(message)
+        {
+            this.propertyName = propertyName;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OdmaPropertyNotFoundException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+        /// </summary>
+        /// <param name="message">The message that describes the error.</param>
+        /// <param name="innerException">The exception that is the cause of the current exception.</param>
+        /// <param name="propertyName">The qualified name of the property that was not found.</param>
+        public OdmaPropertyNotFoundException(string message, Exception innerException, OdmaQName propertyName) 
+            : base(message, innerException)
+        {
+            this.propertyName = propertyName;
+        }
+
+        /// <summary>
+        /// Gets the qualified name of the property that was not found.
+        /// </summary>
+        public OdmaQName PropertyName => propertyName;
+
+    }
+
+}

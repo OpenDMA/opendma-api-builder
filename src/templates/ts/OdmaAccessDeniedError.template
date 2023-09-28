@@ -1,0 +1,17 @@
+/**
+ * OdmaAccessDeniedError
+ * 
+ * Thrown when the current user context does not have sufficient permissions for an operation in OpenDMA.
+ */
+export class OdmaAccessDeniedError extends OdmaError {
+
+    /**
+     * Create a new OdmaAccessDeniedError.
+     * 
+     * @param message - The error message.
+     */
+    constructor(message: string = "Access denied: insufficient permissions") {
+        super(message);
+    }
+
+}

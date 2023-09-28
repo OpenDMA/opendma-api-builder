@@ -108,6 +108,13 @@ public class PythonApiWriter extends AbstractApiWriter
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException
     {
+        copyClassToApiHelpers("OdmaException");
+        // OdmaRuntimeException: Python does not distinguish between checked and unchecked Exceptions
+        copyClassToApiHelpers("OdmaObjectNotFoundException");
+        copyClassToApiHelpers("OdmaPropertyNotFoundException");
+        copyClassToApiHelpers("OdmaInvalidDataTypeException");
+        copyClassToApiHelpers("OdmaAccessDeniedException");
+        copyClassToApiHelpers("OdmaQuerySyntaxException");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException

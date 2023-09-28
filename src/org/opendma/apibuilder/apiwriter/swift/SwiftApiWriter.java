@@ -103,6 +103,7 @@ public class SwiftApiWriter extends AbstractApiWriter
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException
     {
+        createClassFromTemplate(opendmaApiSourcesFolder, "OdmaError");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException

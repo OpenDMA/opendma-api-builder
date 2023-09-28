@@ -1,0 +1,29 @@
+package OpenDMAApi
+
+import "errors"
+
+// Errors without additional information
+var (
+    // Returned when the current user context does not have sufficient permissions for an operation in OpenDMA
+    ErrAccessDenied = errors.New("access denied")
+)
+
+// Returned when an OpenDMA implementation is unable to locate the requested object
+type OdmaObjectNotFoundError struct {
+    ObjectGuid OdmaGuid
+}
+
+// Returned when an OpenDMA implementation is unable to locate the requested property
+type OdmaPropertyNotFoundError struct {
+    PropertyName OdmaQName
+}
+
+// Returned when the provided data type does not match the expected data type
+type OdmaInvalidDataTypeError struct {
+    Message string
+}
+
+// Returned when a query in the OpenDMA framework is syntactically incorrect
+type OdmaQuerySyntaxError struct {
+    Message string
+}

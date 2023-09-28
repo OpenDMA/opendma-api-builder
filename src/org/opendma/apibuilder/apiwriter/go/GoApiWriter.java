@@ -120,7 +120,7 @@ public class GoApiWriter extends AbstractApiWriter
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException
     {
-        // TODO custom error structs
+        createClassFromTemplate(opendmaApiProjectFolder, "errors");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException

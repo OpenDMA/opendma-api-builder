@@ -1,11 +1,25 @@
 <?php
 
+namespace OpenDMA\Api;
+
 /**
- * 
- * @category   OpenDMA
- * @package    OpenDMA_Exceptions
- * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ * Class OdmaQuerySyntaxException
+ *
+ * Thrown when a query in the OpenDMA framework is syntactically incorrect.
  */
-class OpenDMA_Exceptions_OdmaQuerySyntaxException extends OdmaException
+class OdmaQuerySyntaxException extends OdmaException
 {
+
+    /**
+     * OdmaQuerySyntaxException constructor.
+     *
+     * @param string $message The error message.
+     * @param int $code The error code (default 0).
+     * @param Exception|null $previous The previous exception used for exception chaining (default null).
+     */
+    public function __construct($message = "Query Syntax Error", $code = 0, Exception $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
+
 }

@@ -1,91 +1,53 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenDMA.Api;
 
 namespace OpenDMA.Exceptions
 {
 
-    public class OdmaObjectNotFoundException : ApplicationException
+    /// <summary>
+    /// Thrown when an OpenDMA implementation is unable to locate the requested object.
+    /// </summary>
+    public class OdmaObjectNotFoundException : OdmaException
     {
 
-        /// <summary>
-        /// The qualified name of the object that could not be found. Can be null.
-        /// </summary>
-        private OdmaQName unknownObject;
+        private readonly OdmaGuid objectGuid;
 
         /// <summary>
-        /// The ID of the object that could not be found. Can be null.
+        /// Initializes a new instance of the <see cref="OdmaObjectNotFoundException"/> class.
         /// </summary>
-        private OdmaId unknownId;
-
-        /// <summary>
-        /// Create a new <c>OdmaObjectNotFoundException</c> with the given parameters.
-        /// </summary>
-        /// <param name="unknownObject">The qualified name of the object that could not be found.</param>
-        public OdmaObjectNotFoundException(OdmaQName unknownObject) : base((unknownObject != null) ? "Unknown object " + unknownObject.ToString() : "Unknown object")
+        /// <param name="objectGuid">The unique identifier of the object that was not found.</param>
+        public OdmaObjectNotFoundException(OdmaGuid objectGuid) 
+            : base(objectGuid != null ? "Object not found: "+guid.ToString() : "Object not found")
         {
-            this.unknownObject = unknownObject;
+            this.objectGuid = objectGuid;
         }
 
         /// <summary>
-        /// Create a new <c>OdmaObjectNotFoundException</c> with the given parameters.
+        /// Initializes a new instance of the <see cref="OdmaObjectNotFoundException"/> class with a specified error message.
         /// </summary>
-        /// <param name="msg">a message string for the user</param>
-        /// <param name="unknownObject">The qualified name of the object that could not be found.</param>
-        public OdmaObjectNotFoundException(string msg, OdmaQName unknownObject) : base(msg)
+        /// <param name="message">The message that describes the error.</param>
+        /// <param name="objectGuid">The unique identifier of the object that was not found.</param>
+        public OdmaObjectNotFoundException(string message, OdmaGuid objectGuid) 
+            : base(message)
         {
-            this.unknownObject = unknownObject;
+            this.objectGuid = objectGuid;
         }
 
         /// <summary>
-        /// Create a new <c>OdmaObjectNotFoundException</c> with the given parameters.
+        /// Initializes a new instance of the <see cref="OdmaObjectNotFoundException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
         /// </summary>
-        /// <param name="unknownId"> The ID of the object that could not be found.</param>
-        public OdmaObjectNotFoundException(OdmaId unknownId) : base((unknownId != null) ? "Unknown object " + unknownId.ToString() : "Unknown object")
+        /// <param name="message">The message that describes the error.</param>
+        /// <param name="innerException">The exception that is the cause of the current exception.</param>
+        /// <param name="objectGuid">The unique identifier of the object that was not found.</param>
+        public OdmaObjectNotFoundException(string message, Exception innerException, OdmaGuid objectGuid) 
+            : base(message, innerException)
         {
-            this.unknownId = unknownId;
+            this.objectGuid = objectGuid;
         }
 
         /// <summary>
-        /// Create a new <c>OdmaObjectNotFoundException</c> with the given parameters.
+        /// Gets the unique identifier of the object that was not found.
         /// </summary>
-        /// <param name="msg">a message string for the user</param>
-        /// <param name="unknownId"> The ID of the object that could not be found.</param>
-        public OdmaObjectNotFoundException(string msg, OdmaId unknownId) : base(msg)
-        {
-            this.unknownId = unknownId;
-        }
-        
-        public OdmaQName UnknownObject
-        {
-            get
-            {
-                return unknownObject;
-            }
-        }
-        
-        public OdmaQName UnknownId
-        {
-            get
-            {
-                return UnknownId;
-            }
-        }
-        
-        public override string ToString()
-        {
-            return base.ToString();
-        }
-
-        public override string Message
-        {
-            get
-            {
-                return base.Message;
-            }
-        }
+        public OdmaGuid ObjectGuid => objectGuid;
 
     }
 

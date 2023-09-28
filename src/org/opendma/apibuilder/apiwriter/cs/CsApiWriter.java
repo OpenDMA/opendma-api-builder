@@ -113,12 +113,13 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException
     {
-//        createClassFromTemplate(outputFolder,"OdmaObjectNotFoundException");
-//        createClassFromTemplate(outputFolder,"OdmaInvalidDataTypeException");
-//        createClassFromTemplate(outputFolder,"OdmaRuntimeException");
-//        createClassFromTemplate(outputFolder,"OdmaAccessDeniedException");
-//        createClassFromTemplate(outputFolder,"OdmaQuerySyntaxException");
-//        createClassFromTemplate(outputFolder,"OdmaSearchException");
+        createClassFromTemplate(opendmaApiFolder,"OdmaException");
+        // OdmaRuntimeException: C# does not distinguish between checked and unchecked Exceptions
+        createClassFromTemplate(opendmaApiFolder,"OdmaObjectNotFoundException");
+        createClassFromTemplate(opendmaApiFolder,"OdmaPropertyNotFoundException");
+        createClassFromTemplate(opendmaApiFolder,"OdmaInvalidDataTypeException");
+        createClassFromTemplate(opendmaApiFolder,"OdmaAccessDeniedException");
+        createClassFromTemplate(opendmaApiFolder,"OdmaQuerySyntaxException");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException

@@ -1,25 +1,26 @@
 #ifndef _OdmaAccessDeniedException_h_
 #define _OdmaAccessDeniedException_h_
 
+#include "OdmaException.h"
+
 /**
- * Description follows.
- * 
- * \author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ * @brief Thrown when the current user context does not have sufficient permissions for an operation in OpenDMA.
  */
-class OdmaAccessDeniedException
-{
-
-private:
-
+class OdmaAccessDeniedException : public OdmaException {
 public:
 
     /**
-     * Create a new <code>OdmaAccessDeniedException</code>.
+     * @brief Default constructor for OdmaAccessDeniedException.
      */
-    OdmaAccessDeniedException()
-    {
-    }
+    OdmaAccessDeniedException() noexcept = default;
 
-}
+    /**
+     * @brief Constructs an OdmaAccessDeniedException with a specific message.
+     * @param message The message that describes the exception.
+     */
+    explicit OdmaAccessDeniedException(const std::string& message) noexcept
+        : OdmaException(message) {}
 
-#endif
+};
+
+#endif // _OdmaAccessDeniedException_h_

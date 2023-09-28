@@ -129,12 +129,13 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException
     {
-//        createHeaderFromTemplate(outputFolder,"OdmaException");
-//        createHeaderFromTemplate(outputFolder,"OdmaObjectNotFoundException");
-//        createHeaderFromTemplate(outputFolder,"OdmaInvalidDataTypeException");
-//        createHeaderFromTemplate(outputFolder,"OdmaAccessDeniedException");
-//        createHeaderFromTemplate(outputFolder,"OdmaQuerySyntaxException");
-//        createHeaderFromTemplate(outputFolder,"OdmaSearchException");
+        createHeaderFromTemplate(includeFolder,"OdmaException");
+        // OdmaRuntimeException: C++ does not distinguish between checked and unchecked Exceptions
+        createHeaderFromTemplate(includeFolder,"OdmaObjectNotFoundException");
+        createHeaderFromTemplate(includeFolder,"OdmaPropertyNotFoundException");
+        createHeaderFromTemplate(includeFolder,"OdmaInvalidDataTypeException");
+        createHeaderFromTemplate(includeFolder,"OdmaAccessDeniedException");
+        createHeaderFromTemplate(includeFolder,"OdmaQuerySyntaxException");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException
