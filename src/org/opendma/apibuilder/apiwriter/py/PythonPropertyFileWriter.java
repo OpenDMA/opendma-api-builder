@@ -56,10 +56,10 @@ public class PythonPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("");
         out.println("    @abstractmethod");
         out.println("    def get_"+scalarName.toLowerCase()+"(self) -> "+returnType+":");
-        out.println("    \"\"\" Retrieves the "+scalarName+" value of this property if and only if");
-        out.println("    the data type of this property is a single valued "+scalarName+".");
-        out.println("    \"\"\"");
-        out.println("    pass");
+        out.println("        \"\"\" Retrieves the "+scalarName+" value of this property if and only if");
+        out.println("        the data type of this property is a single valued "+scalarName+".");
+        out.println("        \"\"\"");
+        out.println("        pass");
     }
 
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
@@ -69,10 +69,10 @@ public class PythonPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("");
         out.println("    @abstractmethod");
         out.println("    def get_"+scalarName.toLowerCase()+"_list(self) -> "+returnType+":");
-        out.println("    \"\"\" Retrieves the "+scalarName+" value of this property if and only if");
-        out.println("    the data type of this property is a multi valued "+scalarName+".");
-        out.println("    \"\"\"");
-        out.println("    pass");
+        out.println("        \"\"\" Retrieves the "+scalarName+" value of this property if and only if");
+        out.println("        the data type of this property is a multi valued "+scalarName+".");
+        out.println("        \"\"\"");
+        out.println("        pass");
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)
