@@ -5,5 +5,21 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "opendma-api"
 version = "{{version}}"
+# description = ""
+# readme = "README.md"
+# license = {text = ""}
 dependencies = []
-python_requires = ">=3.7"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10"
+]
+requires-python = ">=3.7"
+
+[tool.setuptools.packages.find]
+include = ["opendma*"]
+exclude = ["tests*"]
