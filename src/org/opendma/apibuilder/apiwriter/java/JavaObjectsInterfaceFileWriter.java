@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
-import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
+import org.opendma.apibuilder.apiwriter.AbstractObjectsInterfaceFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ApiHelperDescription;
@@ -16,12 +16,12 @@ import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
-public class JavaClassFileWriter extends AbstractClassFileWriter
+public class JavaObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileWriter
 {
     
     protected JavaApiWriter apiWriter;
     
-    public JavaClassFileWriter(JavaApiWriter writer)
+    public JavaObjectsInterfaceFileWriter(JavaApiWriter writer)
     {
         apiWriter = writer;
         this.apiHelperWriters.put("getQName", new ApiHelperWriter(){
@@ -29,8 +29,8 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
             {
                 out.println("");
                 out.println("    /**");
-                out.println("     * "+apiHelper.getAbstract()+"<br>");
-                out.println("     * <p>"+apiHelper.getDescription()+"</p>");
+                out.println("     * Returns "+apiHelper.getAbstract()+".<br/>");
+                out.println("     * "+apiHelper.getDescription());
                 out.println("     * ");
                 out.println("     * @return "+apiHelper.getAbstract());
                 out.println("     */");
@@ -64,13 +64,17 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         if(extendsApiName != null)
         {
             out.println(" * The <i>"+classDescription.getOdmaName().getName()+"</i> specific version of the <code>{@link "+extendsApiName+"}</code> interface");
-            out.println(" * that offers short cuts to all defined OpenDMA properties.<p>");
-            out.println(" * ");
+            out.println(" * offering short-cuts to all defined OpenDMA properties.");
         }
         String classComment = classDescription.getDescription();
-        out.println(" * "+((classComment==null)?"No description of this class available.":classComment));
-        out.println(" * ");
-        out.println(" * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board");
+        if(classComment != null)
+        {
+            if(extendsApiName != null)
+            {
+                out.println(" * ");
+            }
+            out.println(" * "+classComment);
+        }
         out.println(" */");
         if(extendsApiName != null)
         {
@@ -104,9 +108,7 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
     protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
     {
         out.println("");
-        out.println("    // =============================================================================================");
-        out.println("    // Generic property access");
-        out.println("    // =============================================================================================");
+        out.println("    // ----- Generic property access ---------------------------------------------------------------");
         InputStream templateIn = apiWriter.getTemplateAsStream("OdmaObject.GenericPropertyAccess");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
@@ -118,7 +120,7 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
 
     protected void appendRequiredImportsGenericPropertyAccess(ImportsList requiredImports)
     {
-        requiredImports.registerImport("org.opendma.exceptions.OdmaObjectNotFoundException");
+        requiredImports.registerImport("org.opendma.exceptions.OdmaPropertyNotFoundException");
         requiredImports.registerImport("org.opendma.exceptions.OdmaInvalidDataTypeException");
         requiredImports.registerImport("org.opendma.exceptions.OdmaAccessDeniedException");
     }
@@ -126,9 +128,7 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
     protected void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out)
     {
         out.println("");
-        out.println("    // =============================================================================================");
-        out.println("    // Object specific property access");
-        out.println("    // =============================================================================================");
+        out.println("    // ----- Object specific property access -------------------------------------------------------");
     }
 
     protected String getReturnDataType(PropertyDescription property)
@@ -154,7 +154,14 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
     {
         if(property.getDataType().isReference())
         {
-            return null;
+            if(property.getMultiValue())
+            {
+                return new String[] { "java.util.Iterator" };
+            }
+            else
+            {
+                return null;
+            }
         }
         else
         {
@@ -171,23 +178,18 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
         // getter
         out.println("");
         out.println("    /**");
-        out.println("     * Returns "+property.getAbstract()+".<br>");
-        String standardGetterName = "get" + ((!property.getDataType().isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceIterable" : "Reference"));
+        out.println("     * Returns "+property.getAbstract()+".<br/>");
+        String standardGetterName = "get" + ((!scalarType.isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceIterable" : "Reference"));
         out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</code>.");
         out.println("     * ");
-        ScalarTypeDescription scalarTypeDescription = property.getDataType();
-        String dataTypeName = scalarTypeDescription.isInternal() ? scalarTypeDescription.getBaseScalar() : scalarTypeDescription.getName();
-        if(property.getDataType().isReference())
+        for(String s : getPropertyDetails(property))
         {
-            dataTypeName = dataTypeName + " to " + property.getReferenceClassName().getName() + " ("+property.getReferenceClassName().getQualifier()+")";
+            out.println("     * "+s);
         }
-        out.println("     * <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getQualifier()+"): <b>"+dataTypeName+"</b><br>");
-        out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[NotRequired]")+"<br>");
-        out.println("     * "+property.getDescription()+"</p>");
         out.println("     * ");
         out.println("     * @return "+property.getAbstract());
         out.println("     */");
-        out.println("    public "+javaDataType+" get"+property.getApiName()+"();");
+        out.println("    "+javaDataType+" "+(javaDataType.equalsIgnoreCase("boolean")?"is":"get")+property.getApiName()+"();");
         // setter
         if( (!property.isReadOnly()) && (!property.getMultiValue()) )
         {
@@ -197,14 +199,18 @@ public class JavaClassFileWriter extends AbstractClassFileWriter
             String standardSetterName = "setValue";
             out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value)</code>.");
             out.println("     * ");
-            out.println("     * <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getQualifier()+"): <b>"+dataTypeName+"</b><br>");
-            out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[NotRequired]")+"<br>");
-            out.println("     * "+property.getDescription()+"</p>");
+            for(String s : getPropertyDetails(property))
+            {
+                out.println("     * "+s);
+            }
+            out.println("     * ");
+            out.println("     * @param newValue");
+            out.println("     *             The new value for "+property.getAbstract());
             out.println("     * ");
             out.println("     * @throws OdmaAccessDeniedException");
-            out.println("     *             if this property can not be set by the current user");
+            out.println("     *             If this OdmaProperty is read-only or cannot be set by the current user");
             out.println("     */");
-            out.println("    public void set"+property.getApiName()+"("+javaDataType+" value) throws OdmaAccessDeniedException;");
+            out.println("    void set"+property.getApiName()+"("+javaDataType+" newValue) throws OdmaAccessDeniedException;");
         }
     }
 

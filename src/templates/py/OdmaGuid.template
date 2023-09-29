@@ -6,6 +6,13 @@ class OdmaGuid:
     """
 
     def __init__(self, object_id: OdmaId, repository_id: OdmaId):
+        """
+        Constructs an OdmaGuid with the specified obejct_id and repository_id.
+
+        :param object_id: The OdmaId of the object. Must not be None.
+        :param repository_id: The OdmaId of the repository. Must not be null.
+        :raises ValueError: If the object_id or repository_id is missing.
+        """
         if object_id is None:
             raise ValueError("objectId must not be null")
         if repository_id is None:

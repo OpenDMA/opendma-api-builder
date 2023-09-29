@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
-import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
+import org.opendma.apibuilder.apiwriter.AbstractObjectsInterfaceFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ApiHelperDescription;
@@ -17,7 +17,7 @@ import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
-public class CsClassTemplateFileWriter extends AbstractClassFileWriter
+public class CsClassTemplateFileWriter extends AbstractObjectsInterfaceFileWriter
 {
     
     protected OdmaApiWriter apiWriter;

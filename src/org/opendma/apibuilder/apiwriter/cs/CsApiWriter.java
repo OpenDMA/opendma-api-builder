@@ -144,8 +144,8 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
-//        CsClassFileWriter classFileWriter = new CsClassFileWriter(this);
-//        classFileWriter.createClassFile(classDescription, createOdmaApiCsFile(outputFolder,"I"+classDescription.getApiName()));
+        CsObjectsInterfaceFileWriter classFileWriter = new CsObjectsInterfaceFileWriter(this);
+        classFileWriter.createClassFile(classDescription, createCsFile(opendmaApiFolder,"I"+classDescription.getApiName()));
     }
     
     //-------------------------------------------------------------------------

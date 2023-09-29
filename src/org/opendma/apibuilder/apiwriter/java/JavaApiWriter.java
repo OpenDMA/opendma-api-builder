@@ -175,8 +175,8 @@ public class JavaApiWriter extends AbstractApiWriter
 
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
-//        JavaClassFileWriter classFileWriter = new JavaClassFileWriter(this);
-//        classFileWriter.createClassFile(classDescription, createJavaFile(outputFolder,"org.opendma.api",classDescription.getApiName()));
+        JavaObjectsInterfaceFileWriter classFileWriter = new JavaObjectsInterfaceFileWriter(this);
+        classFileWriter.createClassFile(classDescription, createJavaFile(opendmaApiSourceFolder,"org.opendma.api",classDescription.getApiName()));
     }
     
     //-------------------------------------------------------------------------

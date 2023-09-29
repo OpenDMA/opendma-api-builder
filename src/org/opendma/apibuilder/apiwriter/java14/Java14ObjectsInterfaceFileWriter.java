@@ -1,4 +1,4 @@
-package org.opendma.apibuilder.apiwriter.cpp;
+package org.opendma.apibuilder.apiwriter.java14;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
-import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
+import org.opendma.apibuilder.apiwriter.AbstractObjectsInterfaceFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ApiHelperDescription;
@@ -17,47 +17,49 @@ import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
-public class CppClassFileWriter extends AbstractClassFileWriter
+public class Java14ObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileWriter
 {
     
     protected OdmaApiWriter apiWriter;
     
-    public CppClassFileWriter(OdmaApiWriter writer)
+    public Java14ObjectsInterfaceFileWriter(OdmaApiWriter writer)
     {
         apiWriter = writer;
         this.apiHelperWriters.put("getQName", new ApiHelperWriter(){
             public void writeApiHelper(ClassDescription classDescription, ApiHelperDescription apiHelper, PrintWriter out)
             {
-                // getter
                 out.println("");
                 out.println("    /**");
-                out.println("    /**");
-                out.println("     * "+apiHelper.getAbstract()+".<br>");
+                out.println("     * "+apiHelper.getAbstract()+"<br>");
                 out.println("     * <p>"+apiHelper.getDescription()+"</p>");
+                out.println("     * ");
+                out.println("     * @return "+apiHelper.getAbstract());
                 out.println("     */");
-                out.println("    virtual OdmaQName* getQName(void) = 0;");
+                out.println("    public OdmaQName getQName();");
             }
             public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List<String> requiredImports)
             {
-                if(!requiredImports.contains("\"OdmaQName.h\""))
+                if(!requiredImports.contains("org.opendma.api.OdmaQName"))
                 {
-                    requiredImports.add("\"OdmaQName.h\"");
+                    requiredImports.add("org.opendma.api.OdmaQName");
                 }
             }});
     }
 
     protected void writeClassFileHeader(ClassDescription classDescription, List<String> requiredImports, PrintWriter out)
     {
-        out.println("#ifndef _"+classDescription.getApiName()+"_h_");
-        out.println("#define _"+classDescription.getApiName()+"_h_");
+        String extendsApiName = classDescription.getExtendsApiName();
+        out.println("package org.opendma.api;");
         out.println("");
         Iterator<String> itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
         {
-            String importPackage = itRequiredImports.next();
-            out.println("#include "+importPackage);
+            String importDeclaration = itRequiredImports.next();
+            if(Java14ApiWriter.needToImportPackage(importDeclaration,"org.opendma.api"))
+            {
+                out.println("import "+importDeclaration+";");
+            }
         }
-        String extendsApiName = classDescription.getExtendsApiName();
         out.println("");
         out.println("/**");
         if(extendsApiName != null)
@@ -69,34 +71,30 @@ public class CppClassFileWriter extends AbstractClassFileWriter
         String classComment = classDescription.getDescription();
         out.println(" * "+((classComment==null)?"No description of this class available.":classComment));
         out.println(" * ");
-        out.println(" * \\author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board");
+        out.println(" * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board");
         out.println(" */");
         if(extendsApiName != null)
         {
-            out.println("class "+classDescription.getApiName()+" : public "+extendsApiName);
+            out.println("public interface "+classDescription.getApiName()+" extends "+extendsApiName);
         }
         else
         {
             if(classDescription.getAspect())
             {
-                out.println("class "+classDescription.getApiName()+" : public "+classDescription.getContainingApiDescription().getObjectClass().getApiName());
+                out.println("public interface "+classDescription.getApiName()+" extends "+classDescription.getContainingApiDescription().getObjectClass().getApiName());
             }
             else
             {
-                out.println("class "+classDescription.getApiName());
+                out.println("public interface "+classDescription.getApiName());
             }
         }
         out.println("{");
-        out.println("");
-        out.println("public:");
     }
 
     protected void writeClassFileFooter(ClassDescription classDescription, PrintWriter out)
     {
         out.println("");
-        out.println("};");
-        out.println("");
-        out.println("#endif");
+        out.println("}");
     }
 
     protected void appendRequiredImportsGlobal(ClassDescription classDescription, ImportsList requiredImports)
@@ -121,7 +119,9 @@ public class CppClassFileWriter extends AbstractClassFileWriter
 
     protected void appendRequiredImportsGenericPropertyAccess(ImportsList requiredImports)
     {
-        // nothing for now
+        requiredImports.registerImport("org.opendma.exceptions.OdmaObjectNotFoundException");
+        requiredImports.registerImport("org.opendma.exceptions.OdmaInvalidDataTypeException");
+        requiredImports.registerImport("org.opendma.exceptions.OdmaAccessDeniedException");
     }
 
     protected void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out)
@@ -138,11 +138,11 @@ public class CppClassFileWriter extends AbstractClassFileWriter
         {
             if(property.getMultiValue())
             {
-                return property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration*";
+                return property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration";
             }
             else
             {
-                return property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"*";
+                return property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
             }
         }
         else
@@ -157,7 +157,7 @@ public class CppClassFileWriter extends AbstractClassFileWriter
         {
             if(property.getMultiValue())
             {
-                return new String[] { "\"collections/"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration.h\"" };
+                return new String[] { "org.opendma.api.collections."+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"Enumeration" };
             }
             else
             {
@@ -174,13 +174,14 @@ public class CppClassFileWriter extends AbstractClassFileWriter
     protected void writeClassPropertyAccess(PropertyDescription property, PrintWriter out)
     {
         // generate names
-        String cppDataType = getReturnDataType(property);
+        String javaDataType = getReturnDataType(property);
+        ScalarTypeDescription scalarType = property.getDataType();
         String constantPropertyName = "PROPERTY_" + property.getOdmaName().getName().toUpperCase();
         // getter
         out.println("");
         out.println("    /**");
         out.println("     * Returns "+property.getAbstract()+".<br>");
-        String standardGetterName = "get" + ((!property.getDataType().isReference()) ? cppDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
+        String standardGetterName = "get" + ((!property.getDataType().isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceEnumeration" : "Reference"));
         out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</code>.");
         out.println("     * ");
         ScalarTypeDescription scalarTypeDescription = property.getDataType();
@@ -193,29 +194,36 @@ public class CppClassFileWriter extends AbstractClassFileWriter
         out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[NotRequired]")+"<br>");
         out.println("     * "+property.getDescription()+"</p>");
         out.println("     * ");
-        out.println("     * \\return "+property.getAbstract());
+        out.println("     * @return "+property.getAbstract());
         out.println("     */");
-        out.println("    virtual "+cppDataType+" get"+property.getApiName()+"(void) = 0;");
+        out.println("    public "+javaDataType+" get"+property.getApiName()+"();");
         // setter
         if( (!property.isReadOnly()) && (!property.getMultiValue()) )
         {
             out.println("");
             out.println("    /**");
             out.println("     * Sets "+property.getAbstract()+".<br>");
-            String standardSetterName = "set" + ((!property.getDataType().isReference()) ? cppDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
+            String standardSetterName = "setValue";
             out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value)</code>.");
             out.println("     * ");
             out.println("     * <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getQualifier()+"): <b>"+dataTypeName+"</b><br>");
             out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[NotRequired]")+"<br>");
             out.println("     * "+property.getDescription()+"</p>");
+            out.println("     * ");
+            out.println("     * @throws OdmaAccessDeniedException");
+            out.println("     *             if this property can not be set by the current user");
             out.println("     */");
-            out.println("    virtual void set"+property.getApiName()+"("+cppDataType+" value) = 0;");
+            out.println("    public void set"+property.getApiName()+"("+javaDataType+" value) throws OdmaAccessDeniedException;");
         }
     }
 
     protected void appendRequiredImportsClassPropertyAccess(ImportsList requiredImports, PropertyDescription property)
     {
         requiredImports.registerImports(getRequiredImports(property));
+        if( (!property.isReadOnly()) && (!property.getMultiValue()) )
+        {
+            requiredImports.registerImport("org.opendma.exceptions.OdmaAccessDeniedException");
+        }
     }
 
 }

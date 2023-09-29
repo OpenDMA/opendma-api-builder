@@ -134,6 +134,8 @@ public class JavaScriptApiWriter extends AbstractApiWriter
 
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
+        JavaScriptObjectsInterfaceFileWriter classFileWriter = new JavaScriptObjectsInterfaceFileWriter(this);
+        classFileWriter.createClassFile(classDescription, opendmaApiFOS, false);
     }
     
     //-------------------------------------------------------------------------

@@ -1,3 +1,5 @@
+See better doc comment for python at OdmaObject
+
                                        | Java  |  C#   |  C++  |  PHP  |  PY   |  JS   |  TS   |  GO   | Rust  | Swift | Jav14 |
 -- infra ------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 getName()                              |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |
@@ -16,7 +18,7 @@ createExceptionFiles                   |   x   |   x   |   x   |   x   |   x   |
 createSessionManagementFiles           |       |       |       |       |       |       |       |       |       |       |   o   |
 -- generated API ----------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 createPropertyFile                     |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
-createClassFile                        |       |       |       |       |       |       |       |       |       |       |   o   |
+createClassFile                        |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 -- generated impl ---------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 createPropertyImplementationFile       |       |       |       |       |       |       |       |       |       |       |   o   |
 createClassTemplateFile                |       |       |       |       |       |       |       |       |       |       |   o   |

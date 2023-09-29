@@ -140,8 +140,8 @@ public class PhpApiWriter extends AbstractApiWriter
 
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
-//        PhpClassFileWriter classFileWriter = new PhpClassFileWriter(this);
-//        classFileWriter.createClassFile(classDescription, createPhpFile(outputFolder,"OpenDMA/Api",classDescription.getApiName()));
+        PhpObjectsInterfaceFileWriter classFileWriter = new PhpObjectsInterfaceFileWriter(this);
+        classFileWriter.createClassFile(classDescription, createPhpFile(opendmaApiFolder,classDescription.getApiName()));
     }
     
     //-------------------------------------------------------------------------

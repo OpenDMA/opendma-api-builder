@@ -126,6 +126,8 @@ public class SwiftApiWriter extends AbstractApiWriter
 
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
+        SwiftObjectsInterfaceFileWriter classFileWriter = new SwiftObjectsInterfaceFileWriter(this);
+        classFileWriter.createClassFile(classDescription, createSwiftFile(opendmaApiSourcesFolder,classDescription.getApiName()));
     }
     
     //-------------------------------------------------------------------------

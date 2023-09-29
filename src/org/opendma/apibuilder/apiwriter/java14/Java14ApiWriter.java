@@ -143,7 +143,7 @@ public class Java14ApiWriter extends AbstractApiWriter
 
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
-        Java14ClassFileWriter classFileWriter = new Java14ClassFileWriter(this);
+        Java14ObjectsInterfaceFileWriter classFileWriter = new Java14ObjectsInterfaceFileWriter(this);
         classFileWriter.createClassFile(classDescription, createJavaFile("org.opendma.api",classDescription.getApiName()));
     }
     

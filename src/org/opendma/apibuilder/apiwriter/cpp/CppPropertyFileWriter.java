@@ -84,11 +84,13 @@ public class CppPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("        * @return The "+returnType+" value of this property");
         out.println("        * @throws OdmaInvalidDataTypeException if the data type of this property is not a single-valued "+scalarName+".");
         out.println("        */");
-        out.println("        virtual "+returnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Enumerable":"List")+"() = 0;");
+        out.println("        virtual "+returnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Vector":"List")+"() = 0;");
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)
     {
+        requiredImports.registerImport("<any>");
+        requiredImports.registerImport("<memory>");
         requiredImports.registerImport("\"OdmaQName.h\"");
         requiredImports.registerImport("\"OdmaType.h\"");
     }

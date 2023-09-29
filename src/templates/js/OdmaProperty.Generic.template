@@ -37,7 +37,7 @@
      * Sets the value of this property. The type and class of the given newValue has to match the
      * data type of this OdmaProperty.
      * @abstract
-     * @param {*} newValue - The new value to set.
+     * @param {*} newValue The new value to set.
      * @throws {OdmaInvalidDataTypeException} If the type of the newValue does not match the data type of this OdmaProperty.
      * @throws {OdmaAccessDeniedException} If this OdmaProperty is read-only or cannot be set by the current user.
      */

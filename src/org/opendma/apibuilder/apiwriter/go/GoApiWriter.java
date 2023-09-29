@@ -143,6 +143,8 @@ public class GoApiWriter extends AbstractApiWriter
 
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
+        GoObjectsInterfaceFileWriter classFileWriter = new GoObjectsInterfaceFileWriter(this);
+        classFileWriter.createClassFile(classDescription, createGoFile(opendmaApiProjectFolder,classDescription.getApiName()));
     }
     
     //-------------------------------------------------------------------------

@@ -1,20 +1,19 @@
 
     /**
-     * Returns an <code>{@link OdmaProperty}</code> for the property identified by the given qualified name. The named
-     * property is automatically retrieved from the server if it is not yet in the local cache. So it is wise to call
-     * the method <code>{@link #prepareProperties(OdmaQName[], boolean)}</code> at first if you are interested in
-     * multiple properties to reduce the number of round trips to the server.
+     * Returns an <code>{@link OdmaProperty}</code> for the property identified by the given qualified name.
+     * The named property is automatically retrieved from the server if it is not yet in the local cache.
+     * To optimize performance, consider calling <code>{@link #prepareProperties(OdmaQName[], boolean)}</code>
+     * first when accessing multiple properties.
      * 
      * @param propertyName
      *            the qualified name of the property to return
      * 
      * @return an <code>{@link OdmaProperty}</code> for the property identified by the given qualified name.
      * 
-     * @throws OdmaObjectNotFoundException
-     *             if and only if the given qualified name does not identify a property in the list of effective
-     *             properties of the class of this object
+     * @throws OdmaPropertyNotFoundException
+     *             Thrown if the given qualified name does not identify a property in the effective properties of the class of this object.
      */
-    public OdmaProperty getProperty(OdmaQName propertyName) throws OdmaObjectNotFoundException
+    public OdmaProperty getProperty(OdmaQName propertyName) throws OdmaPropertyNotFoundException
     {
         // TODO: implement me
         return null;
@@ -49,7 +48,7 @@
      * @param newValue
      *            the new value to set the named property to
      * 
-     * @throws OdmaObjectNotFoundException
+     * @throws OdmaPropertyNotFoundException
      *             if and only if the given qualified name does not identify a property in the list of effective
      *             properties of the class of this object
      * @throws OdmaInvalidDataTypeException
@@ -57,7 +56,7 @@
      * @throws OdmaAccessDeniedException
      *             if this property can not be set by the current user
      */
-    public void setProperty(OdmaQName propertyName, Object newValue) throws OdmaObjectNotFoundException, OdmaInvalidDataTypeException, OdmaAccessDeniedException
+    public void setProperty(OdmaQName propertyName, Object newValue) throws OdmaPropertyNotFoundException, OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
         // TODO: implement me
     }

@@ -135,6 +135,8 @@ public class TypeScriptApiWriter extends AbstractApiWriter
 
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
+        TypeScriptObjectsInterfaceFileWriter classFileWriter = new TypeScriptObjectsInterfaceFileWriter(this);
+        classFileWriter.createClassFile(classDescription, createTsFile(opendmaApiSourceFolder,classDescription.getApiName()));
     }
     
     //-------------------------------------------------------------------------

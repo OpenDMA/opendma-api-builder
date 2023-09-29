@@ -142,6 +142,8 @@ public class RustApiWriter extends AbstractApiWriter
 
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
+        RustObjectsInterfaceFileWriter classFileWriter = new RustObjectsInterfaceFileWriter(this);
+        classFileWriter.createClassFile(classDescription, createRsFile(opendmaApiSourceFolder,classDescription.getApiName()));
     }
     
     //-------------------------------------------------------------------------

@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
-import org.opendma.apibuilder.apiwriter.AbstractClassFileWriter;
+import org.opendma.apibuilder.apiwriter.AbstractObjectsInterfaceFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ApiHelperDescription;
@@ -16,7 +16,7 @@ import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
-public class JavaClassTemplateFileWriter extends AbstractClassFileWriter
+public class JavaClassTemplateFileWriter extends AbstractObjectsInterfaceFileWriter
 {
     
     protected JavaApiWriter apiWriter;
@@ -109,7 +109,7 @@ public class JavaClassTemplateFileWriter extends AbstractClassFileWriter
         requiredImports.registerImport("org.opendma.api."+classDescription.getApiName());
         requiredImports.registerImport("org.opendma.api.OdmaCommonNames");
         requiredImports.registerImport("org.opendma.exceptions.OdmaInvalidDataTypeException");
-        requiredImports.registerImport("org.opendma.exceptions.OdmaObjectNotFoundException");
+        requiredImports.registerImport("org.opendma.exceptions.OdmaPropertyNotFoundException");
         requiredImports.registerImport("org.opendma.exceptions.OdmaRuntimeException");
         if(classDescription.getAspect())
         {
@@ -223,7 +223,7 @@ public class JavaClassTemplateFileWriter extends AbstractClassFileWriter
         {
             out.println("     @SuppressWarnings(\"unchecked\")");
         }
-        out.println("    public "+javaDataType+" get"+property.getApiName()+"()");
+        out.println("    public "+javaDataType+" "+(javaDataType.equalsIgnoreCase("boolean")?"is":"get")+property.getApiName()+"()");
         out.println("    {");
         out.println("        try");
         out.println("        {");

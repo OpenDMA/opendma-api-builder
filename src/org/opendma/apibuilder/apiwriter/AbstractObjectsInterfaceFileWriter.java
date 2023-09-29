@@ -5,14 +5,16 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.opendma.apibuilder.structure.ApiHelperDescription;
 import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
+import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
-public abstract class AbstractClassFileWriter
+public abstract class AbstractObjectsInterfaceFileWriter
 {
     
     protected Map<String,ApiHelperWriter> apiHelperWriters = new HashMap<String,ApiHelperWriter>();
@@ -61,6 +63,11 @@ public abstract class AbstractClassFileWriter
 
     public void createClassFile(ClassDescription classDescription, OutputStream classOutputStream) throws IOException
     {
+        createClassFile(classDescription, classOutputStream, true);
+    }
+
+    public void createClassFile(ClassDescription classDescription, OutputStream classOutputStream, boolean closeStream) throws IOException
+    {
         // create output Writer
         PrintWriter out = new PrintWriter(classOutputStream);
         // collect required imports
@@ -103,9 +110,61 @@ public abstract class AbstractClassFileWriter
         }
         // write Footer
         writeClassFileFooter(classDescription,out);
-        // close writer and streams
-        out.close();
-        classOutputStream.close();
+        // flush writer and optionally close stream
+        out.flush();
+        if(closeStream)
+        {
+            classOutputStream.close();
+        }
+    }
+    
+    protected String upperCaseFirstChar(String s)
+    {
+        if(s.length() > 1)
+        {
+            return s.substring(0, 1).toUpperCase() + s.substring(1);
+        }
+        else
+        {
+            return s;
+        }
+    }
+    
+    protected String toSnakeCase(String s)
+    {
+        String result = "";
+        for(int i = 0; i < s.length(); i++)
+        {
+            char ch = s.charAt(i);
+            if(Character.isUpperCase(ch))
+            {
+                if(i != 0)
+                {
+                    result = result + "_";
+                }
+                result = result + Character.toLowerCase(ch);                
+            }
+            else
+            {
+                result = result + ch;
+            }
+        }
+        return result;
+    }
+    
+    protected List<String> getPropertyDetails(PropertyDescription property)
+    {
+        LinkedList<String> result = new LinkedList<String>();
+        ScalarTypeDescription scalarTypeDescription = property.getDataType();
+        String dataTypeName = scalarTypeDescription.isInternal() ? scalarTypeDescription.getBaseScalar() : scalarTypeDescription.getName();
+        if(property.getDataType().isReference())
+        {
+            dataTypeName = dataTypeName + " to " + property.getReferenceClassName().getName() + " ("+property.getReferenceClassName().getQualifier()+")";
+        }
+        result.add("<p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getQualifier()+"): <b>"+dataTypeName+"</b><br/>");
+        result.add((property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[NotRequired]")+"<br/>");
+        result.add(property.getDescription()+"</p>");
+        return result;
     }
 
 }

@@ -160,8 +160,8 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
-//        CppClassFileWriter classFileWriter = new CppClassFileWriter(this);
-//        classFileWriter.createClassFile(classDescription, createHeaderFile(outputFolder, classDescription.getApiName()));
+        CppObjectsInterfaceFileWriter classFileWriter = new CppObjectsInterfaceFileWriter(this);
+        classFileWriter.createClassFile(classDescription, createHeaderFile(includeFolder, classDescription.getApiName()));
     }
     
     //-------------------------------------------------------------------------

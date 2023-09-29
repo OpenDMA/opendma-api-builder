@@ -5,8 +5,11 @@
         /// the method <c>prepareProperties</c> at first if you are interested in
         /// multiple properties to reduce the number of round trips to the server.
         /// </summary>
-        /// <param name="propertyName">the qualified name of the property to return</param>
-        /// <returns>Returns an <see cref="IOdmaProperty"/> for the property identified by the given qualified name.</returns>
+        /// <param name="propertyName">The qualified name of the property to return.</param>
+        /// <returns>An <see cref="IOdmaProperty"/> for the specified property.</returns>
+        /// <exception cref="OdmaObjectNotFoundException">
+        /// Thrown if the given qualified name does not identify a property in the effective properties of the class of this object.
+        /// </exception>
         public IOdmaProperty getProperty(OdmaQName propertyName)
         {
             // TODO: implement me
@@ -14,14 +17,12 @@
         }
 
         /// <summary>
-        /// Checks if the named properties are already in the local cache and performs one single round trip to the server to
-        /// retrieve all properties that are not yet in the cache. If the flag <c>refresh</c> is set to
-        /// <c>true</c>, the proerties are always retrieved from the server. Such a refresh will reset unsaved
-        /// changes of properties to the current value.<br>
-        /// If a given qualified name does not identify a property, it is silently ignored.
+        /// Checks if the specified properties are already in the local cache and retrieves them from the server if not.
+        /// If <paramref name="refresh"/> is set to <c>true</c>, all specified properties are always retrieved from the server.
+        /// Such a refresh will reset unsaved changes of properties to the latest state on the server.
         /// </summary>
-        /// <param name="propertyNames">array of qualified property names to retrieve from the server or <c>null</c> to retrieve all</param>
-        /// <param name="refresh">flag to indicate if the properties should also be retrieved if they are already in the local cache</param>
+        /// <param name="propertyNames">An array of qualified property names to retrieve or <c>null</c> to retrieve all properties.</param>
+        /// <param name="refresh">Indicates whether properties should be refreshed even if they are in the local cache.</param>
         public void prepareProperties(OdmaQName[] propertyNames, bool refresh)
         {
             // TODO: implement me

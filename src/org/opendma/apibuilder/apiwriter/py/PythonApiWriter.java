@@ -137,6 +137,8 @@ public class PythonApiWriter extends AbstractApiWriter
 
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
+        PythonObjectsInterfaceFileWriter classFileWriter = new PythonObjectsInterfaceFileWriter(this);
+        classFileWriter.createClassFile(classDescription, opendmaApiInterfacesFOS, false);
     }
     
     //-------------------------------------------------------------------------
