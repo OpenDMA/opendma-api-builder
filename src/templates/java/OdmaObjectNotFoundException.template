@@ -7,6 +7,8 @@ import org.opendma.api.OdmaGuid;
  */
 public class OdmaObjectNotFoundException extends OdmaException {
 
+    private static final long serialVersionUID = 3730730647471169915L;
+
     private final OdmaGuid objectGuid;
 
     /**
@@ -48,9 +50,9 @@ public class OdmaObjectNotFoundException extends OdmaException {
      * @param cause the cause.
      * @param guid the unique identifier of the object that was not found.
      */
-    public OdmaObjectNotFoundException(Throwable cause, OdmaGuid guid) {
+    public OdmaObjectNotFoundException(Throwable cause, OdmaGuid objectGuid) {
         super(cause);
-        this.guid = guid;
+        this.objectGuid = objectGuid;
     }
 
     /**

@@ -5,6 +5,8 @@ package org.opendma.exceptions;
  */
 public class OdmaInvalidDataTypeException extends OdmaException {
 
+    private static final long serialVersionUID = 5844548604391878677L;
+
     /**
      * Constructs a new OdmaInvalidDataTypeException without a detail message.
      */

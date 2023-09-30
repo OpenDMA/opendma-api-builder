@@ -5,6 +5,8 @@ package org.opendma.exceptions;
  */
 public class OdmaAccessDeniedException extends OdmaException {
 
+    private static final long serialVersionUID = -5616105252455283370L;
+
     /**
      * Constructs a new OdmaAccessDeniedException without a detail message.
      */

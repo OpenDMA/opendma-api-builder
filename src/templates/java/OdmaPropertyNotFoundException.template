@@ -7,6 +7,8 @@ import org.opendma.api.OdmaQName;
  */
 public class OdmaPropertyNotFoundException extends OdmaException {
 
+    private static final long serialVersionUID = 4599466174108144058L;
+
     private final OdmaQName propertyName;
 
     /**

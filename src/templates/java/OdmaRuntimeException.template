@@ -3,7 +3,9 @@ package org.opendma.exceptions;
 /**
  * Base class for all unchecked exceptions related to the OpenDMA framework.
  */
-public class OdmaRuntimeException extends Exception {
+public class OdmaRuntimeException extends RuntimeException {
+
+    private static final long serialVersionUID = -5578943635452905460L;
 
     /**
      * Constructs a new OdmaRuntimeException without a detail message.
