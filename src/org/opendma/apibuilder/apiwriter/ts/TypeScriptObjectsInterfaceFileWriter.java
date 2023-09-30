@@ -118,7 +118,7 @@ public class TypeScriptObjectsInterfaceFileWriter extends AbstractObjectsInterfa
             String result = property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
             if(property.getMultiValue())
             {
-                result = result+"[]";
+                result = "Iterable<"+result+">";
             }
             else if(!property.getRequired())
             {

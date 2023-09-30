@@ -138,7 +138,7 @@ public class PhpObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileW
             String result = property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
             if(property.getMultiValue())
             {
-                result = "array<"+result+">";
+                result = "IteratorAggregate<"+result+">";
             }
             else if(!property.getRequired())
             {
@@ -184,7 +184,7 @@ public class PhpObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileW
         out.println("     * ");
         out.println("     * @return "+phpDataType+" "+property.getAbstract());
         out.println("     */");
-        String returnDeclaration = property.getMultiValue() ? "array" : phpDataType;
+        String returnDeclaration = property.getMultiValue() ? (property.isReference() ? "IteratorAggregate" : "array") : phpDataType;
         out.println("    public function "+(phpDataType.equalsIgnoreCase("bool")?"is":"get")+property.getApiName()+"(): "+returnDeclaration+";");
         // setter
         if( (!property.isReadOnly()) && (!property.getMultiValue()) )

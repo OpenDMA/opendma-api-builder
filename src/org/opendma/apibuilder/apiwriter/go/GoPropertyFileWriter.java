@@ -65,7 +65,7 @@ public class GoPropertyFileWriter extends AbstractPropertyFileWriter
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "[]*OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
+        String returnType = scalarTypeDescription.isReference() ? "OdmaObjectIterable" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
         out.println("");
         out.println("    // Returns the "+scalarName+" value of this property if and only if");
         out.println("    // the data type of this property is a multi valued "+scalarName+".");

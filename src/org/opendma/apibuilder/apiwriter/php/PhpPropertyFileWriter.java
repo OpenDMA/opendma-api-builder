@@ -80,7 +80,7 @@ public class PhpPropertyFileWriter extends AbstractPropertyFileWriter
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "array<OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
+        String returnType = scalarTypeDescription.isReference() ? "IteratorAggregate<OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
         out.println("");
         out.println("    /**");
         out.println("     * Retrieves the "+scalarName+" value of this property if and only if");
@@ -89,7 +89,14 @@ public class PhpPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("     * @return "+returnType+" The value of this property");
         out.println("     * @throws OdmaInvalidDataTypeException If the data type of this property is not a multi-valued "+scalarName+".");
         out.println("     */");
-        out.println("    public function get"+scalarName+"Array(): array;");
+        if(scalarTypeDescription.isReference())
+        {
+            out.println("    public function get"+scalarName+"IteratorAggregate(): IteratorAggregate;");
+        }
+        else
+        {
+            out.println("    public function get"+scalarName+"Array(): array;");
+        }
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)

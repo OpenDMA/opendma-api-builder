@@ -54,7 +54,7 @@ public class PythonPropertyFileWriter extends AbstractPropertyFileWriter
     protected void writeSingleValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
+        String returnType = scalarTypeDescription.isReference() ? "Optional[OdmaObject]" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
         out.println("");
         out.println("    @abstractmethod");
         out.println("    def get_"+scalarName.toLowerCase()+"(self) -> "+returnType+":");
@@ -67,10 +67,10 @@ public class PythonPropertyFileWriter extends AbstractPropertyFileWriter
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "list[OdmaObject]" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
+        String returnType = scalarTypeDescription.isReference() ? "Iterable[TOdmaObject]" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
         out.println("");
         out.println("    @abstractmethod");
-        out.println("    def get_"+scalarName.toLowerCase()+"_list(self) -> "+returnType+":");
+        out.println("    def get_"+scalarName.toLowerCase()+"_"+(scalarTypeDescription.isReference()?"iterable":"list")+"(self) -> "+returnType+":");
         out.println("        \"\"\" Retrieves the "+scalarName+" value of this property if and only if");
         out.println("        the data type of this property is a multi valued "+scalarName+".");
         out.println("        \"\"\"");

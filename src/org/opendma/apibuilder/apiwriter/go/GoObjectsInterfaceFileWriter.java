@@ -112,7 +112,7 @@ public class GoObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileWr
             String result = property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
             if(property.getMultiValue())
             {
-                result = result+"[]";
+                result = result+"Iterable";
             }
             else if(!property.getRequired())
             {

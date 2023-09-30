@@ -69,7 +69,7 @@ public class TypeScriptPropertyFileWriter extends AbstractPropertyFileWriter
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "OdmaObject[]" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
+        String returnType = scalarTypeDescription.isReference() ? "Iterable<OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
         out.println("");
         out.println("    /**");
         out.println("     * Retrieves the "+scalarName+" value of this property if and only if");
@@ -78,7 +78,7 @@ public class TypeScriptPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("     * @returns The "+scalarName+" value of this property");
         out.println("     * @throws OdmaInvalidDataTypeException If the data type of this property is not a multi-valued "+scalarName+".");
         out.println("     */");
-        out.println("    get"+scalarName+"Array(): "+returnType+";");
+        out.println("    get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"Array")+"(): "+returnType+";");
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)

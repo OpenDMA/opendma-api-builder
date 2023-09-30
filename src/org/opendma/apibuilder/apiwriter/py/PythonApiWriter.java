@@ -129,6 +129,7 @@ public class PythonApiWriter extends AbstractApiWriter
     {
         PythonPropertyFileWriter pythonPropertyFileWriter = new PythonPropertyFileWriter(this);
         pythonPropertyFileWriter.createPropertyFile(apiDescription, opendmaApiHelpersFOS, false);
+        classesImportFromHelpers.add("OdmaProperty");
     }
 
     //-------------------------------------------------------------------------
@@ -139,6 +140,7 @@ public class PythonApiWriter extends AbstractApiWriter
     {
         PythonObjectsInterfaceFileWriter classFileWriter = new PythonObjectsInterfaceFileWriter(this);
         classFileWriter.createClassFile(classDescription, opendmaApiInterfacesFOS, false);
+        classesImportFromInterfaces.add(classDescription.getApiName());
     }
     
     //-------------------------------------------------------------------------
@@ -149,6 +151,7 @@ public class PythonApiWriter extends AbstractApiWriter
     {
         PythonPropertyImplementationFileWriter pythonPropertyImplementationFileWriter = new PythonPropertyImplementationFileWriter(this);
         pythonPropertyImplementationFileWriter.createPropertyFile(apiDescription, opendmaApiHelpersFOS, false);
+        classesImportFromHelpers.add("OdmaPropertyImpl");
     }
 
     //-------------------------------------------------------------------------

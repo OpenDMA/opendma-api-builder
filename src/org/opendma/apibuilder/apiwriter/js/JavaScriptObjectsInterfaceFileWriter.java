@@ -120,7 +120,7 @@ public class JavaScriptObjectsInterfaceFileWriter extends AbstractObjectsInterfa
         {
             if(property.getMultiValue())
             {
-                return property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+"[]";
+                return "Iterable<"+property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName()+">";
             }
             else
             {
@@ -148,7 +148,7 @@ public class JavaScriptObjectsInterfaceFileWriter extends AbstractObjectsInterfa
         out.println("");
         out.println("    /**");
         out.println("     * Returns "+property.getAbstract()+".<br>");
-        String standardGetterName = "get" + ((!scalarType.isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceArray" : "Reference"));
+        String standardGetterName = "get" + ((!scalarType.isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceIterable" : "Reference"));
         out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</code>.");
         out.println("     * ");
         for(String s : getPropertyDetails(property))

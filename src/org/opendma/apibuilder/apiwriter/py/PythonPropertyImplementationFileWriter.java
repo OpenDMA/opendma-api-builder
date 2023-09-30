@@ -91,7 +91,14 @@ public class PythonPropertyImplementationFileWriter extends AbstractPropertyFile
             String pyReturnType = (scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,true));
             if(multivalue)
             {
-                out.println("                    if isinstance(self._value, list) and all(isinstance(item, "+pyReturnType+")):");
+                if(scalarTypeDescription.isReference())
+                {
+                    out.println("                    if isinstance(new_value, Iterable):");
+                }
+                else
+                {
+                    out.println("                    if isinstance(new_value, list) and all(isinstance(item, "+pyReturnType+") for item in new_value):");
+                }
             }
             else
             {
@@ -99,7 +106,7 @@ public class PythonPropertyImplementationFileWriter extends AbstractPropertyFile
             }
             out.println("                        self._value = new_value");
             out.println("                    else:");
-            String pyType = multivalue ? (scalarTypeDescription.isReference() ? "list[OdmaObject]" : "list["+apiWriter.getScalarDataType(scalarTypeDescription,false,true)+"]") : (scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,false));
+            String pyType = multivalue ? (scalarTypeDescription.isReference() ? "Iterable[TOdmaObject]" : "list["+apiWriter.getScalarDataType(scalarTypeDescription,false,true)+"]") : (scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,false));
             out.println("                        raise OdmaInvalidDataTypeException(\""+generatePropertyDataTypeDescription(multivalue, scalarTypeDescription)+". It can only be set to values assignable to `"+pyType+"`\");");
         }
         out.println("                case _:");
@@ -124,9 +131,9 @@ public class PythonPropertyImplementationFileWriter extends AbstractPropertyFile
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "list[OdmaObject]" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
+        String returnType = scalarTypeDescription.isReference() ? "Iterable[TOdmaObject]" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
         out.println("");
-        out.println("    def get_"+scalarName.toLowerCase()+"_list(self) -> "+returnType+":");
+        out.println("    def get_"+scalarName.toLowerCase()+"_"+(scalarTypeDescription.isReference()?"iterable":"list")+"(self) -> "+returnType+":");
         out.println("        \"\"\" Retrieves the "+scalarName+" value of this property if and only if");
         out.println("        the data type of this property is a multi valued "+scalarName+".");
         out.println("        \"\"\"");

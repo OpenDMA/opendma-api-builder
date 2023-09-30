@@ -114,7 +114,7 @@ public class SwiftObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFil
             String result = property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
             if(property.getMultiValue())
             {
-                result = "["+result+"]";
+                result = "Sequence<"+result+">";
             }
             else if(!property.getRequired())
             {

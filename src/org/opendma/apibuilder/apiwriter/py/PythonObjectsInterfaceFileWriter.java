@@ -47,6 +47,8 @@ public class PythonObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFi
     protected void writeClassFileHeader(ClassDescription classDescription, List<String> requiredImports, PrintWriter out)
     {
         out.println("");
+        out.println("T"+classDescription.getApiName()+" = TypeVar(\"T"+classDescription.getApiName()+"\", bound=\""+classDescription.getApiName()+"\")");
+        out.println("");
         String extendsApiName = classDescription.getExtendsApiName();
         if(extendsApiName != null)
         {
@@ -120,7 +122,7 @@ public class PythonObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFi
             String result = property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
             if(property.getMultiValue())
             {
-                result = "list["+result+"]";
+                result = "Iterable[T"+result+"]";
             }
             else if(!property.getRequired())
             {

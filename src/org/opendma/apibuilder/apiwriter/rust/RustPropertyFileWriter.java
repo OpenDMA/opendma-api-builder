@@ -66,13 +66,13 @@ public class RustPropertyFileWriter extends AbstractPropertyFileWriter
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "Vec<OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
+        String returnType = scalarTypeDescription.isReference() ? "Iterator<OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
         out.println("");
         out.println("    /// Gets the "+scalarName+" value of this property if and only if");
         out.println("    /// the data type of this property is a multi valued "+scalarName+".");
         out.println("    ///");
         out.println("    /// Returns OdmaInvalidDataTypeError if the data type of this property is not a multi-valued "+scalarName+".");
-        out.println("    fn get_"+scalarName.toLowerCase()+"_list(&self) -> Result<"+returnType+", Box<dyn Error>>;");
+        out.println("    fn get_"+scalarName.toLowerCase()+"_"+(scalarTypeDescription.isReference()?"iterator":"list")+"(&self) -> Result<"+returnType+", Box<dyn Error>>;");
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)

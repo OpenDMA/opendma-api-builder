@@ -72,11 +72,11 @@ public class SwiftPropertyFileWriter extends AbstractPropertyFileWriter
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "[OdmaObject]" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
+        String returnType = scalarTypeDescription.isReference() ? "Sequence<OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
         out.println("");
         out.println("    /// Gets the "+scalarName+" value of this property if and only if");
         out.println("    /// the data type of this property is a multi valued "+scalarName+".");
-        out.println("    fn get"+scalarName+"List() throws -> "+returnType);
+        out.println("    fn get"+scalarName+(scalarTypeDescription.isReference()?"Sequence":"List")+"() throws -> "+returnType);
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)

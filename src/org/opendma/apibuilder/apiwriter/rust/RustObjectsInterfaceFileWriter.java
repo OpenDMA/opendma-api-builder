@@ -113,7 +113,7 @@ public class RustObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFile
             String result = property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
             if(property.getMultiValue())
             {
-                result = result+"[]";
+                result = "Iterator<"+result+">";
             }
             else if(!property.getRequired())
             {
@@ -141,7 +141,7 @@ public class RustObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFile
         // getter
         out.println("");
         out.println("    // Returns "+property.getAbstract()+".");
-        String standardGetterName = "get_" + ((!scalarType.isReference()) ? scalarType.getName() : (property.getMultiValue() ? "reference_list" : "reference"));
+        String standardGetterName = "get_" + ((!scalarType.isReference()) ? scalarType.getName() : (property.getMultiValue() ? "reference_iterator" : "reference"));
         out.println("    // Shortcut for `get_property(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()`.");
         for(String s : getPropertyDetails(property))
         {
