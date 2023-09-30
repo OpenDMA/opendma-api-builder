@@ -154,14 +154,7 @@ public class JavaObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFile
     {
         if(property.getDataType().isReference())
         {
-            if(property.getMultiValue())
-            {
-                return new String[] { "java.util.Iterator" };
-            }
-            else
-            {
-                return null;
-            }
+            return null;
         }
         else
         {
