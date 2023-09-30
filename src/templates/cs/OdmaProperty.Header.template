@@ -1,11 +1,5 @@
     /// <summary>
-    /// A <i>Property</i> of an <c>OdmaObject</c> in the OpenDMA
-    /// architecture. It is always bound in name, data type and cardinality and can
-    /// not change these. If this property is not read only (i.e.
-    /// <c>isReadOnly()</c> returns <c>false</c>), it can
-    /// change its value by calling the <c>setValue(Object)</c>
-    /// method. Changes are only persisted in the repository after a call to the
-    /// <c>save()</c> method of the containing object.
+    /// Standard implementation of the IOdmaProperty interface.
     /// </summary>
     public class OdmaProperty : IOdmaProperty
     {

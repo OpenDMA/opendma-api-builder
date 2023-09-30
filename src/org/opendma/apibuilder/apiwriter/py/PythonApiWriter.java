@@ -147,6 +147,8 @@ public class PythonApiWriter extends AbstractApiWriter
 
     protected void createPropertyImplementationFile(ApiDescription apiDescription) throws IOException
     {
+        PythonPropertyImplementationFileWriter pythonPropertyImplementationFileWriter = new PythonPropertyImplementationFileWriter(this);
+        pythonPropertyImplementationFileWriter.createPropertyFile(apiDescription, opendmaApiHelpersFOS, false);
     }
 
     //-------------------------------------------------------------------------

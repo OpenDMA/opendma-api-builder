@@ -145,6 +145,8 @@ public class TypeScriptApiWriter extends AbstractApiWriter
 
     protected void createPropertyImplementationFile(ApiDescription apiDescription) throws IOException
     {
+        TypeScriptPropertyImplementationFileWriter typeScriptPropertyImplementationFileWriter = new TypeScriptPropertyImplementationFileWriter(this);
+        typeScriptPropertyImplementationFileWriter.createPropertyFile(apiDescription, createTsFile(opendmaApiSourceFolder, "OdmaPropertyImpl"));
     }
 
     //-------------------------------------------------------------------------

@@ -131,3 +131,20 @@
     {
         return readonly;
     }
+
+    private boolean checkListAndValues(@NotNull Object obj, @NotNull Class<?> expectedElementsClass)
+    {
+        if(!(obj instanceof List<?>))
+        {
+            return false;
+        }
+        for(Object element : (List<?>)obj)
+        {
+            if(!expectedElementsClass.isAssignableFrom(element.getClass()))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    

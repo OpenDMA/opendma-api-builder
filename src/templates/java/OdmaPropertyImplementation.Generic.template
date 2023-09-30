@@ -6,7 +6,7 @@
     protected OdmaType dataType;
     
     /** flag indicating if this property is multivalue or not */
-    protected boolean multivalue;
+    protected boolean multiValue;
     
     /** the value of this property */
     protected Object value;
@@ -15,7 +15,7 @@
     protected boolean dirty;
     
     /** flag indicating if this property is read only or not */
-    protected boolean readonly;
+    protected boolean readOnly;
     
     /**
      * Create a new <code>OdmaPropertyImpl</code> with the given data.
@@ -29,21 +29,21 @@
      * @param dataType
      *     The data type of this property
      *     
-     * @param multivalue
+     * @param multiValue
      *     Flag if this property is a multi value property
      *     
-     * @param readonly
+     * @param readOnly
      *     Flag if this property is read only.
      * 
      * @throws OdmaInvalidDataTypeException
      *             if and only if the Class of the given Object does not match
      *             the data type of this property
      */
-    public OdmaPropertyImpl(OdmaQName name, Object value, OdmaType dataType, boolean multivalue, boolean readonly) throws OdmaInvalidDataTypeException
+    public OdmaPropertyImpl(OdmaQName name, Object value, OdmaType dataType, boolean multiValue, boolean readOnly) throws OdmaInvalidDataTypeException
     {
         this.name = name;
         this.dataType = dataType;
-        this.multivalue = multivalue;
+        this.multiValue = multiValue;
         try
         {
             setValue(value);
@@ -52,7 +52,7 @@
         {
             throw new OdmaRuntimeException("Implementation error.");
         }
-        this.readonly = readonly;
+        this.readOnly = readOnly;
         this.dirty = false;
     }
 
@@ -105,21 +105,13 @@
     }
 
     /**
-     * Mark this property as dirty meaning that the value has been changed and not yet persisted.
-     */
-    public void setDirty()
-    {
-        dirty = true;
-    }
-
-    /**
      * Returns <code>true</code> if and only if this property is a multi value property.
      * 
      * @return <code>true</code> if and only if this property is a multi value property.
      */
     public boolean isMultiValue()
     {
-        return multivalue;
+        return multiValue;
     }
 
     /**
@@ -129,5 +121,22 @@
      */
     public boolean isReadOnly()
     {
-        return readonly;
+        return readOnly;
     }
+
+    private boolean checkListAndValues(Object obj, Class<?> expectedElementsClass)
+    {
+        if(!(obj instanceof List<?>))
+        {
+            return false;
+        }
+        for(Object element : (List<?>)obj)
+        {
+            if(!expectedElementsClass.isAssignableFrom(element.getClass()))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    

@@ -1,95 +1,110 @@
-    
-        /// <summary>
-        /// the name of this property
-        /// </summary>
-        protected OdmaQName name;
-    
-        /// <summary>
-        /// the data type of this property
-        /// </summary>
-        protected OdmaType dataType;
-    
-        /// <summary>
-        /// flag indicating if this property is multivalue or not
-        /// </summary>
-        protected bool multivalue;
-    
-        /// <summary>
-        /// the value of this property
-        /// </summary>
-        protected Object value;
-    
-        /// <summary>
-        /// flag indicating if the value of this property has changed
-        /// </summary>
-        protected bool dirty;
-    
-        /// <summary>
-        /// flag indicating if this property is read only or not
-        /// </summary>
-        protected bool readOnly;
 
         /// <summary>
-        /// Returns the qualified name of this property.
+        /// The qualified name of this property.
         /// </summary>
-        /// <returns>Returns the qualified name of this property.</returns>
-        public OdmaQName getName()
+        protected OdmaQName _name;
+        
+        /// <summary>
+        /// The data type of this property.
+        /// </summary>
+        protected OdmaType _type;
+        
+        /// <summary>
+        /// Flag indicating whether this property is a multi-value property.
+        /// </summary>
+        protected bool _multiValue;
+        
+        /// <summary>
+        /// The value of this property.
+        /// </summary>
+        protected object _value;
+        
+        /// <summary>
+        /// Flag indicating whether this property has unsaved changes
+        /// </summary>
+        protected bool _dirty;
+        
+        /// <summary>
+        /// Flag indicating whether this property is read-only.
+        /// </summary>
+        protected bool _readOnly;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OdmaProperty"/> class with a specified type and value.
+        /// </summary>
+        /// <param name="name">The qualified name of this property.</param>
+        /// <param name="value">The value of this property.</param>
+        /// <param name="type">The data type of this property.</param>
+        /// <param name="multiValue">Flag indicating whether this property is a multi-value property.</param>
+        /// <param name="readOnly">Flag indicating whether this property is read-only.</param>
+        /// <exception cref="OdmaInvalidDataTypeException">
+        /// Thrown if the type of <paramref name="value"/> does not match the property's data type.
+        /// </exception>
+        public OdmaProperty(OdmaQName name, object value, OdmaType type, bool multiValue, bool readOnly)
         {
-            return name;
+            this._name = name;
+            this._type = type;
+            this._multiValue = multiValue;
+            try
+            {
+                SetValue(value);
+            }
+            catch (OdmaAccessDeniedException)
+            {
+                throw new InvalidOperationException("Implementation error.");
+            }
+            this._readOnly = readOnly;
+            this._dirty = false;
         }
 
         /// <summary>
-        /// Returns the value of this property.<br>
-        /// The concrete <c>object</c> returned by this method depends on the
-        /// data type of this property.
+        /// The qualified name of this property.
         /// </summary>
-        /// <returns>Returns the value of this property.</returns>
-        public object getValue()
-        {
-            return value;
-        }
+        OdmaQName Name { get => _name; }
 
         /// <summary>
-        /// Returns the numeric identifier of the data type of this property.<br>
-        /// You can find a list of all data types in the <c>OdmaTypes</c> class.
+        /// The data type of this property.
         /// </summary>
-        /// <returns>Returns the numeric identifier of the data type of this property.</returns>
-        public OdmaType getType()
-        {
-            return dataType;
-        }
+        protected OdmaType Type { get => _type; }
 
         /// <summary>
-        /// Returns <c>true</c> if and only if this property is a multi value property.
+        /// Indicates whether this property is a multi-value property.
         /// </summary>
-        /// <returns>Returns <c>true</c> if and only if this property is a multi value property.</returns>
-        public bool isMultiValue()
-        {
-            return multivalue;
-        }
+        bool IsMultiValue { get => _multiValue; }
 
         /// <summary>
-        /// Returns <c>true</c> if and only if this property has been changed and these changes have not yet been saved.
+        /// Indicates whether this property has unsaved changes
         /// </summary>
-        /// <returns>Returns <c>true</c> if and only if this property has been changed and these changes have not yet been saved.</returns>
-        public bool isDirty()
-        {
-            return dirty;
-        }
+        bool IsDirty { get => _dirty; }
 
         /// <summary>
-        /// Mark this property as dirty meaning that the value has been changed and not yet persisted.
+        /// Indicates whether this property is read-only.
         /// </summary>
-        public void setDirty()
-        {
-            dirty = true;
-        }
+        bool IsReadOnly { get => _readOnly; }
 
         /// <summary>
-        /// Returns <c>true</c> if and only if this property must not be changed.
+        /// The value of this property. The concrete <see cref="object"/> of this property depends on the data type of this OdmaProperty.
         /// </summary>
-        /// <returns>Returns <c>true</c> if and only if this property must not be changed.</returns>
-        public bool isReadOnly()
+        /// <exception cref="OdmaInvalidDataTypeException">If the type of the assigned value does not match the data type of this OdmaProperty.</exception>
+        /// <exception cref="OdmaAccessDeniedException">If this OdmaProperty is read-only or cannot be set by the current user.</exception>
+        public object Value
         {
-            return readOnly;
+            get { return this._value; }
+            set { SetValue(value); }
+        }
+
+        protected bool CheckListAndValues(object obj, Type expectedType)
+        {
+            if(!(obj is IList<?>))
+            {
+                return false;
+            }
+            for(object element : (IList<?>)obj)
+            {
+                if(!expectedElementsType.IsAssignableFrom(typeof(element)))
+                {
+                    return false;
+                }
+            }
+            return true;
         }

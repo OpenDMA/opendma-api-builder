@@ -20,7 +20,7 @@ createSessionManagementFiles           |       |       |       |       |       |
 createPropertyFile                     |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 createClassFile                        |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 -- generated impl ---------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-createPropertyImplementationFile       |       |       |       |       |       |       |       |       |       |       |   o   |
+createPropertyImplementationFile       |   x   |   x   |       |       |   x   |   x   |   x   |       |       |       |   o   |
 createClassTemplateFile                |       |       |       |       |       |       |       |       |       |       |   o   |
 -- build ------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 prepareProjectStructureAndBuildFiles   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |

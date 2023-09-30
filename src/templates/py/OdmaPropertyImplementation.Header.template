@@ -1,0 +1,7 @@
+from typing import Any, Optional
+from datetime import datetime
+
+class OdmaPropertyImpl(OdmaProperty):
+    """
+    Standard implementation of the OdmaProperty interface.
+    """

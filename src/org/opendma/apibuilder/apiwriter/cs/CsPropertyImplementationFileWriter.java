@@ -33,7 +33,7 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
             out.println("using "+importPackage+";");
         }
         out.println("");
-        out.println("namespace OpenDMA.Impl");
+        out.println("namespace OpenDMA.Api");
         out.println("{");
         out.println("");
         InputStream templateIn = apiWriter.getTemplateAsStream("OdmaProperty.Header");
@@ -63,18 +63,19 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
             out.println(templateLine);
         }
         out.println("");
-        out.println("        /// <summary>");
-        out.println("        /// Set the value of this property to the given new value. The");
-        out.println("        /// <c>Class</c> of the given <c>object</c> has to match the");
-        out.println("        /// data type of this property.");
-        out.println("        /// </summary>");
-        out.println("        public void setValue(object newValue)");
+        out.println("        protected void SetValue(object newValue)");
         out.println("        {");
-        out.println("            if(readOnly)");
+        out.println("            if(_readOnly)");
         out.println("            {");
         out.println("                throw new OdmaAccessDeniedException();");
         out.println("            }");
-        out.println("            if(multivalue)");
+        out.println("            if(newValue == null)");
+        out.println("            {");
+        out.println("                _value = null;");
+        out.println("                _dirty = true;");
+        out.println("                return;");
+        out.println("            }");
+        out.println("            if(_multiValue)");
         out.println("            {");
         writeGenericSectionSwitch(apiDescription,out,true);
         out.println("            }");
@@ -85,66 +86,79 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
         out.println("            dirty = true;");
         out.println("        }");
     }
+    
+    private String generatePropertyDataTypeDescription(boolean multivalue, ScalarTypeDescription scalarTypeDescription)
+    {
+        return "This property has a "+(multivalue?"multi-valued":"single-valued")+" "+scalarTypeDescription.getName()+" data type";
+    }
 
     protected void writeGenericSectionSwitch(ApiDescription apiDescription, PrintWriter out, boolean multivalue) throws IOException
     {
         List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
-        out.println("                switch(dataType)");
+        out.println("                switch(_type)");
         out.println("                {");
         Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
         {
             ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
-            //if(!scalarTypeDescription.isInternal())
-            //{
-                String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
-                String csReturnType;
-                if(multivalue)
+            String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
+            out.println("                case OdmaType."+constantScalarTypeName+":");
+            if(multivalue)
+            {
+                if(scalarTypeDescription.isReference())
                 {
-                    csReturnType = scalarTypeDescription.isReference() ? "IEnumerable<IOdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,false);
+                    out.println("                    if(newValue is IEnumerable<?>)");
                 }
                 else
                 {
-                    csReturnType = scalarTypeDescription.isReference() ? "IOdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
+                    out.println("                    if(CheckListAndValues(newValue,typeof("+apiWriter.getScalarDataType(scalarTypeDescription,false,true)+")))");
                 }
-                out.println("                case OdmaType."+constantScalarTypeName+":");
+            }
+            else
+            {
+                String csReturnType = (scalarTypeDescription.isReference() ? "IOdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,true));
                 out.println("                    if(newValue is "+csReturnType+")");
-                out.println("                    {");
-                out.println("                        value = newValue;");
-                out.println("                    }");
-                out.println("                    else");
-                out.println("                    {");
-                out.println("                        throw new OdmaInvalidDataTypeException(dataType,multivalue);");
-                out.println("                    }");
-                out.println("                    break;");
-            //}
+            }
+            out.println("                    {");
+            out.println("                        value = newValue;");
+            out.println("                    }");
+            out.println("                    else");
+            out.println("                    {");
+            String csType = multivalue ? (scalarTypeDescription.isReference() ? "IEnumerable<IOdmaObject>" : "IList<"+apiWriter.getScalarDataType(scalarTypeDescription,false,true)+">") : (scalarTypeDescription.isReference() ? "IOdmaObject?" : apiWriter.getScalarDataType(scalarTypeDescription,false,false));
+            out.println("                        throw new OdmaInvalidDataTypeException(\""+generatePropertyDataTypeDescription(multivalue, scalarTypeDescription)+". It can only be set to values assignable to `"+csType+"`\");");
+            out.println("                    }");
+            out.println("                    break;");
         }
         out.println("                default:");
-        out.println("                    throw new OdmaRuntimeException(\"OdmaProperty initialized with unknown data type \"+dataType);");
+        out.println("                    throw new InvalidOperationException(\"OdmaProperty initialized with unknown data type \"+dataType);");
         out.println("                }");
     }
 
     protected void writeSingleValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String csReturnType = scalarTypeDescription.isReference() ? "IOdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
+        String returnType = scalarTypeDescription.isReference() ? "IOdmaObject?" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
         out.println("");
         out.println("        /// <summary>");
-        out.println("        /// Returns the <c>"+scalarName+"</c> value of this property if and only if");
-        out.println("        /// the data type of this property is a single valued <i>"+scalarName+"</i>. Throws");
-        out.println("        /// an <code>OdmaInvalidDataTypeException</code> otherwise.");
+        out.println("        /// Retrieves the "+scalarName+" value of this property if and only if");
+        out.println("        /// the data type of this property is a single valued "+scalarName+".");
         out.println("        /// </summary>");
-        out.println("        /// <returns>Returns the <c>"+csReturnType+"</c> value of this property</returns>");
-        out.println("        public virtual "+csReturnType+" get"+scalarName+"()");
+        out.println("        /// <returns>");
+        out.println("        /// The "+returnType+" value of this property");
+        out.println("        /// </returns>");
+        out.println("        /// <exception cref=\"OdmaInvalidDataTypeException\">");
+        out.println("        /// Thrown if the data type of this property is not a single-valued "+scalarName+".");
+        out.println("        /// </exception>");
+        out.println("        public "+returnType+" Get"+scalarName+"()");
         out.println("        {");
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
         out.println("            if( (multivalue == false) && (dataType == OdmaType."+constantScalarTypeName+") )");
         out.println("            {");
-        out.println("                return ("+csReturnType+")value;");
+        out.println("                return ("+returnType+")value;");
         out.println("            }");
         out.println("            else");
         out.println("            {");
-        out.println("                throw new OdmaInvalidDataTypeException(OdmaType."+constantScalarTypeName+",false,dataType,multivalue);");
+        out.println("                throw new OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `Get"+scalarName+"()`\");");
         out.println("            }");
         out.println("        }");
     }
@@ -152,24 +166,28 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String csReturnType = scalarTypeDescription.isReference() ? "IEnumerable<IOdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
+        String returnType = scalarTypeDescription.isReference() ? "IEnumerable<IOdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
         out.println("");
         out.println("        /// <summary>");
-        out.println("        /// Returns the <c>"+scalarName+"</c> value of this property if and only if");
-        out.println("        /// the data type of this property is a multi valued <i>"+scalarName+"</i>. Throws");
-        out.println("        /// an <code>OdmaInvalidDataTypeException</code> otherwise.");
+        out.println("        /// Retrieves the "+scalarName+" value of this property if and only if");
+        out.println("        /// the data type of this property is a multi valued "+scalarName+".");
         out.println("        /// </summary>");
-        out.println("        /// <returns>Returns the <c>"+csReturnType+"</c> value of this property</returns>");
-        out.println("        public virtual "+csReturnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Enumerable":"List")+"()");
+        out.println("        /// <returns>");
+        out.println("        /// The "+returnType+" value of this property");
+        out.println("        /// </returns>");
+        out.println("        /// <exception cref=\"OdmaInvalidDataTypeException\">");
+        out.println("        /// Thrown if the data type of this property is not a multi-valued "+scalarName+".");
+        out.println("        /// </exception>");
+        out.println("        public "+returnType+" Get"+scalarName+(scalarTypeDescription.isReference()?"Enumerable":"List")+"()");
         out.println("        {");
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
         out.println("            if( (multivalue == true) && (dataType == OdmaType."+constantScalarTypeName+") )");
         out.println("            {");
-        out.println("                return ("+csReturnType+")value;");
+        out.println("                return ("+returnType+")value;");
         out.println("            }");
         out.println("            else");
         out.println("            {");
-        out.println("                throw new OdmaInvalidDataTypeException(OdmaType."+constantScalarTypeName+",false,dataType,multivalue);");
+        out.println("                throw new OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `Get"+scalarName+(scalarTypeDescription.isReference()?"Enumerable":"List")+"()`\");");
         out.println("            }");
         out.println("        }");
     }

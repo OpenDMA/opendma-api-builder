@@ -25,6 +25,8 @@ public class PythonPropertyFileWriter extends AbstractPropertyFileWriter
 
     protected void writePropertyFileHeader(ApiDescription apiDescription, List<String> requiredImports, PrintWriter out) throws IOException
     {
+        out.println();
+        out.println();
         InputStream templateIn = apiWriter.getTemplateAsStream("OdmaProperty.Header");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
@@ -81,12 +83,6 @@ public class PythonPropertyFileWriter extends AbstractPropertyFileWriter
 
     protected void appendRequiredImportsScalarAccess(ImportsList requiredImports, ScalarTypeDescription scalarTypeDescription)
     {
-        if(scalarTypeDescription.isReference())
-        {
-            return;
-        }
-        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false,false));
-        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true,true));
     }
 
 }

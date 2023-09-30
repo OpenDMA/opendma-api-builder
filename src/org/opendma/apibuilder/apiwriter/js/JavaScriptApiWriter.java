@@ -144,6 +144,8 @@ public class JavaScriptApiWriter extends AbstractApiWriter
 
     protected void createPropertyImplementationFile(ApiDescription apiDescription) throws IOException
     {
+        JavaScriptPropertyImplementationFileWriter javaScriptPropertyImplementationFileWriter = new JavaScriptPropertyImplementationFileWriter(this);
+        javaScriptPropertyImplementationFileWriter.createPropertyFile(apiDescription, opendmaApiFOS, false);
     }
 
     //-------------------------------------------------------------------------
