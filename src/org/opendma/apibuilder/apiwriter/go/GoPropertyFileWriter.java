@@ -70,7 +70,7 @@ public class GoPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("    // Returns the "+scalarName+" value of this property if and only if");
         out.println("    // the data type of this property is a multi valued "+scalarName+".");
         out.println("    // Returns an OdmaInvalidDataTypeError if the data type of this property is not a multi-valued "+scalarName+".");
-        out.println("    Get"+scalarName+"Array() ("+returnType+",error)");
+        out.println("    Get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"Array")+"() ("+returnType+",error)");
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)

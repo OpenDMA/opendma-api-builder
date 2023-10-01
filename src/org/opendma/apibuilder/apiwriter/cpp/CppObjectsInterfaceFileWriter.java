@@ -139,7 +139,7 @@ public class CppObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileW
             String referencedClassName = property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
             if(property.getMultiValue())
             {
-                return "std::vector<"+referencedClassName+">";
+                return referencedClassName+"Enumeration";
             }
             else
             {

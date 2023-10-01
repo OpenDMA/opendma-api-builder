@@ -76,7 +76,7 @@ public class CppPropertyFileWriter extends AbstractPropertyFileWriter
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "std::vector<OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
+        String returnType = scalarTypeDescription.isReference() ? "OdmaObjectEnumeration" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
         out.println("");
         out.println("        /**");
         out.println("        * @brief Retrieves the "+scalarName+" value of this property if and only if");
