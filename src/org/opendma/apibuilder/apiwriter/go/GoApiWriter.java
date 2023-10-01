@@ -116,6 +116,7 @@ public class GoApiWriter extends AbstractApiWriter
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException
     {
+        createClassFromTemplate(opendmaApiProjectFolder, "OdmaSearchResult");
     }
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException

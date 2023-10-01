@@ -104,6 +104,7 @@ public class PythonApiWriter extends AbstractApiWriter
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException
     {
+        copyClassToApiHelpers("OdmaSearchResult");
     }
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException

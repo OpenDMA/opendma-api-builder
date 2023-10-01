@@ -124,7 +124,7 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException
     {
-//        createHeaderFromTemplate(outputFolder,"OdmaSearchResult");
+        createHeaderFromTemplate(includeFolder,"OdmaSearchResult");
     }
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException

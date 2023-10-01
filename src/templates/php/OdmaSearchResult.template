@@ -1,23 +1,25 @@
-package org.opendma.api;
+<?php
+
+namespace OpenDMA\Api;
 
 /**
  * Represents the result of a search operation.
  * Provides access to the objects found and number of objects.
  */
-public interface OdmaSearchResult {
-    
+interface OdmaSearchResult {
+
     /**
      * Returns the collection of objects found by the search.
      * 
      * @return the collection of objects found by the search
      */
-    public Iterable<OdmaObject> getObjects();
+    public function getObjects(): IteratorAggregate;
 
     /**
      * Returns the number of objects found by the search or -1 if the total size is unknown.
      * 
      * @return the number of objects found by the search or -1 if the total size is unknown
      */
-    public int getSize();
+    public function getSize(): int;
 
 }

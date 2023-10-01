@@ -99,6 +99,7 @@ public class SwiftApiWriter extends AbstractApiWriter
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException
     {
+        createClassFromTemplate(opendmaApiSourcesFolder, "OdmaSearchResult");
     }
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException

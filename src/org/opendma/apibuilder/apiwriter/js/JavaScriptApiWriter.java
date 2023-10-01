@@ -101,6 +101,7 @@ public class JavaScriptApiWriter extends AbstractApiWriter
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException
     {
+        copyClassToApi("OdmaSearchResult");
     }
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException

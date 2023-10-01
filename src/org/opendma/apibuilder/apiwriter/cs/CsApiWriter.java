@@ -108,7 +108,7 @@ public class CsApiWriter extends AbstractApiWriter
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException
     {
-//        createClassFromTemplate(outputFolder,"IOdmaSearchResult");
+        createClassFromTemplate(opendmaApiFolder,"IOdmaSearchResult");
     }
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException

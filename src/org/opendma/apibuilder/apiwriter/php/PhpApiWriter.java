@@ -104,7 +104,7 @@ public class PhpApiWriter extends AbstractApiWriter
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException
     {
-//        createClassFromTemplate(outputFolder,"OpenDMA/Api","OdmaSearchResult");
+        createClassFromTemplate(opendmaApiFolder, "OdmaSearchResult");
     }
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException

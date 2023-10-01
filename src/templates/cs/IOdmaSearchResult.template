@@ -8,22 +8,22 @@ namespace OpenDMA.Api
 {
 
     /// <summary>
-    /// The result of a search operation.
+    /// Represents the result of a search operation.
+    ///  Provides access to the objects found and number of objects.
     /// </summary>
     public interface IOdmaSearchResult
     {
 
         /// <summary>
-        /// Returns the collection of objects found by the search if at least one object has been
-        /// found or <code>null</code> if no obejcts have been found.
+        /// Returns the collection of objects found by the search.
         /// </summary>
-        /// <returns>the collection of objects found by the search if at least one object has been found</returns>
+        /// <returns>the collection of objects found by the search</returns>
         IEnumerable<IOdmaObject> getObjects();
 
         /// <summary>
-        /// Returns the number of objects found by the search.
+        /// Returns the number of objects found by the search or -1 if the total size is unknown.
         /// </summary>
-        /// <returns>the number of objects found by the search</returns>
+        /// <returns>the number of objects found by the search or -1 if the total size is unknown</returns>
         int getSize();
 
     }

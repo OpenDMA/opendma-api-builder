@@ -1,5 +1,7 @@
 See better doc comment for python at OdmaObject
 
+Insufficient implementation of Enumerations: cpp, go 
+
                                        | Java  |  C#   |  C++  |  PHP  |  PY   |  JS   |  TS   |  GO   | Rust  | Swift | Jav14 |
 -- infra ------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 getName()                              |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |
@@ -13,7 +15,7 @@ createQNameFile                        |   x   |   x   |   x   |   x   |   x   |
 createIdFile                           |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 createGuidFile                         |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 createContentFile                      |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
-createSearchResultFile                 |       |       |       |       |       |       |       |       |       |       |   o   |
+createSearchResultFile                 |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 createExceptionFiles                   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   -   |   x   |   o   |
 createSessionManagementFiles           |       |       |       |       |       |       |       |       |       |       |   o   |
 -- generated API ----------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+

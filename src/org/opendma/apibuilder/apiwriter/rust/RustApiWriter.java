@@ -100,6 +100,7 @@ public class RustApiWriter extends AbstractApiWriter
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException
     {
+        createClassFromTemplate(opendmaApiSourceFolder, "OdmaSearchResult");
     }
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException

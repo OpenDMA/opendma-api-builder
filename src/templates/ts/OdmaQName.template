@@ -2,7 +2,7 @@
  * Represents a qualified name in OpenDMA, consisting of a qualifier and a name.
  * Both the qualifier and the name must not be null or empty, and they are immutable after creation.
  */
-class OdmaQName {
+export class OdmaQName {
 
     /**
      * The qualifier part of the qualified name.

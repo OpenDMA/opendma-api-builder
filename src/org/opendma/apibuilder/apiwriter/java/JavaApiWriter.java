@@ -139,7 +139,7 @@ public class JavaApiWriter extends AbstractApiWriter
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException
     {
-//        createClassFromTemplate(outputFolder,"org.opendma.api","OdmaSearchResult");
+        createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.api","OdmaSearchResult");
     }
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException

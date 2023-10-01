@@ -2,7 +2,7 @@
  * Represents the Content data type in OpenDMA.
  * Provides access to the content stream and its size.
  */
-interface OdmaContent {
+export interface OdmaContent {
 
     /**
      * Gets the stream to access the content's binary data.
