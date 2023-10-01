@@ -23,7 +23,7 @@ createPropertyFile                     |   x   |   x   |   x   |   x   |   x   |
 createClassFile                        |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 -- generated impl ---------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 createPropertyImplementationFile       |   x   |   x   |       |       |   x   |   x   |   x   |       |       |       |   o   |
-createClassTemplateFile                |       |       |       |       |       |       |       |       |       |       |   o   |
+createClassTemplateFile                |   x   |       |       |       |       |       |       |       |       |       |   o   |
 -- build ------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 prepareProjectStructureAndBuildFiles   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 finaliseProjectStructureAndBuildFiles  |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |

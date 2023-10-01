@@ -195,8 +195,8 @@ public class JavaApiWriter extends AbstractApiWriter
 
     protected void createClassTemplateFile(ClassDescription classDescription) throws IOException
     {
-//       JavaClassTemplateFileWriter classtemplateFileWriter = new JavaClassTemplateFileWriter(this);
-//       classtemplateFileWriter.createClassFile(classDescription, createJavaFile(outputFolder,"org.opendma.templates",classDescription.getApiName()+"Template"));
+       JavaClassTemplateFileWriter classtemplateFileWriter = new JavaClassTemplateFileWriter(this);
+       classtemplateFileWriter.createClassFile(classDescription, createJavaFile(opendmaTemplatesSourceFolder,"org.opendma.templates",classDescription.getApiName()+"Template"));
     }
    
     //-------------------------------------------------------------------------
