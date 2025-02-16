@@ -47,7 +47,7 @@ public class OdmaStaticClassHierarchy
         OdmaObject o = allAvailableObjects.get(id);
         if(o == null)
         {
-            throw new OdmaObjectNotFoundException(id);
+            throw new OdmaObjectNotFoundException(new OdmaGuid(repositoryObject.getId(), id));
         }
         return o;
     }

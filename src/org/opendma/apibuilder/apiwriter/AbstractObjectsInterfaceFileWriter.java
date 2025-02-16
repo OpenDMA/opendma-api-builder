@@ -87,15 +87,33 @@ public abstract class AbstractObjectsInterfaceFileWriter
         }
         // write Header
         writeClassFileHeader(classDescription,requiredImports,out);
+        writeGeneric(classDescription, out);
+        writeSpecific(classDescription, out);
+        // write Footer
+        writeClassFileFooter(classDescription,out);
+        // flush writer and optionally close stream
+        out.flush();
+        if(closeStream)
+        {
+            classOutputStream.close();
+        }
+    }
+    
+    public void writeGeneric(ClassDescription classDescription, PrintWriter out) throws IOException
+    {
         // write section for generic property access (if required)
         if( (!classDescription.getAspect()) && (classDescription.getExtendsOdmaName() == null) )
         {
             writeClassGenericPropertyAccess(classDescription,out);
         }
+    }
+    
+    public void writeSpecific(ClassDescription classDescription, PrintWriter out) throws IOException
+    {
         // write Header of object specific property access section
         writeClassObjectSpecificPropertyAccessSectionHeader(classDescription,out);
         // write getter and setter for all properties
-        itPropertyDescriptions = propertyDescriptions.iterator();
+        Iterator<PropertyDescription> itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
         while(itPropertyDescriptions.hasNext())
         {
             PropertyDescription property = (PropertyDescription)itPropertyDescriptions.next();
@@ -107,14 +125,6 @@ public abstract class AbstractObjectsInterfaceFileWriter
         {
             ApiHelperDescription apiHelper = itApiHelperDescriptions.next();
             writeClassApiHelper(classDescription,apiHelper,out);
-        }
-        // write Footer
-        writeClassFileFooter(classDescription,out);
-        // flush writer and optionally close stream
-        out.flush();
-        if(closeStream)
-        {
-            classOutputStream.close();
         }
     }
     

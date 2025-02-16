@@ -1,10 +1,13 @@
 package org.opendma.apibuilder.apiwriter.java;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,6 +15,7 @@ import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.ApiWriterException;
 import org.opendma.apibuilder.structure.ApiDescription;
 import org.opendma.apibuilder.structure.ClassDescription;
+import org.opendma.apibuilder.structure.PropertyDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
 public class JavaApiWriter extends AbstractApiWriter
@@ -262,374 +266,395 @@ public class JavaApiWriter extends AbstractApiWriter
     
     protected void createExtras(ApiDescription apiDescription) throws IOException, ApiWriterException
     {
-//        // copy static helper templates
-//        // CHECKTEMPLATE: OdmaObjectTemplate
-//        copyStaticClassHelperTemplate("OdmaStaticSystemObject",baseFolder);
-//        // CHECKTEMPLATE: OdmaPropertyInfoTemplate
-//        copyStaticClassHelperTemplate("OdmaStaticSystemPropertyInfo",baseFolder);
-//        // CHECKTEMPLATE: OdmaClassTemplate
-//        copyStaticClassHelperTemplate("OdmaStaticSystemClass",baseFolder);
-//        // CHECKTEMPLATE: OdmaRepositoryTemplate
-//        copyStaticClassHelperTemplate("OdmaStaticSystemRepository",baseFolder);
-//        // additionally create static class hierarchy helper files
-//        List classes = apiDescription.getDescribedClasses();
-//        // property
-//        Iterator itClasses = classes.iterator();
-//        while(itClasses.hasNext())
-//        {
-//            ClassDescription classDescription = (ClassDescription)itClasses.next();
-//            List declaredProperties = classDescription.getPropertyDescriptions();
-//            Iterator itDeclaredProperties = declaredProperties.iterator();
-//            while(itDeclaredProperties.hasNext())
-//            {
-//                PropertyDescription propertyDescription = (PropertyDescription)itDeclaredProperties.next();
-//                createStaticClassHierarchyHelperProperty(apiDescription,propertyDescription,baseFolder);
-//            }
-//        }
-//        // class
-//        itClasses = classes.iterator();
-//        while(itClasses.hasNext())
-//        {
-//            ClassDescription classDescription = (ClassDescription)itClasses.next();
-//            createStaticClassHierarchyHelperClass(apiDescription,classDescription,baseFolder);
-//        }
-//        // hierarchy
-//        createStaticClassHierarchyHelper(apiDescription,baseFolder);
-   }
+        createStaticClassHierarchyCore(apiDescription);
+    }
 
-//    private void copyStaticClassHelperTemplate(String className) throws IOException
-//    {
-//        OutputStream to = createJavaFile(outputFolder,"org.opendma.impl.core",className);
-//        InputStream from = getTemplateAsStream("statics/"+className);
-//        streamCopy(from, to);
-//        from.close();
-//        to.close();
-//    }
-//
-//    private void createStaticClassHierarchyHelperProperty(ApiDescription apiDescription, PropertyDescription propertyDescription) throws IOException, ApiWriterException
-//    {
-//        String propName = propertyDescription.getOdmaName().getName();
-//        OutputStream staticPropertyInfoStream = createJavaFile(outputFolder,"org.opendma.impl.core","OdmaStaticSystemPropertyInfo"+propName);
-//        PrintWriter out = new PrintWriter(staticPropertyInfoStream);
-//        out.println("package org.opendma.impl.core;");
-//        out.println("");
-//        out.println("import org.opendma.api.OdmaCommonNames;");
-//        out.println("import org.opendma.api.OdmaType;");
-//        out.println("import org.opendma.exceptions.OdmaAccessDeniedException;");
-//        out.println("import org.opendma.exceptions.OdmaInvalidDataTypeException;");
-//        out.println("import org.opendma.impl.OdmaPropertyImpl;");
-//        out.println("");
-//        out.println("public class OdmaStaticSystemPropertyInfo"+propName+" extends OdmaStaticSystemPropertyInfo");
-//        out.println("{");
-//        out.println("");
-//        out.println("    public OdmaStaticSystemPropertyInfo"+propName+"() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
-//        out.println("    {");
-//        // iterate through all properties defined in the propertyInfo class
-//        Iterator itDeclaredPropertyInfoProperties = apiDescription.getPropertyInfoClass().getPropertyDescriptions().iterator();
-//        while(itDeclaredPropertyInfoProperties.hasNext())
-//        {
-//            PropertyDescription pd = (PropertyDescription)itDeclaredPropertyInfoProperties.next();
-//            printPropertyInfoSystemProperty(out,apiDescription,propertyDescription,pd);
-//        }
-//        out.println("    }");
-//        out.println("");
-//        out.println("}");
-//        // close writer and streams
-//        out.close();
-//        staticPropertyInfoStream.close();
-//    }
-//    
-//    private void printPropertyInfoSystemProperty(PrintWriter out, ApiDescription apiDescription, PropertyDescription propertyDescription, PropertyDescription pd) throws IOException, ApiWriterException
-//    {
-//        String pn = pd.getOdmaName().getName().toUpperCase();
-//        String constantPropertyName = "PROPERTY_" + propertyDescription.getOdmaName().getName().toUpperCase();
-//        if(pn.equals("NAME"))
-//        {
-//            printX(out,"NAME","OdmaCommonNames."+constantPropertyName+".getName()","STRING");
-//        }
-//        else if(pn.equals("NAMEQUALIFIER"))
-//        {
-//            printX(out,"NAMEQUALIFIER","OdmaCommonNames."+constantPropertyName+".getQualifier()","STRING");
-//        }
-//        else if(pn.equals("QNAME"))
-//        {
-//            printX(out,"QNAME","OdmaCommonNames."+constantPropertyName,"QNAME");
-//        }
-//        else if(pn.equals("DISPLAYNAME"))
-//        {
-//            printX(out,"DISPLAYNAME","OdmaCommonNames."+constantPropertyName+".getName()","STRING");
-//        }
-//        else if(pn.equals("DATATYPE"))
-//        {
-//            ScalarTypeDescription scalarTypeDescription = propertyDescription.getDataType();
-//            printX(out,"DATATYPE","new Integer("+scalarTypeDescription.getNumericID()+")","INTEGER");
-//        }
-//        else if(pn.equals("REFERENCECLASS"))
-//        {
-//            printX(out,"REFERENCECLASS","null","REFERENCE");
-//        }
-//        else if(pn.equals("MULTIVALUE"))
-//        {
-//            printX(out,"MULTIVALUE",(propertyDescription.getMultiValue()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-//        }
-//        else if(pn.equals("REQUIRED"))
-//        {
-//            printX(out,"REQUIRED",(propertyDescription.getRequired()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-//        }
-//        else if(pn.equals("READONLY"))
-//        {
-//            printX(out,"READONLY",(propertyDescription.isReadOnly()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-//        }
-//        else if(pn.equals("HIDDEN"))
-//        {
-//            printX(out,"HIDDEN",(propertyDescription.getHidden()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-//        }
-//        else if(pn.equals("SYSTEM"))
-//        {
-//            printX(out,"SYSTEM",(propertyDescription.getSystem()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-//        }
-//        else if(pn.equals("CHOICES"))
-//        {
-//            printXMultivalue(out,"CHOICES","null","REFERENCE");
-//        }
-//        else
-//        {
-//            throw new ApiWriterException("The PropertyInfo class declares a property ("+pd.getOdmaName()+") that has been unknown when this ApiWriter has been implemented. Thus this version of the ApiWriter does not know how to create the static content of this PropertyInfo property for the predefined system classes. Please extend the if/else block in the ApiWriter that threw this Exception.");
-//        }
-//    }
-//
-//    private void printX(PrintWriter out, String propertyNameConstant, String value, String typeConstantName)
-//    {
-//        out.println("        properties.put(OdmaCommonNames.PROPERTY_"+propertyNameConstant+",new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_"+propertyNameConstant+","+value+",OdmaType."+typeConstantName+",false,true));");        
-//    }
-//    
-//    private void printXMultivalue(PrintWriter out, String propertyNameConstant, String value, String typeConstantName)
-//    {
-//        out.println("        properties.put(OdmaCommonNames.PROPERTY_"+propertyNameConstant+",new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_"+propertyNameConstant+","+value+",OdmaType."+typeConstantName+",true,true));");        
-//    }
-//
-//    protected void createStaticClassHierarchyHelperClass(ApiDescription apiDescription, ClassDescription classDescription) throws IOException, ApiWriterException
-//    {
-//        String className = classDescription.getOdmaName().getName();
-//        OutputStream staticClassStream = createJavaFile(outputFolder,"org.opendma.impl.core","OdmaStaticSystemClass"+className);
-//        PrintWriter out = new PrintWriter(staticClassStream);
-//        out.println("package org.opendma.impl.core;");
-//        out.println("");
-//        out.println("import org.opendma.api.OdmaClass;");
-//        out.println("import org.opendma.api.OdmaCommonNames;");
-//        out.println("import org.opendma.api.OdmaType;");
-//        out.println("import org.opendma.api.OdmaPropertyInfo;");
-//        out.println("import org.opendma.exceptions.OdmaAccessDeniedException;");
-//        out.println("import org.opendma.exceptions.OdmaInvalidDataTypeException;");
-//        out.println("import org.opendma.impl.OdmaPropertyImpl;");
-//        out.println("");
-//        out.println("public class OdmaStaticSystemClass"+className+" extends OdmaStaticSystemClass");
-//        out.println("{");
-//        out.println("");
-//        out.println("    public OdmaStaticSystemClass"+className+"(OdmaStaticSystemClass parent, Iterable<OdmaClass> subClasses, Iterable<OdmaClass> aspects, Iterable<OdmaPropertyInfo> declaredProperties, boolean retrievable, boolean searchable) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
-//        out.println("    {");
-//        out.println("        super(parent,subClasses);");
-//        // iterate through all properties defined in the propertyInfo class
-//        Iterator itDeclaredClassProperties = apiDescription.getClassClass().getPropertyDescriptions().iterator();
-//        while(itDeclaredClassProperties.hasNext())
-//        {
-//            PropertyDescription pd = (PropertyDescription)itDeclaredClassProperties.next();
-//            printClassSystemProperty(out,apiDescription,classDescription,pd);
-//        }
-//        out.println("        buildProperties();");
-//        out.println("    }");
-//        out.println("");
-//        out.println("}");
-//        // close writer and streams
-//        out.close();
-//        staticClassStream.close();
-//    }
-//    
-//    private void printClassSystemProperty(PrintWriter out, ApiDescription apiDescription, ClassDescription classDescription, PropertyDescription pd) throws IOException, ApiWriterException
-//    {
-//        String pn = pd.getOdmaName().getName().toUpperCase();
-//        String constantClassName = "CLASS_" + classDescription.getOdmaName().getName().toUpperCase();
-//        if(pn.equals("NAME"))
-//        {
-//            printX(out,"NAME","OdmaCommonNames."+constantClassName+".getName()","STRING");
-//        }
-//        else if(pn.equals("NAMEQUALIFIER"))
-//        {
-//            printX(out,"NAMEQUALIFIER","OdmaCommonNames."+constantClassName+".getQualifier()","STRING");
-//        }
-//        else if(pn.equals("QNAME"))
-//        {
-//            printX(out,"QNAME","OdmaCommonNames."+constantClassName,"QNAME");
-//        }
-//        else if(pn.equals("DISPLAYNAME"))
-//        {
-//            printX(out,"DISPLAYNAME","OdmaCommonNames."+constantClassName+".getName()","STRING");
-//        }
-//        else if(pn.equals("PARENT"))
-//        {
-//            printX(out,"PARENT","parent","REFERENCE");
-//        }
-//        else if(pn.equals("ASPECTS"))
-//        {
-//            printXMultivalue(out,"ASPECTS","aspects","REFERENCE");
-//        }
-//        else if(pn.equals("DECLAREDPROPERTIES"))
-//        {
-//            printXMultivalue(out,"DECLAREDPROPERTIES","declaredProperties","REFERENCE");
-//        }
-//        else if(pn.equals("INSTANTIABLE"))
-//        {
-//            printX(out,"INSTANTIABLE",(classDescription.getInstantiable()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-//        }
-//        else if(pn.equals("HIDDEN"))
-//        {
-//            printX(out,"HIDDEN",(classDescription.getHidden()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-//        }
-//        else if(pn.equals("SYSTEM"))
-//        {
-//            printX(out,"SYSTEM",(classDescription.getSystem()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-//        }
-//        else if(pn.equals("ASPECT"))
-//        {
-//            printX(out,"ASPECT",(classDescription.getAspect()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-//        }
-//        else if(pn.equals("RETRIEVABLE"))
-//        {
-//            printX(out,"RETRIEVABLE","(retrievable?Boolean.TRUE:Boolean.FALSE)","BOOLEAN");
-//        }
-//        else if(pn.equals("SEARCHABLE"))
-//        {
-//            printX(out,"SEARCHABLE","(searchable?Boolean.TRUE:Boolean.FALSE)","BOOLEAN");
-//        }
-//        else if(pn.equals("PROPERTIES"))
-//        {
-//            // the properties property is created by the buildProperties() method
-//        }
-//        else if(pn.equals("SUBCLASSES"))
-//        {
-//            // the subclasses property is created in the super constructor
-//        }
-//        else
-//        {
-//            throw new ApiWriterException("The Class class declares a property ("+pd.getOdmaName()+") that has been unknown when this ApiWriter has been implemented. Thus this version of the ApiWriter does not know how to create the static content of this Class property for the predefined system classes. Please extend the if/else block in the ApiWriter that threw this Exception.");
-//        }
-//    }
-//
-//    private void createStaticClassHierarchyHelper(ApiDescription apiDescription) throws IOException
-//    {
-//        OutputStream staticClassStream = createJavaFile(outputFolder,"org.opendma.impl.core","OdmaStaticClassHierarchy");
-//        PrintWriter out = new PrintWriter(staticClassStream);
-//        InputStream templateIn = getTemplateAsStream("statics/OdmaStaticClassHierarchy.head");
-//        BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
-//        String templateLine = null;
-//        while( (templateLine = templareReader.readLine()) != null)
-//        {
-//            out.println(templateLine);
-//        }
-//        out.println("    public void buildClassHierarchy() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
-//        out.println("    {");
-//        out.println("        ArrayList<OdmaClass> declaredAspects;");
-//        out.println("        ArrayList<OdmaPropertyInfo> declaredProperties;");
-//        out.println("        OdmaStaticSystemClass ssc;");
-//        out.println("");
-//        Iterator itClassDescriptions = apiDescription.getDescribedClasses().iterator();
-//        HashMap uniquePropMap = new HashMap();
-//        while(itClassDescriptions.hasNext())
-//        {
-//            ClassDescription classDescription = (ClassDescription)itClassDescriptions.next();
-//            Iterator itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
-//            while(itPropertyDescriptions.hasNext())
-//            {
-//                PropertyDescription propertyDescription = (PropertyDescription)itPropertyDescriptions.next();
-//                String propName = propertyDescription.getOdmaName().getName();
-//                String constantPropertyName = "PROPERTY_" + propName.toUpperCase();
-//                if(uniquePropMap.containsKey(constantPropertyName))
-//                    continue;
-//                uniquePropMap.put(constantPropertyName,Boolean.TRUE);
-//                out.println("        propertyInfos.put(OdmaCommonNames."+constantPropertyName+", new OdmaStaticSystemPropertyInfo"+propName+"());");
-//            }
-//        }
-//        itClassDescriptions = apiDescription.getDescribedClasses().iterator();
-//        while(itClassDescriptions.hasNext())
-//        {
-//            ClassDescription classDescription = (ClassDescription)itClassDescriptions.next();
-//            String className = classDescription.getOdmaName().getName();
-//            String constantClassName = "CLASS_" + className.toUpperCase();
-//            out.println("");
-//            out.println("        declaredAspects = null;");
-//            if(classDescription.getPropertyDescriptions().isEmpty())
-//            {
-//                out.println("        declaredProperties = null;");
-//            }
-//            else
-//            {
-//                out.println("        declaredProperties = new ArrayList<OdmaPropertyInfo>();");
-//            }
-//            Iterator itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
-//            while(itPropertyDescriptions.hasNext())
-//            {
-//                PropertyDescription propertyDescription = (PropertyDescription)itPropertyDescriptions.next();
-//                String propName = propertyDescription.getOdmaName().getName();
-//                String constantPropertyName = "PROPERTY_" + propName.toUpperCase();
-//                out.println("        declaredProperties.add(getPropertyInfo(OdmaCommonNames."+constantPropertyName+"));");
-//            }
-//            String parentClassExpression = (classDescription.getExtendsOdmaName()==null) ? "null" : "getClassInfo(OdmaCommonNames.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+")";
-//            out.println("        ssc = new OdmaStaticSystemClass"+className+"("+parentClassExpression+",getSubClasses(OdmaCommonNames."+constantClassName+"),declaredAspects,declaredProperties,getRetrievable(OdmaCommonNames."+constantClassName+"),getSearchable(OdmaCommonNames."+constantClassName+"));");
-//            if(classDescription.getExtendsOdmaName() != null)
-//            {
-//                out.println("        registerSubClass(OdmaCommonNames.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+", ssc);");
-//            }
-//            else
-//            {
-//                // only register root aspects
-//                if(classDescription.getAspect())
-//                {
-//                    out.println("        registerRootAspect(ssc);");
-//                }
-//            }
-//            out.println("        classInfos.put(OdmaCommonNames."+constantClassName+", ssc);");
-//        }
-//        out.println("");
-//        out.println("        OdmaClass propertyInfoClass = getClassInfo(OdmaCommonNames.CLASS_PROPERTYINFO);");
-//        out.println("        Iterator<OdmaStaticSystemPropertyInfo> itPropertyInfos = propertyInfos.values().iterator();");
-//        out.println("        while(itPropertyInfos.hasNext())");
-//        out.println("        {");
-//        out.println("            OdmaStaticSystemPropertyInfo pi = itPropertyInfos.next();");
-//        out.println("            pi.patchClass(propertyInfoClass);");
-//        out.println("        }");
-//        out.println("        OdmaClass classClass = getClassInfo(OdmaCommonNames.CLASS_CLASS);");
-//        out.println("        Iterator<OdmaStaticSystemClass> itClassInfos = classInfos.values().iterator();");
-//        out.println("        while(itClassInfos.hasNext())");
-//        out.println("        {");
-//        out.println("            OdmaStaticSystemClass ci = itClassInfos.next();");
-//        out.println("            ci.patchClass(classClass);");
-//        out.println("        }");
-//        out.println("");
-//        itClassDescriptions = apiDescription.getDescribedClasses().iterator();
-//        uniquePropMap.clear();
-//        while(itClassDescriptions.hasNext())
-//        {
-//            ClassDescription classDescription = (ClassDescription)itClassDescriptions.next();
-//            Iterator itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
-//            while(itPropertyDescriptions.hasNext())
-//            {
-//                PropertyDescription propertyDescription = (PropertyDescription)itPropertyDescriptions.next();
-//                if(!propertyDescription.getDataType().isReference())
-//                    continue;
-//                String propName = propertyDescription.getOdmaName().getName();
-//                String constantPropertyName = "PROPERTY_" + propName.toUpperCase();
-//                if(uniquePropMap.containsKey(constantPropertyName))
-//                    continue;
-//                uniquePropMap.put(constantPropertyName,Boolean.TRUE);
-//                out.println("        getPropertyInfo(OdmaCommonNames."+constantPropertyName+").patchReferenceClass(getClassInfo(OdmaCommonNames.CLASS_"+propertyDescription.getReferenceClassName().getName().toUpperCase()+"));");
-//            }
-//        }
-//        out.println("    }");
-//        out.println("");
-//        out.println("}");
-//        // close writer and streams
-//        out.close();
-//        staticClassStream.close();
-//    }
+    protected void createStaticClassHierarchyCore(ApiDescription apiDescription) throws IOException, ApiWriterException
+    {
+        // copy static helper templates
+        createStaticClassFromTemplate(opendmaApiSourceFolder, "org.opendma.impl.core", "OdmaStaticSystemObject", apiDescription);
+        createStaticClassFromTemplate(opendmaApiSourceFolder, "org.opendma.impl.core", "OdmaStaticSystemPropertyInfo", apiDescription);
+        createStaticClassFromTemplate(opendmaApiSourceFolder, "org.opendma.impl.core", "OdmaStaticSystemClass", apiDescription);
+        createStaticClassFromTemplate(opendmaApiSourceFolder, "org.opendma.impl.core", "OdmaStaticSystemRepository", apiDescription);
+        // additionally create static class hierarchy helper files
+        List<ClassDescription> classes = apiDescription.getDescribedClasses();
+        // property
+        Iterator<ClassDescription> itClasses = classes.iterator();
+        while(itClasses.hasNext())
+        {
+            ClassDescription classDescription = itClasses.next();
+            List<PropertyDescription> declaredProperties = classDescription.getPropertyDescriptions();
+            Iterator<PropertyDescription> itDeclaredProperties = declaredProperties.iterator();
+            while(itDeclaredProperties.hasNext())
+            {
+                PropertyDescription propertyDescription = itDeclaredProperties.next();
+                createStaticClassHierarchyHelperProperty(apiDescription,propertyDescription);
+            }
+        }
+        // class
+        itClasses = classes.iterator();
+        while(itClasses.hasNext())
+        {
+            ClassDescription classDescription = (ClassDescription)itClasses.next();
+            createStaticClassHierarchyHelperClass(apiDescription,classDescription);
+        }
+        // hierarchy
+        createStaticClassHierarchyHelper(apiDescription);
+   }
+    
+    private void createStaticClassFromTemplate(File targetFolder, String packageName, String className, final ApiDescription apiDescription) throws IOException
+    {
+        PlaceholderResolver placeholderResolver = new PlaceholderResolver() {
+            public String resolve(String placeholder)
+            {
+                String templatePrefix = "template:";
+                if(placeholder.startsWith(templatePrefix))
+                {
+                    String templatename = placeholder.substring(templatePrefix.length());
+                    for(ClassDescription clazz : apiDescription.getDescribedClasses())
+                    {
+                        if(clazz.getApiName().equals(templatename))
+                        {
+                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                            PrintWriter out = new PrintWriter(bos);
+                            JavaClassTemplateFileWriter classtemplateFileWriter = new JavaClassTemplateFileWriter(JavaApiWriter.this);
+                            try
+                            {
+                                classtemplateFileWriter.writeSpecific(clazz, out);
+                                out.flush();
+                                bos.flush();
+                                bos.close();
+                            }
+                            catch (IOException e)
+                            {
+                                throw new RuntimeException(e);
+                            }
+                            return new String(bos.toByteArray(), StandardCharsets.UTF_8);
+                        }
+                    }
+                    throw new RuntimeException("No class defined with apiname: "+templatename);
+                }
+                throw new RuntimeException("Unknown placefolder: {{"+placeholder+"}}");
+            }};
+        copyTemplateToStream("statics/"+className,createJavaFile(targetFolder,packageName,className),placeholderResolver,true);
+    }
+
+    private void createStaticClassHierarchyHelperProperty(ApiDescription apiDescription, PropertyDescription propertyDescription) throws IOException, ApiWriterException
+    {
+        String propName = propertyDescription.getOdmaName().getName();
+        OutputStream staticPropertyInfoStream = createJavaFile(opendmaApiSourceFolder,"org.opendma.impl.core","OdmaStaticSystemPropertyInfo"+propName);
+        PrintWriter out = new PrintWriter(staticPropertyInfoStream);
+        out.println("package org.opendma.impl.core;");
+        out.println("");
+        out.println("import org.opendma.api.OdmaCommonNames;");
+        out.println("import org.opendma.api.OdmaType;");
+        out.println("import org.opendma.exceptions.OdmaAccessDeniedException;");
+        out.println("import org.opendma.exceptions.OdmaInvalidDataTypeException;");
+        out.println("import org.opendma.impl.OdmaPropertyImpl;");
+        out.println("");
+        out.println("public class OdmaStaticSystemPropertyInfo"+propName+" extends OdmaStaticSystemPropertyInfo {");
+        out.println("");
+        out.println("    public OdmaStaticSystemPropertyInfo"+propName+"() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {");
+        // iterate through all properties defined in the propertyInfo class
+        Iterator<PropertyDescription> itDeclaredPropertyInfoProperties = apiDescription.getPropertyInfoClass().getPropertyDescriptions().iterator();
+        while(itDeclaredPropertyInfoProperties.hasNext())
+        {
+            PropertyDescription pd = itDeclaredPropertyInfoProperties.next();
+            printPropertyInfoSystemProperty(out,apiDescription,propertyDescription,pd);
+        }
+        out.println("    }");
+        out.println("");
+        out.println("}");
+        // close writer and streams
+        out.close();
+        staticPropertyInfoStream.close();
+    }
+    
+    private void printPropertyInfoSystemProperty(PrintWriter out, ApiDescription apiDescription, PropertyDescription propertyDescription, PropertyDescription pd) throws IOException, ApiWriterException
+    {
+        String pn = pd.getOdmaName().getName().toUpperCase();
+        String constantPropertyName = "PROPERTY_" + propertyDescription.getOdmaName().getName().toUpperCase();
+        if(pn.equals("NAME"))
+        {
+            printX(out,"NAME","OdmaCommonNames."+constantPropertyName+".getName()","STRING");
+        }
+        else if(pn.equals("NAMEQUALIFIER"))
+        {
+            printX(out,"NAMEQUALIFIER","OdmaCommonNames."+constantPropertyName+".getQualifier()","STRING");
+        }
+        else if(pn.equals("QNAME"))
+        {
+            printX(out,"QNAME","OdmaCommonNames."+constantPropertyName,"QNAME");
+        }
+        else if(pn.equals("DISPLAYNAME"))
+        {
+            printX(out,"DISPLAYNAME","OdmaCommonNames."+constantPropertyName+".getName()","STRING");
+        }
+        else if(pn.equals("DATATYPE"))
+        {
+            ScalarTypeDescription scalarTypeDescription = propertyDescription.getDataType();
+            printX(out,"DATATYPE","Integer.valueOf("+scalarTypeDescription.getNumericID()+")","INTEGER");
+        }
+        else if(pn.equals("REFERENCECLASS"))
+        {
+            printX(out,"REFERENCECLASS","null","REFERENCE");
+        }
+        else if(pn.equals("MULTIVALUE"))
+        {
+            printX(out,"MULTIVALUE",(propertyDescription.getMultiValue()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else if(pn.equals("REQUIRED"))
+        {
+            printX(out,"REQUIRED",(propertyDescription.getRequired()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else if(pn.equals("READONLY"))
+        {
+            printX(out,"READONLY",(propertyDescription.isReadOnly()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else if(pn.equals("HIDDEN"))
+        {
+            printX(out,"HIDDEN",(propertyDescription.getHidden()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else if(pn.equals("SYSTEM"))
+        {
+            printX(out,"SYSTEM",(propertyDescription.getSystem()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else if(pn.equals("CHOICES"))
+        {
+            printXMultivalue(out,"CHOICES","null","REFERENCE");
+        }
+        else
+        {
+            throw new ApiWriterException("The PropertyInfo class declares a property ("+pd.getOdmaName()+") that has been unknown when this ApiWriter has been implemented. Thus this version of the ApiWriter does not know how to create the static content of this PropertyInfo property for the predefined system classes. Please extend the if/else block in the ApiWriter that threw this Exception.");
+        }
+    }
+
+    private void printX(PrintWriter out, String propertyNameConstant, String value, String typeConstantName)
+    {
+        out.println("        properties.put(OdmaCommonNames.PROPERTY_"+propertyNameConstant+",new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_"+propertyNameConstant+","+value+",OdmaType."+typeConstantName+",false,true));");        
+    }
+    
+    private void printXMultivalue(PrintWriter out, String propertyNameConstant, String value, String typeConstantName)
+    {
+        out.println("        properties.put(OdmaCommonNames.PROPERTY_"+propertyNameConstant+",new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_"+propertyNameConstant+","+value+",OdmaType."+typeConstantName+",true,true));");        
+    }
+
+    protected void createStaticClassHierarchyHelperClass(ApiDescription apiDescription, ClassDescription classDescription) throws IOException, ApiWriterException
+    {
+        String className = classDescription.getOdmaName().getName();
+        OutputStream staticClassStream = createJavaFile(opendmaApiSourceFolder,"org.opendma.impl.core","OdmaStaticSystemClass"+className);
+        PrintWriter out = new PrintWriter(staticClassStream);
+        out.println("package org.opendma.impl.core;");
+        out.println("");
+        out.println("import org.opendma.api.OdmaClass;");
+        out.println("import org.opendma.api.OdmaCommonNames;");
+        out.println("import org.opendma.api.OdmaType;");
+        out.println("import org.opendma.api.OdmaPropertyInfo;");
+        out.println("import org.opendma.exceptions.OdmaAccessDeniedException;");
+        out.println("import org.opendma.exceptions.OdmaInvalidDataTypeException;");
+        out.println("import org.opendma.impl.OdmaPropertyImpl;");
+        out.println("");
+        out.println("public class OdmaStaticSystemClass"+className+" extends OdmaStaticSystemClass");
+        out.println("{");
+        out.println("");
+        out.println("    public OdmaStaticSystemClass"+className+"(OdmaStaticSystemClass parent, Iterable<OdmaClass> subClasses, Iterable<OdmaClass> aspects, Iterable<OdmaPropertyInfo> declaredProperties, boolean retrievable, boolean searchable) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
+        out.println("    {");
+        out.println("        super(parent,subClasses);");
+        // iterate through all properties defined in the propertyInfo class
+        Iterator<PropertyDescription> itDeclaredClassProperties = apiDescription.getClassClass().getPropertyDescriptions().iterator();
+        while(itDeclaredClassProperties.hasNext())
+        {
+            PropertyDescription pd = itDeclaredClassProperties.next();
+            printClassSystemProperty(out,apiDescription,classDescription,pd);
+        }
+        out.println("        buildProperties();");
+        out.println("    }");
+        out.println("");
+        out.println("}");
+        // close writer and streams
+        out.close();
+        staticClassStream.close();
+    }
+    
+    private void printClassSystemProperty(PrintWriter out, ApiDescription apiDescription, ClassDescription classDescription, PropertyDescription pd) throws IOException, ApiWriterException
+    {
+        String pn = pd.getOdmaName().getName().toUpperCase();
+        String constantClassName = "CLASS_" + classDescription.getOdmaName().getName().toUpperCase();
+        if(pn.equals("NAME"))
+        {
+            printX(out,"NAME","OdmaCommonNames."+constantClassName+".getName()","STRING");
+        }
+        else if(pn.equals("NAMEQUALIFIER"))
+        {
+            printX(out,"NAMEQUALIFIER","OdmaCommonNames."+constantClassName+".getQualifier()","STRING");
+        }
+        else if(pn.equals("QNAME"))
+        {
+            printX(out,"QNAME","OdmaCommonNames."+constantClassName,"QNAME");
+        }
+        else if(pn.equals("DISPLAYNAME"))
+        {
+            printX(out,"DISPLAYNAME","OdmaCommonNames."+constantClassName+".getName()","STRING");
+        }
+        else if(pn.equals("PARENT"))
+        {
+            printX(out,"PARENT","parent","REFERENCE");
+        }
+        else if(pn.equals("ASPECTS"))
+        {
+            printXMultivalue(out,"ASPECTS","aspects","REFERENCE");
+        }
+        else if(pn.equals("DECLAREDPROPERTIES"))
+        {
+            printXMultivalue(out,"DECLAREDPROPERTIES","declaredProperties","REFERENCE");
+        }
+        else if(pn.equals("INSTANTIABLE"))
+        {
+            printX(out,"INSTANTIABLE",(classDescription.getInstantiable()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else if(pn.equals("HIDDEN"))
+        {
+            printX(out,"HIDDEN",(classDescription.getHidden()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else if(pn.equals("SYSTEM"))
+        {
+            printX(out,"SYSTEM",(classDescription.getSystem()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else if(pn.equals("ASPECT"))
+        {
+            printX(out,"ASPECT",(classDescription.getAspect()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
+        }
+        else if(pn.equals("RETRIEVABLE"))
+        {
+            printX(out,"RETRIEVABLE","(retrievable?Boolean.TRUE:Boolean.FALSE)","BOOLEAN");
+        }
+        else if(pn.equals("SEARCHABLE"))
+        {
+            printX(out,"SEARCHABLE","(searchable?Boolean.TRUE:Boolean.FALSE)","BOOLEAN");
+        }
+        else if(pn.equals("PROPERTIES"))
+        {
+            // the properties property is created by the buildProperties() method
+        }
+        else if(pn.equals("SUBCLASSES"))
+        {
+            // the subclasses property is created in the super constructor
+        }
+        else
+        {
+            throw new ApiWriterException("The Class class declares a property ("+pd.getOdmaName()+") that has been unknown when this ApiWriter has been implemented. Thus this version of the ApiWriter does not know how to create the static content of this Class property for the predefined system classes. Please extend the if/else block in the ApiWriter that threw this Exception.");
+        }
+    }
+
+    private void createStaticClassHierarchyHelper(ApiDescription apiDescription) throws IOException
+    {
+        OutputStream staticClassStream = createJavaFile(opendmaApiSourceFolder,"org.opendma.impl.core","OdmaStaticClassHierarchy");
+        copyTemplateToStream("statics/OdmaStaticClassHierarchy.head",staticClassStream,false);
+        PrintWriter out = new PrintWriter(staticClassStream);
+        out.println("    public void buildClassHierarchy() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
+        out.println("    {");
+        out.println("        ArrayList<OdmaClass> declaredAspects;");
+        out.println("        ArrayList<OdmaPropertyInfo> declaredProperties;");
+        out.println("        OdmaStaticSystemClass ssc;");
+        out.println("");
+        Iterator<ClassDescription> itClassDescriptions = apiDescription.getDescribedClasses().iterator();
+        HashMap<String, Boolean> uniquePropMap = new HashMap<String, Boolean>();
+        while(itClassDescriptions.hasNext())
+        {
+            ClassDescription classDescription = itClassDescriptions.next();
+            Iterator<PropertyDescription> itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
+            while(itPropertyDescriptions.hasNext())
+            {
+                PropertyDescription propertyDescription = itPropertyDescriptions.next();
+                String propName = propertyDescription.getOdmaName().getName();
+                String constantPropertyName = "PROPERTY_" + propName.toUpperCase();
+                if(uniquePropMap.containsKey(constantPropertyName))
+                    continue;
+                uniquePropMap.put(constantPropertyName,Boolean.TRUE);
+                out.println("        propertyInfos.put(OdmaCommonNames."+constantPropertyName+", new OdmaStaticSystemPropertyInfo"+propName+"());");
+            }
+        }
+        itClassDescriptions = apiDescription.getDescribedClasses().iterator();
+        while(itClassDescriptions.hasNext())
+        {
+            ClassDescription classDescription = (ClassDescription)itClassDescriptions.next();
+            String className = classDescription.getOdmaName().getName();
+            String constantClassName = "CLASS_" + className.toUpperCase();
+            out.println("");
+            out.println("        declaredAspects = null;");
+            if(classDescription.getPropertyDescriptions().isEmpty())
+            {
+                out.println("        declaredProperties = null;");
+            }
+            else
+            {
+                out.println("        declaredProperties = new ArrayList<OdmaPropertyInfo>();");
+            }
+            Iterator<PropertyDescription> itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
+            while(itPropertyDescriptions.hasNext())
+            {
+                PropertyDescription propertyDescription = itPropertyDescriptions.next();
+                String propName = propertyDescription.getOdmaName().getName();
+                String constantPropertyName = "PROPERTY_" + propName.toUpperCase();
+                out.println("        declaredProperties.add(getPropertyInfo(OdmaCommonNames."+constantPropertyName+"));");
+            }
+            String parentClassExpression = (classDescription.getExtendsOdmaName()==null) ? "null" : "getClassInfo(OdmaCommonNames.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+")";
+            out.println("        ssc = new OdmaStaticSystemClass"+className+"("+parentClassExpression+",getSubClasses(OdmaCommonNames."+constantClassName+"),declaredAspects,declaredProperties,getRetrievable(OdmaCommonNames."+constantClassName+"),getSearchable(OdmaCommonNames."+constantClassName+"));");
+            if(classDescription.getExtendsOdmaName() != null)
+            {
+                out.println("        registerSubClass(OdmaCommonNames.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+", ssc);");
+            }
+            else
+            {
+                // only register root aspects
+                if(classDescription.getAspect())
+                {
+                    out.println("        registerRootAspect(ssc);");
+                }
+            }
+            out.println("        classInfos.put(OdmaCommonNames."+constantClassName+", ssc);");
+        }
+        out.println("");
+        out.println("        OdmaClass propertyInfoClass = getClassInfo(OdmaCommonNames.CLASS_PROPERTYINFO);");
+        out.println("        Iterator<OdmaStaticSystemPropertyInfo> itPropertyInfos = propertyInfos.values().iterator();");
+        out.println("        while(itPropertyInfos.hasNext())");
+        out.println("        {");
+        out.println("            OdmaStaticSystemPropertyInfo pi = itPropertyInfos.next();");
+        out.println("            pi.patchClass(propertyInfoClass);");
+        out.println("        }");
+        out.println("        OdmaClass classClass = getClassInfo(OdmaCommonNames.CLASS_CLASS);");
+        out.println("        Iterator<OdmaStaticSystemClass> itClassInfos = classInfos.values().iterator();");
+        out.println("        while(itClassInfos.hasNext())");
+        out.println("        {");
+        out.println("            OdmaStaticSystemClass ci = itClassInfos.next();");
+        out.println("            ci.patchClass(classClass);");
+        out.println("        }");
+        out.println("");
+        itClassDescriptions = apiDescription.getDescribedClasses().iterator();
+        uniquePropMap.clear();
+        while(itClassDescriptions.hasNext())
+        {
+            ClassDescription classDescription = (ClassDescription)itClassDescriptions.next();
+            Iterator<PropertyDescription> itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
+            while(itPropertyDescriptions.hasNext())
+            {
+                PropertyDescription propertyDescription = itPropertyDescriptions.next();
+                if(!propertyDescription.getDataType().isReference())
+                    continue;
+                String propName = propertyDescription.getOdmaName().getName();
+                String constantPropertyName = "PROPERTY_" + propName.toUpperCase();
+                if(uniquePropMap.containsKey(constantPropertyName))
+                    continue;
+                uniquePropMap.put(constantPropertyName,Boolean.TRUE);
+                out.println("        getPropertyInfo(OdmaCommonNames."+constantPropertyName+").patchReferenceClass(getClassInfo(OdmaCommonNames.CLASS_"+propertyDescription.getReferenceClassName().getName().toUpperCase()+"));");
+            }
+        }
+        out.println("    }");
+        out.println("");
+        out.println("}");
+        // close writer and streams
+        out.close();
+        staticClassStream.close();
+    }
 
 }
