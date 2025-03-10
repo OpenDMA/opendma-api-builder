@@ -208,7 +208,7 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
             return;
         }
         requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false,false));
-        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true,false));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true,true));
     }
 
 }

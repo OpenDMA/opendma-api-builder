@@ -234,6 +234,12 @@ public class TypeScriptPropertyImplementationFileWriter extends AbstractProperty
 
     protected void appendRequiredImportsScalarAccess(ImportsList requiredImports, ScalarTypeDescription scalarTypeDescription)
     {
+        if(scalarTypeDescription.isReference())
+        {
+            return;
+        }
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false,false));
+        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true,true));
     }
 
 }
