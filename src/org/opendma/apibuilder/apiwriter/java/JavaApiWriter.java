@@ -211,6 +211,8 @@ public class JavaApiWriter extends AbstractApiWriter
     
     private File opendmaApiSourceFolder;
     
+    private File opendmaApiTestFolder;
+    
     private File opendmaTemplatesProjectFolder;
     
     private File opendmaTemplatesSourceFolder;
@@ -235,6 +237,8 @@ public class JavaApiWriter extends AbstractApiWriter
         opendmaApiProjectFolder.mkdirs();
         opendmaApiSourceFolder = new File(opendmaApiProjectFolder, "src/main/java");
         opendmaApiSourceFolder.mkdirs();
+        opendmaApiTestFolder = new File(opendmaApiProjectFolder, "src/test/java");
+        opendmaApiTestFolder.mkdirs();
         // opendma-api maven pom
         copyTemplateToStream("maven-opendma-api-pom", new FileOutputStream(new File(opendmaApiProjectFolder, "pom.xml")), resolver);
         // opendma-templates folder structure
@@ -266,7 +270,190 @@ public class JavaApiWriter extends AbstractApiWriter
     
     protected void createExtras(ApiDescription apiDescription) throws IOException, ApiWriterException
     {
+        createTechnologyCompatibilityKit(apiDescription);
         createStaticClassHierarchyCore(apiDescription);
+        createStaticClassHierarchyCoreTests(apiDescription);
+    }
+
+    protected void createTechnologyCompatibilityKit(ApiDescription apiDescription) throws IOException, ApiWriterException
+    {
+        OutputStream tckStream = createJavaFile(opendmaApiTestFolder,"org.opendma.tck","OdmaTechnologyCompatibilityKit");
+        PrintWriter out = new PrintWriter(tckStream);
+        out.println("package org.opendma.tck;");
+        out.println("");
+        out.println("import java.util.LinkedList;");
+        out.println("import java.util.List;");
+        out.println("import org.opendma.api.*;");
+        out.println("import org.opendma.exceptions.OdmaPropertyNotFoundException;");
+        out.println("");
+        out.println("public class OdmaTechnologyCompatibilityKit {");
+        Iterator<ClassDescription> itClasses = apiDescription.getDescribedClasses().iterator();
+        while(itClasses.hasNext())
+        {
+            ClassDescription classDescription = itClasses.next();
+            out.println("");
+            out.println("    public static List<String> verify"+classDescription.getApiName()+"(OdmaObject obj) {");
+            out.println("        LinkedList<String> result = new LinkedList<>();");
+            if(classDescription.getExtendsOdmaName() != null)
+            {
+                out.println("        result.addAll(verify"+classDescription.getExtendsApiName()+"(obj));");
+            }
+            else if(classDescription.getAspect())
+            {
+                out.println("        result.addAll(verify"+classDescription.getContainingApiDescription().getObjectClass().getApiName()+"(obj));");
+            }
+            out.println("        OdmaClass clazz = obj.getOdmaClass();");
+            out.println("        Iterable<OdmaPropertyInfo> declaredProperties = clazz != null ? clazz.getDeclaredProperties() : null;");
+            out.println("        Iterable<OdmaPropertyInfo> allProperties = clazz != null ? clazz.getProperties() : null;");
+            List<PropertyDescription> declaredProperties = classDescription.getPropertyDescriptions();
+            Iterator<PropertyDescription> itDeclaredProperties = declaredProperties.iterator();
+            while(itDeclaredProperties.hasNext())
+            {
+                PropertyDescription propertyDescription = itDeclaredProperties.next();
+                out.println("        // "+propertyDescription.getOdmaName());
+                out.println("        OdmaQName qname"+propertyDescription.getApiName()+" = new OdmaQName(\""+propertyDescription.getOdmaName().getQualifier()+"\",\""+propertyDescription.getOdmaName().getName()+"\");");
+                out.println("        try {");
+                out.println("            OdmaProperty prop"+propertyDescription.getApiName()+" = obj.getProperty(qname"+propertyDescription.getApiName()+");");
+                out.println("            if(prop"+propertyDescription.getApiName()+".getName() == null) {");
+                out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" qname is null\");");
+                out.println("            }");
+                out.println("            if(!\""+propertyDescription.getOdmaName().getQualifier()+"\".equals(prop"+propertyDescription.getApiName()+".getName().getQualifier())) {");
+                out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" qname qualifier is not '"+propertyDescription.getOdmaName().getQualifier()+"', found instead'\"+prop"+propertyDescription.getApiName()+".getName().getQualifier()+\"'\");");
+                out.println("            }");
+                out.println("            if(!\""+propertyDescription.getOdmaName().getName()+"\".equals(prop"+propertyDescription.getApiName()+".getName().getName())) {");
+                out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" qname name is not '"+propertyDescription.getOdmaName().getName()+"', found instead'\"+prop"+propertyDescription.getApiName()+".getName().getName()+\"'\");");
+                out.println("            }");
+                out.println("            if(prop"+propertyDescription.getApiName()+".getType() != OdmaType."+propertyDescription.getDataType().getName().toUpperCase()+") {");
+                out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" type is not '"+propertyDescription.getDataType().getName().toUpperCase()+"'\");");
+                out.println("            }");
+                out.println("            if(prop"+propertyDescription.getApiName()+".isMultiValue() != "+(propertyDescription.getMultiValue()?"true":"false")+") {");
+                out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" MultiValue is not '"+(propertyDescription.getMultiValue()?"true":"false")+"'\");");
+                out.println("            }");
+                if(propertyDescription.isReadOnly())
+                {
+                    out.println("            if(!prop"+propertyDescription.getApiName()+".isReadOnly()) {");
+                    out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" ReadOnly must be 'true'\");");
+                    out.println("            }");
+                }
+                if(propertyDescription.getRequired())
+                {
+                    out.println("            if(prop"+propertyDescription.getApiName()+".getValue() == null) {");
+                    out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" is required but value is null\");");
+                    out.println("            }");
+                }
+                out.println("        } catch(OdmaPropertyNotFoundException pnfe) {");
+                out.println("            result.add(\"Missing property "+propertyDescription.getOdmaName()+"\");");
+                out.println("        }");
+                out.println("        if(clazz != null && (new OdmaQName(\""+classDescription.getOdmaName().getQualifier()+"\",\""+classDescription.getOdmaName().getName()+"\")).equals(clazz.getQName())) {");
+                out.println("            OdmaPropertyInfo piDeclared"+propertyDescription.getApiName()+" = null;");
+                out.println("            if(declaredProperties != null) {");
+                out.println("                for(OdmaPropertyInfo pi : declaredProperties) {");
+                out.println("                    if(qname"+propertyDescription.getApiName()+".equals(pi.getQName())) {");
+                out.println("                        if(piDeclared"+propertyDescription.getApiName()+" == null) {");
+                out.println("                            piDeclared"+propertyDescription.getApiName()+" = pi;");
+                out.println("                        } else {");
+                out.println("                            result.add(\"Declared properties in class have multiple property info objects with qname "+propertyDescription.getOdmaName()+"\");");
+                out.println("                        }");
+                out.println("                    }");
+                out.println("                }");
+                out.println("            }");
+                out.println("            if(piDeclared"+propertyDescription.getApiName()+" == null) {");
+                out.println("                result.add(\"Declared properties in class have no property info object with qname "+propertyDescription.getOdmaName()+"\");");
+                out.println("            }");
+                out.println("            if(piDeclared"+propertyDescription.getApiName()+" != null) {");
+                out.println("                if(!\""+propertyDescription.getOdmaName().getQualifier()+"\".equals(piDeclared"+propertyDescription.getApiName()+".getNameQualifier())) {");
+                out.println("                    result.add(\"Property info for "+propertyDescription.getOdmaName()+" in declared properties qname qualifier is not '"+propertyDescription.getOdmaName().getQualifier()+"'\");");
+                out.println("                }");
+                out.println("                if(!\""+propertyDescription.getOdmaName().getName()+"\".equals(piDeclared"+propertyDescription.getApiName()+".getName())) {");
+                out.println("                    result.add(\"Property info for "+propertyDescription.getOdmaName()+" in declared properties qname name is not '"+propertyDescription.getOdmaName().getName()+"'\");");
+                out.println("                }");
+                out.println("                if(piDeclared"+propertyDescription.getApiName()+".getDataType() != "+propertyDescription.getDataType().getNumericID()+") {");
+                out.println("                    result.add(\"Property info for "+propertyDescription.getOdmaName()+" in declared properties data type is not '"+propertyDescription.getDataType().getNumericID()+"'\");");
+                out.println("                }");
+                out.println("                if(piDeclared"+propertyDescription.getApiName()+".isMultiValue() != "+(propertyDescription.getMultiValue()?"true":"false")+") {");
+                out.println("                    result.add(\"Property info for "+propertyDescription.getOdmaName()+" in declared properties MultiValue is not '"+(propertyDescription.getMultiValue()?"true":"false")+"'\");");
+                out.println("                }");
+                out.println("                if(piDeclared"+propertyDescription.getApiName()+".isReadOnly() != "+(propertyDescription.isReadOnly()?"true":"false")+") {");
+                out.println("                    result.add(\"Property info for "+propertyDescription.getOdmaName()+" in declared properties ReadOnly is not '"+(propertyDescription.isReadOnly()?"true":"false")+"'\");");
+                out.println("                }");
+                if(propertyDescription.isReference())
+                {
+                    out.println("                if(!(new OdmaQName(\""+propertyDescription.getReferenceClassName().getQualifier()+"\",\""+propertyDescription.getReferenceClassName().getName()+"\")).equals(piDeclared"+propertyDescription.getApiName()+".getReferenceClass().getQName())) {");
+                    out.println("                    result.add(\"Property info for "+propertyDescription.getOdmaName()+" in declared properties ReadOnly is not '"+(propertyDescription.isReadOnly()?"true":"false")+"'\");");
+                    out.println("                }");
+                }
+                out.println("                if(piDeclared"+propertyDescription.getApiName()+".isHidden() != "+(propertyDescription.getHidden()?"true":"false")+") {");
+                out.println("                    result.add(\"Property info for "+propertyDescription.getOdmaName()+" in declared properties Hidden is not '"+(propertyDescription.getHidden()?"true":"false")+"'\");");
+                out.println("                }");
+                out.println("                if(piDeclared"+propertyDescription.getApiName()+".isRequired() != "+(propertyDescription.getRequired()?"true":"false")+") {");
+                out.println("                result.add(\"Property info for "+propertyDescription.getOdmaName()+" in declared properties Required is not '"+(propertyDescription.getRequired()?"true":"false")+"'\");");
+                out.println("                }");
+                out.println("                if(piDeclared"+propertyDescription.getApiName()+".isSystem() != "+(propertyDescription.getSystem()?"true":"false")+") {");
+                out.println("                    result.add(\"Property info for "+propertyDescription.getOdmaName()+" in declared properties System is not '"+(propertyDescription.getSystem()?"true":"false")+"'\");");
+                out.println("                }");
+                out.println("            }");
+                out.println("        }");
+                out.println("        OdmaPropertyInfo piAll"+propertyDescription.getApiName()+" = null;");
+                out.println("        if(allProperties != null) {");
+                out.println("            for(OdmaPropertyInfo pi : allProperties) {");
+                out.println("                if(qname"+propertyDescription.getApiName()+".equals(pi.getQName())) {");
+                out.println("                    if(piAll"+propertyDescription.getApiName()+" == null) {");
+                out.println("                        piAll"+propertyDescription.getApiName()+" = pi;");
+                out.println("                    } else {");
+                out.println("                        result.add(\"All properties in class have multiple property info objects with qname "+propertyDescription.getOdmaName()+"\");");
+                out.println("                    }");
+                out.println("                }");
+                out.println("            }");
+                out.println("        }");
+                out.println("        if(piAll"+propertyDescription.getApiName()+" == null) {");
+                out.println("            result.add(\"All properties in class have no property info object with qname "+propertyDescription.getOdmaName()+"\");");
+                out.println("        }");
+                out.println("        if(piAll"+propertyDescription.getApiName()+" != null) {");
+                out.println("            if(!\""+propertyDescription.getOdmaName().getQualifier()+"\".equals(piAll"+propertyDescription.getApiName()+".getNameQualifier())) {");
+                out.println("                result.add(\"Property info for "+propertyDescription.getOdmaName()+" in all properties qname qualifier is not '"+propertyDescription.getOdmaName().getQualifier()+"'\");");
+                out.println("            }");
+                out.println("            if(!\""+propertyDescription.getOdmaName().getName()+"\".equals(piAll"+propertyDescription.getApiName()+".getName())) {");
+                out.println("                result.add(\"Property info for "+propertyDescription.getOdmaName()+" in all properties qname name is not '"+propertyDescription.getOdmaName().getName()+"'\");");
+                out.println("            }");
+                out.println("            if(piAll"+propertyDescription.getApiName()+".getDataType() != "+propertyDescription.getDataType().getNumericID()+") {");
+                out.println("                result.add(\"Property info for "+propertyDescription.getOdmaName()+" in all properties data type is not '"+propertyDescription.getDataType().getNumericID()+"'\");");
+                out.println("            }");
+                out.println("            if(piAll"+propertyDescription.getApiName()+".isMultiValue() != "+(propertyDescription.getMultiValue()?"true":"false")+") {");
+                out.println("                result.add(\"Property info for "+propertyDescription.getOdmaName()+" in all properties MultiValue is not '"+(propertyDescription.getMultiValue()?"true":"false")+"'\");");
+                out.println("            }");
+                out.println("            if(piAll"+propertyDescription.getApiName()+".isReadOnly() != "+(propertyDescription.isReadOnly()?"true":"false")+") {");
+                out.println("                result.add(\"Property info for "+propertyDescription.getOdmaName()+" in all properties ReadOnly is not '"+(propertyDescription.isReadOnly()?"true":"false")+"'\");");
+                out.println("            }");
+                if(propertyDescription.isReference())
+                {
+                    out.println("            if(!(new OdmaQName(\""+propertyDescription.getReferenceClassName().getQualifier()+"\",\""+propertyDescription.getReferenceClassName().getName()+"\")).equals(piAll"+propertyDescription.getApiName()+".getReferenceClass().getQName())) {");
+                    out.println("                result.add(\"Property info for "+propertyDescription.getOdmaName()+" in all properties ReadOnly is not '"+(propertyDescription.isReadOnly()?"true":"false")+"'\");");
+                    out.println("            }");
+                }
+                out.println("            if(piAll"+propertyDescription.getApiName()+".isHidden() != "+(propertyDescription.getHidden()?"true":"false")+") {");
+                out.println("                result.add(\"Property info for "+propertyDescription.getOdmaName()+" in all properties Hidden is not '"+(propertyDescription.getHidden()?"true":"false")+"'\");");
+                out.println("            }");
+                out.println("            if(piAll"+propertyDescription.getApiName()+".isRequired() != "+(propertyDescription.getRequired()?"true":"false")+") {");
+                out.println("                result.add(\"Property info for "+propertyDescription.getOdmaName()+" in all properties Required is not '"+(propertyDescription.getRequired()?"true":"false")+"'\");");
+                out.println("            }");
+                out.println("            if(piAll"+propertyDescription.getApiName()+".isSystem() != "+(propertyDescription.getSystem()?"true":"false")+") {");
+                out.println("                result.add(\"Property info for "+propertyDescription.getOdmaName()+" in all properties System is not '"+(propertyDescription.getSystem()?"true":"false")+"'\");");
+                out.println("            }");
+                out.println("        }");
+            }
+            out.println("        return result;");
+            out.println("    }");
+        }
+        out.println("");
+        out.println("}");
+        // close writer and streams
+        out.close();
+        tckStream.close();
+    }
+
+    protected void createStaticClassHierarchyCoreTests(ApiDescription apiDescription) throws IOException, ApiWriterException
+    {
+        createStaticClassFromTemplate(opendmaApiTestFolder, "org.opendma.impl.core", "OdmaStaticClassHierarchyTests", apiDescription);
     }
 
     protected void createStaticClassHierarchyCore(ApiDescription apiDescription) throws IOException, ApiWriterException
@@ -341,8 +528,9 @@ public class JavaApiWriter extends AbstractApiWriter
 
     private void createStaticClassHierarchyHelperProperty(ApiDescription apiDescription, PropertyDescription propertyDescription) throws IOException, ApiWriterException
     {
+        String className = propertyDescription.getContainingClass().getOdmaName().getName();
         String propName = propertyDescription.getOdmaName().getName();
-        OutputStream staticPropertyInfoStream = createJavaFile(opendmaApiSourceFolder,"org.opendma.impl.core","OdmaStaticSystemPropertyInfo"+propName);
+        OutputStream staticPropertyInfoStream = createJavaFile(opendmaApiSourceFolder,"org.opendma.impl.core","OdmaStaticSystemPropertyInfo"+className+propName);
         PrintWriter out = new PrintWriter(staticPropertyInfoStream);
         out.println("package org.opendma.impl.core;");
         out.println("");
@@ -352,9 +540,9 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("import org.opendma.exceptions.OdmaInvalidDataTypeException;");
         out.println("import org.opendma.impl.OdmaPropertyImpl;");
         out.println("");
-        out.println("public class OdmaStaticSystemPropertyInfo"+propName+" extends OdmaStaticSystemPropertyInfo {");
+        out.println("public class OdmaStaticSystemPropertyInfo"+className+propName+" extends OdmaStaticSystemPropertyInfo {");
         out.println("");
-        out.println("    public OdmaStaticSystemPropertyInfo"+propName+"() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {");
+        out.println("    public OdmaStaticSystemPropertyInfo"+className+propName+"() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {");
         // iterate through all properties defined in the propertyInfo class
         Iterator<PropertyDescription> itDeclaredPropertyInfoProperties = apiDescription.getPropertyInfoClass().getPropertyDescriptions().iterator();
         while(itDeclaredPropertyInfoProperties.hasNext())
@@ -562,6 +750,7 @@ public class JavaApiWriter extends AbstractApiWriter
         while(itClassDescriptions.hasNext())
         {
             ClassDescription classDescription = itClassDescriptions.next();
+            String className = classDescription.getOdmaName().getName();
             Iterator<PropertyDescription> itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
             while(itPropertyDescriptions.hasNext())
             {
@@ -571,7 +760,7 @@ public class JavaApiWriter extends AbstractApiWriter
                 if(uniquePropMap.containsKey(constantPropertyName))
                     continue;
                 uniquePropMap.put(constantPropertyName,Boolean.TRUE);
-                out.println("        propertyInfos.put(OdmaCommonNames."+constantPropertyName+", new OdmaStaticSystemPropertyInfo"+propName+"());");
+                out.println("        propertyInfos.put(OdmaCommonNames."+constantPropertyName+", new OdmaStaticSystemPropertyInfo"+className+propName+"());");
             }
         }
         itClassDescriptions = apiDescription.getDescribedClasses().iterator();
