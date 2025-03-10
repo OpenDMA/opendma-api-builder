@@ -2,7 +2,9 @@ package org.opendma.apibuilder.structure;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -291,41 +293,128 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
     }
     
     /**
-     * Validates the uniqueness of (a) all qualified class names in this hierarchy
-     * and (b) all declared properties within each class for all declared classes.<br>
-     * DOES NOT yet validate the uniqueness between declared and inherited properties!
+     * Validates multiple uniqueness constraints in the OpenDMA spec
      * 
      * @throws DescriptionFileSemanticException if a uniqueness constraint is violated
      */
     public void checkUniqueness() throws DescriptionFileSemanticException
     {
-        // map for the uniqueness test of the class names
-        Map<OdmaApiBuilderQName,ClassDescription> uniqueClassnameTestMap = new HashMap<OdmaApiBuilderQName,ClassDescription>();
-        // iterate through all described classes
+        // 1. class qnames and apinames must be globally unique
+        HashSet<OdmaApiBuilderQName> uniqueClassQNameTestSet = new HashSet<OdmaApiBuilderQName>();
+        HashSet<String> uniqueClassApiNameTestSet = new HashSet<String>();
         Iterator<ClassDescription> itAllClasses = describedClasses.iterator();
         while(itAllClasses.hasNext())
         {
             ClassDescription classDescription = itAllClasses.next();
             // test is qualified class name is unique
-            if(uniqueClassnameTestMap.containsKey(classDescription.getOdmaName()))
+            if(uniqueClassQNameTestSet.contains(classDescription.getOdmaName()))
             {
                 throw new DescriptionFileSemanticException("The qualified class name "+classDescription.getOdmaName()+" is not unique.");
             }
-            uniqueClassnameTestMap.put(classDescription.getOdmaName(),classDescription);
-            // test uniqueness of all qualified property names within this class
-            Map<OdmaApiBuilderQName,PropertyDescription> uniquePropertynameTestMap = new HashMap<OdmaApiBuilderQName,PropertyDescription>();
+            uniqueClassQNameTestSet.add(classDescription.getOdmaName());
+            if(uniqueClassApiNameTestSet.contains(classDescription.getApiName()))
+            {
+                throw new DescriptionFileSemanticException("The api name of class "+classDescription.getOdmaName()+" is not unique ("+classDescription.getApiName()+").");
+            }
+            uniqueClassApiNameTestSet.add(classDescription.getApiName());
+        }
+        // 2. declared property qnames and apinames must be unique within the class they are declared
+        itAllClasses = describedClasses.iterator();
+        while(itAllClasses.hasNext())
+        {
+            ClassDescription classDescription = itAllClasses.next();
+            HashSet<OdmaApiBuilderQName> uniquePropertyQNameTestSet = new HashSet<OdmaApiBuilderQName>();
+            HashSet<String> uniquePropertyApiNameTestSet = new HashSet<String>();
             List<PropertyDescription> declaredProperties = classDescription.getPropertyDescriptions();
             Iterator<PropertyDescription> itDeclaredProperties = declaredProperties.iterator();
             while(itDeclaredProperties.hasNext())
             {
                 PropertyDescription propertyDescription = itDeclaredProperties.next();
-                if(uniquePropertynameTestMap.containsKey(propertyDescription.getOdmaName()))
+                if(uniquePropertyQNameTestSet.contains(propertyDescription.getOdmaName()))
                 {
-                    throw new DescriptionFileSemanticException("The qualified property name "+propertyDescription.getOdmaName()+" in the class "+classDescription.getOdmaName()+" is not unique.");
+                    throw new DescriptionFileSemanticException("The qualified property name "+propertyDescription.getOdmaName()+" in the class "+classDescription.getOdmaName()+" is not unique across the declared properties.");
                 }
-                uniquePropertynameTestMap.put(propertyDescription.getOdmaName(),propertyDescription);
+                uniquePropertyQNameTestSet.add(propertyDescription.getOdmaName());
+                if(uniquePropertyApiNameTestSet.contains(propertyDescription.getApiName()))
+                {
+                    throw new DescriptionFileSemanticException("The property api name "+propertyDescription.getApiName()+" in the class "+classDescription.getOdmaName()+" is not unique across the declared properties.");
+                }
+                uniquePropertyApiNameTestSet.add(propertyDescription.getApiName());
             }
-            
+        }
+        // 3. identically named properties between aspects must have the same signature
+        HashMap<OdmaApiBuilderQName,PropertyDescription> aspectPropertyMap = new HashMap<OdmaApiBuilderQName,PropertyDescription>();
+        HashMap<String,OdmaApiBuilderQName> aspectPropertyApiNameMap = new HashMap<String,OdmaApiBuilderQName>();
+        itAllClasses = describedClasses.iterator();
+        while(itAllClasses.hasNext())
+        {
+            ClassDescription classDescription = itAllClasses.next();
+            if(!classDescription.getAspect())
+            {
+                continue;
+            }
+            List<PropertyDescription> declaredProperties = classDescription.getPropertyDescriptions();
+            Iterator<PropertyDescription> itDeclaredProperties = declaredProperties.iterator();
+            while(itDeclaredProperties.hasNext())
+            {
+                PropertyDescription propertyDescription = itDeclaredProperties.next();
+                PropertyDescription other = aspectPropertyMap.get(propertyDescription.getOdmaName());
+                if(other != null && !other.signatureEquals(propertyDescription))
+                {
+                    throw new DescriptionFileSemanticException("Multiple definitions of property qname "+propertyDescription.getOdmaName()+" in aspects have a different signature.\n"+other.toString()+"\n"+propertyDescription.toString());
+                }
+                aspectPropertyMap.put(propertyDescription.getOdmaName(),propertyDescription);
+                OdmaApiBuilderQName otherQName = aspectPropertyApiNameMap.get(propertyDescription.getApiName());
+                if(otherQName != null && !otherQName.equals(propertyDescription.getOdmaName()))
+                {
+                    throw new DescriptionFileSemanticException("The api name "+propertyDescription.getApiName()+" is used for different properties in aspects. "+otherQName.toString()+" and "+propertyDescription.getOdmaName().toString());
+                }
+            }
+        }
+        // 4. all properties must be unique in the inheritance hierarchy and share the same signature if they overlap with aspects
+        itAllClasses = describedClasses.iterator();
+        while(itAllClasses.hasNext())
+        {
+            ClassDescription classDescription = itAllClasses.next();
+            HashMap<OdmaApiBuilderQName,OdmaApiBuilderQName> uniquePropertyQNameTestSet = new HashMap<OdmaApiBuilderQName,OdmaApiBuilderQName>();
+            HashMap<String,OdmaApiBuilderQName> uniquePropertyApiNameTestSet = new HashMap<String,OdmaApiBuilderQName>();
+            while(classDescription != null)
+            {
+                List<PropertyDescription> declaredProperties = classDescription.getPropertyDescriptions();
+                Iterator<PropertyDescription> itDeclaredProperties = declaredProperties.iterator();
+                while(itDeclaredProperties.hasNext())
+                {
+                    PropertyDescription propertyDescription = itDeclaredProperties.next();
+                    if(uniquePropertyQNameTestSet.containsKey(propertyDescription.getOdmaName()))
+                    {
+                        throw new DescriptionFileSemanticException("The qualified property name "+propertyDescription.getOdmaName()+" in the class "+classDescription.getOdmaName()+" is not unique in the inheritance hierarchy. Desclared as well in "+uniquePropertyQNameTestSet.get(propertyDescription.getOdmaName()));
+                    }
+                    uniquePropertyQNameTestSet.put(propertyDescription.getOdmaName(),classDescription.getOdmaName());
+                    if(uniquePropertyApiNameTestSet.containsKey(propertyDescription.getApiName()))
+                    {
+                        throw new DescriptionFileSemanticException("The property api name "+propertyDescription.getApiName()+" in the class "+classDescription.getOdmaName()+" is not unique in the inheritance hierarchy. Desclared as well in "+uniquePropertyApiNameTestSet.get(propertyDescription.getApiName()));
+                    }
+                    uniquePropertyApiNameTestSet.put(propertyDescription.getApiName(),classDescription.getOdmaName());
+                    PropertyDescription propertyInAspect = aspectPropertyMap.get(propertyDescription.getOdmaName());
+                    if(propertyInAspect != null && !propertyInAspect.signatureEquals(propertyDescription))
+                    {
+                        throw new DescriptionFileSemanticException("Identical property qname "+propertyDescription.getOdmaName()+" in class "+classDescription.getOdmaName()+" and at least one aspect with a different signature.\n"+propertyInAspect.toString()+"\n"+propertyDescription.toString());
+                    }
+                    OdmaApiBuilderQName apiNameInAspect = aspectPropertyApiNameMap.get(propertyDescription.getApiName());
+                    if(apiNameInAspect != null && !apiNameInAspect.equals(propertyDescription.getOdmaName()))
+                    {
+                        throw new DescriptionFileSemanticException("The api name "+propertyDescription.getApiName()+" is used for different properties in the aspect "+apiNameInAspect.toString()+" and the class "+propertyDescription.getOdmaName().toString());
+                    }
+                }
+                if(classDescription.getExtendsOdmaName() != null)
+                {
+                    classDescription = classNameMap.get(classDescription.getExtendsOdmaName());
+                }
+                else
+                {
+                    classDescription = null;
+                }
+            }
         }
     }
 
@@ -373,6 +462,65 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
                     {
                         throw new DescriptionFileSemanticException("The property "+propertyDescription.getOdmaName()+" in the class "+classDescription.getOdmaName()+" references the class "+propertyDescription.getReferenceClassName()+" that does not exist in the description file");
                     }
+                }
+            }
+        }
+        //-----< check loops in class hierarchy >------------------------------
+        itAllClasses = describedClasses.iterator();
+        while(itAllClasses.hasNext())
+        {
+            ClassDescription classDescription = itAllClasses.next();
+            HashSet<OdmaApiBuilderQName> visitedClassesSet = new HashSet<OdmaApiBuilderQName>();
+            while(classDescription != null)
+            {
+                visitedClassesSet.add(classDescription.getOdmaName());
+                if(classDescription.getExtendsOdmaName() != null)
+                {
+                    classDescription = classNameMap.get(classDescription.getExtendsOdmaName());
+                    if(visitedClassesSet.contains(classDescription.getOdmaName()))
+                    {
+                        throw new DescriptionFileSemanticException("Circular inheritance hierarchy starting at "+classDescription.getOdmaName());
+                    }
+                }
+                else
+                {
+                    classDescription = null;
+                }
+            }
+        }
+    }
+    
+    /**
+     * Prints out all property qnames that are used acroos classes and aspects
+     */
+    public void printPropertyReuse()
+    {
+        // 1. class qnames and apinames must be globally unique
+        HashMap<OdmaApiBuilderQName,LinkedList<ClassDescription>> propertyNameUsageMap = new HashMap<OdmaApiBuilderQName,LinkedList<ClassDescription>>();
+        Iterator<ClassDescription> itAllClasses = describedClasses.iterator();
+        while(itAllClasses.hasNext())
+        {
+            ClassDescription classDescription = itAllClasses.next();
+            List<PropertyDescription> declaredProperties = classDescription.getPropertyDescriptions();
+            Iterator<PropertyDescription> itDeclaredProperties = declaredProperties.iterator();
+            while(itDeclaredProperties.hasNext())
+            {
+                PropertyDescription propertyDescription = itDeclaredProperties.next();
+                if(!propertyNameUsageMap.containsKey(propertyDescription.getOdmaName()))
+                {
+                    propertyNameUsageMap.put(propertyDescription.getOdmaName(),new LinkedList<ClassDescription>());
+                }
+                propertyNameUsageMap.get(propertyDescription.getOdmaName()).add(classDescription);
+            }
+        }
+        for(Map.Entry<OdmaApiBuilderQName,LinkedList<ClassDescription>> entry : propertyNameUsageMap.entrySet())
+        {
+            if(entry.getValue().peekFirst() != entry.getValue().peekLast())
+            {
+                System.out.println(entry.getKey());
+                for(ClassDescription cd : entry.getValue())
+                {
+                    System.out.println("    "+cd.getOdmaName()+" ("+(cd.getAspect()?"Aspect":"Class")+")");
                 }
             }
         }

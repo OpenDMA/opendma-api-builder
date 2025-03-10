@@ -398,4 +398,23 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
         return scalarTypeDescription;
     }
     
+    public boolean signatureEquals(PropertyDescription other)
+    {
+        return this.OdmaName.equals(other.OdmaName) &&
+                this.apiName.equals(other.apiName) &&
+                this.readOnly == other.readOnly &&
+                this.dataType == other.dataType &&
+                this.multiValue == other.multiValue &&
+                this.required == other.required &&
+                this.hidden == other.hidden &&
+                this.system == other.system &&
+                (!this.isReference() || (this.referenceClassName.equals(other.referenceClassName)));
+    }
+
+    @Override
+    public String toString()
+    {
+        return "PropertyDescription [OdmaName=" + OdmaName + ", apiName=" + apiName + ", readOnly=" + readOnly + ", dataType=" + dataType + ", multiValue=" + multiValue + ", required=" + required + ", hidden=" + hidden + ", system=" + system + ", referenceClassName=" + referenceClassName + ", ContainingClass=" + ContainingClass + ", abstractComment=" + abstractComment + ", descriptionComment=" + descriptionComment + "]";
+    }
+    
 }

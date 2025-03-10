@@ -177,13 +177,13 @@ public class OdmaStaticClassHierarchy
         };
     }
     
-    public void registerSubClass(OdmaQName parentName, OdmaClass subClass)
+    public void registerSubClass(OdmaQName superClassName, OdmaClass subClass)
     {
-        if(!parentName.equals(subClass.getParent().getQName()))
+        if(!superClassName.equals(subClass.getSuperClass().getQName()))
         {
-            throw new OdmaRuntimeException("Name of parent class does not equal regsitered parent");
+            throw new OdmaRuntimeException("Name of super class does not equal registered super class");
         }
-        ArrayList<OdmaClass> subClasses = getInternalSubClassesArrayList(parentName);
+        ArrayList<OdmaClass> subClasses = getInternalSubClassesArrayList(superClassName);
         synchronized(subClasses)
         {
             if(!subClasses.contains(subClass))
@@ -234,7 +234,7 @@ public class OdmaStaticClassHierarchy
             {
                 return true;
             }
-            test = test.getParent();
+            test = test.getSuperClass();
             if((test != null)&&(noLoopTest.containsKey(test.getQName())))
             {
                 throw new OdmaRuntimeException("Loop in class hierarchy of "+c.getQName());
@@ -245,7 +245,7 @@ public class OdmaStaticClassHierarchy
     
     public boolean isOrIsExtending(OdmaClass c, OdmaQName testAgainst)
     {
-        // test parent relationship
+        // test super class relationship
         if(isOrIsAncestorOf(c,testAgainst))
         {
             return true;

@@ -90,56 +90,41 @@ public class OdmaApiBuilderQName
         return name;
     }
 
-    /**
-     * Compares this <code>OdmaQName</code> to the given object and returns true if and only if the given object is
-     * not null and both object are recognized as equal.<br>
-     * Two <code>OdmaQName</code>s are equal if:<br>
-     * (a) at least one qualifier is null and the names are equal, or<br>
-     * (b) both qualifiers are equal and both names are equal.<br>
-     * This implicates that a <code>OdmaQName</code> without a qualifier will be equal to any <code>OdmaQName</code>
-     * with the same name.
-     * 
-     * @param qn
-     *            the Object to compare this <code>OdmaQName</code> to
-     * 
-     * @return true if and only if this <code>OdmaQName</code> equals the given object
-     */
-    public boolean equals(Object qn)
-    {
-        return (qn != null) && (qn instanceof OdmaApiBuilderQName) && ((((qualifier == null) || (((OdmaApiBuilderQName) qn).qualifier == null)) && name.equals(((OdmaApiBuilderQName) qn).name)) || ((qualifier != null) && qualifier
-                .equals(((OdmaApiBuilderQName) qn).qualifier) && name.equals(((OdmaApiBuilderQName) qn).name)));
-    }
-
-    /**
-     * Compares this <code>OdmaQName</code> to the given object and returns true if and only if the given object is
-     * not null and both object are recognized as equal, ignoring case considerations.<br>
-     * Two <code>OdmaQName</code>s are equal if:<br>
-     * (a) at least one qualifier is null and both names are equal (ignoring case considerations), or<br>
-     * (b) both qualifiers are equal (ignoring case considerations) and both names are equal (ignoring case
-     * considerations).<br>
-     * This implicates that a <code>OdmaQName</code> without a qualifier will be equal to any <code>OdmaQName</code>
-     * with the same name.
-     * 
-     * @param qn
-     *            the Object to compare this <code>OdmaQName</code> to
-     * 
-     * @return true if and only if this <code>OdmaQName</code> equals the given object
-     */
-    public boolean equalsIgnoreCase(OdmaApiBuilderQName qn)
-    {
-        return (qn != null) && (qn instanceof OdmaApiBuilderQName) && ((((qualifier == null) || (((OdmaApiBuilderQName) qn).qualifier == null)) && this.name.equalsIgnoreCase(qn.name)) || ((qualifier != null) && this.qualifier
-                .equalsIgnoreCase(qn.qualifier) && this.name.equalsIgnoreCase(qn.name)));
-    }
-
-    /**
-     * Returns the hash code for this qualified name. The hash code for a <code>OdmaQName</code> object is computed as
-     * the sum of the hash code of the name <i>qualifier</i> and the hash code of the <i>name</i>.
-     * 
-     * @return the hash code for this qualified name
-     */
+    @Override
     public int hashCode()
     {
-        return (((qualifier == null) ? 0 : qualifier.hashCode()) + name.hashCode());
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((qualifier == null) ? 0 : qualifier.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        OdmaApiBuilderQName other = (OdmaApiBuilderQName) obj;
+        if (name == null)
+        {
+            if (other.name != null)
+                return false;
+        }
+        else if (!name.equals(other.name))
+            return false;
+        if (qualifier == null)
+        {
+            if (other.qualifier != null)
+                return false;
+        }
+        else if (!qualifier.equals(other.qualifier))
+            return false;
+        return true;
     }
 
     /**

@@ -74,15 +74,16 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         try
         {
             System.out.println("Validating uniqueness and references...");
-            odmaClassHierarchy.checkUniqueness();
+            // check references first so we can use them in uniqueness checks
             odmaClassHierarchy.checkReferences();
+            odmaClassHierarchy.checkUniqueness();
         }
         catch (Exception e)
         {
-            System.out.println("Error validating class hierarchy from description file " + descriptionFileName + ": " + e);
-            e.printStackTrace(System.out);
+            System.out.println("Error validating class hierarchy from description file " + descriptionFileName + ":\n" + e);
             return;
         }
+        odmaClassHierarchy.printPropertyReuse();
         //-----< STEP 5: validate the existence of predefined classes >--------
         try
         {

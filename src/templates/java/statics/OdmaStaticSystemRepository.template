@@ -17,13 +17,6 @@ import org.opendma.exceptions.OdmaPropertyNotFoundException;
 import org.opendma.exceptions.OdmaRuntimeException;
 import org.opendma.impl.OdmaPropertyImpl;
 
-/**
- * Template implementation of the interface <code>{@link OdmaRepository}</code>.<p>
- * 
- * Full description follows.
- * 
- * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
- */
 public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implements OdmaRepository
 {
 

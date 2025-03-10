@@ -19,13 +19,11 @@ import org.opendma.impl.OdmaPropertyImpl;
  * Template implementation of the interface <code>{@link OdmaClass}</code>.<p>
  *
  * The <i>Class</i> specific version of the <code>{@link OdmaObject}</code> interface that offers short cuts to all defined OpenDMA properties.
- *
- * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
  */
 public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject implements OdmaClass
 {
 
-    protected OdmaStaticSystemClass(OdmaStaticSystemClass parent, Iterable<OdmaClass> subClasses) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
+    protected OdmaStaticSystemClass(Iterable<OdmaClass> subClasses) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
         properties.put(OdmaCommonNames.PROPERTY_SUBCLASSES,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_SUBCLASSES,subClasses,OdmaType.REFERENCE,true,true));
     }
@@ -33,13 +31,13 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     protected void buildProperties() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
         ArrayList<OdmaPropertyInfo> props = new ArrayList<OdmaPropertyInfo>();
-        if(getParent() != null)
+        if(getSuperClass() != null)
         {
-            Iterable<OdmaPropertyInfo> parentProps = getParent().getProperties();
-            Iterator<OdmaPropertyInfo> itParentProps = parentProps.iterator();
-            while(itParentProps.hasNext())
+            Iterable<OdmaPropertyInfo> superClassProps = getSuperClass().getProperties();
+            Iterator<OdmaPropertyInfo> itSuperClassProps = superClassProps.iterator();
+            while(itSuperClassProps.hasNext())
             {
-                props.add(itParentProps.next());
+                props.add(itSuperClassProps.next());
             }
         }
         Iterator<OdmaPropertyInfo> itDeclaredProperties = getDeclaredProperties().iterator();

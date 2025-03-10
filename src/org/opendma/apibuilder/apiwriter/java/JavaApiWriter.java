@@ -645,9 +645,9 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("public class OdmaStaticSystemClass"+className+" extends OdmaStaticSystemClass");
         out.println("{");
         out.println("");
-        out.println("    public OdmaStaticSystemClass"+className+"(OdmaStaticSystemClass parent, Iterable<OdmaClass> subClasses, Iterable<OdmaClass> aspects, Iterable<OdmaPropertyInfo> declaredProperties, boolean retrievable, boolean searchable) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
+        out.println("    public OdmaStaticSystemClass"+className+"(OdmaStaticSystemClass superClass, Iterable<OdmaClass> subClasses, Iterable<OdmaClass> aspects, Iterable<OdmaPropertyInfo> declaredProperties, boolean retrievable, boolean searchable) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
         out.println("    {");
-        out.println("        super(parent,subClasses);");
+        out.println("        super(subClasses);");
         // iterate through all properties defined in the propertyInfo class
         Iterator<PropertyDescription> itDeclaredClassProperties = apiDescription.getClassClass().getPropertyDescriptions().iterator();
         while(itDeclaredClassProperties.hasNext())
@@ -683,6 +683,10 @@ public class JavaApiWriter extends AbstractApiWriter
         else if(pn.equals("DISPLAYNAME"))
         {
             printX(out,"DISPLAYNAME","OdmaCommonNames."+constantClassName+".getName()","STRING");
+        }
+        else if(pn.equals("SUPERCLASS"))
+        {
+            printX(out,"SUPERCLASS","superClass","REFERENCE");
         }
         else if(pn.equals("PARENT"))
         {

@@ -12,19 +12,12 @@ import org.opendma.exceptions.OdmaInvalidDataTypeException;
 import org.opendma.exceptions.OdmaPropertyNotFoundException;
 import org.opendma.impl.OdmaPropertyImpl;
 
-/**
- * Template implementation of the interface <code>{@link OdmaPropertyInfo}</code>.<p>
- *
- * Full description follows.
- *
- * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
- */
 public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject implements OdmaPropertyInfo
 {
 
     protected void patchReferenceClass(OdmaClass newReferenceClass) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
     {
-        properties.put(OdmaCommonNames.PROPERTY_REFERENCECLASS,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_CLASS,newReferenceClass,OdmaType.REFERENCE,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_REFERENCECLASS,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_REFERENCECLASS,newReferenceClass,OdmaType.REFERENCE,false,true));
     }
 {{template:OdmaPropertyInfo}}
 }
