@@ -79,13 +79,12 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         out.println("     */");
         if(apiWriter.supportNullability())
         {
-            out.println("    public void setValue(@Nullable Object newValue) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
+            out.println("    public void setValue(@Nullable Object newValue) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {");
         }
         else
         {
-            out.println("    public void setValue(Object newValue) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
+            out.println("    public void setValue(Object newValue) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {");
         }
-        out.println("    {");
         out.println("        if(readOnly)");
         out.println("        {");
         out.println("            throw new OdmaAccessDeniedException();");
@@ -125,8 +124,7 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
     protected void writeGenericSectionSwitch(ApiDescription apiDescription, PrintWriter out, boolean multivalue) throws IOException
     {
         List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
-        out.println("            switch(dataType)");
-        out.println("            {");
+        out.println("            switch(dataType) {");
         Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
         {
@@ -137,23 +135,20 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
             {
                 if(scalarTypeDescription.isReference())
                 {
-                    out.println("                if(newValue instanceof Iterable<?>)");
+                    out.println("                if(newValue instanceof Iterable<?>) {");
                 }
                 else
                 {
-                    out.println("                if(checkListAndValues(newValue,"+stripAnnotation(apiWriter.getScalarDataType(scalarTypeDescription,false,false))+".class))");
+                    out.println("                if(checkListAndValues(newValue,"+stripAnnotation(apiWriter.getScalarDataType(scalarTypeDescription,false,false))+".class)) {");
                 }
             }
             else
             {
                 String javaReturnType = (scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,false));
-                out.println("                if(newValue instanceof "+stripAnnotation(javaReturnType)+")");
+                out.println("                if(newValue instanceof "+stripAnnotation(javaReturnType)+") {");
             }
-            out.println("                {");
             out.println("                    value = newValue;");
-            out.println("                }");
-            out.println("                else");
-            out.println("                {");
+            out.println("                } else {");
             String javaType = multivalue ? (scalarTypeDescription.isReference() ? "Iterable<OdmaObject>" : "List<"+apiWriter.getScalarDataType(scalarTypeDescription,false,false)+">") : (scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,false));
             out.println("                    throw new OdmaInvalidDataTypeException(\""+generatePropertyDataTypeDescription(multivalue, scalarTypeDescription)+". It can only be set to values assignable to `"+javaType+"`\");");
             out.println("                }");
@@ -180,15 +175,11 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         out.println("     *             if and only if this property is not a single valued <i>"+scalarName+"</i>");
         out.println("     *             property");
         out.println("     */");
-        out.println("    public "+javaReturnType+" get"+scalarName+"() throws OdmaInvalidDataTypeException");
-        out.println("    {");
+        out.println("    public "+javaReturnType+" get"+scalarName+"() throws OdmaInvalidDataTypeException {");
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
-        out.println("        if( (multiValue == false) && (dataType == OdmaType."+constantScalarTypeName+") )");
-        out.println("        {");
+        out.println("        if( (multiValue == false) && (dataType == OdmaType."+constantScalarTypeName+") ) {");
         out.println("            return ("+stripAnnotation(javaReturnType)+")value;");
-        out.println("        }");
-        out.println("        else");
-        out.println("        {");
+        out.println("        } else {");
         out.println("            throw new OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `get"+scalarName+"()`\");");
         out.println("        }");
         out.println("    }");
@@ -211,15 +202,11 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         out.println("     *             property");
         out.println("     */");
         out.println("    @SuppressWarnings(\"unchecked\")");
-        out.println("    public "+javaReturnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"List")+"() throws OdmaInvalidDataTypeException");
-        out.println("    {");
+        out.println("    public "+javaReturnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"List")+"() throws OdmaInvalidDataTypeException {");
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
-        out.println("        if( (multiValue == true) && (dataType == OdmaType."+constantScalarTypeName+") )");
-        out.println("        {");
+        out.println("        if( (multiValue == true) && (dataType == OdmaType."+constantScalarTypeName+") ) {");
         out.println("            return ("+stripAnnotation(javaReturnType)+")value;");
-        out.println("        }");
-        out.println("        else");
-        out.println("        {");
+        out.println("        } else {");
         out.println("            throw new OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"List")+"()`\");");
         out.println("        }");
         out.println("    }");

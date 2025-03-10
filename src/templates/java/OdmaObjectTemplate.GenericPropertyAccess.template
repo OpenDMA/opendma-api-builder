@@ -13,8 +13,7 @@
      * @throws OdmaPropertyNotFoundException
      *             Thrown if the given qualified name does not identify a property in the effective properties of the class of this object.
      */
-    public OdmaProperty getProperty(OdmaQName propertyName) throws OdmaPropertyNotFoundException
-    {
+    public OdmaProperty getProperty(OdmaQName propertyName) throws OdmaPropertyNotFoundException {
         // TODO: implement me
         return null;
     }
@@ -32,8 +31,7 @@
      * @param refresh
      *            flag to indicate if the properties should also be retrieved if they are already in the local cache.
      */
-    public void prepareProperties(OdmaQName[] propertyNames, boolean refresh)
-    {
+    public void prepareProperties(OdmaQName[] propertyNames, boolean refresh) {
         // TODO: implement me
     }
 
@@ -56,8 +54,7 @@
      * @throws OdmaAccessDeniedException
      *             if this property can not be set by the current user
      */
-    public void setProperty(OdmaQName propertyName, Object newValue) throws OdmaPropertyNotFoundException, OdmaInvalidDataTypeException, OdmaAccessDeniedException
-    {
+    public void setProperty(OdmaQName propertyName, Object newValue) throws OdmaPropertyNotFoundException, OdmaInvalidDataTypeException, OdmaAccessDeniedException {
         // TODO: implement me
     }
 
@@ -66,8 +63,7 @@
      * 
      * @return true if there are pending changes that have not yet been persisted
      */
-    public boolean isDirty()
-    {
+    public boolean isDirty() {
         // TODO: implement me
         return false;
     }
@@ -75,8 +71,7 @@
     /**
      * Persist the current pending changes to properties at the server.
      */
-    public void save()
-    {
+    public void save() {
         // TODO: implement me
     }
 
@@ -90,25 +85,19 @@
      * 
      * @return if the class of this object is or extends the given class or incorportes the given aspect
      */
-    public boolean instanceOf(OdmaQName classOrAspectName)
-    {
+    public boolean instanceOf(OdmaQName classOrAspectName) {
         // TODO: this code needs to be improved to take advantage of the actual repository
         OdmaClass test = getOdmaClass();
-        while(test != null)
-        {
-            if(test.getQName().equals(classOrAspectName))
-            {
+        while(test != null) {
+            if(test.getQName().equals(classOrAspectName)) {
                 return true;
             }
             Iterable<OdmaClass> aspects = test.getAspects();
-            if(aspects != null)
-            {
+            if(aspects != null) {
                 Iterator<OdmaClass> itAspects = aspects.iterator();
-                while(itAspects.hasNext())
-                {
+                while(itAspects.hasNext()) {
                     OdmaClass declaredAspect = itAspects.next();
-                    if(declaredAspect.getQName().equals(classOrAspectName))
-                    {
+                    if(declaredAspect.getQName().equals(classOrAspectName)) {
                         return true;
                     }
                 }

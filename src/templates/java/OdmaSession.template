@@ -14,11 +14,8 @@ import org.opendma.exceptions.OdmaSearchException;
  * A session (connection) with a specific OpenDMA domain.<br/>
  * This interface has been designed with the JDBC <code>Connection</code> interface in mind and
  * constitutes it's counterpart in the OpenDMA world.
- * 
- * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
  */
-public interface OdmaSession
-{
+public interface OdmaSession {
     
     /**
      * Returns the <code>{@link OdmaId}</code>s of the repositories the user has access to.

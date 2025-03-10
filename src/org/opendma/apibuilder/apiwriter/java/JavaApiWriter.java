@@ -76,8 +76,7 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("/**");
         out.println(" * OpenDMA property data types.");
         out.println(" */");
-        out.println("public enum OdmaType");
-        out.println("{");
+        out.println("public enum OdmaType {");
         out.println();
         List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
         Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();

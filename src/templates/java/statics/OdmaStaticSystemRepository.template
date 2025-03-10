@@ -17,11 +17,9 @@ import org.opendma.exceptions.OdmaPropertyNotFoundException;
 import org.opendma.exceptions.OdmaRuntimeException;
 import org.opendma.impl.OdmaPropertyImpl;
 
-public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implements OdmaRepository
-{
+public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implements OdmaRepository {
 
-    protected OdmaStaticSystemRepository(Map<OdmaQName, OdmaProperty> externalProperties, String name, String displayName, OdmaId id, OdmaGuid guid, OdmaClass rootClass, Iterable<OdmaClass> rootAspects) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
-    {
+    protected OdmaStaticSystemRepository(Map<OdmaQName, OdmaProperty> externalProperties, String name, String displayName, OdmaId id, OdmaGuid guid, OdmaClass rootClass, Iterable<OdmaClass> rootAspects) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
         properties = externalProperties;
         properties.put(OdmaCommonNames.PROPERTY_NAME,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_NAME,name,OdmaType.STRING,false,true));
         properties.put(OdmaCommonNames.PROPERTY_DISPLAYNAME,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_DISPLAYNAME,displayName,OdmaType.STRING,false,true));

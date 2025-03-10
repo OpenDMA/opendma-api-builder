@@ -20,29 +20,23 @@ import org.opendma.impl.OdmaPropertyImpl;
  *
  * The <i>Class</i> specific version of the <code>{@link OdmaObject}</code> interface that offers short cuts to all defined OpenDMA properties.
  */
-public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject implements OdmaClass
-{
+public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject implements OdmaClass {
 
-    protected OdmaStaticSystemClass(Iterable<OdmaClass> subClasses) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
-    {
+    protected OdmaStaticSystemClass(Iterable<OdmaClass> subClasses) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
         properties.put(OdmaCommonNames.PROPERTY_SUBCLASSES,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_SUBCLASSES,subClasses,OdmaType.REFERENCE,true,true));
     }
 
-    protected void buildProperties() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException
-    {
+    protected void buildProperties() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
         ArrayList<OdmaPropertyInfo> props = new ArrayList<OdmaPropertyInfo>();
-        if(getSuperClass() != null)
-        {
+        if(getSuperClass() != null) {
             Iterable<OdmaPropertyInfo> superClassProps = getSuperClass().getProperties();
             Iterator<OdmaPropertyInfo> itSuperClassProps = superClassProps.iterator();
-            while(itSuperClassProps.hasNext())
-            {
+            while(itSuperClassProps.hasNext()) {
                 props.add(itSuperClassProps.next());
             }
         }
         Iterator<OdmaPropertyInfo> itDeclaredProperties = getDeclaredProperties().iterator();
-        while(itDeclaredProperties.hasNext())
-        {
+        while(itDeclaredProperties.hasNext()) {
             props.add(itDeclaredProperties.next());
         }
         properties.put(OdmaCommonNames.PROPERTY_PROPERTIES,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_PROPERTIES,props,OdmaType.REFERENCE,true,true));

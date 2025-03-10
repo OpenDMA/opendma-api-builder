@@ -39,17 +39,14 @@
      *             if and only if the Class of the given Object does not match
      *             the data type of this property
      */
-    public OdmaPropertyImpl(OdmaQName name, Object value, OdmaType dataType, boolean multiValue, boolean readOnly) throws OdmaInvalidDataTypeException
-    {
+    public OdmaPropertyImpl(OdmaQName name, Object value, OdmaType dataType, boolean multiValue, boolean readOnly) throws OdmaInvalidDataTypeException {
         this.name = name;
         this.dataType = dataType;
         this.multiValue = multiValue;
-        try
-        {
+        try {
             setValue(value);
         }
-        catch(OdmaAccessDeniedException e)
-        {
+        catch(OdmaAccessDeniedException e) {
             throw new OdmaRuntimeException("Implementation error.");
         }
         this.readOnly = readOnly;
@@ -61,8 +58,7 @@
      * 
      * @return the qualified name of this property.
      */
-    public OdmaQName getName()
-    {
+    public OdmaQName getName() {
         return name;
     }
 
@@ -75,8 +71,7 @@
      * 
      * @see org.opendma.OdmaTypes
      */
-    public OdmaType getType()
-    {
+    public OdmaType getType() {
         return dataType;
     }
 
@@ -87,8 +82,7 @@
      * 
      * @return the value of this property.
      */
-    public Object getValue()
-    {
+    public Object getValue() {
         return value;
     }
 
@@ -99,8 +93,7 @@
      * @return <code>true</code> true if and only if this property has been changed and these
      *         changes have not yet been saved
      */
-    public boolean isDirty()
-    {
+    public boolean isDirty() {
         return dirty;
     }
 
@@ -109,8 +102,7 @@
      * 
      * @return <code>true</code> if and only if this property is a multi value property.
      */
-    public boolean isMultiValue()
-    {
+    public boolean isMultiValue() {
         return multiValue;
     }
 
@@ -119,21 +111,16 @@
      * 
      * @return <code>true</code> if and only if this property must not be changed.
      */
-    public boolean isReadOnly()
-    {
+    public boolean isReadOnly() {
         return readOnly;
     }
 
-    private boolean checkListAndValues(Object obj, Class<?> expectedElementsClass)
-    {
-        if(!(obj instanceof List<?>))
-        {
+    private boolean checkListAndValues(Object obj, Class<?> expectedElementsClass) {
+        if(!(obj instanceof List<?>)) {
             return false;
         }
-        for(Object element : (List<?>)obj)
-        {
-            if(!expectedElementsClass.isAssignableFrom(element.getClass()))
-            {
+        for(Object element : (List<?>)obj) {
+            if(!expectedElementsClass.isAssignableFrom(element.getClass())) {
                 return false;
             }
         }

@@ -17,8 +17,7 @@ public class JavaCommonNamesFileWriter extends AbstractConstantsFileWriter
         out.println("/**");
         out.println(" * Static declaration of all common names used in the OpenDMA specification.");
         out.println(" */");
-        out.println("public class OdmaCommonNames");
-        out.println("{");
+        out.println("public class OdmaCommonNames {");
     }
 
     protected void writeConstantsClassesSectionHeader(ApiDescription apiDescription, PrintWriter out)
@@ -72,8 +71,7 @@ public class JavaCommonNamesFileWriter extends AbstractConstantsFileWriter
         out.println("    /**");
         out.println("     * Empty private constructor to prevent instantiation of this class.");
         out.println("     */");
-        out.println("    private OdmaCommonNames()");
-        out.println("    {");
+        out.println("    private OdmaCommonNames() {");
         out.println("        // empty constructor");
         out.println("    }");
         out.println("");

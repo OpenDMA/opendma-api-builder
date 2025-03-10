@@ -78,20 +78,19 @@ public class JavaObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFile
         out.println(" */");
         if(extendsApiName != null)
         {
-            out.println("public interface "+classDescription.getApiName()+" extends "+extendsApiName);
+            out.println("public interface "+classDescription.getApiName()+" extends "+extendsApiName+" {");
         }
         else
         {
             if(classDescription.getAspect())
             {
-                out.println("public interface "+classDescription.getApiName()+" extends "+classDescription.getContainingApiDescription().getObjectClass().getApiName());
+                out.println("public interface "+classDescription.getApiName()+" extends "+classDescription.getContainingApiDescription().getObjectClass().getApiName()+" {");
             }
             else
             {
-                out.println("public interface "+classDescription.getApiName());
+                out.println("public interface "+classDescription.getApiName()+" {");
             }
         }
-        out.println("{");
     }
 
     protected void writeClassFileFooter(ClassDescription classDescription, PrintWriter out)
