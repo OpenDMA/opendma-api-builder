@@ -9,22 +9,22 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
-import org.opendma.apibuilder.apiwriter.AbstractPropertyFileWriter;
+import org.opendma.apibuilder.apiwriter.AbstractPropertyImplementationFileWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ApiDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
-public class CppPropertyFileWriter extends AbstractPropertyFileWriter
+public class CppPropertyImplementationFileWriter extends AbstractPropertyImplementationFileWriter
 {
     
     protected OdmaApiWriter apiWriter;
     
-    public CppPropertyFileWriter(OdmaApiWriter writer)
+    public CppPropertyImplementationFileWriter(OdmaApiWriter writer)
     {
         apiWriter = writer;
     }
 
-    protected void writePropertyFileHeader(ApiDescription apiDescription, List<String> requiredImports, PrintWriter out) throws IOException
+    protected void writePropertyImplementationFileHeader(ApiDescription apiDescription, List<String> requiredImports, PrintWriter out) throws IOException
     {
         Iterator<String> itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
@@ -33,7 +33,7 @@ public class CppPropertyFileWriter extends AbstractPropertyFileWriter
             out.println("#include "+importPackage);
         }
         out.println("");
-        InputStream templateIn = apiWriter.getTemplateAsStream("OdmaProperty.Header");
+        InputStream templateIn = apiWriter.getTemplateAsStream("OdmaPropertyImplementation.Header");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)
@@ -42,7 +42,7 @@ public class CppPropertyFileWriter extends AbstractPropertyFileWriter
         }
     }
 
-    protected void writePropertyFileFooter(ApiDescription apiDescription, PrintWriter out) throws IOException
+    protected void writePropertyImplementationFileFooter(ApiDescription apiDescription, PrintWriter out) throws IOException
     {
         out.println("");
         out.println("}");
@@ -50,7 +50,7 @@ public class CppPropertyFileWriter extends AbstractPropertyFileWriter
 
     protected void writeGenericSection(ApiDescription apiDescription, PrintWriter out) throws IOException
     {
-        InputStream templateIn = apiWriter.getTemplateAsStream("OdmaProperty.Generic");
+        InputStream templateIn = apiWriter.getTemplateAsStream("OdmaPropertyImplementation.Generic");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
         while( (templateLine = templareReader.readLine()) != null)
@@ -63,6 +63,8 @@ public class CppPropertyFileWriter extends AbstractPropertyFileWriter
     {
         String scalarName =  scalarTypeDescription.getName();
         String returnType = scalarTypeDescription.isReference() ? "std::optional<OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
+        String cppType = scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,true);
+        String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
         out.println("");
         out.println("    /**");
         out.println("     * @brief Retrieves the "+scalarName+" value of this property if and only if");
@@ -70,13 +72,22 @@ public class CppPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("     * @return The "+returnType+" value of this property");
         out.println("     * @throws OdmaInvalidDataTypeException if the data type of this property is not a single-valued "+scalarName+".");
         out.println("     */");
-        out.println("    virtual "+returnType+" get"+scalarName+"() = 0;");
+        out.println("    "+returnType+" get"+scalarName+"() override {");
+        out.println("        if (!multiValue && dataType == OdmaType::"+constantScalarTypeName+") {");
+        out.println("            if(value.has_value()) {");
+        out.println("                return std::any_cast<"+cppType+">(value);");
+        out.println("            }");
+        out.println("            return std:nullopt;");
+        out.println("        }");
+        out.println("        throw OdmaInvalidDataTypeException(\"Invalid type for getString().\");");
+        out.println("    }");
     }
 
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
         String returnType = scalarTypeDescription.isReference() ? "OdmaObjectEnumeration" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
+        String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
         out.println("");
         out.println("    /**");
         out.println("     * @brief Retrieves the "+scalarName+" value of this property if and only if");
@@ -84,7 +95,15 @@ public class CppPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("     * @return The "+returnType+" value of this property");
         out.println("     * @throws OdmaInvalidDataTypeException if the data type of this property is not a single-valued "+scalarName+".");
         out.println("     */");
-        out.println("    virtual "+returnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Vector":"List")+"() = 0;");
+        out.println("    "+returnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Vector":"List")+"() override {");
+        out.println("        if (!multiValue && dataType == OdmaType::"+constantScalarTypeName+") {");
+        out.println("            if(value.has_value()) {");
+        out.println("                return std::any_cast<"+returnType+">(value);");
+        out.println("            }");
+        out.println("            return std:nullopt;");
+        out.println("        }");
+        out.println("        throw OdmaInvalidDataTypeException(\"Invalid type for getString().\");");
+        out.println("    }");
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)

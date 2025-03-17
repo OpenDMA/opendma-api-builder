@@ -1,0 +1,9 @@
+// Standard implementation of the OdmaProperty interface.
+type OdmaPropertyImpl struct {
+    name       OdmaQName
+    dataType   OdmaType
+    multiValue bool
+    value      interface{}
+    dirty      bool
+    readOnly   bool
+}

@@ -11,7 +11,7 @@
     /// Sets the value of this property.
     /// Returns OdmaInvalidDataTypeError if the type of the newValue does not match the data type of this OdmaProperty.
     /// Returns OdmaAccessDeniedError if this OdmaProperty is read-only or cannot be set by the current user.
-    fn set_value(&mut self, newValue: Box<dyn std::any::Any>) -> Result<(), Box<dyn Error>>;
+    fn set_value(&mut self, newValue: Option<Box<dyn std::any::Any>>) -> Result<(), Box<dyn Error>>;
 
     /// Checks if this property is a multi-value property.
     fn is_multi_value(&self) -> bool;

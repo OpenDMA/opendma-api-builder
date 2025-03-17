@@ -1,0 +1,5 @@
+/**
+ * @class OdmaPropertyImpl
+ * @brief Standard implementation of the OdmaProperty interface.
+ */
+class OdmaPropertyImpl : public OdmaProperty {

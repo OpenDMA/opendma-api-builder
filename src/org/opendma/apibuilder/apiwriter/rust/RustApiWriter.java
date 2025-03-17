@@ -153,6 +153,8 @@ public class RustApiWriter extends AbstractApiWriter
 
     protected void createPropertyImplementationFile(ApiDescription apiDescription) throws IOException
     {
+        RustPropertyImplementationFileWriter rustPropertyImplementationFileWriter = new RustPropertyImplementationFileWriter(this);
+        rustPropertyImplementationFileWriter.createPropertyFile(apiDescription, createRsFile(opendmaApiSourceFolder, "OdmaPropertyImpl"));
     }
 
     //-------------------------------------------------------------------------

@@ -18,7 +18,7 @@
      *
      * @return mixed The value of this property.
      */
-    public function getValue();
+    public function getValue(): mixed;
 
     /**
      * Sets the value of this property. The type and class of the given $newValue has to match the

@@ -1,0 +1,6 @@
+/**
+ * Class OdmaPropertyImpl
+ * Standard implementation of the OdmaProperty interface.
+ */
+class OdmaPropertyImpl implements OdmaProperty
+{

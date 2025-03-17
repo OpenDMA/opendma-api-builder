@@ -154,6 +154,8 @@ public class GoApiWriter extends AbstractApiWriter
 
     protected void createPropertyImplementationFile(ApiDescription apiDescription) throws IOException
     {
+        GoPropertyImplementationFileWriter goPropertyImplementationFileWriter = new GoPropertyImplementationFileWriter(this);
+        goPropertyImplementationFileWriter.createPropertyFile(apiDescription, createGoFile(opendmaApiProjectFolder, "OdmaPropertyImpl"));
     }
 
     //-------------------------------------------------------------------------

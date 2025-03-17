@@ -1,0 +1,55 @@
+
+    let name: OdmaQName
+
+    let dataType: OdmaType
+
+    let multiValue: Bool
+
+    private(set) var value: Any?
+
+    private(set) var dirty: Bool = false
+
+    let readOnly: Bool
+
+    init(name: OdmaQName, value: Any?, dataType: OdmaType, multiValue: Bool, readOnly: Bool) throws {
+        self.name = name
+        self.dataType = dataType
+        self.multiValue = multiValue
+        self.readOnly = readOnly
+        
+        do {
+            try setValue(value)
+        } catch {
+            throw OdmaError.generalError(message: "Implementation error.")
+        }
+    }
+
+    /// Gets the qualified name of this property.
+    func getName() -> OdmaQName {
+        return name
+    }
+
+    /// Gets the data type of this property.
+    func getType() -> OdmaType {
+        return dataType
+    }
+
+    /// Gets the value of this property.
+    func getValue() -> Any {
+        return value
+    }
+
+    /// Checks if this property supports multiple values.
+    func isMultiValue() -> Bool {
+        return multiValue
+    }
+
+    /// Checks if this property has unsaved changes.
+    func isDirty() -> Bool {
+        return dirty
+    }
+
+    /// Checks if this property is read-only.
+    func isReadOnly() -> Bool {
+        return readOnly
+    }

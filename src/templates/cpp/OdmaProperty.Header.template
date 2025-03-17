@@ -7,4 +7,3 @@
  * repository after a call to the save() method of the containing object.
  */
 class OdmaProperty {
-public:

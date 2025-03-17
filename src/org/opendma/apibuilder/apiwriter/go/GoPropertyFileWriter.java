@@ -38,6 +38,8 @@ public class GoPropertyFileWriter extends AbstractPropertyFileWriter
 
     protected void writePropertyFileFooter(ApiDescription apiDescription, PrintWriter out) throws IOException
     {
+        out.println("");
+        out.println("}");
     }
 
     protected void writeGenericSection(ApiDescription apiDescription, PrintWriter out) throws IOException

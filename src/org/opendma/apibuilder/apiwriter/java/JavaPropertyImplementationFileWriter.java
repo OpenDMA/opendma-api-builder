@@ -61,7 +61,6 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         {
             out.println(templateLine);
         }
-        out.println("");
         out.println("    /**");
         out.println("     * Set the value of this property to the given new value. The");
         out.println("     * <code>Class</code> of the given <code>Object</code> has to match the");

@@ -20,7 +20,6 @@ public class CppApiWriter extends AbstractApiWriter
     public CppApiWriter(File outputFolderRoot) throws ApiWriterException
     {
         super(outputFolderRoot);
-        // TODO Auto-generated constructor stub
     }
 
     public String getName()
@@ -170,6 +169,8 @@ public class CppApiWriter extends AbstractApiWriter
 
     protected void createPropertyImplementationFile(ApiDescription apiDescription) throws IOException
     {
+        CppPropertyImplementationFileWriter cppPropertyImplementationFileWriter = new CppPropertyImplementationFileWriter(this);
+        cppPropertyImplementationFileWriter.createPropertyFile(apiDescription, createHeaderFile(baseFolder,"OdmaPropertyImpl"));
     }
 
     //-------------------------------------------------------------------------
