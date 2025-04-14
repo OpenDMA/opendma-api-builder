@@ -14,7 +14,7 @@
         /// </summary>
         /// <exception cref="OdmaInvalidDataTypeException">If the type of the assigned value does not match the data type of this OdmaProperty.</exception>
         /// <exception cref="OdmaAccessDeniedException">If this OdmaProperty is read-only or cannot be set by the current user.</exception>
-        object Value { get; set; }
+        object? Value { get; set; }
 
         /// <summary>
         /// Indicates whether this property is a multi-value property.

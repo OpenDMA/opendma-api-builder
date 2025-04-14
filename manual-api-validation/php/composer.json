@@ -1,0 +1,16 @@
+{
+    "name": "opendma/sample-app",
+    "description": "Sample for OpenDMA",
+    "type": "project",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../src.generated/php/opendma-api"
+        }
+    ],
+    "require": {
+        "opendma/api": "*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
+import org.opendma.apibuilder.Tools;
 import org.opendma.apibuilder.apiwriter.AbstractObjectsInterfaceFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
@@ -32,15 +34,22 @@ public class SwiftObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFil
                 out.println("    /// Returns "+apiHelper.getAbstract()+".");
                 out.println("    /// "+apiHelper.getDescription());
                 out.println("    /// -Returns: "+apiHelper.getAbstract());
-                out.println("    func getQName() -> OdmaQName;");
+                out.println("    func qname() -> OdmaQName;");
             }
-            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List<String> requiredImports)
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, ImportsList requiredImports)
             {
             }});
     }
 
     protected void writeClassFileHeader(ClassDescription classDescription, List<String> requiredImports, PrintWriter out)
     {
+        Iterator<String> itRequiredImports = requiredImports.iterator();
+        while(itRequiredImports.hasNext())
+        {
+            String importDeclaration = (String)itRequiredImports.next();
+            out.println("import "+importDeclaration+";");
+        }
+        out.println("");
         String extendsApiName = classDescription.getExtendsApiName();
         if(extendsApiName != null)
         {
@@ -58,17 +67,17 @@ public class SwiftObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFil
         }
         if(extendsApiName != null)
         {
-            out.println("protocol "+classDescription.getApiName()+": "+extendsApiName+" {");
+            out.println("public protocol "+classDescription.getApiName()+": "+extendsApiName+" {");
         }
         else
         {
             if(classDescription.getAspect())
             {
-                out.println("protocol "+classDescription.getApiName()+": "+classDescription.getContainingApiDescription().getObjectClass().getApiName()+" {");
+                out.println("public protocol "+classDescription.getApiName()+": "+classDescription.getContainingApiDescription().getObjectClass().getApiName()+" {");
             }
             else
             {
-                out.println("protocol "+classDescription.getApiName()+" {");
+                out.println("public protocol "+classDescription.getApiName()+" {");
             }
         }
     }
@@ -105,6 +114,15 @@ public class SwiftObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFil
     {
         out.println("");
         out.println("    // MARK: - Object specific property access");
+        /*
+        Alternative concept:
+        extension OdmaObject {
+            var id: OdmaId { try! property(for: OdmaCommonNames.PROPERTY_ID).idValue()! }
+            var guid: OdmaGuid { try! property(for: OdmaCommonNames.PROPERTY_GUID).guidValue()! }
+            var odmaClass: OdmaClass { try! property(for: OdmaCommonNames.PROPERTY_CLASS).referenceValue() as! OdmaClass }
+            var repository: OdmaRepository { try! property(for: OdmaCommonNames.PROPERTY_REPOSITORY).referenceValue() as! OdmaRepository }
+        }
+        */
     }
 
     protected String getReturnDataType(PropertyDescription property)
@@ -114,7 +132,7 @@ public class SwiftObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFil
             String result = property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
             if(property.getMultiValue())
             {
-                result = "Sequence<"+result+">";
+                result = "any Sequence<any "+result+">";
             }
             else if(!property.getRequired())
             {
@@ -130,7 +148,14 @@ public class SwiftObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFil
     
     protected String[] getRequiredImports(PropertyDescription property)
     {
-        return null;
+        if(property.getDataType().isReference())
+        {
+            return null;
+        }
+        else
+        {
+            return apiWriter.getScalarDataTypeImports(property.getDataType(),property.getMultiValue(),property.getRequired());
+        }
     }
 
     protected void writeClassPropertyAccess(PropertyDescription property, PrintWriter out)
@@ -142,7 +167,7 @@ public class SwiftObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFil
         // getter
         out.println("");
         out.println("    /// Returns "+property.getAbstract()+".<br/>");
-        String standardGetterName = "get" + ((!scalarType.isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceList" : "Reference"));
+        String standardGetterName = Tools.lowerCaseFirstChar(scalarType.getName()) + (scalarType.isReference() ? (property.getMultiValue() ? "Sequence" : "Value") : (property.getMultiValue() ? "Velues" : "Value"));
         out.println("    /// Shortcut for `getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()`.");
         out.println("    ///");
         for(String s : getPropertyDetails(property))
@@ -151,7 +176,8 @@ public class SwiftObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFil
         }
         out.println("    ///");
         out.println("    /// -Returns: "+property.getAbstract());
-        out.println("    "+(swiftDataType.equalsIgnoreCase("Bool")?"is":"get")+property.getApiName()+"() -> "+swiftDataType);
+        //out.println("    "+(swiftDataType.equalsIgnoreCase("Bool")?"is":"get")+property.getApiName()+"() -> "+swiftDataType);
+        out.println("    var "+Tools.lowerCaseFirstChar(property.getApiName())+": "+swiftDataType+" { get }");
         // setter
         if( (!property.isReadOnly()) && (!property.getMultiValue()) )
         {
@@ -167,7 +193,7 @@ public class SwiftObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFil
             out.println("    ///");
             out.println("    /// - Parameter: newValue: The new value for "+property.getAbstract());
             out.println("    /// - Throws: An error of type `OdmaError` if this OdmaProperty is read-only or cannot be set by the current user");
-            out.println("    set"+property.getApiName()+"(_ newValue: "+swiftDataType+") throws");
+            out.println("    func set"+property.getApiName()+"(to newValue: "+swiftDataType+") throws");
         }
     }
 

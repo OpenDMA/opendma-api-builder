@@ -39,3 +39,7 @@ func (q *OdmaQName) Name() string {
 func (q *OdmaQName) String() string {
 	return fmt.Sprintf("%s:%s", q.qualifier, q.name)
 }
+
+func (q *OdmaQName) Equals(other *OdmaQName) bool {
+	return q.qualifier == other.qualifier && q.name == other.name
+}

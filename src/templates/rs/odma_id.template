@@ -1,0 +1,61 @@
+use crate::OdmaError;
+use std::fmt;
+use std::convert::TryFrom;
+use std::str::FromStr;
+
+/// Represents a unique identifier for an OdmaObject in an OdmaRepository.
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct OdmaId {
+    id: String,
+}
+
+impl OdmaId {
+
+    /// Constructs a new OdmaId.
+    /// Panics if id is empty or whitespace
+    pub fn new(id: &str) -> Self {
+        Self::try_new(id).unwrap_or_else(|e| panic!("{}", e))
+    }
+
+    /// Constructs a new OdmaId.
+    /// Returns an error if id is empty or whitespace
+    pub fn try_new(id: &str) -> Result<Self, OdmaError> {
+        if id.trim().is_empty() {
+            Err(OdmaError::IllegalArgument("ID must not be empty or whitespace".into()))
+        } else {
+            Ok(Self { id: id.to_string() })
+        }
+    }
+
+}
+
+impl fmt::Display for OdmaId {
+
+    /// Returns a string representation of this OdmaId.
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.id)
+    }
+
+}
+
+impl TryFrom<String> for OdmaId {
+    type Error = OdmaError;
+
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        Self::try_new(&value)
+    }
+}
+
+impl FromStr for OdmaId {
+    type Err = OdmaError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Self::try_new(s)
+    }
+}
+
+impl AsRef<str> for OdmaId {
+    fn as_ref(&self) -> &str {
+        &self.id
+    }
+}

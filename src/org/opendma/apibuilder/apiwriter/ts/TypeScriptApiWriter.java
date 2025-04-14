@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
@@ -41,9 +42,15 @@ public class TypeScriptApiWriter extends AbstractApiWriter
         return new FileOutputStream(new File(targetFolder, className+".ts"));
     }
     
-    private void createClassFromTemplate(File targetFolder, String className) throws IOException
+    private OutputStream createApiTsFile(String className) throws IOException
     {
-        copyTemplateToStream(className,createTsFile(targetFolder,className));
+        opendmaApiExportSources.add(className);
+        return createTsFile(opendmaApiSourceFolder, className);
+    }
+    
+    private void createApiClassFromTemplate(String className) throws IOException
+    {
+        copyTemplateToStream(className,createApiTsFile(className));
     }
 
     //-------------------------------------------------------------------------
@@ -53,11 +60,11 @@ public class TypeScriptApiWriter extends AbstractApiWriter
     protected void createDataTypesFile(ApiDescription apiDescription) throws IOException
     {
         // create type enumeration
-        PrintWriter out = new PrintWriter(createTsFile(opendmaApiSourceFolder, "OdmaType"));
+        PrintWriter out = new PrintWriter(createApiTsFile("OdmaType"));
         out.println("/**");
         out.println(" * OpenDMA property data types.");
         out.println(" */");
-        out.println("enum OdmaType {");
+        out.println("export enum OdmaType {");
         List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
         Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
@@ -73,7 +80,7 @@ public class TypeScriptApiWriter extends AbstractApiWriter
     {
         // create common names file
         TypeScriptCommonNamesFileWriter constantsFileWriter = new TypeScriptCommonNamesFileWriter();
-        constantsFileWriter.createConstantsFile(apiDescription, createTsFile(opendmaApiSourceFolder, "OdmaCommonNames"));
+        constantsFileWriter.createConstantsFile(apiDescription, createApiTsFile("OdmaCommonNames"));
     }
 
     //-------------------------------------------------------------------------
@@ -82,38 +89,38 @@ public class TypeScriptApiWriter extends AbstractApiWriter
 
     protected void createQNameFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(opendmaApiSourceFolder, "OdmaQName");
+        createApiClassFromTemplate("OdmaQName");
     }
 
     protected void createIdFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(opendmaApiSourceFolder, "OdmaId");
+        createApiClassFromTemplate("OdmaId");
     }
 
     protected void createGuidFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(opendmaApiSourceFolder, "OdmaGuid");
+        createApiClassFromTemplate("OdmaGuid");
     }
 
     protected void createContentFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(opendmaApiSourceFolder, "OdmaContent");
+        createApiClassFromTemplate("OdmaContent");
     }
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(opendmaApiSourceFolder, "OdmaSearchResult");
+        createApiClassFromTemplate("OdmaSearchResult");
     }
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(opendmaApiSourceFolder,"OdmaError");
+        createApiClassFromTemplate("OdmaError");
         // OdmaRuntimeException: TypeScript does not distinguish between checked and unchecked Exceptions
-        createClassFromTemplate(opendmaApiSourceFolder,"OdmaObjectNotFoundError");
-        createClassFromTemplate(opendmaApiSourceFolder,"OdmaPropertyNotFoundError");
-        createClassFromTemplate(opendmaApiSourceFolder,"OdmaInvalidDataTypeError");
-        createClassFromTemplate(opendmaApiSourceFolder,"OdmaAccessDeniedError");
-        createClassFromTemplate(opendmaApiSourceFolder,"OdmaQuerySyntaxError");
+        createApiClassFromTemplate("OdmaObjectNotFoundError");
+        createApiClassFromTemplate("OdmaPropertyNotFoundError");
+        createApiClassFromTemplate("OdmaInvalidDataTypeError");
+        createApiClassFromTemplate("OdmaAccessDeniedError");
+        createApiClassFromTemplate("OdmaQuerySyntaxError");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException
@@ -127,7 +134,7 @@ public class TypeScriptApiWriter extends AbstractApiWriter
     protected void createPropertyFile(ApiDescription apiDescription) throws IOException
     {
         TypeScriptPropertyFileWriter typeScriptPropertyFileWriter = new TypeScriptPropertyFileWriter(this);
-        typeScriptPropertyFileWriter.createPropertyFile(apiDescription, createTsFile(opendmaApiSourceFolder, "OdmaProperty"));
+        typeScriptPropertyFileWriter.createPropertyFile(apiDescription, createApiTsFile("OdmaProperty"));
     }
 
     //-------------------------------------------------------------------------
@@ -137,7 +144,7 @@ public class TypeScriptApiWriter extends AbstractApiWriter
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
         TypeScriptObjectsInterfaceFileWriter classFileWriter = new TypeScriptObjectsInterfaceFileWriter(this);
-        classFileWriter.createClassFile(classDescription, createTsFile(opendmaApiSourceFolder,classDescription.getApiName()));
+        classFileWriter.createClassFile(classDescription, createApiTsFile(classDescription.getApiName()));
     }
     
     //-------------------------------------------------------------------------
@@ -147,7 +154,7 @@ public class TypeScriptApiWriter extends AbstractApiWriter
     protected void createPropertyImplementationFile(ApiDescription apiDescription) throws IOException
     {
         TypeScriptPropertyImplementationFileWriter typeScriptPropertyImplementationFileWriter = new TypeScriptPropertyImplementationFileWriter(this);
-        typeScriptPropertyImplementationFileWriter.createPropertyFile(apiDescription, createTsFile(opendmaApiSourceFolder, "OdmaPropertyImpl"));
+        typeScriptPropertyImplementationFileWriter.createPropertyFile(apiDescription, createApiTsFile("OdmaPropertyImpl"));
     }
 
     //-------------------------------------------------------------------------
@@ -165,6 +172,8 @@ public class TypeScriptApiWriter extends AbstractApiWriter
     private File opendmaApiProjectFolder;
     
     private File opendmaApiSourceFolder;
+    
+    private List<String> opendmaApiExportSources = new LinkedList<String>();
     
     private File opendmaTemplatesFolder;
     
@@ -196,6 +205,14 @@ public class TypeScriptApiWriter extends AbstractApiWriter
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
+        // create index.ts
+        PrintWriter out = new PrintWriter(createTsFile(opendmaApiSourceFolder,"index"));
+        Iterator<String> itExportSources = opendmaApiExportSources.iterator();
+        while(itExportSources.hasNext())
+        {
+            out.println("export * from './"+itExportSources.next()+"';");
+        }
+        out.close();
     }
     
     //-------------------------------------------------------------------------

@@ -1,9 +1,9 @@
 
     /// Gets the qualified name of this property.
-    func getName() -> OdmaQName
+    var name: OdmaQName { get }
 
     /// Gets the data type of this property.
-    func getType() -> OdmaType
+    var type: OdmaType { get }
 
     /// Gets the value of this property.
     func getValue() -> Any?
@@ -12,10 +12,10 @@
     func setValue(_ newValue: Any?) throws
 
     /// Checks if this property supports multiple values.
-    func isMultiValue() -> Bool
+    var isMultiValue: Bool { get }
 
     /// Checks if this property has unsaved changes.
-    func isDirty() -> Bool
+    var isDirty: Bool { get }
 
     /// Checks if this property is read-only.
-    func isReadOnly() -> Bool
+    var isReadOnly: Bool { get }

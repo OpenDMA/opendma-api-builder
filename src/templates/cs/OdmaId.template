@@ -16,7 +16,7 @@ namespace OpenDMA.Api
         /// <summary>
         /// The unique identifier string.
         /// </summary>
-        private readonly string id;
+        private readonly string _id;
 
         /// <summary>
         /// Constructs an OdmaId with the specified ID.
@@ -29,7 +29,7 @@ namespace OpenDMA.Api
             {
                 throw new ArgumentException("ID must not be null or empty", nameof(id));
             }
-            this.id = id;
+            this._id = id;
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace OpenDMA.Api
                 return false;
             }
             var other = (OdmaId)obj;
-            return id == other.id;
+            return _id == other._id;
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace OpenDMA.Api
         /// <returns>The hash code value.</returns>
         public override int GetHashCode()
         {
-            return id.GetHashCode();
+            return _id.GetHashCode();
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace OpenDMA.Api
         /// <returns>The ID string of this OdmaId.</returns>
         public override string ToString()
         {
-            return id;
+            return _id;
         }
 
     }

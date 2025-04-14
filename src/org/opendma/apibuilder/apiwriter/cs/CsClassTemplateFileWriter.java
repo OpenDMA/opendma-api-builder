@@ -42,7 +42,7 @@ public class CsClassTemplateFileWriter extends AbstractObjectsInterfaceFileWrite
                 out.println("            }");
                 out.println("        }");
             }
-            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List<String> requiredImports)
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, ImportsList requiredImports)
             {
                 // TODO Auto-generated method stub
                 

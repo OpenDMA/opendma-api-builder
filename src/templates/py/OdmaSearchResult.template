@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import BinaryIO
 
-class OdmaContent(ABC):
+class OdmaSearchResult(ABC):
     """
     Abstract base class representing the result of a search operation.
     It provides access to the objects found and number of objects.

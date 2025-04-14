@@ -45,6 +45,16 @@ public class PythonApiWriter extends AbstractApiWriter
         copyTemplateToStream(className, opendmaApiHelpersFOS, false);
         classesImportFromHelpers.add(className);
     }
+    
+    private void copyClassToApiInterfaces(String className) throws IOException
+    {
+        PrintWriter out = new PrintWriter(opendmaApiInterfacesFOS);
+        out.println();
+        out.println();
+        out.flush();
+        copyTemplateToStream(className, opendmaApiInterfacesFOS, false);
+        classesImportFromInterfaces.add(className);
+    }
 
     //-------------------------------------------------------------------------
     // C O N S T A N T S   F I L E
@@ -99,12 +109,12 @@ public class PythonApiWriter extends AbstractApiWriter
 
     protected void createContentFile(ApiDescription apiDescription) throws IOException
     {
-        copyClassToApiHelpers("OdmaContent");
+        copyClassToApiInterfaces("OdmaContent");
     }
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException
     {
-        copyClassToApiHelpers("OdmaSearchResult");
+        copyClassToApiInterfaces("OdmaSearchResult");
     }
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException
@@ -129,8 +139,8 @@ public class PythonApiWriter extends AbstractApiWriter
     protected void createPropertyFile(ApiDescription apiDescription) throws IOException
     {
         PythonPropertyFileWriter pythonPropertyFileWriter = new PythonPropertyFileWriter(this);
-        pythonPropertyFileWriter.createPropertyFile(apiDescription, opendmaApiHelpersFOS, false);
-        classesImportFromHelpers.add("OdmaProperty");
+        pythonPropertyFileWriter.createPropertyFile(apiDescription, opendmaApiInterfacesFOS, false);
+        classesImportFromInterfaces.add("OdmaProperty");
     }
 
     //-------------------------------------------------------------------------
@@ -151,8 +161,8 @@ public class PythonApiWriter extends AbstractApiWriter
     protected void createPropertyImplementationFile(ApiDescription apiDescription) throws IOException
     {
         PythonPropertyImplementationFileWriter pythonPropertyImplementationFileWriter = new PythonPropertyImplementationFileWriter(this);
-        pythonPropertyImplementationFileWriter.createPropertyFile(apiDescription, opendmaApiHelpersFOS, false);
-        classesImportFromHelpers.add("OdmaPropertyImpl");
+        pythonPropertyImplementationFileWriter.createPropertyFile(apiDescription, opendmaApiInterfacesFOS, false);
+        classesImportFromInterfaces.add("OdmaPropertyImpl");
     }
 
     //-------------------------------------------------------------------------
@@ -203,6 +213,13 @@ public class PythonApiWriter extends AbstractApiWriter
         opendmaApiSourceFolder.mkdirs();
         opendmaApiInterfacesFOS = new FileOutputStream(new File(opendmaApiSourceFolder, "interfaces.py"));
         copyTemplateToStream("opendma-api-interfaces-header", opendmaApiInterfacesFOS, false);
+        PrintWriter out = new PrintWriter(opendmaApiInterfacesFOS);
+        out.println();
+        for(ClassDescription classDescription : apiDescription.getDescribedClasses())
+        {
+            out.println("T"+classDescription.getApiName()+" = TypeVar(\"T"+classDescription.getApiName()+"\", bound=\""+classDescription.getApiName()+"\")");
+        }
+        out.flush();
         opendmaApiHelpersFOS = new FileOutputStream(new File(opendmaApiSourceFolder, "helpers.py"));
         copyTemplateToStream("opendma-api-helpers-header", opendmaApiHelpersFOS, false);
         // build file

@@ -8,10 +8,11 @@
      * @param {boolean} readOnly - Flag if this property is read only.
      */
     constructor(name, value, dataType, multiValue, readOnly) {
+        super();
         this._name = name;
         this._dataType = dataType;
         this._multiValue = multiValue;
-        setValue(value);
+        this.setValue(value);
         this._readOnly = readOnly;
         this._dirty = false;
     }

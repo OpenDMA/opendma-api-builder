@@ -30,7 +30,10 @@ public class CsPropertyFileWriter extends AbstractPropertyFileWriter
         while(itRequiredImports.hasNext())
         {
             String importPackage = itRequiredImports.next();
-            out.println("using "+importPackage+";");
+            if(!importPackage.equals("OpenDMA.Api"))
+            {
+                out.println("using "+importPackage+";");
+            }
         }
         out.println("");
         out.println("namespace OpenDMA.Api");
@@ -104,7 +107,6 @@ public class CsPropertyFileWriter extends AbstractPropertyFileWriter
     {
         requiredImports.registerImport("System");
         requiredImports.registerImport("System.Collections.Generic");
-        requiredImports.registerImport("System.Linq");
         requiredImports.registerImport("System.Text");
     }
 

@@ -1,55 +1,53 @@
 
-    let name: OdmaQName
+    public let name: OdmaQName
 
-    let dataType: OdmaType
+    public let type: OdmaType
 
-    let multiValue: Bool
+    public let isMultiValue: Bool
 
-    private(set) var value: Any?
+    public private(set) var value: Any?
 
-    private(set) var dirty: Bool = false
+    public private(set) var isDirty: Bool = false
 
-    let readOnly: Bool
+    public let isReadOnly: Bool
 
-    init(name: OdmaQName, value: Any?, dataType: OdmaType, multiValue: Bool, readOnly: Bool) throws {
+    public init(name: OdmaQName, value: Any?, type: OdmaType, isMultiValue: Bool, isReadOnly: Bool) throws {
         self.name = name
-        self.dataType = dataType
-        self.multiValue = multiValue
-        self.readOnly = readOnly
-        
-        do {
-            try setValue(value)
-        } catch {
-            throw OdmaError.generalError(message: "Implementation error.")
+        self.type = type
+        self.isMultiValue = isMultiValue
+        self.isReadOnly = isReadOnly
+        if try !OdmaPropertyImpl.validate(value: value, for: type, isMultiValue: isMultiValue) {
+            throw OdmaError.invalidDataType(details: "Invalid initial value for data type \(type)")
         }
-    }
-
-    /// Gets the qualified name of this property.
-    func getName() -> OdmaQName {
-        return name
-    }
-
-    /// Gets the data type of this property.
-    func getType() -> OdmaType {
-        return dataType
+        self.value = value
     }
 
     /// Gets the value of this property.
-    func getValue() -> Any {
+    public func getValue() -> Any? {
         return value
     }
 
-    /// Checks if this property supports multiple values.
-    func isMultiValue() -> Bool {
-        return multiValue
+    /// Sets the value of this property.
+    public func setValue(_ newValue: Any?) throws {
+        guard !isReadOnly else {
+            throw OdmaError.accessDenied
+        }
+
+        if try !OdmaPropertyImpl.validate(value: newValue, for: type, isMultiValue: isMultiValue) {
+            throw OdmaError.invalidDataType(details: "Invalid value for data type \(type)")
+        }
+
+        self.value = newValue
+        self.isDirty = true
     }
 
-    /// Checks if this property has unsaved changes.
-    func isDirty() -> Bool {
-        return dirty
-    }
+    static func validate(value: Any?, for type: OdmaType, isMultiValue: Bool) throws -> Bool {
+        guard let value = value else { return true }
 
-    /// Checks if this property is read-only.
-    func isReadOnly() -> Bool {
-        return readOnly
+        if isMultiValue {
+            guard let array = value as? [Any] else { return false }
+            return array.allSatisfy { isValidSingleValue($0, for: type) }
+        } else {
+            return isValidSingleValue(value, for: type)
+        }
     }

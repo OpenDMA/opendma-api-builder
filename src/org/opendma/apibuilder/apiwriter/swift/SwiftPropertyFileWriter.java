@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
+import org.opendma.apibuilder.Tools;
 import org.opendma.apibuilder.apiwriter.AbstractPropertyFileWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
 import org.opendma.apibuilder.structure.ApiDescription;
@@ -66,17 +67,17 @@ public class SwiftPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("");
         out.println("    /// Gets the "+scalarName+" value of this property if and only if");
         out.println("    /// the data type of this property is a single valued "+scalarName+".");
-        out.println("    fn get"+scalarName+"() throws -> "+returnType);
+        out.println("    func "+Tools.lowerCaseFirstChar(scalarName)+"Value() throws -> "+returnType);
     }
 
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "Sequence<OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
+        String returnType = scalarTypeDescription.isReference() ? "any Sequence<any OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
         out.println("");
         out.println("    /// Gets the "+scalarName+" value of this property if and only if");
         out.println("    /// the data type of this property is a multi valued "+scalarName+".");
-        out.println("    fn get"+scalarName+(scalarTypeDescription.isReference()?"Sequence":"List")+"() throws -> "+returnType);
+        out.println("    func "+Tools.lowerCaseFirstChar(scalarName)+(scalarTypeDescription.isReference()?"Sequence":"Values")+"() throws -> "+returnType);
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)

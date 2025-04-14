@@ -10,12 +10,14 @@ private:
 public:
 
     OdmaPropertyImpl(std::shared_ptr<OdmaQName> name, std::any value, std::shared_ptr<OdmaType> dataType, bool multiValue, bool readOnly)
-        : name(std::move(name)), dataType(std::move(dataType)), multiValue(multiValue), readOnly(readOnly), dirty(false) {
+        : name(std::move(name)), dataType(std::move(dataType)), multiValue(multiValue), readOnly(false), dirty(false) {
         try {
             setValue(value);
         } catch (const OdmaAccessDeniedException&) {
             throw OdmaRuntimeException("Implementation error.");
         }
+        this->readOnly = readOnly;
+        this->dirty = false;
     }
 
     /**

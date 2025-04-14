@@ -1,9 +1,5 @@
 package OpenDMAApi
 
-import (
-	"io"
-)
-
 // Represents the result of a search operation.
 // Provides access to the objects found and number of objects.
 type OdmaSearchResult interface {

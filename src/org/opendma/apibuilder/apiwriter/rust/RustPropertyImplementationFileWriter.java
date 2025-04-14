@@ -26,6 +26,13 @@ public class RustPropertyImplementationFileWriter extends AbstractPropertyImplem
 
     protected void writePropertyImplementationFileHeader(ApiDescription apiDescription, List<String> requiredImports, PrintWriter out) throws IOException
     {
+        Iterator<String> itRequiredImports = requiredImports.iterator();
+        while(itRequiredImports.hasNext())
+        {
+            String importDeclaration = (String)itRequiredImports.next();
+            out.println("use "+importDeclaration+";");
+        }
+        out.println("");
         InputStream templateIn = apiWriter.getTemplateAsStream("OdmaPropertyImplementation.Header");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
@@ -51,11 +58,11 @@ public class RustPropertyImplementationFileWriter extends AbstractPropertyImplem
             out.println(templateLine);
         }
         out.println("    /// Sets the value of this property.");
-        out.println("    /// Returns OdmaInvalidDataTypeError if the type of the newValue does not match the data type of this OdmaProperty.");
-        out.println("    /// Returns OdmaAccessDeniedError if this OdmaProperty is read-only or cannot be set by the current user.");
-        out.println("    fn set_value(&mut self, new_value: Option<Box<dyn std::any::Any>>) -> Result<(), Box<dyn Error>> {");
+        out.println("    /// Returns OdmaError::InvalidDataType if the type of the newValue does not match the data type of this OdmaProperty.");
+        out.println("    /// Returns OdmaError::AccessDenied if this OdmaProperty is read-only or cannot be set by the current user.");
+        out.println("    fn set_value(&mut self, new_value: Option<Box<dyn std::any::Any>>) -> Result<(), OdmaError> {");
         out.println("        if self.read_only {");
-        out.println("            return Err(Box::new(OdmaAccessDeniedError));");
+        out.println("            return Err(OdmaError::AccessDenied)");
         out.println("        }");
         out.println("        if let Some(ref val) = new_value {");
         out.println("            let valid = match self.data_type {");
@@ -67,17 +74,18 @@ public class RustPropertyImplementationFileWriter extends AbstractPropertyImplem
             String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
             if(scalarTypeDescription.isReference())
             {
-                out.println("                OdmaType::"+constantScalarTypeName+" => (!self.multi_value && val.is::<OdmaObject>()) || (self.multi_value && self.check_list_and_values::<Iterator>(val)),");
+                out.println("                OdmaType::"+constantScalarTypeName+" => (!self.multi_value && val.is::<Box<dyn OdmaObject>>()) || (self.multi_value && val.is::<Box<dyn Iterator<Item = Box<dyn OdmaObject>>>>()),");
             }
             else
             {
                 String rustType = apiWriter.getScalarDataType(scalarTypeDescription,false,true);
-                out.println("                OdmaType::"+constantScalarTypeName+" => (!self.multi_value && val.is::<"+rustType+">()) || (self.multi_value && self.check_list_and_values::<"+rustType+">(val)),");
+                //out.println("                OdmaType::"+constantScalarTypeName+" => (!self.multi_value && val.is::<"+rustType+">()) || (self.multi_value && self.check_list_and_values::<"+rustType+">(val)),");
+                out.println("                OdmaType::"+constantScalarTypeName+" => (!self.multi_value && val.is::<"+rustType+">()) || (self.multi_value && val.is::<Vec<"+rustType+">>()),");
             }
         }
         out.println("            };");
         out.println("            if !valid {");
-        out.println("                return Err(Box::new(OdmaInvalidDataTypeError));");
+        out.println("                return Err(OdmaError::IllegalArgument(\"Invalid type of value.\".into()))");
         out.println("            }");
         out.println("        }");
         out.println("        self.value = new_value;");
@@ -89,41 +97,88 @@ public class RustPropertyImplementationFileWriter extends AbstractPropertyImplem
     protected void writeSingleValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "Option<OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
+        String returnType = scalarTypeDescription.isReference() ? "Option<&dyn OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
         out.println("");
         out.println("    /// Gets the "+scalarName+" value of this property if and only if");
         out.println("    /// the data type of this property is a single valued "+scalarName+".");
         out.println("    ///");
-        out.println("    /// Returns OdmaInvalidDataTypeError if the data type of this property is not a single-valued "+scalarName+".");
-        out.println("    fn get_"+scalarName.toLowerCase()+"(&self) -> Result<"+returnType+", Box<dyn Error>> {");
+        out.println("    /// Returns OdmaError::InvalidDataType if the data type of this property is not a single-valued "+scalarName+".");
+        out.println("    fn get_"+scalarName.toLowerCase()+"(&self) -> Result<"+returnType+", OdmaError> {");
         out.println("        if !self.multi_value && self.data_type == OdmaType::"+constantScalarTypeName+" {");
-        out.println("            return Ok(self.value.as_ref().and_then(|v| v.downcast_ref::<"+returnType+">().copied()));");
+        if(scalarTypeDescription.isReference())
+        {
+            out.println("            if let Some(inner) = self.value.as_ref() {");
+            out.println("                if let Some(obj) = inner.downcast_ref::<Box<dyn OdmaObject>>() {");
+            out.println("                    return Ok(Some(obj.as_ref()));");
+            out.println("                }");
+            out.println("            }");
+            out.println("            return Ok(None);");
+        }
+        else if(scalarName.equalsIgnoreCase("content"))
+        {
+            out.println("            if let Some(inner) = self.value.as_ref() {");
+            out.println("                if let Some(content) = inner.downcast_ref::<Box<dyn OdmaContent>>() {");
+            out.println("                    return Ok(Some(content.as_ref()));");
+            out.println("                }");
+            out.println("            }");
+            out.println("            return Ok(None);");
+        }
+        else
+        {
+            String downcastType = apiWriter.getScalarDataType(scalarTypeDescription,false,true);
+            out.println("            return Ok(self.value.as_ref().and_then(|v| v.downcast_ref::<"+downcastType+">().cloned()));");
+        }
         out.println("        }");
-        out.println("        Err(Box::new(OdmaInvalidDataTypeError))");
+        out.println("        Err(OdmaError::InvalidDataType(\"invalid type or cardinality for get_"+scalarName.toLowerCase()+"()\".into()))");
         out.println("    }");
     }
 
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "Iterator<OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
+        String returnType = scalarTypeDescription.isReference() ? "Box<dyn Iterator<Item = &dyn OdmaObject> + '_>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
         out.println("");
         out.println("    /// Gets the "+scalarName+" value of this property if and only if");
         out.println("    /// the data type of this property is a multi valued "+scalarName+".");
         out.println("    ///");
-        out.println("    /// Returns OdmaInvalidDataTypeError if the data type of this property is not a multi-valued "+scalarName+".");
-        out.println("    fn get_"+scalarName.toLowerCase()+"_"+(scalarTypeDescription.isReference()?"iterator":"list")+"(&self) -> Result<"+returnType+", Box<dyn Error>> {");
+        out.println("    /// Returns OdmaError::InvalidDataType if the data type of this property is not a multi-valued "+scalarName+".");
+        out.println("    fn get_"+scalarName.toLowerCase()+"_"+(scalarTypeDescription.isReference()?"iter":"vec")+"(&self) -> Result<"+returnType+", OdmaError> {");
         out.println("        if self.multi_value && self.data_type == OdmaType::"+constantScalarTypeName+" {");
-        out.println("            return Ok(self.value.as_ref().and_then(|v| v.downcast_ref::<Vec<"+returnType+">>().cloned()).unwrap_or_else(Vec::new));");
+        if(scalarTypeDescription.isReference())
+        {
+            out.println("            if let Some(inner) = self.value.as_ref() {");
+            out.println("                if let Some(vec) = inner.downcast_ref::<Vec<Box<dyn OdmaObject>>>() {");
+            out.println("                    return Ok(Box::new(vec.iter().map(|b| b.as_ref())));");
+            out.println("                }");
+            out.println("            }");
+            out.println("            return Ok(Box::new(std::iter::empty()));");
+        }
+        else if(scalarName.equalsIgnoreCase("content"))
+        {
+            out.println("            if let Some(vec) = self.value.as_ref().and_then(|any| any.downcast_ref::<Vec<Box<dyn OdmaContent>>>()) {");
+            out.println("                return Ok(vec.iter().map(|b| b.as_ref()).collect());");
+            out.println("            }");
+            out.println("            return Ok(Vec::new());");
+        }
+        else
+        {
+            out.println("            return Ok(self.value.as_ref().and_then(|v| v.downcast_ref::<"+returnType+">().cloned()).unwrap_or_default());");
+        }
         out.println("        }");
-        out.println("        Err(Box::new(OdmaInvalidDataTypeError))");
+        out.println("        Err(OdmaError::InvalidDataType(\"invalid type or cardinality for get_"+scalarName.toLowerCase()+"_"+(scalarTypeDescription.isReference()?"iter":"vec")+"()\".into()))");
         out.println("    }");
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)
     {
+        requiredImports.registerImport("crate::OdmaQName");
+        requiredImports.registerImport("crate::OdmaType");
+        requiredImports.registerImport("crate::OdmaError");
+        requiredImports.registerImport("crate::OdmaProperty");
+        requiredImports.registerImport("crate::OdmaObject");
+        requiredImports.registerImport("std::any::Any");
     }
 
     protected void appendRequiredImportsScalarAccess(ImportsList requiredImports, ScalarTypeDescription scalarTypeDescription)

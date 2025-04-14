@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
+import org.opendma.apibuilder.Tools;
 import org.opendma.apibuilder.apiwriter.AbstractObjectsInterfaceFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
@@ -35,19 +36,19 @@ public class PythonObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFi
                 out.println("        Returns "+apiHelper.getAbstract()+".");
                 out.println("        "+apiHelper.getDescription());
                 out.println("        ");
-                out.println("        :return: "+upperCaseFirstChar(apiHelper.getAbstract()));
+                out.println("        :return: "+Tools.upperCaseFirstChar(apiHelper.getAbstract()));
                 out.println("        \"\"\"");
                 out.println("        pass");
             }
-            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List<String> requiredImports)
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, ImportsList requiredImports)
             {
             }});
     }
 
     protected void writeClassFileHeader(ClassDescription classDescription, List<String> requiredImports, PrintWriter out)
     {
-        out.println("");
-        out.println("T"+classDescription.getApiName()+" = TypeVar(\"T"+classDescription.getApiName()+"\", bound=\""+classDescription.getApiName()+"\")");
+        //out.println("");
+        //out.println("T"+classDescription.getApiName()+" = TypeVar(\"T"+classDescription.getApiName()+"\", bound=\""+classDescription.getApiName()+"\")");
         out.println("");
         String extendsApiName = classDescription.getExtendsApiName();
         if(extendsApiName != null)
@@ -126,7 +127,11 @@ public class PythonObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFi
             }
             else if(!property.getRequired())
             {
-                result = "Optional["+result+"]";
+                result = "Optional[\""+result+"\"]";
+            }
+            else
+            {
+                result = "\""+result+"\"";
             }
             return result;
         }
@@ -150,7 +155,7 @@ public class PythonObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFi
         // getter
         out.println("");
         out.println("    @abstractmethod");
-        out.println("    def get_"+toSnakeCase(property.getApiName())+"(self) -> "+pythonDataType+":");
+        out.println("    def get_"+Tools.toSnakeCase(property.getApiName())+"(self) -> "+pythonDataType+":");
         out.println("        \"\"\"");
         out.println("        Returns "+property.getAbstract()+".<br>");
         String standardGetterName = "get_" + scalarType.getName().toLowerCase() + (property.getMultiValue() ? "_list" : "");
@@ -169,7 +174,7 @@ public class PythonObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFi
         {
             out.println("");
             out.println("    @abstractmethod");
-            out.println("        def set_"+toSnakeCase(property.getApiName())+"(self, new_value: "+pythonDataType+") -> None:");
+            out.println("    def set_"+Tools.toSnakeCase(property.getApiName())+"(self, new_value: "+pythonDataType+") -> None:");
             out.println("        \"\"\"");
             out.println("        Sets "+property.getAbstract()+".<br>");
             String standardSetterName = "set_value";

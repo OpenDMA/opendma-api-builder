@@ -128,40 +128,6 @@ public abstract class AbstractObjectsInterfaceFileWriter
         }
     }
     
-    protected String upperCaseFirstChar(String s)
-    {
-        if(s.length() > 1)
-        {
-            return s.substring(0, 1).toUpperCase() + s.substring(1);
-        }
-        else
-        {
-            return s;
-        }
-    }
-    
-    protected String toSnakeCase(String s)
-    {
-        String result = "";
-        for(int i = 0; i < s.length(); i++)
-        {
-            char ch = s.charAt(i);
-            if(Character.isUpperCase(ch))
-            {
-                if(i != 0)
-                {
-                    result = result + "_";
-                }
-                result = result + Character.toLowerCase(ch);                
-            }
-            else
-            {
-                result = result + ch;
-            }
-        }
-        return result;
-    }
-    
     protected List<String> getPropertyDetails(PropertyDescription property)
     {
         LinkedList<String> result = new LinkedList<String>();

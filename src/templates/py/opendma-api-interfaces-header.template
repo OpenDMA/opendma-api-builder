@@ -3,6 +3,11 @@
 # This file is auto-generated.
 #
 
+from typing import TypeVar, Optional, Any
+from abc import ABC, abstractmethod
+from collections.abc import Iterable
+from datetime import datetime
 
-TOdmaObject = TypeVar("TOdmaObject", bound="OdmaObject")
+from .helpers import OdmaType, OdmaQName, OdmaId, OdmaGuid
+from .helpers import OdmaType, OdmaQName, OdmaId, OdmaGuid, OdmaException, OdmaObjectNotFoundException, OdmaPropertyNotFoundException, OdmaInvalidDataTypeException, OdmaAccessDeniedException, OdmaQuerySyntaxException
 

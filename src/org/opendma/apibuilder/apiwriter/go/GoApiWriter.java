@@ -54,6 +54,7 @@ public class GoApiWriter extends AbstractApiWriter
     {
         // create type enumeration
         PrintWriter out = new PrintWriter(createGoFile(opendmaApiProjectFolder, "OdmaType"));
+        out.println("package OpenDMAApi");
         out.println();
         out.println("type OdmaType int");
         out.println();
@@ -75,9 +76,9 @@ public class GoApiWriter extends AbstractApiWriter
             ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
             out.println("    case "+scalarTypeDescription.getName().toUpperCase()+":");
             out.println("        return \""+scalarTypeDescription.getName().toUpperCase()+"\"");
-            out.println("    default");
-            out.println("        return \"UNKNOWN\"");
         }
+        out.println("    default:");
+        out.println("        return \"UNKNOWN\"");
         out.println("    }");
         out.println("}");
         out.close();
@@ -149,6 +150,55 @@ public class GoApiWriter extends AbstractApiWriter
     }
     
     //-------------------------------------------------------------------------
+    // C O L L E C T I O N   F I L E S
+    //-------------------------------------------------------------------------
+    
+    protected void createEnumerationFile(ClassDescription classDescription) throws IOException
+    {
+        createIterableFile(classDescription);
+        createIteratorFile(classDescription);
+    }
+    
+    protected void createIterableFile(ClassDescription classDescription) throws IOException
+    {
+        PrintWriter out = new PrintWriter(createGoFile(opendmaApiProjectFolder, classDescription.getApiName()+"Iterable"));
+        out.println("package OpenDMAApi");
+        out.println("");
+        out.println("type "+classDescription.getApiName()+"Iterable interface {");
+        if(classDescription.getExtendsApiName() != null)
+        {
+            out.println("    "+classDescription.getExtendsApiName()+"Iterable");
+        }
+        else if(classDescription.getAspect())
+        {
+            out.println("    "+classDescription.getContainingApiDescription().getObjectClass().getApiName()+"Iterable");
+        }
+        out.println("    Get"+classDescription.getApiName()+"Iterator() "+classDescription.getApiName()+"Iterator");
+        out.println("}");
+        out.close();
+    }
+    
+    protected void createIteratorFile(ClassDescription classDescription) throws IOException
+    {
+        PrintWriter out = new PrintWriter(createGoFile(opendmaApiProjectFolder, classDescription.getApiName()+"Iterator"));
+        out.println("package OpenDMAApi");
+        out.println("");
+        out.println("type "+classDescription.getApiName()+"Iterator interface {");
+        if(classDescription.getExtendsApiName() != null)
+        {
+            out.println("    "+classDescription.getExtendsApiName()+"Iterator");
+        }
+        else if(classDescription.getAspect())
+        {
+            out.println("    "+classDescription.getContainingApiDescription().getObjectClass().getApiName()+"Iterator");
+        }
+        out.println("    HasNext() bool");
+        out.println("    Next"+classDescription.getApiName()+"() ("+classDescription.getApiName()+", bool)");
+        out.println("}");
+        out.close();
+    }
+    
+    //-------------------------------------------------------------------------
     // I M P L E M E N T A T I O N   F I L E S
     //-------------------------------------------------------------------------
 
@@ -195,6 +245,9 @@ public class GoApiWriter extends AbstractApiWriter
         // opendma-templates folder
         opendmaTemplatesFolder = new File(baseFolder, "opendma-templates");
         opendmaTemplatesFolder.mkdirs();
+        // Go does not have standard Iterable[] and Iterator[] generics.
+        //createClassFromTemplate(opendmaApiProjectFolder, "OdmaIterator");
+        //createClassFromTemplate(opendmaApiProjectFolder, "OdmaIterable");
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

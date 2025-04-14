@@ -1,9 +1,22 @@
 // Standard implementation of the OdmaProperty interface.
 type OdmaPropertyImpl struct {
-    name       OdmaQName
+    name       *OdmaQName
     dataType   OdmaType
     multiValue bool
     value      interface{}
     dirty      bool
     readOnly   bool
+}
+
+// NewOdmaPropertyImpl constructs an NewOdmaPropertyImpl with the specified type and value.
+// Returns an error if the value does not match the  type.
+func NewOdmaPropertyImpl(name *OdmaQName, value interface{}, dataType OdmaType, multiValue bool, readOnly bool) (*OdmaPropertyImpl, error) {
+    result := OdmaPropertyImpl{name: name, dataType: dataType, multiValue: multiValue, value: nil, dirty: false, readOnly: false}
+    err := result.SetValue(value)
+    if err != nil {
+        return nil, err
+    }
+    result.readOnly = readOnly
+    result.dirty = false
+	return &result, nil
 }

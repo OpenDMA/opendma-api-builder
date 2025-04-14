@@ -17,7 +17,7 @@ class OdmaInvalidDataTypeException extends OdmaException
      * @param int $code The error code (default 0).
      * @param Exception|null $previous The previous exception used for exception chaining (default null).
      */
-    public function __construct($message = "Invalid Data Type", $code = 0, Exception $previous = null)
+    public function __construct($message = "Invalid Data Type", $code = 0, ?Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

@@ -11,7 +11,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.opendma.apibuilder.apiwriter.ApiWriterException;
-import org.opendma.apibuilder.apiwriter.cpp.CppApiWriter;
 import org.opendma.apibuilder.apiwriter.cs.CsApiWriter;
 import org.opendma.apibuilder.apiwriter.go.GoApiWriter;
 import org.opendma.apibuilder.apiwriter.java.JavaApiWriter;
@@ -150,7 +149,7 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         List<OdmaApiWriter> result = new ArrayList<OdmaApiWriter>();
         result.add(new JavaApiWriter(outputFolderRootFile));
         result.add(new CsApiWriter(outputFolderRootFile));
-        result.add(new CppApiWriter(outputFolderRootFile));
+        // result.add(new CppApiWriter(outputFolderRootFile)); // experimental and incomplete. Does not compile
         result.add(new PhpApiWriter(outputFolderRootFile));
         result.add(new PythonApiWriter(outputFolderRootFile));
         result.add(new JavaScriptApiWriter(outputFolderRootFile));
@@ -158,7 +157,7 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         result.add(new GoApiWriter(outputFolderRootFile));
         result.add(new RustApiWriter(outputFolderRootFile));
         result.add(new SwiftApiWriter(outputFolderRootFile));
-        //result.add(new Java14ApiWriter(outputFolderRootFile));
+        // result.add(new Java14ApiWriter(outputFolderRootFile)); // still working, but no longer supported
         return result;
     }
 

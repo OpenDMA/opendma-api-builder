@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
@@ -25,6 +26,13 @@ public class RustPropertyFileWriter extends AbstractPropertyFileWriter
 
     protected void writePropertyFileHeader(ApiDescription apiDescription, List<String> requiredImports, PrintWriter out) throws IOException
     {
+        Iterator<String> itRequiredImports = requiredImports.iterator();
+        while(itRequiredImports.hasNext())
+        {
+            String importDeclaration = (String)itRequiredImports.next();
+            out.println("use "+importDeclaration+";");
+        }
+        out.println("");
         InputStream templateIn = apiWriter.getTemplateAsStream("OdmaProperty.Header");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
@@ -54,39 +62,45 @@ public class RustPropertyFileWriter extends AbstractPropertyFileWriter
     protected void writeSingleValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "Option<OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
+        String returnType = scalarTypeDescription.isReference() ? "Option<&dyn OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
         out.println("");
         out.println("    /// Gets the "+scalarName+" value of this property if and only if");
         out.println("    /// the data type of this property is a single valued "+scalarName+".");
         out.println("    ///");
-        out.println("    /// Returns OdmaInvalidDataTypeError if the data type of this property is not a single-valued "+scalarName+".");
-        out.println("    fn get_"+scalarName.toLowerCase()+"(&self) -> Result<"+returnType+", Box<dyn Error>>;");
+        out.println("    /// Returns OdmaError::InvalidDataType if the data type of this property is not a single-valued "+scalarName+".");
+        out.println("    fn get_"+scalarName.toLowerCase()+"(&self) -> Result<"+returnType+", OdmaError>;");
     }
 
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "Iterator<OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
+        String returnType = scalarTypeDescription.isReference() ? "Box<dyn Iterator<Item = &dyn OdmaObject> + '_>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
         out.println("");
         out.println("    /// Gets the "+scalarName+" value of this property if and only if");
         out.println("    /// the data type of this property is a multi valued "+scalarName+".");
         out.println("    ///");
-        out.println("    /// Returns OdmaInvalidDataTypeError if the data type of this property is not a multi-valued "+scalarName+".");
-        out.println("    fn get_"+scalarName.toLowerCase()+"_"+(scalarTypeDescription.isReference()?"iterator":"list")+"(&self) -> Result<"+returnType+", Box<dyn Error>>;");
+        out.println("    /// Returns OdmaError::InvalidDataType if the data type of this property is not a multi-valued "+scalarName+".");
+        out.println("    fn get_"+scalarName.toLowerCase()+"_"+(scalarTypeDescription.isReference()?"iter":"vec")+"(&self) -> Result<"+returnType+", OdmaError>;");
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)
     {
+        requiredImports.registerImport("crate::OdmaQName");
+        requiredImports.registerImport("crate::OdmaType");
+        requiredImports.registerImport("crate::OdmaError");
     }
 
     protected void appendRequiredImportsScalarAccess(ImportsList requiredImports, ScalarTypeDescription scalarTypeDescription)
     {
         if(scalarTypeDescription.isReference())
         {
-            return;
+            requiredImports.registerImport("crate::OdmaObject");
         }
-        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false,false));
-        requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true,true));
+        else
+        {
+            requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false,false));
+            requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,true,true));
+        }
     }
 
 }

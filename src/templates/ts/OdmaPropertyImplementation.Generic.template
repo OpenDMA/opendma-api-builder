@@ -29,7 +29,7 @@
         this.name = name;
         this.dataType = dataType;
         this.multiValue = multiValue;
-        setValue(value);
+        this.setValue(value);
         this.readOnly = readOnly;
         this.dirty = false;
     }
@@ -56,7 +56,7 @@
      * @returns The value of the property.
      */
     getValue(): any {
-        return this.vale;
+        return this.value;
     }
 
     /**

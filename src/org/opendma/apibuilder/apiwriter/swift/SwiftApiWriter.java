@@ -54,7 +54,7 @@ public class SwiftApiWriter extends AbstractApiWriter
     {
         // create type enumeration
         PrintWriter out = new PrintWriter(createSwiftFile(opendmaApiSourcesFolder, "OdmaType"));
-        out.println("enum OdmaType: Int {");
+        out.println("public enum OdmaType: Int, CaseIterable {");
         List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
         Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
@@ -62,6 +62,25 @@ public class SwiftApiWriter extends AbstractApiWriter
             ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
             out.println("    case "+scalarTypeDescription.getName().toLowerCase()+" = "+scalarTypeDescription.getNumericID());
         }
+        out.println("}");
+        out.println("");
+        out.println("extension OdmaType: CustomStringConvertible {");
+        out.println("    public var description: String {");
+        out.println("        switch self {");
+        itScalarTypes = scalarTypes.iterator();
+        while(itScalarTypes.hasNext())
+        {
+            ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
+            out.println("        case ."+scalarTypeDescription.getName().toLowerCase()+": return \""+scalarTypeDescription.getName()+"\"");
+        }
+        out.println("        }");
+        out.println("    }");
+        out.println("}");
+        out.println("");
+        out.println("extension OdmaType {");
+        out.println("    public static func from(description: String) -> OdmaType? {");
+        out.println("        return Self.allCases.first { $0.description.lowercased() == description.lowercased() }");
+        out.println("    }");
         out.println("}");
         out.close();
     }
@@ -157,8 +176,6 @@ public class SwiftApiWriter extends AbstractApiWriter
     
     private File opendmaApiSourcesFolder;
     
-    private File opendmaTemplatesFolder;
-    
     protected void prepareProjectStructureAndBuildFiles(final ApiDescription apiDescription) throws IOException
     {
         PlaceholderResolver resolver = new PlaceholderResolver()
@@ -175,13 +192,10 @@ public class SwiftApiWriter extends AbstractApiWriter
         // opendma-api folder structure
         opendmaApiProjectFolder = new File(baseFolder, "opendma-api");
         opendmaApiProjectFolder.mkdirs();
-        opendmaApiSourcesFolder = new File(opendmaApiProjectFolder, "Sources");
+        opendmaApiSourcesFolder = new File(new File(opendmaApiProjectFolder, "Sources"), "OpenDMA");
         opendmaApiSourcesFolder.mkdirs();
         // opendma-api Package.swift
         copyTemplateToStream("opendma-api-package", new FileOutputStream(new File(opendmaApiProjectFolder, "Package.swift")), resolver);
-        // opendma-templates folder
-        opendmaTemplatesFolder = new File(baseFolder, "opendma-templates");
-        opendmaTemplatesFolder.mkdirs();
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

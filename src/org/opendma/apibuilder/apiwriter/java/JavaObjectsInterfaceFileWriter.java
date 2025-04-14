@@ -36,7 +36,7 @@ public class JavaObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFile
                 out.println("     */");
                 out.println("    public OdmaQName getQName();");
             }
-            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List<String> requiredImports)
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, ImportsList requiredImports)
             {
                 if(!requiredImports.contains("org.opendma.api.OdmaQName"))
                 {

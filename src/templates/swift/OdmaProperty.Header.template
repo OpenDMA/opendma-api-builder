@@ -4,4 +4,4 @@
 /// returns false), it can change its value by calling the setValue(Object)
 /// method. Changes are only persisted in the repository after a call to the
 /// save() method of the containing object.
-protocol OdmaProperty {
+public protocol OdmaProperty {

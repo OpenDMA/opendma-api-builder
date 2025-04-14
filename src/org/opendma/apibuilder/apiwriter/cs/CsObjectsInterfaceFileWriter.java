@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
+import org.opendma.apibuilder.Tools;
 import org.opendma.apibuilder.apiwriter.AbstractObjectsInterfaceFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
@@ -31,13 +32,13 @@ public class CsObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileWr
                 // getter
                 out.println("");
                 out.println("        /// <summary>");
-                out.println("        /// "+upperCaseFirstChar(apiHelper.getAbstract())+".");
+                out.println("        /// "+Tools.upperCaseFirstChar(apiHelper.getAbstract())+".");
                 out.println("        /// "+apiHelper.getDescription());
                 out.println("        /// </summary>");
                 out.println("        /// <returns>"+apiHelper.getAbstract()+".</returns>");
                 out.println("        OdmaQName QName { get; }");
             }
-            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List<String> requiredImports)
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, ImportsList requiredImports)
             {
             }});
     }
@@ -173,10 +174,10 @@ public class CsObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileWr
         // getter
         out.println("");
         out.println("        /// <summary>");
-        out.println("        /// "+upperCaseFirstChar(property.getAbstract())+".<br/>");
+        out.println("        /// "+Tools.upperCaseFirstChar(property.getAbstract())+".<br/>");
         String standardGetterName = "Get" + ((!scalarType.isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceEnumerable" : "Reference"));
         out.println("        /// Shortcut for <c>GetProperty(OdmaCommonNames."+constantPropertyName+")."+standardGetterName+"()</c> or <c>GetProperty(OdmaCommonNames."+constantPropertyName+").Value</c>.");
-        out.println("        // ");
+        out.println("        /// ");
         for(String s : getPropertyDetails(property))
         {
             out.println("        /// "+s);

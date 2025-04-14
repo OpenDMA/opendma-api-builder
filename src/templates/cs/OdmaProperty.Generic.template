@@ -17,7 +17,7 @@
         /// <summary>
         /// The value of this property.
         /// </summary>
-        protected object _value;
+        protected object? _value;
         
         /// <summary>
         /// Flag indicating whether this property has unsaved changes
@@ -40,7 +40,7 @@
         /// <exception cref="OdmaInvalidDataTypeException">
         /// Thrown if the type of <paramref name="value"/> does not match the property's data type.
         /// </exception>
-        public OdmaProperty(OdmaQName name, object value, OdmaType type, bool multiValue, bool readOnly)
+        public OdmaProperty(OdmaQName name, object? value, OdmaType type, bool multiValue, bool readOnly)
         {
             this._name = name;
             this._type = type;
@@ -60,51 +60,35 @@
         /// <summary>
         /// The qualified name of this property.
         /// </summary>
-        OdmaQName Name { get => _name; }
+        public OdmaQName Name { get => _name; }
 
         /// <summary>
         /// The data type of this property.
         /// </summary>
-        protected OdmaType Type { get => _type; }
+        public OdmaType Type { get => _type; }
 
         /// <summary>
         /// Indicates whether this property is a multi-value property.
         /// </summary>
-        bool IsMultiValue { get => _multiValue; }
+        public bool IsMultiValue { get => _multiValue; }
 
         /// <summary>
         /// Indicates whether this property has unsaved changes
         /// </summary>
-        bool IsDirty { get => _dirty; }
+        public bool IsDirty { get => _dirty; }
 
         /// <summary>
         /// Indicates whether this property is read-only.
         /// </summary>
-        bool IsReadOnly { get => _readOnly; }
+        public bool IsReadOnly { get => _readOnly; }
 
         /// <summary>
         /// The value of this property. The concrete <see cref="object"/> of this property depends on the data type of this OdmaProperty.
         /// </summary>
         /// <exception cref="OdmaInvalidDataTypeException">If the type of the assigned value does not match the data type of this OdmaProperty.</exception>
         /// <exception cref="OdmaAccessDeniedException">If this OdmaProperty is read-only or cannot be set by the current user.</exception>
-        public object Value
+        public object? Value
         {
             get { return this._value; }
             set { SetValue(value); }
-        }
-
-        protected bool CheckListAndValues(object obj, Type expectedType)
-        {
-            if(!(obj is IList<?>))
-            {
-                return false;
-            }
-            for(object element : (IList<?>)obj)
-            {
-                if(!expectedElementsType.IsAssignableFrom(typeof(element)))
-                {
-                    return false;
-                }
-            }
-            return true;
         }

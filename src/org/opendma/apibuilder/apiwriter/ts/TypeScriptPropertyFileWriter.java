@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
@@ -25,6 +26,13 @@ public class TypeScriptPropertyFileWriter extends AbstractPropertyFileWriter
 
     protected void writePropertyFileHeader(ApiDescription apiDescription, List<String> requiredImports, PrintWriter out) throws IOException
     {
+        Iterator<String> itRequiredImports = requiredImports.iterator();
+        while(itRequiredImports.hasNext())
+        {
+            String importDeclaration = itRequiredImports.next();
+            out.println("import { "+importDeclaration+" } from './"+importDeclaration+"';");
+        }
+        out.println("");
         InputStream templateIn = apiWriter.getTemplateAsStream("OdmaProperty.Header");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
@@ -83,12 +91,15 @@ public class TypeScriptPropertyFileWriter extends AbstractPropertyFileWriter
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)
     {
+        requiredImports.registerImport("OdmaQName");
+        requiredImports.registerImport("OdmaType");
     }
 
     protected void appendRequiredImportsScalarAccess(ImportsList requiredImports, ScalarTypeDescription scalarTypeDescription)
     {
         if(scalarTypeDescription.isReference())
         {
+            requiredImports.registerImport("OdmaObject");
             return;
         }
         requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false,false));

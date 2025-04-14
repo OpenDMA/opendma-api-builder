@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
@@ -36,13 +37,26 @@ public class TypeScriptObjectsInterfaceFileWriter extends AbstractObjectsInterfa
                 out.println("     */");
                 out.println("    getQName(): OdmaQName;");
             }
-            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List<String> requiredImports)
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, ImportsList requiredImports)
             {
-            }});
+                requiredImports.registerImport("OdmaQName");
+            }
+        });
     }
 
     protected void writeClassFileHeader(ClassDescription classDescription, List<String> requiredImports, PrintWriter out)
     {
+        Iterator<String> itRequiredImports = requiredImports.iterator();
+        while(itRequiredImports.hasNext())
+        {
+            String importDeclaration = itRequiredImports.next();
+            if(importDeclaration.equalsIgnoreCase(classDescription.getApiName()))
+            {
+                continue;
+            }
+            out.println("import { "+importDeclaration+" } from './"+importDeclaration+"';");
+        }
+        out.println("");
         String extendsApiName = classDescription.getExtendsApiName();
         out.println("/**");
         if(extendsApiName != null)
@@ -81,11 +95,49 @@ public class TypeScriptObjectsInterfaceFileWriter extends AbstractObjectsInterfa
     {
         out.println("");
         out.println("}");
+        if( (!classDescription.getAspect()) && (classDescription.getExtendsOdmaName() == null) )
+        {
+            out.println("");
+            out.println("export function is"+classDescription.getApiName()+"(obj: any): obj is "+classDescription.getApiName()+" {");
+            out.println("    return (");
+            out.println("        obj &&");
+            out.println("        typeof obj.getProperty === 'function' &&");
+            out.println("        typeof obj.prepareProperties === 'function' &&");
+            out.println("        typeof obj.setProperty === 'function' &&");
+            out.println("        typeof obj.isDirty === 'function' &&");
+            out.println("        typeof obj.save === 'function' &&");
+            out.println("        typeof obj.instanceOf === 'function' &&");
+            Iterator<ApiHelperDescription> itApiHelperDescription = classDescription.getApiHelpers().iterator();
+            while(itApiHelperDescription.hasNext())
+            {
+                ApiHelperDescription apiHelper = itApiHelperDescription.next();
+                out.println("        typeof obj."+apiHelper.getApiName()+" === 'function' &&");
+            }
+            Iterator<PropertyDescription> itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
+            while(itPropertyDescriptions.hasNext())
+            {
+                PropertyDescription property = itPropertyDescriptions.next();
+                out.println("        typeof obj.get"+property.getApiName()+" === 'function'"+(itPropertyDescriptions.hasNext()?" &&":""));
+            }
+            out.println("    );");
+            out.println("}");
+        }
     }
 
     protected void appendRequiredImportsGlobal(ClassDescription classDescription, ImportsList requiredImports)
     {
-        // we do not have any globally required imports
+        String extendsApiName = classDescription.getExtendsApiName();
+        if(extendsApiName != null)
+        {
+            requiredImports.registerImport(extendsApiName);
+        }
+        else
+        {
+            if(classDescription.getAspect())
+            {
+                requiredImports.registerImport(classDescription.getContainingApiDescription().getObjectClass().getApiName());
+            }
+        }
     }
 
     protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
@@ -103,6 +155,11 @@ public class TypeScriptObjectsInterfaceFileWriter extends AbstractObjectsInterfa
 
     protected void appendRequiredImportsGenericPropertyAccess(ImportsList requiredImports)
     {
+        requiredImports.registerImport("OdmaQName");
+        requiredImports.registerImport("OdmaProperty");
+        requiredImports.registerImport("OdmaPropertyNotFoundError");
+        requiredImports.registerImport("OdmaInvalidDataTypeError");
+        requiredImports.registerImport("OdmaAccessDeniedError");
     }
 
     protected void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out)
@@ -134,7 +191,15 @@ public class TypeScriptObjectsInterfaceFileWriter extends AbstractObjectsInterfa
     
     protected String[] getRequiredImports(PropertyDescription property)
     {
-        return null;
+        if(property.getDataType().isReference())
+        {
+            String refClass = property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
+            return new String[] { refClass };
+        }
+        else
+        {
+            return apiWriter.getScalarDataTypeImports(property.getDataType(),property.getMultiValue(),property.getRequired());
+        }
     }
 
     protected void writeClassPropertyAccess(PropertyDescription property, PrintWriter out)
@@ -173,9 +238,9 @@ public class TypeScriptObjectsInterfaceFileWriter extends AbstractObjectsInterfa
             }
             out.println("     * ");
             out.println("     * @param newValue - The new value for "+property.getAbstract());
-            out.println("     * @throws {@link OdmaAccessDeniedException} Thrown if this OdmaProperty is read-only or cannot be set by the current user");
+            out.println("     * @throws {@link OdmaAccessDeniedError} Thrown if this OdmaProperty is read-only or cannot be set by the current user");
             out.println("     */");
-            out.println("    set"+property.getApiName()+"(newValue: "+tsDataType+");");
+            out.println("    set"+property.getApiName()+"(newValue: "+tsDataType+"): void;");
         }
     }
 

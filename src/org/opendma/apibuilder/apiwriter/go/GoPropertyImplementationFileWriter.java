@@ -28,6 +28,15 @@ public class GoPropertyImplementationFileWriter extends AbstractPropertyImplemen
     {
         out.println("package OpenDMAApi");
         out.println("");
+        out.println("import (");
+        Iterator<String> itRequiredImports = requiredImports.iterator();
+        while(itRequiredImports.hasNext())
+        {
+            String importDeclaration = (String)itRequiredImports.next();
+            out.println("    \""+importDeclaration+"\"");
+        }
+        out.println(")");
+        out.println("");
         InputStream templateIn = apiWriter.getTemplateAsStream("OdmaPropertyImplementation.Header");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
@@ -62,35 +71,23 @@ public class GoPropertyImplementationFileWriter extends AbstractPropertyImplemen
         out.println("        pi.dirty = true");
         out.println("        return nil");
         out.println("    }");
-        out.println("    validType := false");
         out.println("    if pi.multiValue {");
-        out.println("        if pi.dataType == REFERENCE {");
-        out.println("            _, validType = newValue.(OdmaObjectIterable)");
-        out.println("        } else {");
-        out.println("            if values, ok := newValue.([]interface{}); ok {");
-        out.println("                validType = true");
-        out.println("                for _, v := range values {");
-        out.println("                    switch pi.dataType {");
+        out.println("        switch pi.dataType {");
         List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
         Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
         {
             ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
-            if(scalarTypeDescription.isReference())
-            {
-                continue;
-            }
             String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
-            out.println("                    case "+constantScalarTypeName+":");
-            out.println("                        if _, valid = v.("+apiWriter.getScalarDataType(scalarTypeDescription,false,true)+"); !valid {");
-            out.println("                            validType = false");
-            out.println("                        }");
+            String goType = scalarTypeDescription.isReference() ? "OdmaObjectIterable" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
+            out.println("        case "+constantScalarTypeName+":");
+            out.println("            _, valid := newValue.("+goType+")");
+            out.println("            if !valid {");
+            out.println("                return &OdmaInvalidDataTypeError{Message: \""+generatePropertyDataTypeDescription(true, scalarTypeDescription)+". It can only be set to values assignable to `"+goType+"`\"}");
+            out.println("            }");
         }
-        out.println("                    default");
-        out.println("                        return errors.New(\"Implementation error\")");
-        out.println("                    }");
-        out.println("                }");
-        out.println("            }");
+        out.println("        default:");
+        out.println("            return errors.New(\"Implementation error\")");
         out.println("        }");
         out.println("    } else {");
         out.println("        switch pi.dataType {");
@@ -99,20 +96,26 @@ public class GoPropertyImplementationFileWriter extends AbstractPropertyImplemen
         {
             ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
             String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
+            String goType = scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,true);
             out.println("        case "+constantScalarTypeName+":");
-            out.println("             _, validType = newValue.("+(scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,true))+")");
+            out.println("            _, valid := newValue.("+goType+")");
+            out.println("            if !valid {");
+            out.println("                return &OdmaInvalidDataTypeError{Message: \""+generatePropertyDataTypeDescription(false, scalarTypeDescription)+". It can only be set to values assignable to `"+goType+"`\"}");
+            out.println("            }");
         }
-        out.println("        default");
+        out.println("        default:");
         out.println("            return errors.New(\"Implementation error\")");
         out.println("        }");
-        out.println("    }");
-        out.println("    if !validType {");
-        out.println("        return errors.New(\"invalid data type\")");
         out.println("    }");
         out.println("    pi.value = newValue");
         out.println("    pi.dirty = true");
         out.println("    return nil");
         out.println("}");
+    }
+    
+    private String generatePropertyDataTypeDescription(boolean multivalue, ScalarTypeDescription scalarTypeDescription)
+    {
+        return "This property has a "+(multivalue?"multi-valued":"single-valued")+" "+scalarTypeDescription.getName()+" data type";
     }
 
     protected void writeSingleValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
@@ -126,10 +129,10 @@ public class GoPropertyImplementationFileWriter extends AbstractPropertyImplemen
         out.println("// Returns an OdmaInvalidDataTypeError if the data type of this property is not a single-valued "+scalarName+".");
         out.println("func (pi *OdmaPropertyImpl) Get"+scalarName+"() ("+returnType+",error) {");
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
-        out.println("    if p.multiValue || p.dataType != "+constantScalarTypeName+" {");
-        out.println("        return nil, errors.New(\"invalid type or cardinality for GetString\")");
+        out.println("    if pi.multiValue || pi.dataType != "+constantScalarTypeName+" {");
+        out.println("        return nil, errors.New(\"invalid type or cardinality for Get"+scalarName+"()\")");
         out.println("    }");
-        out.println("    if ret, ok := p.value.("+goType+"); ok {");
+        out.println("    if ret, ok := pi.value.("+goType+"); ok {");
         out.println("        return &ret, nil");
         out.println("    }");
         out.println("    return nil, errors.New(\"Implementation error\")");
@@ -146,11 +149,11 @@ public class GoPropertyImplementationFileWriter extends AbstractPropertyImplemen
         out.println("// Returns an OdmaInvalidDataTypeError if the data type of this property is not a multi-valued "+scalarName+".");
         out.println("func (pi *OdmaPropertyImpl) Get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"Array")+"() ("+returnType+",error) {");
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
-        out.println("    if !p.multiValue || p.dataType != "+constantScalarTypeName+" {");
-        out.println("        return nil, errors.New(\"invalid type or cardinality for GetString\")");
+        out.println("    if !pi.multiValue || pi.dataType != "+constantScalarTypeName+" {");
+        out.println("        return nil, errors.New(\"invalid type or cardinality for Get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"Slice")+"()\")");
         out.println("    }");
-        out.println("    if ret, ok := p.value.("+returnType+"); ok {");
-        out.println("        return &ret, nil");
+        out.println("    if ret, ok := pi.value.("+returnType+"); ok {");
+        out.println("        return ret, nil");
         out.println("    }");
         out.println("    return nil, errors.New(\"Implementation error\")");
         out.println("}");
@@ -158,6 +161,7 @@ public class GoPropertyImplementationFileWriter extends AbstractPropertyImplemen
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)
     {
+        requiredImports.registerImport("errors");
     }
 
     protected void appendRequiredImportsScalarAccess(ImportsList requiredImports, ScalarTypeDescription scalarTypeDescription)

@@ -36,7 +36,7 @@ public class CppObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileW
                 out.println("     */");
                 out.println("    virtual OdmaQName getQName(void) = 0;");
             }
-            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List<String> requiredImports)
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, ImportsList requiredImports)
             {
                 if(!requiredImports.contains("\"OdmaQName.h\""))
                 {

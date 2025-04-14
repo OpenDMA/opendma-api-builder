@@ -1,19 +1,20 @@
+// swift-tools-version: 6.1
+
 import PackageDescription
 
 let package = Package(
-    name: "OpenDMA-API",
-    platforms: [
-        .iOS(.v13), .macOS(.v12)
-    ],
+    name: "OpenDMA",
     products: [
-        .library(name: "OpenDMA-API", targets: ["OpenDMA-API"]),
+        .library(
+            name: "OpenDMA",
+            targets: ["OpenDMA"]
+        ),
     ],
     dependencies: [],
     targets: [
         .target(
-            name: "OpenDMA-API",
+            name: "OpenDMA",
             dependencies: [],
-            path: "Sources"
         ),
     ]
 )

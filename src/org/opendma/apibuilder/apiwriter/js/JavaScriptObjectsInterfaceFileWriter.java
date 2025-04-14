@@ -38,7 +38,7 @@ public class JavaScriptObjectsInterfaceFileWriter extends AbstractObjectsInterfa
                 out.println("        throw new Error(\"Method 'getQName' must be implemented.\");");
                 out.println("    }");
             }
-            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List<String> requiredImports)
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, ImportsList requiredImports)
             {
             }});
     }
@@ -178,7 +178,7 @@ public class JavaScriptObjectsInterfaceFileWriter extends AbstractObjectsInterfa
             out.println("     * ");
             out.println("     * @abstract");
             out.println("     * @param {"+jsCommentDataType+"} newValue The new value for "+property.getAbstract());
-            out.println("     * @throws {OdmaAccessDeniedException} If this OdmaProperty is read-only or cannot be set by the current user.");
+            out.println("     * @throws {OdmaAccessDeniedError} If this OdmaProperty is read-only or cannot be set by the current user.");
             out.println("     */");
             out.println("    set"+property.getApiName()+"(newValue) {");
             out.println("        throw new Error(\"Method 'set"+property.getApiName()+"' must be implemented.\");");

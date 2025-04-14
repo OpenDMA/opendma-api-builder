@@ -1,35 +1,25 @@
 import Foundation
 
 /// Represents a unique identifier for an OdmaObject in an OdmaRepository.
-struct OdmaId: Equatable, Hashable, CustomStringConvertible {
+public struct OdmaId: Equatable, Hashable, CustomStringConvertible, Sendable {
 
     /// The unique identifier string.
-    private let id: String
+    public let id: String
 
     /// Constructs an OdmaId with the specified ID.
     ///
     /// - Parameters:
     ///   - id: The unique identifier string. Must not be empty.
     /// - Throws: An error if the id is empty.
-    init(id: String) throws {
+    public init(id: String) throws {
         guard !id.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            throw NSError(domain: "OdmaIdError", code: 1, userInfo: [NSLocalizedDescriptionKey: "ID must not be empty"])
+            throw OdmaError.illegalArgument(message: "ID must not be empty")
         }
         self.id = id
     }
 
-    // MARK: - Equatable
-    static func == (lhs: OdmaId, rhs: OdmaId) -> Bool {
-        return lhs.id == rhs.id
-    }
-
-    // MARK: - Hashable
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-
     // MARK: - CustomStringConvertible
-    var description: String {
+    public var description: String {
         return id
     }
 

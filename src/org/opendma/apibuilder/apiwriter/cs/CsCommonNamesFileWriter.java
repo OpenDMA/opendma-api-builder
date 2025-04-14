@@ -12,13 +12,15 @@ public class CsCommonNamesFileWriter extends AbstractConstantsFileWriter
 {
     protected void writeConstantsFileHeader(ApiDescription apiDescription, PrintWriter out)
     {
-        out.println("using OpenDMA.Api;");
+        out.println("using System;");
+        out.println("using System.Collections.Generic;");
+        out.println("using System.Text;");
         out.println("");
         out.println("namespace OpenDMA.Api");
         out.println("{");
         out.println("");
         out.println("    /// <summary>Static declaration of all common names used in the OpenDMA specification.</summary>");
-        out.println("    public class OdmaCommonNames");
+        out.println("    public static class OdmaCommonNames");
         out.println("    {");
     }
 
@@ -51,14 +53,14 @@ public class CsCommonNamesFileWriter extends AbstractConstantsFileWriter
     {
         out.println("");
         out.println("        /// <summary>qualified name of the OpenDMA system class <c>"+classDescription.getOdmaName().getName()+"</c></summary>");
-        out.println("        public const OdmaQName "+constantName+" = new OdmaQName(\""+classDescription.getOdmaName().getQualifier()+"\", \""+classDescription.getOdmaName().getName()+"\");");
+        out.println("        public static readonly OdmaQName "+constantName+" = new OdmaQName(\""+classDescription.getOdmaName().getQualifier()+"\", \""+classDescription.getOdmaName().getName()+"\");");
     }
 
     protected void writeConstantsPropertynameConstant(PropertyDescription propertyDescription, String constantName, PrintWriter out)
     {
         out.println("");
         out.println("        /// <summary>qualified name of the OpenDMA system property <c>"+propertyDescription.getOdmaName().getName()+"</c><summary>");
-        out.println("        public const OdmaQName "+constantName+" = new OdmaQName(\""+propertyDescription.getOdmaName().getQualifier()+"\", \""+propertyDescription.getOdmaName().getName()+"\");");
+        out.println("        public static readonly OdmaQName "+constantName+" = new OdmaQName(\""+propertyDescription.getOdmaName().getQualifier()+"\", \""+propertyDescription.getOdmaName().getName()+"\");");
     }
 
     protected void writeConstantsBackrefPropertynameHint(PropertyDescription propertyDescription, String propertyName, PrintWriter out)
@@ -69,14 +71,6 @@ public class CsCommonNamesFileWriter extends AbstractConstantsFileWriter
 
     protected void writeConstantsFileFooter(ApiDescription apiDescription, PrintWriter out)
     {
-        out.println("");
-        out.println("        //");
-        out.println("        // Empty private constructor to prevent instantiation of this class.");
-        out.println("        //");
-        out.println("        private OdmaCommonNames()");
-        out.println("        {");
-        out.println("            // empty constructor");
-        out.println("        }");
         out.println("");
         out.println("    }");
         out.println("");

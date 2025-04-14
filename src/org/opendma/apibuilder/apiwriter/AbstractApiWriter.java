@@ -116,13 +116,12 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         }
         // prepare project structure
         prepareProjectStructureAndBuildFiles(apiDescription);
-        // create the constants file
+        // the following files need to be created in the correct order
         createDataTypesFile(apiDescription);
-        createConstantsFile(apiDescription);
-        // create basic files that are NOT autocreated
         createQNameFile(apiDescription);
         createIdFile(apiDescription);
         createGuidFile(apiDescription);
+        createConstantsFile(apiDescription); // needs OdmaQName
         createContentFile(apiDescription);
         createSearchResultFile(apiDescription);
         createExceptionFiles(apiDescription);

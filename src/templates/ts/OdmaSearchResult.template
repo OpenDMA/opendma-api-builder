@@ -1,8 +1,10 @@
+import { OdmaObject } from './OdmaObject';
+
 /**
  * Represents the result of a search operation.
  * Provides access to the objects found and number of objects.
  */
-export class OdmaSearchResult {
+export interface OdmaSearchResult {
 
     /**
      * Gets the collection of objects found by the search.

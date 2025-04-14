@@ -1,8 +1,8 @@
-/**
- *  OdmaException is the base class for all exceptions related to the OpenDMA framework.
- */
 /// OdmaError enum for all errors related to the OpenDMA framework
-enum OdmaError: Error {
+public enum OdmaError: Error {
+
+    /// Thrown when an argument is not valid
+    case illegalArgument(message: String)
 
     /// Thrown when an OpenDMA implementation is unable to locate the requested object
     case objectNotFound(objectGuid: OdmaGuid)

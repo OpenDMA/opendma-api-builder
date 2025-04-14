@@ -28,7 +28,7 @@ public class PhpPropertyFileWriter extends AbstractPropertyFileWriter
     {
         out.println("<?php");
         out.println("");
-        out.println("namespace OpenDMA;");
+        out.println("namespace OpenDMA\\Api;");
         Iterator<String> itRequiredImports = requiredImports.iterator();
         while(itRequiredImports.hasNext())
         {

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
@@ -33,13 +34,24 @@ public class GoObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileWr
                 out.println("    // "+apiHelper.getDescription());
                 out.println("    GetQName() OdmaQName");
             }
-            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List<String> requiredImports)
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, ImportsList requiredImports)
             {
             }});
     }
 
     protected void writeClassFileHeader(ClassDescription classDescription, List<String> requiredImports, PrintWriter out)
     {
+        out.println("package OpenDMAApi");
+        out.println("");
+        out.println("import (");
+        Iterator<String> itRequiredImports = requiredImports.iterator();
+        while(itRequiredImports.hasNext())
+        {
+            String importDeclaration = (String)itRequiredImports.next();
+            out.println("    \""+importDeclaration+"\"");
+        }
+        out.println(")");
+        out.println("");
         String extendsApiName = classDescription.getExtendsApiName();
         if(extendsApiName != null)
         {
@@ -128,7 +140,15 @@ public class GoObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileWr
     
     protected String[] getRequiredImports(PropertyDescription property)
     {
-        return null;
+        if(property.getDataType().isReference())
+        {
+            // located in the same package. no import required
+            return null;
+        }
+        else
+        {
+            return apiWriter.getScalarDataTypeImports(property.getDataType(),property.getMultiValue(),property.getRequired());
+        }
     }
 
     protected void writeClassPropertyAccess(PropertyDescription property, PrintWriter out)
@@ -140,7 +160,7 @@ public class GoObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileWr
         // getter
         out.println("");
         out.println("    // "+(goDataType.equalsIgnoreCase("bool")?"Is":"Get")+property.getApiName()+" returns "+property.getAbstract()+".");
-        String standardGetterName = "Get" + ((!scalarType.isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceArray" : "Reference"));
+        String standardGetterName = "Get" + ((!scalarType.isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceIterable" : "Reference"));
         out.println("    // Shortcut for `GetProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()`.");
         for(String s : getPropertyDetails(property))
         {

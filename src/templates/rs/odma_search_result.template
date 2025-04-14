@@ -1,13 +1,14 @@
-use std::io::{Read, Result};
+use crate::OdmaError;
+use crate::OdmaObject;
 
 /// Represents the result of a search operation.
 /// Provides access to the objects found and number of objects.
 pub trait OdmaSearchResult {
 
     /// Returns the collection of objects found by the search.
-    fn get_stream(&self) -> Result<Iterator<OdmaObject>, Box<dyn Error>>;
+    fn get_objects(&self) -> Result<Box<dyn Iterator<Item = Box<dyn OdmaObject>>>, OdmaError>;
 
     /// Returns the number of objects found by the search or -1 if the total size is unknown.
-    fn get_size(&self) -> Result<i32, Box<dyn Error>>;
+    fn get_size(&self) -> Result<Option<usize>, OdmaError>;
 
 }

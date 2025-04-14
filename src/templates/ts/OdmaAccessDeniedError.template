@@ -1,3 +1,5 @@
+import { OdmaError } from './OdmaError';
+
 /**
  * OdmaAccessDeniedError
  * 

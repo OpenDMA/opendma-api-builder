@@ -2,7 +2,7 @@
     "name": "opendma/api",
     "autoload": {
         "psr-4": {
-            "OpenDMA\\API\\": ""
+            "OpenDMA\\Api\\": ""
         }
     }
 }

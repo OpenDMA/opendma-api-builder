@@ -26,6 +26,13 @@ public class TypeScriptPropertyImplementationFileWriter extends AbstractProperty
 
     protected void writePropertyFileHeader(ApiDescription apiDescription, List<String> requiredImports, PrintWriter out) throws IOException
     {
+        Iterator<String> itRequiredImports = requiredImports.iterator();
+        while(itRequiredImports.hasNext())
+        {
+            String importDeclaration = itRequiredImports.next();
+            out.println("import { "+importDeclaration+" } from './"+importDeclaration+"';");
+        }
+        out.println("");
         InputStream templateIn = apiWriter.getTemplateAsStream("OdmaPropertyImplementation.Header");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
         String templateLine = null;
@@ -55,12 +62,12 @@ public class TypeScriptPropertyImplementationFileWriter extends AbstractProperty
         out.println("     * Sets the value of this property. The type and class of the given newValue has to match the");
         out.println("     * data type of this OdmaProperty.");
         out.println("     * @param newValue The new value to set.");
-        out.println("     * @throws OdmaInvalidDataTypeException If the type of the newValue does not match the data type of this OdmaProperty.");
-        out.println("     * @throws OdmaAccessDeniedException If this OdmaProperty is read-only or cannot be set by the current user.");
+        out.println("     * @throws OdmaInvalidDataTypeError If the type of the newValue does not match the data type of this OdmaProperty.");
+        out.println("     * @throws OdmaAccessDeniedError If this OdmaProperty is read-only or cannot be set by the current user.");
         out.println("     */");
         out.println("    setValue(newValue: any): void {");
         out.println("        if(this.readOnly) {");
-        out.println("            throw new OdmaAccessDeniedException(\"Cannot modify a read-only property.\");");
+        out.println("            throw new OdmaAccessDeniedError(\"Cannot modify a read-only property.\");");
         out.println("        }");
         out.println("        if(newValue == null) {");
         out.println("            this.value = null;");
@@ -122,11 +129,11 @@ public class TypeScriptPropertyImplementationFileWriter extends AbstractProperty
         }
         if("REFERENCE".equals(name))
         {
-            return test+" instanceof OdmaObject";
+            return "isOdmaObject("+test+")";
         }
         if("CONTENT".equals(name))
         {
-            return test+" instanceof OdmaContent";
+            return "isOdmaContent("+test+")";
         }
         if("ID".equals(name))
         {
@@ -153,7 +160,7 @@ public class TypeScriptPropertyImplementationFileWriter extends AbstractProperty
             {
                 if(scalarTypeDescription.isReference())
                 {
-                    out.println("                if(typeof newVale[symbol.iterator] === \"function\") {");
+                    out.println("                if(typeof newValue[Symbol.iterator] === \"function\") {");
                 }
                 else
                 {
@@ -167,14 +174,14 @@ public class TypeScriptPropertyImplementationFileWriter extends AbstractProperty
                 out.println("                if("+valueTest+") {");
             }
             out.println("                    this.value = newValue;");
-            out.println("                } else ");
+            out.println("                } else {");
             String jsType = multivalue ? (scalarTypeDescription.isReference() ? "OdmaObject[]" : apiWriter.getScalarDataType(scalarTypeDescription,false,false)+"[]") : (scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,false));
-            out.println("                    throw new OdmaInvalidDataTypeException(\""+generatePropertyDataTypeDescription(multivalue, scalarTypeDescription)+". It can only be set to values assignable to `"+jsType+"`\");");
+            out.println("                    throw new OdmaInvalidDataTypeError(\""+generatePropertyDataTypeDescription(multivalue, scalarTypeDescription)+". It can only be set to values assignable to `"+jsType+"`\");");
             out.println("                }");
             out.println("                break;");
         }
         out.println("            default:");
-        out.println("                throw new OdmaRuntimeException(\"OdmaProperty initialized with unknown data type \"+dataType);");
+        out.println("                throw new OdmaError(\"OdmaProperty initialized with unknown data type \"+this.dataType);");
         out.println("            }");
     }
 
@@ -192,13 +199,13 @@ public class TypeScriptPropertyImplementationFileWriter extends AbstractProperty
         out.println("     */");
         out.println("    get"+scalarName+"(): "+returnType+" {");
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
-        out.println("        if( (multivalue == false) && (dataType == OdmaType."+constantScalarTypeName+") )");
+        out.println("        if( (this.multiValue == false) && (this.dataType == OdmaType."+constantScalarTypeName+") )");
         out.println("        {");
-        out.println("            return this._value;");
+        out.println("            return this.value;");
         out.println("        }");
         out.println("        else");
         out.println("        {");
-        out.println("            throw new OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `get"+scalarName+"()`\");");
+        out.println("            throw new OdmaInvalidDataTypeError(\"This property has a different data type and/or cardinality. It cannot return values with `get"+scalarName+"()`\");");
         out.println("        }");
         out.println("    }");
     }
@@ -213,29 +220,36 @@ public class TypeScriptPropertyImplementationFileWriter extends AbstractProperty
         out.println("     * the data type of this property is a multi valued "+scalarName+".");
         out.println("     *");
         out.println("     * @returns The "+scalarName+" value of this property");
-        out.println("     * @throws OdmaInvalidDataTypeException If the data type of this property is not a multi-valued "+scalarName+".");
+        out.println("     * @throws OdmaInvalidDataTypeError If the data type of this property is not a multi-valued "+scalarName+".");
         out.println("     */");
         out.println("    get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"Array")+"(): "+returnType+" {");
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
-        out.println("        if( (multivalue == true) && (dataType == OdmaType."+constantScalarTypeName+") )");
+        out.println("        if( (this.multiValue == true) && (this.dataType == OdmaType."+constantScalarTypeName+") )");
         out.println("        {");
         out.println("            return this.value;");
         out.println("        }");
         out.println("        else");
         out.println("        {");
-        out.println("            throw new OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `get"+scalarName+"Array()`\");");
+        out.println("            throw new OdmaInvalidDataTypeError(\"This property has a different data type and/or cardinality. It cannot return values with `get"+scalarName+"Array()`\");");
         out.println("        }");
         out.println("    }");
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)
     {
+        requiredImports.registerImport("OdmaProperty");
+        requiredImports.registerImport("OdmaQName");
+        requiredImports.registerImport("OdmaType");
+        requiredImports.registerImport("OdmaError");
+        requiredImports.registerImport("OdmaAccessDeniedError");
+        requiredImports.registerImport("OdmaInvalidDataTypeError");
     }
 
     protected void appendRequiredImportsScalarAccess(ImportsList requiredImports, ScalarTypeDescription scalarTypeDescription)
     {
         if(scalarTypeDescription.isReference())
         {
+            requiredImports.registerImport("OdmaObject");
             return;
         }
         requiredImports.registerImports(apiWriter.getScalarDataTypeImports(scalarTypeDescription,false,false));

@@ -5,9 +5,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
+import org.opendma.apibuilder.Tools;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.ApiWriterException;
 import org.opendma.apibuilder.structure.ApiDescription;
@@ -53,9 +57,12 @@ public class RustApiWriter extends AbstractApiWriter
     protected void createDataTypesFile(ApiDescription apiDescription) throws IOException
     {
         // create type enumeration
-        PrintWriter out = new PrintWriter(createRsFile(opendmaApiSourceFolder, "OdmaType"));
-        out.println("#[derive(Debug)]");
-        out.println("enum OdmaType {");
+        PrintWriter out = new PrintWriter(createRsFile(opendmaApiSourceFolder, "odma_type"));
+        out.println("use std::fmt;");
+        out.println("use std::convert::TryFrom;");
+        out.println("");
+        out.println("#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]");
+        out.println("pub enum OdmaType {");
         List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();
         Iterator<ScalarTypeDescription> itScalarTypes = scalarTypes.iterator();
         while(itScalarTypes.hasNext())
@@ -64,14 +71,47 @@ public class RustApiWriter extends AbstractApiWriter
             out.println("    "+scalarTypeDescription.getName().toUpperCase()+" = "+scalarTypeDescription.getNumericID()+",");
         }
         out.println("}");
+        out.println("");
+        out.println("impl TryFrom<u8> for OdmaType {");
+        out.println("    type Error = ();");
+        out.println("    fn try_from(value: u8) -> Result<Self, Self::Error> {");
+        out.println("        use OdmaType::*;");
+        out.println("        match value {");
+        itScalarTypes = scalarTypes.iterator();
+        while(itScalarTypes.hasNext())
+        {
+            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+            out.println("            "+scalarTypeDescription.getNumericID()+" => Ok("+scalarTypeDescription.getName().toUpperCase()+"),");
+        }
+        out.println("            _ => Err(()),");
+        out.println("        }");
+        out.println("    }");
+        out.println("}");
+        out.println("");
+        out.println("impl fmt::Display for OdmaType {");
+        out.println("    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {");
+        out.println("        let name = match self {");
+        itScalarTypes = scalarTypes.iterator();
+        while(itScalarTypes.hasNext())
+        {
+            ScalarTypeDescription scalarTypeDescription = (ScalarTypeDescription)itScalarTypes.next();
+            out.println("            OdmaType::"+scalarTypeDescription.getName().toUpperCase()+" => \""+scalarTypeDescription.getName().toUpperCase()+"\",");
+        }
+        out.println("        };");
+        out.println("        write!(f, \"{}\", name)");
+        out.println("    }");
+        out.println("}");
         out.close();
+        registerApiModule("odma_type");
+        registerApiModuleExport("odma_type", "OdmaType");
     }
 
     protected void createConstantsFile(ApiDescription apiDescription) throws IOException
     {
         // create common names file
         RustCommonNamesFileWriter constantsFileWriter = new RustCommonNamesFileWriter();
-        constantsFileWriter.createConstantsFile(apiDescription, createRsFile(opendmaApiSourceFolder, "OdmaCommonNames"));
+        constantsFileWriter.createConstantsFile(apiDescription, createRsFile(opendmaApiSourceFolder, "odma_common_names"));
+        registerApiModule("odma_common_names");
     }
 
     //-------------------------------------------------------------------------
@@ -80,47 +120,44 @@ public class RustApiWriter extends AbstractApiWriter
 
     protected void createQNameFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(opendmaApiSourceFolder, "OdmaQName");
+        createClassFromTemplate(opendmaApiSourceFolder, "odma_qname");
+        registerApiModule("odma_qname");
+        registerApiModuleExport("odma_qname", "OdmaQName");
     }
 
     protected void createIdFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(opendmaApiSourceFolder, "OdmaId");
+        createClassFromTemplate(opendmaApiSourceFolder, "odma_id");
+        registerApiModule("odma_id");
+        registerApiModuleExport("odma_id", "OdmaId");
     }
 
     protected void createGuidFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(opendmaApiSourceFolder, "OdmaGuid");
+        createClassFromTemplate(opendmaApiSourceFolder, "odma_guid");
+        registerApiModule("odma_guid");
+        registerApiModuleExport("odma_guid", "OdmaGuid");
     }
 
     protected void createContentFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(opendmaApiSourceFolder, "OdmaContent");
+        createClassFromTemplate(opendmaApiSourceFolder, "odma_content");
+        registerApiModule("odma_content");
+        registerApiModuleExport("odma_content", "OdmaContent");
     }
 
     protected void createSearchResultFile(ApiDescription apiDescription) throws IOException
     {
-        createClassFromTemplate(opendmaApiSourceFolder, "OdmaSearchResult");
+        createClassFromTemplate(opendmaApiSourceFolder, "odma_search_result");
+        registerApiModule("odma_search_result");
+        registerApiModuleExport("odma_search_result", "OdmaSearchResult");
     }
 
     protected void createExceptionFiles(ApiDescription apiDescription) throws IOException
     {
-        /*
-        Errors are explicitly handled by the Result<T, E> return type:
-        ```rust
-        enum Result<T, E> {
-            Ok(T),   // Holds the success value
-            Err(E),  // Holds the error value
-        }
-        ```
-        If a  method can return an OdmaObject or throw an OdmaObjectNotFoundException with
-        the GUID of the missing object, this rust API returns the type
-            Result<OdmaObject, OdmaGuid>
-        and either
-            return Ok(theObject)
-        or
-            return Err(missingObjectGuid)
-        */
+        createClassFromTemplate(opendmaApiSourceFolder, "odma_error");
+        registerApiModule("odma_error");
+        registerApiModuleExport("odma_error", "OdmaError");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException
@@ -134,7 +171,9 @@ public class RustApiWriter extends AbstractApiWriter
     protected void createPropertyFile(ApiDescription apiDescription) throws IOException
     {
         RustPropertyFileWriter rustPropertyFileWriter = new RustPropertyFileWriter(this);
-        rustPropertyFileWriter.createPropertyFile(apiDescription, createRsFile(opendmaApiSourceFolder, "OdmaProperty"));
+        rustPropertyFileWriter.createPropertyFile(apiDescription, createRsFile(opendmaApiSourceFolder, "odma_property"));
+        registerApiModule("odma_property");
+        registerApiModuleExport("odma_property", "OdmaProperty");
     }
 
     //-------------------------------------------------------------------------
@@ -144,7 +183,10 @@ public class RustApiWriter extends AbstractApiWriter
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
         RustObjectsInterfaceFileWriter classFileWriter = new RustObjectsInterfaceFileWriter(this);
-        classFileWriter.createClassFile(classDescription, createRsFile(opendmaApiSourceFolder,classDescription.getApiName()));
+        String moduleName = Tools.toSnakeCase(classDescription.getApiName());
+        classFileWriter.createClassFile(classDescription, createRsFile(opendmaApiSourceFolder,moduleName));
+        registerApiModule(moduleName);
+        registerApiModuleExport(moduleName, classDescription.getApiName());
     }
     
     //-------------------------------------------------------------------------
@@ -154,7 +196,9 @@ public class RustApiWriter extends AbstractApiWriter
     protected void createPropertyImplementationFile(ApiDescription apiDescription) throws IOException
     {
         RustPropertyImplementationFileWriter rustPropertyImplementationFileWriter = new RustPropertyImplementationFileWriter(this);
-        rustPropertyImplementationFileWriter.createPropertyFile(apiDescription, createRsFile(opendmaApiSourceFolder, "OdmaPropertyImpl"));
+        rustPropertyImplementationFileWriter.createPropertyFile(apiDescription, createRsFile(opendmaApiSourceFolder, "odma_property_impl"));
+        registerApiModule("odma_property_impl");
+        registerApiModuleExport("odma_property_impl", "OdmaPropertyImpl");
     }
 
     //-------------------------------------------------------------------------
@@ -173,9 +217,9 @@ public class RustApiWriter extends AbstractApiWriter
     
     private File opendmaApiSourceFolder;
     
-    //private FileOutputStream opendmaApiLibFOS;
+    private List<String> opendmaApiModules = new LinkedList<String>();
     
-    //private FileOutputStream opendmaApiHelpersFOS;
+    private Map<String, List<String>> opendmaApiModuleExports = new HashMap<String, List<String>>();
     
     private File opendmaTemplatesFolder;
     
@@ -197,10 +241,6 @@ public class RustApiWriter extends AbstractApiWriter
         opendmaApiProjectFolder.mkdirs();
         opendmaApiSourceFolder = new File(opendmaApiProjectFolder, "src");
         opendmaApiSourceFolder.mkdirs();
-        //opendmaApiLibFOS = new FileOutputStream(new File(opendmaApiSourceFolder, "lib.rs"));
-        //copyTemplateToStream("opendma-api-lib-header", opendmaApiLibFOS, false);
-        //opendmaApiHelpersFOS = new FileOutputStream(new File(opendmaApiSourceFolder, "helpers.rs"));
-        //copyTemplateToStream("opendma-api-helpers-header", opendmaApiHelpersFOS, false);
         // opendma-api Cargo.toml
         copyTemplateToStream("opendma-api-cargo", new FileOutputStream(new File(opendmaApiProjectFolder, "Cargo.toml")), resolver);
         // opendma-templates folder
@@ -208,13 +248,59 @@ public class RustApiWriter extends AbstractApiWriter
         opendmaTemplatesFolder.mkdirs();
     }
     
+    protected void registerApiModule(String moduleName)
+    {
+        if(!opendmaApiModules.contains(moduleName))
+        {
+            opendmaApiModules.add(moduleName);
+            opendmaApiModuleExports.put(moduleName, new LinkedList<String>());
+        }
+    }
+    
+    protected void registerApiModuleExport(String moduleName, String export)
+    {
+        if(!opendmaApiModules.contains(moduleName))
+        {
+            throw new RuntimeException("Module "+moduleName+" not registered.");
+        }
+        List<String> exports = opendmaApiModuleExports.get(moduleName);
+        if(!exports.contains(moduleName))
+        {
+            exports.add(export);
+        }
+    }
+    
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
-        // flush and close files
-        //opendmaApiLibFOS.flush();
-        //opendmaApiLibFOS.close();
-        //opendmaApiHelpersFOS.flush();
-        //opendmaApiHelpersFOS.close();
+        PrintWriter out = new PrintWriter(createRsFile(opendmaApiSourceFolder, "lib"));
+        for(String mod : opendmaApiModules)
+        {
+            out.println("pub mod "+mod+";");
+            List<String> exports = opendmaApiModuleExports.get(mod);
+            if(!exports.isEmpty())
+            {
+                if(exports.size() == 1)
+                {
+                    out.println("pub use "+mod+"::"+exports.get(0)+";");
+                }
+                else
+                {
+                    out.print("pub use "+mod+"::{");
+                    Iterator<String> it = exports.iterator();
+                    while(it.hasNext())
+                    {
+                        out.print(it.next());
+                        if(it.hasNext())
+                        {
+                            out.print(", ");
+                        }
+                    }
+                    out.println("};");
+                    
+                }
+            }
+        }
+        out.close();
     }
     
     //-------------------------------------------------------------------------

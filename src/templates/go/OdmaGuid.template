@@ -1,5 +1,10 @@
 package OpenDMAApi
 
+import (
+	"errors"
+	"fmt"
+)
+
 // OdmaGuid represents a globally unique object identifier, combining the OdmaId
 // of the object with the OdmaId of the repository it belongs to.
 type OdmaGuid struct {
@@ -31,4 +36,9 @@ func (g *OdmaGuid) GetRepositoryId() *OdmaId {
 
 // String returns the string representation of the OdmaGuid in the format "objectId:repositoryId".
 func (g *OdmaGuid) String() string {
-	return fmt.Sprintf("%s:%s", g.objectId.String(), g
+	return fmt.Sprintf("%s:%s", g.objectId.String(), g.repositoryId.String())
+}
+
+func (g *OdmaGuid) Equals(other *OdmaGuid) bool {
+	return g.objectId.Equals(other.objectId) && g.repositoryId.Equals(other.repositoryId)
+}

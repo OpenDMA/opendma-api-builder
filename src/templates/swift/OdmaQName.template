@@ -2,13 +2,13 @@ import Foundation
 
 /// Represents an ODMA qualified name, consisting of a qualifier and a name.
 /// Both the qualifier and the name must not be empty, and they are immutable after creation.
-struct OdmaQName: Equatable, Hashable, CustomStringConvertible {
+public struct OdmaQName: Equatable, Hashable, CustomStringConvertible, Sendable {
 
     /// The qualifier part of the qualified name.
-    private let qualifier: String
+    public let qualifier: String
 
     /// The name part of the qualified name.
-    private let name: String
+    public let name: String
 
     /// Constructs an OdmaQName object with the specified qualifier and name.
     ///
@@ -16,40 +16,19 @@ struct OdmaQName: Equatable, Hashable, CustomStringConvertible {
     ///   - qualifier: The qualifier part of the qualified name. Must not be empty.
     ///   - name: The name part of the qualified name. Must not be empty.
     /// - Throws: An error if either the qualifier or name is empty.
-    init(qualifier: String, name: String) throws {
+    public init(qualifier: String, name: String) throws {
         guard !qualifier.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            throw NSError(domain: "OdmaQNameError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Qualifier must not be empty"])
+            throw OdmaError.illegalArgument(message: "Qualifier must not be empty")
         }
         guard !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            throw NSError(domain: "OdmaQNameError", code: 2, userInfo: [NSLocalizedDescriptionKey: "Name must not be empty"])
+            throw OdmaError.illegalArgument(message: "Name must not be empty")
         }
         self.qualifier = qualifier
         self.name = name
     }
 
-    /// Returns the qualifier part of the qualified name.
-    func getQualifier() -> String {
-        return qualifier
-    }
-
-    /// Returns the name part of the qualified name.
-    func getName() -> String {
-        return name
-    }
-
-    // MARK: - Equatable
-    static func == (lhs: OdmaQName, rhs: OdmaQName) -> Bool {
-        return lhs.qualifier == rhs.qualifier && lhs.name == rhs.name
-    }
-
-    // MARK: - Hashable
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(qualifier)
-        hasher.combine(name)
-    }
-
     // MARK: - CustomStringConvertible
-    var description: String {
+    public var description: String {
         return "\(qualifier):\(name)"
     }
 

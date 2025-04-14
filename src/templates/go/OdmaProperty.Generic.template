@@ -1,6 +1,6 @@
 
 	// GetName returns the qualified name of this property.
-	GetName() OdmaQName
+	GetName() *OdmaQName
 
 	// GetType returns the data type of this property.
 	GetType() OdmaType

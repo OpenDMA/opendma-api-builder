@@ -21,14 +21,14 @@
         $this->name = $name;
         $this->dataType = $dataType;
         $this->multiValue = $multiValue;
-        $this->readOnly = $readOnly;
-        $this->dirty = false;
-        
+        $this->readOnly = false;
         try {
             $this->setValue($value);
         } catch (OdmaAccessDeniedException $e) {
             throw new OdmaRuntimeException("Implementation error.");
         }
+        $this->readOnly = $readOnly;
+        $this->dirty = false;
     }
 
     /**
@@ -91,13 +91,13 @@
         return $this->readOnly;
     }
  
-    private function checkListAndValues($obj, string $expectedType): bool
+    private function checkListAndValues(mixed $value, OdmaType $expectedType): bool
     {
-        if (!is_array($obj)) {
+        if (!is_array($value)) {
             return false;
         }
-        foreach ($obj as $element) {
-            if (!($element instanceof $expectedType)) {
+        foreach ($value as $element) {
+            if (!checkValue($element, $expectedType)) {
                 return false;
             }
         }

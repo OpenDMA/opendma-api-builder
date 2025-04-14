@@ -60,7 +60,7 @@ public class JavaScriptPropertyImplementationFileWriter extends AbstractProperty
         out.println("     */");
         out.println("    setValue(newValue) {");
         out.println("        if(this._readOnly) {");
-        out.println("            throw new OdmaAccessDeniedException(\"Cannot modify a read-only property.\");");
+        out.println("            throw new OdmaAccessDeniedError(\"Cannot modify a read-only property.\");");
         out.println("        }");
         out.println("        if(newValue == null) {");
         out.println("            this._value = null;");
@@ -167,14 +167,14 @@ public class JavaScriptPropertyImplementationFileWriter extends AbstractProperty
                 out.println("                if("+valueTest+") {");
             }
             out.println("                    this._value = newValue;");
-            out.println("                } else ");
+            out.println("                } else {");
             String jsType = multivalue ? (scalarTypeDescription.isReference() ? "OdmaObject[]" : apiWriter.getScalarDataType(scalarTypeDescription,false,false)+"[]") : (scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,false));
-            out.println("                    throw new OdmaInvalidDataTypeException(\""+generatePropertyDataTypeDescription(multivalue, scalarTypeDescription)+". It can only be set to values assignable to `"+jsType+"`\");");
+            out.println("                    throw new OdmaInvalidDataTypeError(\""+generatePropertyDataTypeDescription(multivalue, scalarTypeDescription)+". It can only be set to values assignable to `"+jsType+"`\");");
             out.println("                }");
             out.println("                break;");
         }
         out.println("            default:");
-        out.println("                throw new OdmaRuntimeException(\"OdmaProperty initialized with unknown data type \"+dataType);");
+        out.println("                throw new Error(\"OdmaPropertyImpl initialized with unknown data type \"+this._dataType);");
         out.println("            }");
     }
 
@@ -193,13 +193,13 @@ public class JavaScriptPropertyImplementationFileWriter extends AbstractProperty
         out.println("     */");
         out.println("    get"+scalarName+"() {");
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
-        out.println("        if( (multivalue == false) && (dataType == OdmaType."+constantScalarTypeName+") )");
+        out.println("        if( (this._multiValue == false) && (this._dataType == OdmaType."+constantScalarTypeName+") )");
         out.println("        {");
         out.println("            return this._value;");
         out.println("        }");
         out.println("        else");
         out.println("        {");
-        out.println("            throw new OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `get"+scalarName+"()`\");");
+        out.println("            throw new OdmaInvalidDataTypeError(\"This property has a different data type and/or cardinality. It cannot return values with `get"+scalarName+"()`\");");
         out.println("        }");
         out.println("    }");
     }
@@ -218,13 +218,13 @@ public class JavaScriptPropertyImplementationFileWriter extends AbstractProperty
         out.println("     */");
         out.println("    get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"Array")+"() {");
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
-        out.println("        if( (multivalue == true) && (dataType == OdmaType."+constantScalarTypeName+") )");
+        out.println("        if( (this._multiValue == true) && (this._dataType == OdmaType."+constantScalarTypeName+") )");
         out.println("        {");
         out.println("            return this._value;");
         out.println("        }");
         out.println("        else");
         out.println("        {");
-        out.println("            throw new OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `get"+scalarName+"Array()`\");");
+        out.println("            throw new OdmaInvalidDataTypeError(\"This property has a different data type and/or cardinality. It cannot return values with `get"+scalarName+"Array()`\");");
         out.println("        }");
         out.println("    }");
     }

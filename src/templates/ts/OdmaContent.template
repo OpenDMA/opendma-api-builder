@@ -19,3 +19,12 @@ export interface OdmaContent {
     getSize(): number;
 
 }
+
+export function isOdmaContent(obj: any): obj is OdmaContent {
+  return (
+    obj &&
+    typeof obj.getStream === 'function' &&
+    typeof obj.getSize === 'function' &&
+    typeof obj.getSize() === 'number'
+  );
+}

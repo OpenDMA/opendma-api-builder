@@ -2,7 +2,6 @@ package OpenDMAApi
 
 import (
 	"errors"
-	"fmt"
 )
 
 // OdmaId represents a unique identifier for an OdmaObject in an OdmaRepository.
@@ -22,4 +21,7 @@ func NewOdmaId(id string) (*OdmaId, error) {
 // String returns a string representation of this OdmaId.
 func (o *OdmaId) String() string {
 	return o.id
+}
+func (o *OdmaId) Equals(other *OdmaId) bool {
+	return o.id == other.id
 }

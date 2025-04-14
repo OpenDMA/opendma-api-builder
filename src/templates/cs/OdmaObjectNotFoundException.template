@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace OpenDMA.Exceptions
+namespace OpenDMA.Api
 {
 
     /// <summary>
@@ -9,16 +11,16 @@ namespace OpenDMA.Exceptions
     public class OdmaObjectNotFoundException : OdmaException
     {
 
-        private readonly OdmaGuid objectGuid;
+        private readonly OdmaGuid? _objectGuid;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OdmaObjectNotFoundException"/> class.
         /// </summary>
         /// <param name="objectGuid">The unique identifier of the object that was not found.</param>
         public OdmaObjectNotFoundException(OdmaGuid objectGuid) 
-            : base(objectGuid != null ? "Object not found: "+guid.ToString() : "Object not found")
+            : base(objectGuid != null ? "Object not found: "+objectGuid.ToString() : "Object not found")
         {
-            this.objectGuid = objectGuid;
+            this._objectGuid = objectGuid;
         }
 
         /// <summary>
@@ -29,7 +31,7 @@ namespace OpenDMA.Exceptions
         public OdmaObjectNotFoundException(string message, OdmaGuid objectGuid) 
             : base(message)
         {
-            this.objectGuid = objectGuid;
+            this._objectGuid = objectGuid;
         }
 
         /// <summary>
@@ -41,13 +43,13 @@ namespace OpenDMA.Exceptions
         public OdmaObjectNotFoundException(string message, Exception innerException, OdmaGuid objectGuid) 
             : base(message, innerException)
         {
-            this.objectGuid = objectGuid;
+            this._objectGuid = objectGuid;
         }
 
         /// <summary>
         /// Gets the unique identifier of the object that was not found.
         /// </summary>
-        public OdmaGuid ObjectGuid => objectGuid;
+        public OdmaGuid? ObjectGuid => _objectGuid;
 
     }
 

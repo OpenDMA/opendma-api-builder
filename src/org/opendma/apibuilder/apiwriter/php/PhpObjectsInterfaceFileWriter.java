@@ -36,7 +36,7 @@ public class PhpObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileW
                 out.println("     */");
                 out.println("    public function getQName(): OdmaQName;");
             }
-            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List<String> requiredImports)
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, ImportsList requiredImports)
             {
                 if(!requiredImports.contains("OdmaQName.php"))
                 {

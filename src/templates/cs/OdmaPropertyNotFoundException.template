@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace OpenDMA.Exceptions
+namespace OpenDMA.Api
 {
 
     /// <summary>
@@ -9,7 +11,7 @@ namespace OpenDMA.Exceptions
     public class OdmaPropertyNotFoundException : OdmaException
     {
 
-        private readonly OdmaQName propertyName;
+        private readonly OdmaQName? _propertyName;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OdmaPropertyNotFoundException"/> class.
@@ -18,7 +20,7 @@ namespace OpenDMA.Exceptions
         public OdmaPropertyNotFoundException(OdmaQName propertyName) 
             : base(propertyName != null ? "Property not found: "+propertyName.ToString() : "Property not found")
         {
-            this.propertyName = propertyName;
+            this._propertyName = propertyName;
         }
 
         /// <summary>
@@ -29,7 +31,7 @@ namespace OpenDMA.Exceptions
         public OdmaPropertyNotFoundException(string message, OdmaQName propertyName) 
             : base(message)
         {
-            this.propertyName = propertyName;
+            this._propertyName = propertyName;
         }
 
         /// <summary>
@@ -41,13 +43,13 @@ namespace OpenDMA.Exceptions
         public OdmaPropertyNotFoundException(string message, Exception innerException, OdmaQName propertyName) 
             : base(message, innerException)
         {
-            this.propertyName = propertyName;
+            this._propertyName = propertyName;
         }
 
         /// <summary>
         /// Gets the qualified name of the property that was not found.
         /// </summary>
-        public OdmaQName PropertyName => propertyName;
+        public OdmaQName? PropertyName => _propertyName;
 
     }
 

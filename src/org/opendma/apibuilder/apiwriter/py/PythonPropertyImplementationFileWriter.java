@@ -116,7 +116,7 @@ public class PythonPropertyImplementationFileWriter extends AbstractPropertyFile
     protected void writeSingleValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
         String scalarName =  scalarTypeDescription.getName();
-        String returnType = scalarTypeDescription.isReference() ? "Optional[OdmaObject]" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
+        String returnType = scalarTypeDescription.isReference() ? "Optional[TOdmaObject]" : apiWriter.getScalarDataType(scalarTypeDescription,false,false);
         out.println("");
         out.println("    def get_"+scalarName.toLowerCase()+"(self) -> "+returnType+":");
         out.println("        \"\"\" Retrieves the "+scalarName+" value of this property if and only if");

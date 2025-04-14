@@ -54,7 +54,9 @@ public class CsApiWriter extends AbstractApiWriter
     {
         // create type enumeration
         PrintWriter out = new PrintWriter(createCsFile(opendmaApiFolder,"OdmaType"));
-        out.println("using OpenDMA.Api;");
+        out.println("using System;");
+        out.println("using System.Collections.Generic;");
+        out.println("using System.Text;");
         out.println("");
         out.println("namespace OpenDMA.Api");
         out.println("{");

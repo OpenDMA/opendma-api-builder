@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
@@ -26,6 +27,15 @@ public class GoPropertyFileWriter extends AbstractPropertyFileWriter
     protected void writePropertyFileHeader(ApiDescription apiDescription, List<String> requiredImports, PrintWriter out) throws IOException
     {
         out.println("package OpenDMAApi");
+        out.println("");
+        out.println("import (");
+        Iterator<String> itRequiredImports = requiredImports.iterator();
+        while(itRequiredImports.hasNext())
+        {
+            String importDeclaration = (String)itRequiredImports.next();
+            out.println("    \""+importDeclaration+"\"");
+        }
+        out.println(")");
         out.println("");
         InputStream templateIn = apiWriter.getTemplateAsStream("OdmaProperty.Header");
         BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
@@ -72,7 +82,7 @@ public class GoPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("    // Returns the "+scalarName+" value of this property if and only if");
         out.println("    // the data type of this property is a multi valued "+scalarName+".");
         out.println("    // Returns an OdmaInvalidDataTypeError if the data type of this property is not a multi-valued "+scalarName+".");
-        out.println("    Get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"Array")+"() ("+returnType+",error)");
+        out.println("    Get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"Slice")+"() ("+returnType+",error)");
     }
 
     protected void appendRequiredImportsGlobal(ImportsList requiredImports)

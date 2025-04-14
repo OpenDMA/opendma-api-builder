@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using OpenDMA.Api.Collections;
 
 namespace OpenDMA.Api
 {
@@ -18,13 +16,13 @@ namespace OpenDMA.Api
         /// Returns the collection of objects found by the search.
         /// </summary>
         /// <returns>the collection of objects found by the search</returns>
-        IEnumerable<IOdmaObject> getObjects();
+        IEnumerable<IOdmaObject> GetObjects();
 
         /// <summary>
         /// Returns the number of objects found by the search or -1 if the total size is unknown.
         /// </summary>
         /// <returns>the number of objects found by the search or -1 if the total size is unknown</returns>
-        int getSize();
+        int GetSize();
 
     }
 

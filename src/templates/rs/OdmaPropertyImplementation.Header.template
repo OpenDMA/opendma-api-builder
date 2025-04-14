@@ -1,6 +1,6 @@
 /// Standard implementation of the OdmaProperty trait.
 #[derive(Debug)]
-struct OdmaPropertyImpl {
+pub struct OdmaPropertyImpl {
     name: OdmaQName,
     data_type: OdmaType,
     multi_value: bool,
@@ -16,26 +16,19 @@ impl OdmaPropertyImpl {
         data_type: OdmaType,
         multi_value: bool,
         read_only: bool,
-    ) -> Result<Self, Box<dyn Error>> {
+    ) -> Result<Self, OdmaError> {
         let mut instance = OdmaPropertyImpl {
-            name,
-            data_type,
-            multi_value,
+            name: name,
+            data_type: data_type,
+            multi_value: multi_value,
             value: None,
             dirty: false,
-            read_only,
+            read_only: false,
         };
         instance.set_value(value)?;
+        instance.read_only = read_only;
+        instance.dirty = false;
         Ok(instance)
-    }
-}
-
-impl OdmaPropertyImpl {
-    fn check_list_and_values<T: 'static>(&self, val: &dyn Any) -> bool {
-        if let Some(vec) = val.downcast_ref::<Vec<Box<dyn Any>>>() {
-            return vec.iter().all(|item| item.is::<T>());
-        }
-        false
     }
 }
 

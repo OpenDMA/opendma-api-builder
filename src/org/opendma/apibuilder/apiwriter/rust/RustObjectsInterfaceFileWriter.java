@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
+import org.opendma.apibuilder.Tools;
 import org.opendma.apibuilder.apiwriter.AbstractObjectsInterfaceFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
@@ -31,15 +33,27 @@ public class RustObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFile
                 out.println("");
                 out.println("    // Returns "+apiHelper.getAbstract()+".");
                 out.println("    // "+apiHelper.getDescription());
-                out.println("    fn get_qname(&self) -> OdmaQName;");
+                out.println("    fn get_qname(&self) -> Result<OdmaQName, OdmaError>;");
             }
-            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, List<String> requiredImports)
+            public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, ImportsList requiredImports)
             {
+                requiredImports.registerImport("crate::OdmaQName");
             }});
     }
 
     protected void writeClassFileHeader(ClassDescription classDescription, List<String> requiredImports, PrintWriter out)
     {
+        Iterator<String> itRequiredImports = requiredImports.iterator();
+        while(itRequiredImports.hasNext())
+        {
+            String importDeclaration = (String)itRequiredImports.next();
+            if(importDeclaration.equals("crate::"+classDescription.getApiName()))
+            {
+                continue;
+            }
+            out.println("use "+importDeclaration+";");
+        }
+        out.println("");
         String extendsApiName = classDescription.getExtendsApiName();
         if(extendsApiName != null)
         {
@@ -80,7 +94,18 @@ public class RustObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFile
 
     protected void appendRequiredImportsGlobal(ClassDescription classDescription, ImportsList requiredImports)
     {
-        // we do not have any globally required imports
+        String extendsApiName = classDescription.getExtendsApiName();
+        if(extendsApiName != null)
+        {
+            requiredImports.registerImport("crate::"+extendsApiName);
+        }
+        else
+        {
+            if(classDescription.getAspect())
+            {
+                requiredImports.registerImport("crate::"+classDescription.getContainingApiDescription().getObjectClass().getApiName());
+            }
+        }
     }
 
     protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
@@ -98,6 +123,9 @@ public class RustObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFile
 
     protected void appendRequiredImportsGenericPropertyAccess(ImportsList requiredImports)
     {
+        requiredImports.registerImport("crate::OdmaQName");
+        requiredImports.registerImport("crate::OdmaProperty");
+        requiredImports.registerImport("crate::OdmaError");
     }
 
     protected void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out)
@@ -110,14 +138,14 @@ public class RustObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFile
     {
         if(property.getDataType().isReference())
         {
-            String result = property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
+            String result = "&dyn " + property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName();
             if(property.getMultiValue())
             {
-                result = "Iterator<"+result+">";
+                result = "Box<dyn Iterator<Item = "+result+"> + '_>";
             }
             else if(!property.getRequired())
             {
-                result = "*" + result;
+                result = "Option<" + result + ">";
             }
             return result;
         }
@@ -129,7 +157,14 @@ public class RustObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFile
     
     protected String[] getRequiredImports(PropertyDescription property)
     {
-        return null;
+        if(property.getDataType().isReference())
+        {
+            return new String[] { "crate::" + property.getContainingClass().getContainingApiDescription().getDescribedClass(property.getReferenceClassName()).getApiName() };
+        }
+        else
+        {
+            return apiWriter.getScalarDataTypeImports(property.getDataType(),property.getMultiValue(),property.getRequired());
+        }
     }
 
     protected void writeClassPropertyAccess(PropertyDescription property, PrintWriter out)
@@ -147,7 +182,7 @@ public class RustObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFile
         {
             out.println("    //"+s);
         }
-        out.println("    fn "+(rustDataType.equalsIgnoreCase("bool")?"is_":"get_")+toSnakeCase(property.getApiName())+"(&self) -> "+rustDataType+";");
+        out.println("    fn "+(rustDataType.equalsIgnoreCase("bool")?"is_":"get_")+Tools.toSnakeCase(property.getApiName())+"(&self) -> Result<"+rustDataType+", OdmaError>;");
         // setter
         if( (!property.isReadOnly()) && (!property.getMultiValue()) )
         {
@@ -161,13 +196,14 @@ public class RustObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFile
             }
             out.println("    //");
             out.println("    // Returns `OdmaError::AccessDenied` if the property cannot be modified by the current user.");
-            out.println("    fn set_"+toSnakeCase(property.getApiName())+"(&mut self, new_value "+rustDataType+") -> Result<(), OdmaError>");
+            out.println("    fn set_"+Tools.toSnakeCase(property.getApiName())+"(&mut self, new_value: "+rustDataType+") -> Result<(), OdmaError>;");
         }
     }
 
     protected void appendRequiredImportsClassPropertyAccess(ImportsList requiredImports, PropertyDescription property)
     {
         requiredImports.registerImports(getRequiredImports(property));
+        requiredImports.registerImport("crate::OdmaError");
     }
 
 }

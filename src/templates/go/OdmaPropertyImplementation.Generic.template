@@ -1,6 +1,6 @@
 
 // GetName returns the qualified name of this property.
-func (pi *OdmaPropertyImpl) GetName() OdmaQName {
+func (pi *OdmaPropertyImpl) GetName() *OdmaQName {
     return pi.name
 }
 

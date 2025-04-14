@@ -13,7 +13,7 @@ public class SwiftCommonNamesFileWriter extends AbstractConstantsFileWriter
     protected void writeConstantsFileHeader(ApiDescription apiDescription, PrintWriter out)
     {
         out.println("/// Static declaration of all common names used in the OpenDMA specification.");
-        out.println("enum OdmaCommonNames {");
+        out.println("public enum OdmaCommonNames {");
     }
 
     protected void writeConstantsClassesSectionHeader(ApiDescription apiDescription, PrintWriter out)
@@ -45,14 +45,14 @@ public class SwiftCommonNamesFileWriter extends AbstractConstantsFileWriter
     {
         out.println("");
         out.println("    /// qualified name of the OpenDMA system class "+classDescription.getOdmaName().getName());
-        out.println("    static let "+constantName+" = try! OdmaQName(\""+classDescription.getOdmaName().getQualifier()+"\", \""+classDescription.getOdmaName().getName()+"\")");
+        out.println("    public static let "+constantName+" = try! OdmaQName(qualifier: \""+classDescription.getOdmaName().getQualifier()+"\", name: \""+classDescription.getOdmaName().getName()+"\")");
     }
 
     protected void writeConstantsPropertynameConstant(PropertyDescription propertyDescription, String constantName, PrintWriter out)
     {
         out.println("");
         out.println("    /// qualified name of the OpenDMA system property "+propertyDescription.getOdmaName().getName());
-        out.println("    static let "+constantName+" = try! OdmaQName(\""+propertyDescription.getOdmaName().getQualifier()+"\", \""+propertyDescription.getOdmaName().getName()+"\")");
+        out.println("    public static let "+constantName+" = try! OdmaQName(qualifier: \""+propertyDescription.getOdmaName().getQualifier()+"\", name: \""+propertyDescription.getOdmaName().getName()+"\")");
     }
 
     protected void writeConstantsBackrefPropertynameHint(PropertyDescription propertyDescription, String propertyName, PrintWriter out)

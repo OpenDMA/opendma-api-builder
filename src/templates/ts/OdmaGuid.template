@@ -1,3 +1,5 @@
+import { OdmaId } from './OdmaId';
+
 /**
  * OdmaGuid represents a globally unique object identifier for an OdmaObject.
  * It combines the OdmaId of the object with the OdmaId of the repository it is contained in.
