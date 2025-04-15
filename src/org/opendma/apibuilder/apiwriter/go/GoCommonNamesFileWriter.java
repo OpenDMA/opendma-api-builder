@@ -12,7 +12,7 @@ public class GoCommonNamesFileWriter extends AbstractConstantsFileWriter
 {
     protected void writeConstantsFileHeader(ApiDescription apiDescription, PrintWriter out)
     {
-        out.println("package OpenDMAApi");
+        out.println("package opendma");
         out.println("");
         out.println("// READ ONLY declaration of all common names used in the OpenDMA specification.");
         out.println("var (");

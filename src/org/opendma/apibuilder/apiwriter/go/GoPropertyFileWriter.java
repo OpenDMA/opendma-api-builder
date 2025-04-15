@@ -26,7 +26,7 @@ public class GoPropertyFileWriter extends AbstractPropertyFileWriter
 
     protected void writePropertyFileHeader(ApiDescription apiDescription, List<String> requiredImports, PrintWriter out) throws IOException
     {
-        out.println("package OpenDMAApi");
+        out.println("package opendma");
         out.println("");
         out.println("import (");
         Iterator<String> itRequiredImports = requiredImports.iterator();

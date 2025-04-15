@@ -1,3 +1,2 @@
 go 1.18
-module github.com/opendma/opendma-api-go
-
+module github.com/OpenDMA/opendma-go-api/opendma

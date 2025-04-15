@@ -54,7 +54,7 @@ public class GoApiWriter extends AbstractApiWriter
     {
         // create type enumeration
         PrintWriter out = new PrintWriter(createGoFile(opendmaApiProjectFolder, "OdmaType"));
-        out.println("package OpenDMAApi");
+        out.println("package opendma");
         out.println();
         out.println("type OdmaType int");
         out.println();
@@ -162,7 +162,7 @@ public class GoApiWriter extends AbstractApiWriter
     protected void createIterableFile(ClassDescription classDescription) throws IOException
     {
         PrintWriter out = new PrintWriter(createGoFile(opendmaApiProjectFolder, classDescription.getApiName()+"Iterable"));
-        out.println("package OpenDMAApi");
+        out.println("package opendma");
         out.println("");
         out.println("type "+classDescription.getApiName()+"Iterable interface {");
         if(classDescription.getExtendsApiName() != null)
@@ -181,7 +181,7 @@ public class GoApiWriter extends AbstractApiWriter
     protected void createIteratorFile(ClassDescription classDescription) throws IOException
     {
         PrintWriter out = new PrintWriter(createGoFile(opendmaApiProjectFolder, classDescription.getApiName()+"Iterator"));
-        out.println("package OpenDMAApi");
+        out.println("package opendma");
         out.println("");
         out.println("type "+classDescription.getApiName()+"Iterator interface {");
         if(classDescription.getExtendsApiName() != null)
@@ -222,8 +222,6 @@ public class GoApiWriter extends AbstractApiWriter
     
     private File opendmaApiProjectFolder;
     
-    private File opendmaTemplatesFolder;
-    
     protected void prepareProjectStructureAndBuildFiles(final ApiDescription apiDescription) throws IOException
     {
         PlaceholderResolver resolver = new PlaceholderResolver()
@@ -238,16 +236,10 @@ public class GoApiWriter extends AbstractApiWriter
             }
         };
         // opendma-api folder structure
-        opendmaApiProjectFolder = new File(baseFolder, "opendma-api");
+        opendmaApiProjectFolder = new File(baseFolder, "opendma");
         opendmaApiProjectFolder.mkdirs();
         // go.mod
         copyTemplateToStream("opendma-api-go.mod", new FileOutputStream(new File(opendmaApiProjectFolder, "go.mod")), resolver);
-        // opendma-templates folder
-        opendmaTemplatesFolder = new File(baseFolder, "opendma-templates");
-        opendmaTemplatesFolder.mkdirs();
-        // Go does not have standard Iterable[] and Iterator[] generics.
-        //createClassFromTemplate(opendmaApiProjectFolder, "OdmaIterator");
-        //createClassFromTemplate(opendmaApiProjectFolder, "OdmaIterable");
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

@@ -41,7 +41,7 @@ public class GoObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileWr
 
     protected void writeClassFileHeader(ClassDescription classDescription, List<String> requiredImports, PrintWriter out)
     {
-        out.println("package OpenDMAApi");
+        out.println("package opendma");
         out.println("");
         out.println("import (");
         Iterator<String> itRequiredImports = requiredImports.iterator();
