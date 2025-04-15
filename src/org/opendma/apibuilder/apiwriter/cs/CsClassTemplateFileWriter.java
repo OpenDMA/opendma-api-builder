@@ -38,7 +38,7 @@ public class CsClassTemplateFileWriter extends AbstractObjectsInterfaceFileWrite
                 out.println("        {");
                 out.println("            get");
                 out.println("            {");
-                out.println("                return new OdmaQName(NameQualifier, Name);");
+                out.println("                return new OdmaQName(Namespace, Name);");
                 out.println("            }");
                 out.println("        }");
             }
@@ -182,9 +182,9 @@ public class CsClassTemplateFileWriter extends AbstractObjectsInterfaceFileWrite
         String dataTypeName = scalarTypeDescription.isInternal() ? scalarTypeDescription.getBaseScalar() : scalarTypeDescription.getName();
         if(property.getDataType().isReference())
         {
-            dataTypeName = dataTypeName + " to " + property.getReferenceClassName().getName() + " ("+property.getReferenceClassName().getQualifier()+")";
+            dataTypeName = dataTypeName + " to " + property.getReferenceClassName().getName() + " ("+property.getReferenceClassName().getNamespace()+")";
         }
-        out.println("        /// <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getQualifier()+"): <b>"+dataTypeName+"</b><br>");
+        out.println("        /// <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getNamespace()+"): <b>"+dataTypeName+"</b><br>");
         out.println("        /// "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[NotRequired]")+"<br>");
         out.println("        /// "+property.getDescription()+"</p>");
         out.println("        /// </summary>");

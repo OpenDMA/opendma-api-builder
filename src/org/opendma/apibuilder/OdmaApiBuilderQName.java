@@ -1,23 +1,23 @@
 package org.opendma.apibuilder;
 
 /**
- * Representation of a <i>qualified name</i> consisting of a name <i>qualifier</i> and the <i>name</i> iteself.<br>
+ * Representation of a <i>qualified name</i> consisting of a <i>namespace</i> and the local <i>name</i>.<br>
  * Using qualified names instead of simple Strings enables OpenDMA to mix different architectures with identical names
- * and distinguish them by their qualifier.
+ * and distinguish them by their namespace.
  * 
  * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
  */
 public class OdmaApiBuilderQName
 {
 
-    /** the name <i>qualifier</i> of this qualified name */
-    protected String qualifier;
+    /** the <i>namespace</i> of this qualified name */
+    protected String namespace;
 
     /** the <i>name</i> of this qualified name */
     protected String name;
 
     /**
-     * Create a new <code>OdmaQName</code> with an empty name qualifier.
+     * Create a new <code>OdmaQName</code> with an empty name namespace.
      * 
      * @param name
      *            The <i>name</i> of this qualified name. Must not be null. Must not be empty.
@@ -37,47 +37,47 @@ public class OdmaApiBuilderQName
         {
             throw new IllegalArgumentException("The name of a OdmaApiBuilderQName must have at least 1 character.");
         }
-        this.qualifier = null;
+        this.namespace = null;
         this.name = name;
     }
 
     /**
-     * Create a new <code>OdmaQName</code> for a given <i>name qualifier</i> and <i>name</i>.
+     * Create a new <code>OdmaQName</code> for a given <i>namespace</i> and local <i>name</i>.
      * 
-     * @param qualifier
-     *            The name <i>qualifier</i> of this qualified name. Can be null. Must not be empty (if not null).
+     * @param namespace
+     *            The <i>namespace</i> of this qualified name. Can be null. Must not be empty (if not null).
      * @param name
      *            The <i>name</i> of this qualified name. Must not be null. Must not be empty.
      * 
      * @throws IllegalArgumentException
-     *             if the name is null or empty or if the qualifier is not null and empty
+     *             if the name is null or empty or if the namespace is not null and empty
      */
-    public OdmaApiBuilderQName(String qualifier, String name)
+    public OdmaApiBuilderQName(String namespace, String name)
     {
         if (name == null)
         {
             throw new NullPointerException("The name of a OdmaApiBuilderQName may not be null.");
         }
-        if ((qualifier != null) && (qualifier.length() == 0))
+        if ((namespace != null) && (namespace.length() == 0))
         {
-            throw new IllegalArgumentException("The qualifier of a OdmaApiBuilderQName must have at least 1 character.");
+            throw new IllegalArgumentException("The namespace of a OdmaApiBuilderQName must have at least 1 character.");
         }
         if (name.length() == 0)
         {
             throw new IllegalArgumentException("The name of a OdmaApiBuilderQName must have at least 1 character.");
         }
-        this.qualifier = qualifier;
+        this.namespace = namespace;
         this.name = name;
     }
 
     /**
-     * Returns the name <i>qualifier</i> of this qualified name.
+     * Returns the <i>namespace</i> of this qualified name.
      * 
-     * @return the qualifier of this qualified name.
+     * @return the namespace of this qualified name.
      */
-    public String getQualifier()
+    public String getNamespace()
     {
-        return qualifier;
+        return namespace;
     }
 
     /**
@@ -96,7 +96,7 @@ public class OdmaApiBuilderQName
         final int prime = 31;
         int result = 1;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((qualifier == null) ? 0 : qualifier.hashCode());
+        result = prime * result + ((namespace == null) ? 0 : namespace.hashCode());
         return result;
     }
 
@@ -117,12 +117,12 @@ public class OdmaApiBuilderQName
         }
         else if (!name.equals(other.name))
             return false;
-        if (qualifier == null)
+        if (namespace == null)
         {
-            if (other.qualifier != null)
+            if (other.namespace != null)
                 return false;
         }
-        else if (!qualifier.equals(other.qualifier))
+        else if (!namespace.equals(other.namespace))
             return false;
         return true;
     }
@@ -134,7 +134,7 @@ public class OdmaApiBuilderQName
      */
     public String toString()
     {
-        return (qualifier == null ? "<null>" : qualifier) + ":" + name;
+        return (namespace == null ? "<null>" : namespace) + ":" + name;
     }
 
 }

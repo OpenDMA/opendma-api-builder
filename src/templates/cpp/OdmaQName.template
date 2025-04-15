@@ -8,38 +8,38 @@
 
 /**
  * @class OdmaQName
- * @brief Represents an ODMA qualified name, consisting of a qualifier and a name.
+ * @brief Represents an ODMA qualified name, consisting of a namespace and a name.
  *
- * Both the qualifier and the name must not be empty, and they are immutable after creation.
+ * Both the namespace and the name must not be empty, and they are immutable after creation.
  */
 class OdmaQName {
 public:
 
     /**
-     * @brief Constructs an OdmaQName object with the specified qualifier and name.
+     * @brief Constructs an OdmaQName object with the specified namespace and name.
      *
-     * @param qualifier The qualifier part of the qualified name. Must not be empty.
+     * @param namespace The namespace part of the qualified name. Must not be empty.
      * @param name The name part of the qualified name. Must not be empty.
-     * @throws std::invalid_argument if either the qualifier or name is empty.
+     * @throws std::invalid_argument if either the namespace or name is empty.
      */
-    inline OdmaQName(const std::string& qualifier, const std::string& name) {
-        if (qualifier.empty()) {
-            throw std::invalid_argument("Qualifier must not be empty");
+    inline OdmaQName(const std::string& namespace, const std::string& name) {
+        if (namespace.empty()) {
+            throw std::invalid_argument("Namespace must not be empty");
         }
         if (name.empty()) {
             throw std::invalid_argument("Name must not be empty");
         }
-        this->qualifier_ = qualifier;
+        this->namespace_ = namespace;
         this->name_ = name;
     }
 
     /**
-     * @brief Gets the qualifier part of the qualified name.
+     * @brief Gets the namespace part of the qualified name.
      *
-     * @return The qualifier as a const reference to a string.
+     * @return The namespace as a const reference to a string.
      */
-    inline const std::string& getQualifier() const {
-        return qualifier_;
+    inline const std::string& getNamespace() const {
+        return namespace_;
     }
 
     /**
@@ -53,13 +53,13 @@ public:
 
     /**
      * @brief Equality comparison operator.
-     * Two OdmaQName objects are considered equal if their qualifier and name are both equal.
+     * Two OdmaQName objects are considered equal if their namespace and name are both equal.
      *
      * @param other The other OdmaQName to compare with.
      * @return True if both OdmaQName objects are equal, false otherwise.
      */
     inline bool operator==(const OdmaGuid& other) const {
-        return qualifier_ == other.qualifier_ && name_ == other.name_;
+        return namespace_ == other.namespace_ && name_ == other.name_;
     }
 
     /**
@@ -73,13 +73,13 @@ public:
 
     /**
      * @brief Returns a string representation of the OdmaQName object.
-     * The format is "qualifier:name".
+     * The format is "namespace:name".
      *
      * @return The string representation of this OdmaQName.
      */
     inline std::string toString() const {
         std::ostringstream oss;
-        oss << qualifier_ << ":" << name_;
+        oss << namespace_ << ":" << name_;
         return oss.str();
     }
 
@@ -97,7 +97,7 @@ public:
     }
 
 private:
-    std::string qualifier_; ///< The qualifier part of the qualified name.
+    std::string namespace_; ///< The namespace part of the qualified name.
     std::string name_;      ///< The name part of the qualified name.
 
 };

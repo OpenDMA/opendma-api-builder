@@ -57,7 +57,7 @@ public class PythonConstantsFileWriter extends AbstractConstantsFileWriter
     {
         out.println("");
         out.println("# qualified name of the OpenDMA system class "+classDescription.getOdmaName().getName());
-        out.println(constantName+" = OdmaQName(\""+classDescription.getOdmaName().getQualifier()+"\", \""+classDescription.getOdmaName().getName()+"\")");
+        out.println(constantName+" = OdmaQName(\""+classDescription.getOdmaName().getNamespace()+"\", \""+classDescription.getOdmaName().getName()+"\")");
         definedConstants.add(constantName);
     }
 
@@ -65,7 +65,7 @@ public class PythonConstantsFileWriter extends AbstractConstantsFileWriter
     {
         out.println("");
         out.println("# qualified name of the OpenDMA system property "+propertyDescription.getOdmaName().getName());
-        out.println(constantName+" = OdmaQName(\""+propertyDescription.getOdmaName().getQualifier()+"\", \""+propertyDescription.getOdmaName().getName()+"\")");
+        out.println(constantName+" = OdmaQName(\""+propertyDescription.getOdmaName().getNamespace()+"\", \""+propertyDescription.getOdmaName().getName()+"\")");
         definedConstants.add(constantName);
     }
 

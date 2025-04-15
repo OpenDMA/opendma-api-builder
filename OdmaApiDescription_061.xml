@@ -40,11 +40,11 @@
     </ScalarTypes>
 
 
-    <Class qualifier="opendma" name="Object" apiName="OdmaObject" aspect="false" instantiable="false" hidden="false" system="true">
+    <Class namespace="opendma" name="Object" apiName="OdmaObject" aspect="false" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Class"
                   apiName="OdmaClass"
                   readOnly="true"
@@ -53,13 +53,13 @@
                   multiValue="false"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Class">
             <Abstract>the OpenDMA &lt;code&gt;Class&lt;/code&gt; describing this &lt;code&gt;Object&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Id"
                   apiName="Id"
                   readOnly="true"
@@ -72,7 +72,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Guid"
                   apiName="Guid"
                   readOnly="true"
@@ -85,7 +85,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Repository"
                   apiName="Repository"
                   readOnly="true"
@@ -94,7 +94,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Repository">
             <Abstract>the OpenDMA &lt;code&gt;Repository&lt;/code&gt; where this &lt;code&gt;Object&lt;/code&gt; resides</Abstract>
             <Description>Full description follows.</Description>
@@ -103,11 +103,11 @@
     </Class>
 
 
-    <Class qualifier="opendma" name="Class" apiName="OdmaClass" extendsQualifier="opendma" extendsName="Object" aspect="false" instantiable="true" hidden="false" system="true">
+    <Class namespace="opendma" name="Class" apiName="OdmaClass" extendsNamespace="opendma" extendsName="Object" aspect="false" instantiable="true" hidden="false" system="true">
 
         <Description>The &lt;i&gt;Class&lt;/i&gt; specific version of the &lt;code&gt;{@link OdmaObject}&lt;/code&gt; interface that offers short cuts to all defined OpenDMA properties.</Description>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Name"
                   apiName="Name"
                   readOnly="false"
@@ -120,7 +120,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="NameQualifier"
                   apiName="NameQualifier"
                   readOnly="false"
@@ -133,7 +133,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="DisplayName"
                   apiName="DisplayName"
                   readOnly="false"
@@ -146,7 +146,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Parent"
                   apiName="Parent"
                   readOnly="true"
@@ -155,13 +155,13 @@
                   multiValue="false"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Class">
             <Abstract>the &lt;i&gt;parent&lt;/i&gt; &lt;code&gt;Class&lt;/code&gt; that is extended by this &lt;code&gt;Class&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Aspects"
                   apiName="Aspects"
                   readOnly="false"
@@ -170,13 +170,13 @@
                   multiValue="true"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Class">
             <Abstract>the list of &lt;i&gt;aspects&lt;/i&gt; that are implemented by this &lt;code&gt;Class&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="DeclaredProperties"
                   apiName="DeclaredProperties"
                   readOnly="false"
@@ -185,13 +185,13 @@
                   multiValue="true"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="PropertyInfo">
             <Abstract>the list of &lt;i&gt;properties&lt;/i&gt; that are desclared by this &lt;code&gt;Class&lt;/code&gt; (does not contain inherited properties).</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Properties"
                   apiName="Properties"
                   readOnly="true"
@@ -200,13 +200,13 @@
                   multiValue="true"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="PropertyInfo">
             <Abstract>the list of &lt;i&gt;properties&lt;/i&gt; that are effective for objects of this &lt;code&gt;Class&lt;/code&gt;. Contains inherited and declared properties.</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Aspect"
                   apiName="Aspect"
                   readOnly="true"
@@ -219,7 +219,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Instantiable"
                   apiName="Instantiable"
                   readOnly="false"
@@ -232,7 +232,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Hidden"
                   apiName="Hidden"
                   readOnly="false"
@@ -245,7 +245,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="System"
                   apiName="System"
                   readOnly="false"
@@ -258,7 +258,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Retrievable"
                   apiName="Retrievable"
                   readOnly="true"
@@ -271,7 +271,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Searchable"
                   apiName="Searchable"
                   readOnly="true"
@@ -284,7 +284,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="SubClasses"
                   apiName="SubClasses"
                   readOnly="true"
@@ -293,7 +293,7 @@
                   multiValue="true"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Class">
             <Abstract>the list of &lt;code&gt;Class&lt;/code&gt;es that extend this class (i.e. that contain a reference to this &lt;code&gt;Class&lt;/code&gt; in their &lt;i&gt;parent&lt;/i&gt; property)</Abstract>
             <Description>Full description follows.</Description>
@@ -307,11 +307,11 @@
     </Class>
 
 
-    <Class qualifier="opendma" name="PropertyInfo" apiName="OdmaPropertyInfo" extendsQualifier="opendma" extendsName="Object" aspect="false" instantiable="true" hidden="false" system="true">
+    <Class namespace="opendma" name="PropertyInfo" apiName="OdmaPropertyInfo" extendsNamespace="opendma" extendsName="Object" aspect="false" instantiable="true" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Name"
                   apiName="Name"
                   readOnly="false"
@@ -324,7 +324,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="NameQualifier"
                   apiName="NameQualifier"
                   readOnly="false"
@@ -337,7 +337,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="DisplayName"
                   apiName="DisplayName"
                   readOnly="false"
@@ -350,7 +350,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="DataType"
                   apiName="DataType"
                   readOnly="false"
@@ -363,7 +363,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="ReferenceClass"
                   apiName="ReferenceClass"
                   readOnly="false"
@@ -372,13 +372,13 @@
                   multiValue="false"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Class">
             <Abstract>the required &lt;code&gt;Class&lt;/code&gt; of the object referenced by this property if this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="MultiValue"
                   apiName="MultiValue"
                   readOnly="false"
@@ -391,7 +391,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Required"
                   apiName="Required"
                   readOnly="false"
@@ -404,7 +404,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="ReadOnly"
                   apiName="ReadOnly"
                   readOnly="false"
@@ -417,7 +417,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Hidden"
                   apiName="Hidden"
                   readOnly="false"
@@ -430,7 +430,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="System"
                   apiName="System"
                   readOnly="false"
@@ -443,7 +443,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Choices"
                   apiName="Choices"
                   readOnly="false"
@@ -452,7 +452,7 @@
                   multiValue="true"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="ChoiceValue">
             <Abstract>set of possible choices the values of this property is limited to or null if there are no constraints for the value of this property</Abstract>
             <Description>Full description follows.</Description>
@@ -466,11 +466,11 @@
     </Class>
 
 
-    <Class qualifier="opendma" name="ChoiceValue" apiName="OdmaChoiceValue" extendsQualifier="opendma" extendsName="Object" aspect="false" instantiable="true" hidden="false" system="true">
+    <Class namespace="opendma" name="ChoiceValue" apiName="OdmaChoiceValue" extendsNamespace="opendma" extendsName="Object" aspect="false" instantiable="true" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="DisplayName"
                   apiName="DisplayName"
                   readOnly="false"
@@ -483,7 +483,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="StringValue"
                   apiName="StringValue"
                   readOnly="false"
@@ -496,7 +496,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="IntegerValue"
                   apiName="IntegerValue"
                   readOnly="false"
@@ -509,7 +509,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="ShortValue"
                   apiName="ShortValue"
                   readOnly="false"
@@ -522,7 +522,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="LongValue"
                   apiName="LongValue"
                   readOnly="false"
@@ -535,7 +535,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="FloatValue"
                   apiName="FloatValue"
                   readOnly="false"
@@ -548,7 +548,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="DoubleValue"
                   apiName="DoubleValue"
                   readOnly="false"
@@ -561,7 +561,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="BooleanValue"
                   apiName="BooleanValue"
                   readOnly="false"
@@ -574,7 +574,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="DateTimeValue"
                   apiName="DateTimeValue"
                   readOnly="false"
@@ -587,7 +587,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="BLOBValue"
                   apiName="BLOBValue"
                   readOnly="false"
@@ -600,7 +600,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="ReferenceValue"
                   apiName="ReferenceValue"
                   readOnly="false"
@@ -623,11 +623,11 @@
 <!-- ========================================================================================== -->
 
 
-    <Class qualifier="opendma" name="Repository" apiName="OdmaRepository" extendsQualifier="opendma" extendsName="Object" aspect="false" instantiable="false" hidden="false" system="true">
+    <Class namespace="opendma" name="Repository" apiName="OdmaRepository" extendsNamespace="opendma" extendsName="Object" aspect="false" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Name"
                   apiName="Name"
                   readOnly="false"
@@ -640,7 +640,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="DisplayName"
                   apiName="DisplayName"
                   readOnly="false"
@@ -653,7 +653,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="RootClass"
                   apiName="RootClass"
                   readOnly="true"
@@ -662,13 +662,13 @@
                   multiValue="false"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Class">
             <Abstract>the &lt;i&gt;root&lt;/i&gt; &lt;code&gt;Class&lt;/code&gt; of the class hierarchy in this &lt;code&gt;Repository&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="RootAspects"
                   apiName="RootAspects"
                   readOnly="true"
@@ -677,13 +677,13 @@
                   multiValue="true"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Class">
             <Abstract>the list of &lt;code&gt;Class&lt;/code&gt;es that represent an &lt;i&gt;Aspect&lt;/i&gt; and that do not inherit another aspect</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="RootFolder"
                   apiName="RootFolder"
                   readOnly="true"
@@ -692,7 +692,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Folder">
             <Abstract>the &lt;i&gt;root&lt;/i&gt; &lt;code&gt;Folder&lt;/code&gt; of a dedicated folder tree in this &lt;code&gt;Repository&lt;/code&gt; (if any)</Abstract>
             <Description>Full description follows.</Description>
@@ -701,11 +701,11 @@
     </Class>
 
 
-    <Class qualifier="opendma" name="Document" apiName="OdmaDocument" aspect="true" instantiable="false" hidden="false" system="true">
+    <Class namespace="opendma" name="Document" apiName="OdmaDocument" aspect="true" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Title"
                   apiName="Title"
                   readOnly="false"
@@ -718,7 +718,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Version"
                   apiName="Version"
                   readOnly="true"
@@ -731,7 +731,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="VersionCollection"
                   apiName="VersionCollection"
                   readOnly="true"
@@ -740,13 +740,13 @@
                   multiValue="false"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="VersionCollection">
             <Abstract>reference to a &lt;i&gt;VersionCollection&lt;/i&gt; object containing the collection of all &lt;i&gt;versions&lt;/i&gt; of this &lt;code&gt;Document&lt;/code&gt; along with other information</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="VersionIndependentId"
                   apiName="VersionIndependentId"
                   readOnly="true"
@@ -759,7 +759,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="VersionIndependentGuid"
                   apiName="VersionIndependentGuid"
                   readOnly="true"
@@ -772,7 +772,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="ContentElements"
                   apiName="ContentElements"
                   readOnly="false"
@@ -781,13 +781,13 @@
                   multiValue="true"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="ContentElement">
             <Abstract>the collection of all &lt;code&gt;ContentElement&lt;/code&gt;s this &lt;code&gt;Document&lt;/code&gt; consists of</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="CombinedContentType"
                   apiName="CombinedContentType"
                   readOnly="false"
@@ -800,7 +800,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="PrimaryContentElement"
                   apiName="PrimaryContentElement"
                   readOnly="false"
@@ -809,13 +809,13 @@
                   multiValue="false"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="ContentElement">
             <Abstract>the primary &lt;code&gt;ContentElement&lt;/code&gt;s that represents this &lt;code&gt;Document&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="CreatedAt"
                   apiName="CreatedAt"
                   readOnly="true"
@@ -828,7 +828,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="CreatedBy"
                   apiName="CreatedBy"
                   readOnly="true"
@@ -841,7 +841,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="LastModifiedAt"
                   apiName="LastModifiedAt"
                   readOnly="true"
@@ -854,7 +854,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="LastModifiedBy"
                   apiName="LastModifiedBy"
                   readOnly="true"
@@ -867,7 +867,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="CheckedOut"
                   apiName="CheckedOut"
                   readOnly="true"
@@ -880,7 +880,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="CheckedOutAt"
                   apiName="CheckedOutAt"
                   readOnly="true"
@@ -893,7 +893,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="CheckedOutBy"
                   apiName="CheckedOutBy"
                   readOnly="true"
@@ -909,11 +909,11 @@
     </Class>
 
 
-    <Class qualifier="opendma" name="ContentElement" apiName="OdmaContentElement" aspect="true" instantiable="false" hidden="false" system="true">
+    <Class namespace="opendma" name="ContentElement" apiName="OdmaContentElement" aspect="true" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="ContentType"
                   apiName="ContentType"
                   readOnly="false"
@@ -926,7 +926,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Position"
                   apiName="Position"
                   readOnly="true"
@@ -942,11 +942,11 @@
     </Class>
 
 
-    <Class qualifier="opendma" name="DataContentElement" apiName="OdmaDataContentElement" extendsQualifier="opendma" extendsName="ContentElement" aspect="true" instantiable="false" hidden="false" system="true">
+    <Class namespace="opendma" name="DataContentElement" apiName="OdmaDataContentElement" extendsNamespace="opendma" extendsName="ContentElement" aspect="true" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Content"
                   apiName="Content"
                   readOnly="false"
@@ -959,7 +959,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Size"
                   apiName="Size"
                   readOnly="true"
@@ -972,7 +972,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="FileName"
                   apiName="FileName"
                   readOnly="false"
@@ -988,11 +988,11 @@
     </Class>
 
 
-    <Class qualifier="opendma" name="ReferenceContentElement" apiName="OdmaReferenceContentElement" extendsQualifier="opendma" extendsName="ContentElement" aspect="true" instantiable="false" hidden="false" system="true">
+    <Class namespace="opendma" name="ReferenceContentElement" apiName="OdmaReferenceContentElement" extendsNamespace="opendma" extendsName="ContentElement" aspect="true" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Location"
                   apiName="Location"
                   readOnly="false"
@@ -1008,11 +1008,11 @@
     </Class>
 
 
-    <Class qualifier="opendma" name="VersionCollection" apiName="OdmaVersionCollection" aspect="true" instantiable="false" hidden="false" system="true">
+    <Class namespace="opendma" name="VersionCollection" apiName="OdmaVersionCollection" aspect="true" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Versions"
                   apiName="Versions"
                   readOnly="true"
@@ -1021,13 +1021,13 @@
                   multiValue="true"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Document">
             <Abstract>collection of all versions of the &lt;code&gt;Document&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Latest"
                   apiName="Latest"
                   readOnly="true"
@@ -1036,13 +1036,13 @@
                   multiValue="false"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Document">
             <Abstract>the latest version of this &lt;code&gt;Document&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Released"
                   apiName="Released"
                   readOnly="true"
@@ -1051,13 +1051,13 @@
                   multiValue="false"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Document">
             <Abstract>the last released version of this &lt;code&gt;Document&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="InProgress"
                   apiName="InProgress"
                   readOnly="true"
@@ -1066,13 +1066,13 @@
                   multiValue="false"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Document">
             <Abstract>the version of this &lt;code&gt;Document&lt;/code&gt; currently beeing worked on during a checkout. Only valid if and only if the corresponding &lt;code&gt;Document&lt;/code&gt; is checked out.</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="CreatedAt"
                   apiName="CreatedAt"
                   readOnly="true"
@@ -1085,7 +1085,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="CreatedBy"
                   apiName="CreatedBy"
                   readOnly="true"
@@ -1101,11 +1101,11 @@
     </Class>
 
 
-    <Class qualifier="opendma" name="Container" apiName="OdmaContainer" aspect="true" instantiable="false" hidden="false" system="true">
+    <Class namespace="opendma" name="Container" apiName="OdmaContainer" aspect="true" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Title"
                   apiName="Title"
                   readOnly="false"
@@ -1118,7 +1118,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Containees"
                   apiName="Containees"
                   readOnly="true"
@@ -1127,13 +1127,13 @@
                   multiValue="true"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Containable">
             <Abstract>the collection of all &lt;code&gt;Containable&lt;/code&gt; objects that are contained in this &lt;code&gt;Container&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Associations"
                   apiName="Associations"
                   readOnly="true"
@@ -1142,13 +1142,13 @@
                   multiValue="true"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Association">
             <Abstract>the collection of all &lt;code&gt;Association&lt;/code&gt;s between this &lt;code&gt;Container&lt;/code&gt; and its containees</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="CreatedAt"
                   apiName="CreatedAt"
                   readOnly="true"
@@ -1161,7 +1161,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="CreatedBy"
                   apiName="CreatedBy"
                   readOnly="true"
@@ -1174,7 +1174,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="LastModifiedAt"
                   apiName="LastModifiedAt"
                   readOnly="true"
@@ -1187,7 +1187,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="LastModifiedBy"
                   apiName="LastModifiedBy"
                   readOnly="true"
@@ -1203,11 +1203,11 @@
     </Class>
 
 
-    <Class qualifier="opendma" name="Folder" apiName="OdmaFolder" extendsQualifier="opendma" extendsName="Container" aspect="true" instantiable="false" hidden="false" system="true">
+    <Class namespace="opendma" name="Folder" apiName="OdmaFolder" extendsNamespace="opendma" extendsName="Container" aspect="true" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Parent"
                   apiName="Parent"
                   readOnly="false"
@@ -1216,13 +1216,13 @@
                   multiValue="false"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Folder">
             <Abstract>the &lt;code&gt;Folder&lt;/code&gt; this &lt;code&gt;Folder&lt;/code&gt; is a sub folder of</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="SubFolders"
                   apiName="SubFolders"
                   readOnly="true"
@@ -1231,7 +1231,7 @@
                   multiValue="true"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Folder">
             <Abstract>the collection of &lt;code&gt;Folder&lt;/code&gt;s which have this &lt;code&gt;Folder&lt;/code&gt; in their parent ptoperty</Abstract>
             <Description>Full description follows.</Description>
@@ -1240,11 +1240,11 @@
     </Class>
 
 
-    <Class qualifier="opendma" name="Containable" apiName="OdmaContainable" aspect="true" instantiable="false" hidden="false" system="true">
+    <Class namespace="opendma" name="Containable" apiName="OdmaContainable" aspect="true" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="ContainedIn"
                   apiName="ContainedIn"
                   readOnly="true"
@@ -1253,13 +1253,13 @@
                   multiValue="true"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Container">
             <Abstract>the collection of &lt;code&gt;Container&lt;/code&gt;s this &lt;code&gt;Containable&lt;/code&gt; is contained in</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="ContainedInAssociations"
                   apiName="ContainedInAssociations"
                   readOnly="true"
@@ -1268,7 +1268,7 @@
                   multiValue="true"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Association">
             <Abstract>the collection of &lt;code&gt;Association&lt;/code&gt;s that bind this &lt;code&gt;Containable&lt;/code&gt; in the &lt;code&gt;Container&lt;/code&gt;s</Abstract>
             <Description>Full description follows.</Description>
@@ -1277,11 +1277,11 @@
     </Class>
 
 
-    <Class qualifier="opendma" name="Association" apiName="OdmaAssociation" aspect="true" instantiable="false" hidden="false" system="true">
+    <Class namespace="opendma" name="Association" apiName="OdmaAssociation" aspect="true" instantiable="false" hidden="false" system="true">
 
         <Description>Full description follows.</Description>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Name"
                   apiName="Name"
                   readOnly="false"
@@ -1294,7 +1294,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Container"
                   apiName="Container"
                   readOnly="false"
@@ -1303,13 +1303,13 @@
                   multiValue="false"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Container">
             <Abstract>the &lt;code&gt;Container&lt;/code&gt; of this &lt;code&gt;Association&lt;/code&gt; in which the containable is said to be contained</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="Containable"
                   apiName="Containable"
                   readOnly="false"
@@ -1318,13 +1318,13 @@
                   multiValue="false"
                   hidden="false"
                   system="true"
-                  referenceQualifier="opendma"
+                  referenceNamespace="opendma"
                   referenceName="Containable">
             <Abstract>the &lt;code&gt;Containable&lt;/code&gt; of this &lt;code&gt;Association&lt;/code&gt; which is said to be contained in the container</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="CreatedAt"
                   apiName="CreatedAt"
                   readOnly="true"
@@ -1337,7 +1337,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="CreatedBy"
                   apiName="CreatedBy"
                   readOnly="true"
@@ -1350,7 +1350,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="LastModifiedAt"
                   apiName="LastModifiedAt"
                   readOnly="true"
@@ -1363,7 +1363,7 @@
             <Description>Full description follows.</Description>
         </Property>
 
-        <Property qualifier="opendma"
+        <Property namespace="opendma"
                   name="LastModifiedBy"
                   apiName="LastModifiedBy"
                   readOnly="true"

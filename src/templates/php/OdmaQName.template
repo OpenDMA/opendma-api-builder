@@ -3,17 +3,17 @@
 namespace OpenDMA\Api;
 
 /**
- * Represents a qualified name in OpenDMA, consisting of a qualifier and a name.
+ * Represents a qualified name in OpenDMA, consisting of a namespace and a name.
  *
- * Both the qualifier and the name must not be null or empty, and they are immutable after creation.
+ * Both the namespace and the name must not be null or empty, and they are immutable after creation.
  * This class is designed to be immutable and thread-safe.
  */
 class OdmaQName
 {
     /**
-     * @var string The qualifier part of the qualified name.
+     * @var string The namespace part of the qualified name.
      */
-    private string $qualifier;
+    private string $namespace;
 
     /**
      * @var string The name part of the qualified name.
@@ -21,33 +21,33 @@ class OdmaQName
     private string $name;
 
     /**
-     * Constructs an OdmaQName object with the specified qualifier and name.
+     * Constructs an OdmaQName object with the specified namespace and name.
      *
-     * @param string $qualifier The qualifier part of the qualified name. Must not be empty.
+     * @param string $namespace The namespace part of the qualified name. Must not be empty.
      * @param string $name The name part of the qualified name. Must not be empty.
-     * @throws \InvalidArgumentException if either the qualifier or name is empty.
+     * @throws \InvalidArgumentException if either the namespace or name is empty.
      */
-    public function __construct(string $qualifier, string $name)
+    public function __construct(string $namespace, string $name)
     {
-        if (empty(trim($qualifier))) {
-            throw new \InvalidArgumentException("Qualifier must not be empty");
+        if (empty(trim($namespace))) {
+            throw new \InvalidArgumentException("Namespace must not be empty");
         }
         if (empty(trim($name))) {
             throw new \InvalidArgumentException("Name must not be empty");
         }
 
-        $this->qualifier = $qualifier;
+        $this->namespace = $namespace;
         $this->name = $name;
     }
 
     /**
-     * Gets the qualifier part of the qualified name.
+     * Gets the namespace part of the qualified name.
      *
-     * @return string The qualifier.
+     * @return string The namespace.
      */
-    public function getQualifier(): string
+    public function getNamespace(): string
     {
-        return $this->qualifier;
+        return $this->namespace;
     }
 
     /**
@@ -62,14 +62,14 @@ class OdmaQName
 
     /**
      * Compares two OdmaQName objects for equality.
-     * Two OdmaQName objects are considered equal if their qualifier and name are both equal.
+     * Two OdmaQName objects are considered equal if their namespace and name are both equal.
      *
      * @param OdmaQName $other The OdmaQName to compare against.
      * @return bool True if the objects are equal, false otherwise.
      */
     public function equals(OdmaQName $other): bool
     {
-        return $this->qualifier === $other->getQualifier() && $this->name === $other->getName();
+        return $this->namespace === $other->getNamespace() && $this->name === $other->getName();
     }
 
     /**
@@ -79,7 +79,7 @@ class OdmaQName
      */
     public function __toString(): string
     {
-        return $this->qualifier . ':' . $this->name;
+        return $this->namespace . ':' . $this->name;
     }
 
 }

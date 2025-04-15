@@ -310,14 +310,14 @@ public class JavaApiWriter extends AbstractApiWriter
             {
                 PropertyDescription propertyDescription = itDeclaredProperties.next();
                 out.println("        // "+propertyDescription.getOdmaName());
-                out.println("        OdmaQName qname"+propertyDescription.getApiName()+" = new OdmaQName(\""+propertyDescription.getOdmaName().getQualifier()+"\",\""+propertyDescription.getOdmaName().getName()+"\");");
+                out.println("        OdmaQName qname"+propertyDescription.getApiName()+" = new OdmaQName(\""+propertyDescription.getOdmaName().getNamespace()+"\",\""+propertyDescription.getOdmaName().getName()+"\");");
                 out.println("        try {");
                 out.println("            OdmaProperty prop"+propertyDescription.getApiName()+" = obj.getProperty(qname"+propertyDescription.getApiName()+");");
                 out.println("            if(prop"+propertyDescription.getApiName()+".getName() == null) {");
                 out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" qname is null\");");
                 out.println("            }");
-                out.println("            if(!\""+propertyDescription.getOdmaName().getQualifier()+"\".equals(prop"+propertyDescription.getApiName()+".getName().getQualifier())) {");
-                out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" qname qualifier is not '"+propertyDescription.getOdmaName().getQualifier()+"', found instead'\"+prop"+propertyDescription.getApiName()+".getName().getQualifier()+\"'\");");
+                out.println("            if(!\""+propertyDescription.getOdmaName().getNamespace()+"\".equals(prop"+propertyDescription.getApiName()+".getName().getNamespace())) {");
+                out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" qname namespace is not '"+propertyDescription.getOdmaName().getNamespace()+"', found instead'\"+prop"+propertyDescription.getApiName()+".getName().getNamespace()+\"'\");");
                 out.println("            }");
                 out.println("            if(!\""+propertyDescription.getOdmaName().getName()+"\".equals(prop"+propertyDescription.getApiName()+".getName().getName())) {");
                 out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" qname name is not '"+propertyDescription.getOdmaName().getName()+"', found instead'\"+prop"+propertyDescription.getApiName()+".getName().getName()+\"'\");");
@@ -343,7 +343,7 @@ public class JavaApiWriter extends AbstractApiWriter
                 out.println("        } catch(OdmaPropertyNotFoundException pnfe) {");
                 out.println("            result.add(\"Missing property "+propertyDescription.getOdmaName()+"\");");
                 out.println("        }");
-                out.println("        if(clazz != null && (new OdmaQName(\""+classDescription.getOdmaName().getQualifier()+"\",\""+classDescription.getOdmaName().getName()+"\")).equals(clazz.getQName())) {");
+                out.println("        if(clazz != null && (new OdmaQName(\""+classDescription.getOdmaName().getNamespace()+"\",\""+classDescription.getOdmaName().getName()+"\")).equals(clazz.getQName())) {");
                 out.println("            OdmaPropertyInfo piDeclared"+propertyDescription.getApiName()+" = null;");
                 out.println("            if(declaredProperties != null) {");
                 out.println("                for(OdmaPropertyInfo pi : declaredProperties) {");
@@ -360,8 +360,8 @@ public class JavaApiWriter extends AbstractApiWriter
                 out.println("                result.add(\"Declared properties in class have no property info object with qname "+propertyDescription.getOdmaName()+"\");");
                 out.println("            }");
                 out.println("            if(piDeclared"+propertyDescription.getApiName()+" != null) {");
-                out.println("                if(!\""+propertyDescription.getOdmaName().getQualifier()+"\".equals(piDeclared"+propertyDescription.getApiName()+".getNameQualifier())) {");
-                out.println("                    result.add(\"Property info for "+propertyDescription.getOdmaName()+" in declared properties qname qualifier is not '"+propertyDescription.getOdmaName().getQualifier()+"'\");");
+                out.println("                if(!\""+propertyDescription.getOdmaName().getNamespace()+"\".equals(piDeclared"+propertyDescription.getApiName()+".getNamespace())) {");
+                out.println("                    result.add(\"Property info for "+propertyDescription.getOdmaName()+" in declared properties qname namespace is not '"+propertyDescription.getOdmaName().getNamespace()+"'\");");
                 out.println("                }");
                 out.println("                if(!\""+propertyDescription.getOdmaName().getName()+"\".equals(piDeclared"+propertyDescription.getApiName()+".getName())) {");
                 out.println("                    result.add(\"Property info for "+propertyDescription.getOdmaName()+" in declared properties qname name is not '"+propertyDescription.getOdmaName().getName()+"'\");");
@@ -377,7 +377,7 @@ public class JavaApiWriter extends AbstractApiWriter
                 out.println("                }");
                 if(propertyDescription.isReference())
                 {
-                    out.println("                if(!(new OdmaQName(\""+propertyDescription.getReferenceClassName().getQualifier()+"\",\""+propertyDescription.getReferenceClassName().getName()+"\")).equals(piDeclared"+propertyDescription.getApiName()+".getReferenceClass().getQName())) {");
+                    out.println("                if(!(new OdmaQName(\""+propertyDescription.getReferenceClassName().getNamespace()+"\",\""+propertyDescription.getReferenceClassName().getName()+"\")).equals(piDeclared"+propertyDescription.getApiName()+".getReferenceClass().getQName())) {");
                     out.println("                    result.add(\"Property info for "+propertyDescription.getOdmaName()+" in declared properties ReadOnly is not '"+(propertyDescription.isReadOnly()?"true":"false")+"'\");");
                     out.println("                }");
                 }
@@ -408,8 +408,8 @@ public class JavaApiWriter extends AbstractApiWriter
                 out.println("            result.add(\"All properties in class have no property info object with qname "+propertyDescription.getOdmaName()+"\");");
                 out.println("        }");
                 out.println("        if(piAll"+propertyDescription.getApiName()+" != null) {");
-                out.println("            if(!\""+propertyDescription.getOdmaName().getQualifier()+"\".equals(piAll"+propertyDescription.getApiName()+".getNameQualifier())) {");
-                out.println("                result.add(\"Property info for "+propertyDescription.getOdmaName()+" in all properties qname qualifier is not '"+propertyDescription.getOdmaName().getQualifier()+"'\");");
+                out.println("            if(!\""+propertyDescription.getOdmaName().getNamespace()+"\".equals(piAll"+propertyDescription.getApiName()+".getNamespace())) {");
+                out.println("                result.add(\"Property info for "+propertyDescription.getOdmaName()+" in all properties qname namespace is not '"+propertyDescription.getOdmaName().getNamespace()+"'\");");
                 out.println("            }");
                 out.println("            if(!\""+propertyDescription.getOdmaName().getName()+"\".equals(piAll"+propertyDescription.getApiName()+".getName())) {");
                 out.println("                result.add(\"Property info for "+propertyDescription.getOdmaName()+" in all properties qname name is not '"+propertyDescription.getOdmaName().getName()+"'\");");
@@ -425,7 +425,7 @@ public class JavaApiWriter extends AbstractApiWriter
                 out.println("            }");
                 if(propertyDescription.isReference())
                 {
-                    out.println("            if(!(new OdmaQName(\""+propertyDescription.getReferenceClassName().getQualifier()+"\",\""+propertyDescription.getReferenceClassName().getName()+"\")).equals(piAll"+propertyDescription.getApiName()+".getReferenceClass().getQName())) {");
+                    out.println("            if(!(new OdmaQName(\""+propertyDescription.getReferenceClassName().getNamespace()+"\",\""+propertyDescription.getReferenceClassName().getName()+"\")).equals(piAll"+propertyDescription.getApiName()+".getReferenceClass().getQName())) {");
                     out.println("                result.add(\"Property info for "+propertyDescription.getOdmaName()+" in all properties ReadOnly is not '"+(propertyDescription.isReadOnly()?"true":"false")+"'\");");
                     out.println("            }");
                 }
@@ -565,9 +565,9 @@ public class JavaApiWriter extends AbstractApiWriter
         {
             printX(out,"NAME","OdmaCommonNames."+constantPropertyName+".getName()","STRING");
         }
-        else if(pn.equals("NAMEQUALIFIER"))
+        else if(pn.equals("NAMESPACE"))
         {
-            printX(out,"NAMEQUALIFIER","OdmaCommonNames."+constantPropertyName+".getQualifier()","STRING");
+            printX(out,"NAMESPACE","OdmaCommonNames."+constantPropertyName+".getNamespace()","STRING");
         }
         else if(pn.equals("QNAME"))
         {
@@ -671,9 +671,9 @@ public class JavaApiWriter extends AbstractApiWriter
         {
             printX(out,"NAME","OdmaCommonNames."+constantClassName+".getName()","STRING");
         }
-        else if(pn.equals("NAMEQUALIFIER"))
+        else if(pn.equals("NAMESPACE"))
         {
-            printX(out,"NAMEQUALIFIER","OdmaCommonNames."+constantClassName+".getQualifier()","STRING");
+            printX(out,"NAMESPACE","OdmaCommonNames."+constantClassName+".getNamespace()","STRING");
         }
         else if(pn.equals("QNAME"))
         {

@@ -180,30 +180,30 @@ public class ClassDescription implements DescriptionFileTypes
             throw new DescriptionFileSyntaxException("The name of a ClassDescription element must be "+DESCRIPTION_ELEMENT_CLASS);
         }
         // read description
-        String qualifier = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_QUALIFIER);
+        String namespace = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_NAMESPACE);
         String name = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_NAME);
-        if((qualifier==null) || (qualifier.trim().length()==0) )
+        if((namespace==null) || (namespace.trim().length()==0) )
         {
-            throw new DescriptionFileSyntaxException("Missing qualifier of class");
+            throw new DescriptionFileSyntaxException("Missing namespace of class");
         }
         if((name==null) || (name.trim().length()==0) )
         {
             throw new DescriptionFileSyntaxException("Missing name of class");
         }
-        odmaName = new OdmaApiBuilderQName(qualifier,name);
-        String extendsQualifier = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_EXTENDSQUALIFIER);
+        odmaName = new OdmaApiBuilderQName(namespace,name);
+        String extendsNamespace = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_EXTENDSNAMESPACE);
         String extendsName = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_EXTENDSNAME);
-        if(extendsQualifier.trim().length()==0)
+        if(extendsNamespace.trim().length()==0)
         {
-            extendsQualifier = null;
+            extendsNamespace = null;
         }
         if(extendsName.trim().length()==0)
         {
             extendsName = null;
         }
-        if( (extendsQualifier!=null) && (extendsName!=null) )
+        if( (extendsNamespace!=null) && (extendsName!=null) )
         {
-            extendsOdmaName = new OdmaApiBuilderQName(extendsQualifier,extendsName);
+            extendsOdmaName = new OdmaApiBuilderQName(extendsNamespace,extendsName);
         }
         apiName = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_APINAME);
         if((apiName==null) || (apiName.trim().length()==0) )

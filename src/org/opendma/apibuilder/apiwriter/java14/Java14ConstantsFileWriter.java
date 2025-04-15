@@ -68,14 +68,14 @@ public class Java14ConstantsFileWriter extends AbstractConstantsFileWriter
     {
         out.println("");
         out.println("    /** qualified name of the OpenDMA system class <code>"+classDescription.getOdmaName().getName()+"</code> */");
-        out.println("    public final static OdmaQName "+constantName+" = new OdmaQName(\""+classDescription.getOdmaName().getQualifier()+"\", \""+classDescription.getOdmaName().getName()+"\");");
+        out.println("    public final static OdmaQName "+constantName+" = new OdmaQName(\""+classDescription.getOdmaName().getNamespace()+"\", \""+classDescription.getOdmaName().getName()+"\");");
     }
 
     protected void writeConstantsPropertynameConstant(PropertyDescription propertyDescription, String constantName, PrintWriter out)
     {
         out.println("");
         out.println("    /** qualified name of the OpenDMA system property <code>"+propertyDescription.getOdmaName().getName()+"</code> */");
-        out.println("    public final static OdmaQName "+constantName+" = new OdmaQName(\""+propertyDescription.getOdmaName().getQualifier()+"\", \""+propertyDescription.getOdmaName().getName()+"\");");
+        out.println("    public final static OdmaQName "+constantName+" = new OdmaQName(\""+propertyDescription.getOdmaName().getNamespace()+"\", \""+propertyDescription.getOdmaName().getName()+"\");");
     }
 
     protected void writeConstantsBackrefPropertynameHint(PropertyDescription propertyDescription, String propertyName, PrintWriter out)

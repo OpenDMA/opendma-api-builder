@@ -7,20 +7,20 @@ print("Welcome to OpenDMA API!")
 print("----OdmaQName----")
 
 do {
-    // let qn = try OdmaQName(qualifier: nil, name: "world") ? not allowed in Swift
-    // let qn = try OdmaQName(qualifier: "", name: "world")
-    // let qn = try OdmaQName(qualifier: "hello", name: "")
+    // let qn = try OdmaQName(namespace: nil, name: "world") ? not allowed in Swift
+    // let qn = try OdmaQName(namespace: "", name: "world")
+    // let qn = try OdmaQName(namespace: "hello", name: "")
 
-    let qn = try OdmaQName(qualifier: "hello", name: "world")
+    let qn = try OdmaQName(namespace: "hello", name: "world")
     print(qn)
 
-    let qn2 = try OdmaQName(qualifier: "Hello", name: "world")
-    let qn3 = try OdmaQName(qualifier: "hello", name: "World")
+    let qn2 = try OdmaQName(namespace: "Hello", name: "world")
+    let qn3 = try OdmaQName(namespace: "hello", name: "World")
 
     print(qn == qn2) // false
     print(qn == qn3) // false
 
-    let qn4 = try OdmaQName(qualifier: "hello", name: "world")
+    let qn4 = try OdmaQName(namespace: "hello", name: "world")
     print(qn == qn4) // true
 
     // MARK: - OdmaId

@@ -48,14 +48,14 @@ public class RustCommonNamesFileWriter extends AbstractConstantsFileWriter
     {
         out.println("");
         out.println("/// qualified name of the OpenDMA system class "+classDescription.getOdmaName().getName());
-        out.println("pub static "+constantName+": Lazy<OdmaQName> = Lazy::new(|| { OdmaQName::try_new(\""+classDescription.getOdmaName().getQualifier()+"\", \""+classDescription.getOdmaName().getName()+"\").expect(\"valid static name\") } );");
+        out.println("pub static "+constantName+": Lazy<OdmaQName> = Lazy::new(|| { OdmaQName::try_new(\""+classDescription.getOdmaName().getNamespace()+"\", \""+classDescription.getOdmaName().getName()+"\").expect(\"valid static name\") } );");
     }
 
     protected void writeConstantsPropertynameConstant(PropertyDescription propertyDescription, String constantName, PrintWriter out)
     {
         out.println("");
         out.println("/// qualified name of the OpenDMA system property "+propertyDescription.getOdmaName().getName());
-        out.println("pub static "+constantName+": Lazy<OdmaQName> = Lazy::new(|| { OdmaQName::try_new(\""+propertyDescription.getOdmaName().getQualifier()+"\", \""+propertyDescription.getOdmaName().getName()+"\").expect(\"valid static name\") } );");
+        out.println("pub static "+constantName+": Lazy<OdmaQName> = Lazy::new(|| { OdmaQName::try_new(\""+propertyDescription.getOdmaName().getNamespace()+"\", \""+propertyDescription.getOdmaName().getName()+"\").expect(\"valid static name\") } );");
     }
 
     protected void writeConstantsBackrefPropertynameHint(PropertyDescription propertyDescription, String propertyName, PrintWriter out)

@@ -35,7 +35,7 @@ public class JavaClassTemplateFileWriter extends AbstractObjectsInterfaceFileWri
                 out.println("     * @return "+apiHelper.getAbstract());
                 out.println("     */");
                 out.println("    public OdmaQName getQName() {");
-                out.println("        return new OdmaQName(getNameQualifier(),getName());");
+                out.println("        return new OdmaQName(getNamespace(),getName());");
                 out.println("    }");
             }
             public void appendRequiredImportsGlobal(ClassDescription classDescription, ApiHelperDescription apiHelper, ImportsList requiredImports)

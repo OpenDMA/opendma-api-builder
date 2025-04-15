@@ -6,28 +6,28 @@ import (
 	"strings"
 )
 
-// OdmaQName represents a qualified name in OpenDMA, consisting of a qualifier and a name.
-// Both the qualifier and the name must not be null or empty.
+// OdmaQName represents a qualified name in OpenDMA, consisting of a namespace and a name.
+// Both the namespace and the name must not be null or empty.
 type OdmaQName struct {
-	qualifier string
+	namespace string
 	name      string
 }
 
 // NewOdmaQName is a constructor function for creating a new OdmaQName.
-// It validates that the qualifier and name are non-empty.
-func NewOdmaQName(qualifier string, name string) (*OdmaQName, error) {
-	if strings.TrimSpace(qualifier) == "" {
-		return nil, errors.New("qualifier must not be empty")
+// It validates that the namespace and name are non-empty.
+func NewOdmaQName(namespace string, name string) (*OdmaQName, error) {
+	if strings.TrimSpace(namespace) == "" {
+		return nil, errors.New("Namespace must not be empty")
 	}
 	if strings.TrimSpace(name) == "" {
-		return nil, errors.New("name must not be empty")
+		return nil, errors.New("Name must not be empty")
 	}
-	return &OdmaQName{qualifier: qualifier, name: name}, nil
+	return &OdmaQName{namespace: namespace, name: name}, nil
 }
 
-// Qualifier returns the qualifier part of the qualified name.
-func (q *OdmaQName) Qualifier() string {
-	return q.qualifier
+// Namespace returns the namespace part of the qualified name.
+func (q *OdmaQName) Namespace() string {
+	return q.namespace
 }
 
 // Name returns the name part of the qualified name.
@@ -35,11 +35,11 @@ func (q *OdmaQName) Name() string {
 	return q.name
 }
 
-// String returns a string representation of the OdmaQName object in the format "qualifier:name".
+// String returns a string representation of the OdmaQName object in the format "namespace:name".
 func (q *OdmaQName) String() string {
-	return fmt.Sprintf("%s:%s", q.qualifier, q.name)
+	return fmt.Sprintf("%s:%s", q.namespace, q.name)
 }
 
 func (q *OdmaQName) Equals(other *OdmaQName) bool {
-	return q.qualifier == other.qualifier && q.name == other.name
+	return q.namespace == other.namespace && q.name == other.name
 }

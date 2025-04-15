@@ -25,7 +25,7 @@ public interface DescriptionFileTypes
 
     public final static String DESCRIPTION_ATTRIBUTE_NUMERICID = "numericId";
 
-    public final static String DESCRIPTION_ATTRIBUTE_QUALIFIER = "qualifier";
+    public final static String DESCRIPTION_ATTRIBUTE_NAMESPACE = "namespace";
 
     public final static String DESCRIPTION_ATTRIBUTE_NAME = "name";
 
@@ -33,7 +33,7 @@ public interface DescriptionFileTypes
 
     public final static String DESCRIPTION_ATTRIBUTE_BASESCALAR = "baseScalar";
 
-    public final static String DESCRIPTION_ATTRIBUTE_EXTENDSQUALIFIER = "extendsQualifier";
+    public final static String DESCRIPTION_ATTRIBUTE_EXTENDSNAMESPACE = "extendsNamespace";
 
     public final static String DESCRIPTION_ATTRIBUTE_EXTENDSNAME = "extendsName";
 
@@ -55,7 +55,7 @@ public interface DescriptionFileTypes
 
     public final static String DESCRIPTION_ATTRIBUTE_INSTANTIABLE = "instantiable";
 
-    public final static String DESCRIPTION_ATTRIBUTE_REFERENCEQUALIFIER = "referenceQualifier";
+    public final static String DESCRIPTION_ATTRIBUTE_REFERENCENAMESPACE = "referenceNamespace";
 
     public final static String DESCRIPTION_ATTRIBUTE_REFERENCENAME = "referenceName";
 

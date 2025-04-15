@@ -48,7 +48,7 @@ public class CppCommonNamesFileWriter extends AbstractConstantsFileWriter
         out.println("    /**");
         out.println("     * @brief qualified name of the OpenDMA system class <code>"+classDescription.getOdmaName().getName()+"</code> */");
         out.println("    */");
-        out.println("    OdmaQName "+constantName+"(\""+classDescription.getOdmaName().getQualifier()+"\", \""+classDescription.getOdmaName().getName()+"\");");
+        out.println("    OdmaQName "+constantName+"(\""+classDescription.getOdmaName().getNamespace()+"\", \""+classDescription.getOdmaName().getName()+"\");");
     }
 
     protected void writeConstantsPropertynameConstant(PropertyDescription propertyDescription, String constantName, PrintWriter out)
@@ -57,7 +57,7 @@ public class CppCommonNamesFileWriter extends AbstractConstantsFileWriter
         out.println("    /**");
         out.println("     * @brief qualified name of the OpenDMA system property <code>"+propertyDescription.getOdmaName().getName()+"</code> */");
         out.println("    */");
-        out.println("    OdmaQName "+constantName+"(\""+propertyDescription.getOdmaName().getQualifier()+"\", \""+propertyDescription.getOdmaName().getName()+"\");");
+        out.println("    OdmaQName "+constantName+"(\""+propertyDescription.getOdmaName().getNamespace()+"\", \""+propertyDescription.getOdmaName().getName()+"\");");
     }
 
     protected void writeConstantsBackrefPropertynameHint(PropertyDescription propertyDescription, String propertyName, PrintWriter out)

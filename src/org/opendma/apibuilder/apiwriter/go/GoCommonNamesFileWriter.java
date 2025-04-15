@@ -47,14 +47,14 @@ public class GoCommonNamesFileWriter extends AbstractConstantsFileWriter
     {
         out.println("");
         out.println("    // qualified name of the OpenDMA system class "+classDescription.getOdmaName().getName());
-        out.println("    "+constantName+" = &OdmaQName{qualifier: \""+classDescription.getOdmaName().getQualifier()+"\", name: \""+classDescription.getOdmaName().getName()+"\"}");
+        out.println("    "+constantName+" = &OdmaQName{namespace: \""+classDescription.getOdmaName().getNamespace()+"\", name: \""+classDescription.getOdmaName().getName()+"\"}");
     }
 
     protected void writeConstantsPropertynameConstant(PropertyDescription propertyDescription, String constantName, PrintWriter out)
     {
         out.println("");
         out.println("    // qualified name of the OpenDMA system property "+propertyDescription.getOdmaName().getName());
-        out.println("    "+constantName+" = &OdmaQName{qualifier: \""+propertyDescription.getOdmaName().getQualifier()+"\", name: \""+propertyDescription.getOdmaName().getName()+"\"}");
+        out.println("    "+constantName+" = &OdmaQName{namespace: \""+propertyDescription.getOdmaName().getNamespace()+"\", name: \""+propertyDescription.getOdmaName().getName()+"\"}");
     }
 
     protected void writeConstantsBackrefPropertynameHint(PropertyDescription propertyDescription, String propertyName, PrintWriter out)

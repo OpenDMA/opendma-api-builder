@@ -209,17 +209,17 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
             throw new DescriptionFileSyntaxException("The name of a PropertyDescription element must be "+DESCRIPTION_ELEMENT_PROPERTY);
         }
         // read description
-        String qualifier = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_QUALIFIER);
+        String namespace = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_NAMESPACE);
         String name = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_NAME);
-        if((qualifier==null) || (qualifier.trim().length()==0) )
+        if((namespace==null) || (namespace.trim().length()==0) )
         {
-            throw new DescriptionFileSyntaxException("Missing qualifier of property in class "+this.ContainingClass.getOdmaName().toString());
+            throw new DescriptionFileSyntaxException("Missing namespace of property in class "+this.ContainingClass.getOdmaName().toString());
         }
         if((name==null) || (name.trim().length()==0) )
         {
             throw new DescriptionFileSyntaxException("Missing name of property in class "+this.ContainingClass.getOdmaName().toString());
         }
-        OdmaName = new OdmaApiBuilderQName(qualifier,name);
+        OdmaName = new OdmaApiBuilderQName(namespace,name);
         apiName = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_APINAME);
         String readOnlyString = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_READONLY);
         String dataTypeString = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_DATATYPE);
@@ -261,27 +261,27 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
         required = parseBoolean(requiredString,DESCRIPTION_ATTRIBUTE_REQUIRED);
         hidden = parseBoolean(hiddenString,DESCRIPTION_ATTRIBUTE_HIDDEN);
         system = parseBoolean(systemString,DESCRIPTION_ATTRIBUTE_SYSTEM);
-        String referenceQualifier = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_REFERENCEQUALIFIER);
+        String referenceNamespace = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_REFERENCENAMESPACE);
         String referenceName = propertyDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_REFERENCENAME);
-        boolean referenceQualifierEmpty = ((referenceQualifier==null) || (referenceQualifier.trim().length()==0) );
+        boolean referenceNamespaceEmpty = ((referenceNamespace==null) || (referenceNamespace.trim().length()==0) );
         boolean referenceNameEmpty = ((referenceName==null) || (referenceName.trim().length()==0) );
         if(isReference())
         {
-            if(referenceQualifierEmpty)
+            if(referenceNamespaceEmpty)
             {
-                throw new DescriptionFileSyntaxException("The attribute referenceQualifier is required for dataType reference in property "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
+                throw new DescriptionFileSyntaxException("The attribute referenceNamespace is required for dataType reference in property "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
             }
             if(referenceNameEmpty)
             {
                 throw new DescriptionFileSyntaxException("The attribute referenceName is required for dataType reference in property "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
             }
-            referenceClassName = new OdmaApiBuilderQName(referenceQualifier,referenceName);
+            referenceClassName = new OdmaApiBuilderQName(referenceNamespace,referenceName);
         }
         else
         {
-            if(!referenceQualifierEmpty)
+            if(!referenceNamespaceEmpty)
             {
-                throw new DescriptionFileSyntaxException("The attribute referenceQualifier is only allowed for dataType reference in property "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
+                throw new DescriptionFileSyntaxException("The attribute referenceNamespace is only allowed for dataType reference in property "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
             }
             if(!referenceNameEmpty)
             {

@@ -243,14 +243,14 @@ public class OdmaStaticClassHierarchy {
         Iterator<OdmaStaticSystemPropertyInfo> itPropertyInfos = propertyInfos.values().iterator();
         while(itPropertyInfos.hasNext()) {
             OdmaStaticSystemPropertyInfo pi = itPropertyInfos.next();
-            OdmaId piId = new OdmaId(pi.getNameQualifier()+"Property"+pi.getName());
+            OdmaId piId = new OdmaId(pi.getNamespace()+"Property"+pi.getName());
             OdmaGuid piGuid = new OdmaGuid(repoId,piId);
             pi.patchIds(piId,piGuid);
         }
         Iterator<OdmaStaticSystemClass> itClassInfos = classInfos.values().iterator();
         while(itClassInfos.hasNext()) {
             OdmaStaticSystemClass ci = itClassInfos.next();
-            OdmaId ciId = new OdmaId(ci.getNameQualifier()+"Class"+ci.getName());
+            OdmaId ciId = new OdmaId(ci.getNamespace()+"Class"+ci.getName());
             OdmaGuid ciGuid = new OdmaGuid(repoId,ciId);
             ci.patchIds(ciId,ciGuid);
         }
