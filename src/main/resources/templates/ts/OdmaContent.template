@@ -1,0 +1,30 @@
+/**
+ * Represents the Content data type in OpenDMA.
+ * Provides access to the content stream and its size.
+ */
+export interface OdmaContent {
+
+    /**
+     * Gets the stream to access the content's binary data.
+     *
+     * @return A ReadableStream for reading the content's binary data.
+     */
+    getStream(): ReadableStream | NodeJS.ReadableStream;  // Browser or Node.js stream
+
+    /**
+     * Gets the size of the content in bytes.
+     *
+     * @return The size of the content in bytes as a long.
+     */
+    getSize(): number;
+
+}
+
+export function isOdmaContent(obj: any): obj is OdmaContent {
+  return (
+    obj &&
+    typeof obj.getStream === 'function' &&
+    typeof obj.getSize === 'function' &&
+    typeof obj.getSize() === 'number'
+  );
+}

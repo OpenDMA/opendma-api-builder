@@ -1,0 +1,75 @@
+package org.opendma.apibuilder.apiwriter.cpp;
+
+import java.io.PrintWriter;
+
+import org.opendma.apibuilder.apiwriter.AbstractConstantsFileWriter;
+import org.opendma.apibuilder.structure.ApiDescription;
+import org.opendma.apibuilder.structure.ClassDescription;
+import org.opendma.apibuilder.structure.PropertyDescription;
+import org.opendma.apibuilder.structure.ScalarTypeDescription;
+
+public class CppCommonNamesFileWriter extends AbstractConstantsFileWriter
+{
+    protected void writeConstantsFileHeader(ApiDescription apiDescription, PrintWriter out)
+    {
+        out.println("#ifndef _OdmaCommonNames_h_");
+        out.println("#define _OdmaCommonNames_h_");
+        out.println("");
+    }
+
+    protected void writeConstantsClassesSectionHeader(ApiDescription apiDescription, PrintWriter out)
+    {
+    }
+
+    protected void writeConstantsScalarTypeConstant(ScalarTypeDescription scalarTypeDescription, String constantName, PrintWriter out)
+    {
+    }
+
+    protected void writeConstantsTypesSectionHeader(ApiDescription apiDescription, PrintWriter out)
+    {
+    }
+
+    protected void writeConstantsClassSeperator(ClassDescription classDescription, PrintWriter out)
+    {
+        StringBuffer sb = new StringBuffer("    // -----< class ");
+        sb.append(classDescription.getOdmaName().getName());
+        sb.append(" >");
+        while(sb.length() < 100)
+        {
+            sb.append('-');
+        }
+        out.println("");
+        out.println(sb.toString());
+    }
+
+    protected void writeConstantsClassnameConstant(ClassDescription classDescription, String constantName, PrintWriter out)
+    {
+        out.println("");
+        out.println("    /**");
+        out.println("     * @brief qualified name of the OpenDMA system class <code>"+classDescription.getOdmaName().getName()+"</code> */");
+        out.println("    */");
+        out.println("    OdmaQName "+constantName+"(\""+classDescription.getOdmaName().getNamespace()+"\", \""+classDescription.getOdmaName().getName()+"\");");
+    }
+
+    protected void writeConstantsPropertynameConstant(PropertyDescription propertyDescription, String constantName, PrintWriter out)
+    {
+        out.println("");
+        out.println("    /**");
+        out.println("     * @brief qualified name of the OpenDMA system property <code>"+propertyDescription.getOdmaName().getName()+"</code> */");
+        out.println("    */");
+        out.println("    OdmaQName "+constantName+"(\""+propertyDescription.getOdmaName().getNamespace()+"\", \""+propertyDescription.getOdmaName().getName()+"\");");
+    }
+
+    protected void writeConstantsBackrefPropertynameHint(PropertyDescription propertyDescription, String propertyName, PrintWriter out)
+    {
+        out.println("");
+        out.println("    // Property "+propertyDescription.getOdmaName().getName()+" already defined previously");
+    }
+
+    protected void writeConstantsFileFooter(ApiDescription apiDescription, PrintWriter out)
+    {
+        out.println("");
+        out.println("#endif // _OdmaCommonNames_h_");
+    }
+
+}

@@ -1,0 +1,129 @@
+    
+    /** the name of this property */
+    protected OdmaQName name;
+    
+    /** the data type of this property */
+    protected OdmaType dataType;
+    
+    /** flag indicating if this property is multivalue or not */
+    protected boolean multiValue;
+    
+    /** the value of this property */
+    protected Object value;
+    
+    /** flag indicating if the value of this property has changed */
+    protected boolean dirty;
+    
+    /** flag indicating if this property is read only or not */
+    protected boolean readOnly;
+    
+    /**
+     * Create a new <code>OdmaPropertyImpl</code> with the given data.
+     * 
+     * @param name
+     *     The name of this property.
+     *     
+     * @param value
+     *     The value of this property.
+     *     
+     * @param dataType
+     *     The data type of this property
+     *     
+     * @param multiValue
+     *     Flag if this property is a multi value property
+     *     
+     * @param readOnly
+     *     Flag if this property is read only.
+     * 
+     * @throws OdmaInvalidDataTypeException
+     *             if and only if the Class of the given Object does not match
+     *             the data type of this property
+     */
+    public OdmaPropertyImpl(OdmaQName name, Object value, OdmaType dataType, boolean multiValue, boolean readOnly) throws OdmaInvalidDataTypeException {
+        this.name = name;
+        this.dataType = dataType;
+        this.multiValue = multiValue;
+        try {
+            setValue(value);
+        }
+        catch(OdmaAccessDeniedException e) {
+            throw new OdmaRuntimeException("Implementation error.");
+        }
+        this.readOnly = readOnly;
+        this.dirty = false;
+    }
+
+    /**
+     * Returns the qualified name of this property.
+     * 
+     * @return the qualified name of this property.
+     */
+    public OdmaQName getName() {
+        return name;
+    }
+
+    /**
+     * Returns the numeric identifier of the data type of this property.<br>
+     * You can find a list of all data types in the <code>OdmaTypes</code>
+     * class.
+     * 
+     * @return the numeric identifier of the data type of this property.
+     * 
+     * @see org.opendma.OdmaTypes
+     */
+    public OdmaType getType() {
+        return dataType;
+    }
+
+    /**
+     * Returns the value of this property.<br>
+     * The concrete <code>Object</code> returned by this method depends on the
+     * data type of this property.
+     * 
+     * @return the value of this property.
+     */
+    public Object getValue() {
+        return value;
+    }
+
+    /**
+     * Returns <code>true</code> if and only if this property has been changed and these
+     * changes have not yet been saved.
+     * 
+     * @return <code>true</code> true if and only if this property has been changed and these
+     *         changes have not yet been saved
+     */
+    public boolean isDirty() {
+        return dirty;
+    }
+
+    /**
+     * Returns <code>true</code> if and only if this property is a multi value property.
+     * 
+     * @return <code>true</code> if and only if this property is a multi value property.
+     */
+    public boolean isMultiValue() {
+        return multiValue;
+    }
+
+    /**
+     * Returns <code>true</code> if and only if this property must not be changed.
+     * 
+     * @return <code>true</code> if and only if this property must not be changed.
+     */
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    private boolean checkListAndValues(Object obj, Class<?> expectedElementsClass) {
+        if(!(obj instanceof List<?>)) {
+            return false;
+        }
+        for(Object element : (List<?>)obj) {
+            if(!expectedElementsClass.isAssignableFrom(element.getClass())) {
+                return false;
+            }
+        }
+        return true;
+    }
+    

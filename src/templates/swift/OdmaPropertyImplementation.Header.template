@@ -1,2 +1,0 @@
-/// Standard implementation of the OdmaProperty protocol.
-public class OdmaPropertyImpl: OdmaProperty {

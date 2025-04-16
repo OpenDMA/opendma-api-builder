@@ -1,0 +1,266 @@
+package org.opendma.impl.core;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.opendma.api.OdmaClass;
+import org.opendma.api.OdmaCommonNames;
+import org.opendma.api.OdmaGuid;
+import org.opendma.api.OdmaId;
+import org.opendma.api.OdmaObject;
+import org.opendma.api.OdmaProperty;
+import org.opendma.api.OdmaPropertyInfo;
+import org.opendma.api.OdmaQName;
+import org.opendma.api.OdmaRepository;
+import org.opendma.exceptions.OdmaAccessDeniedException;
+import org.opendma.exceptions.OdmaInvalidDataTypeException;
+import org.opendma.exceptions.OdmaObjectNotFoundException;
+import org.opendma.exceptions.OdmaRuntimeException;
+
+public class OdmaStaticClassHierarchy {
+
+    protected Map<OdmaQName, OdmaStaticSystemPropertyInfo> propertyInfos = new HashMap<OdmaQName, OdmaStaticSystemPropertyInfo>();
+
+    protected Map<OdmaQName, OdmaStaticSystemClass> classInfos = new HashMap<OdmaQName, OdmaStaticSystemClass>();
+
+    protected Map<OdmaId, OdmaObject> allAvailableObjects = new HashMap<OdmaId, OdmaObject>();
+    
+    protected Map<OdmaQName, OdmaProperty> repositoryObjectProperties = new HashMap<OdmaQName, OdmaProperty>();
+   
+    protected OdmaRepository repositoryObject;
+
+    public OdmaStaticSystemPropertyInfo getPropertyInfo(OdmaQName name) {
+        return propertyInfos.get(name);
+    }
+
+    public OdmaStaticSystemClass getClassInfo(OdmaQName name) {
+        return classInfos.get(name);
+    }
+
+    public OdmaObject getObjectById(OdmaId id) throws OdmaObjectNotFoundException {
+        OdmaObject o = allAvailableObjects.get(id);
+        if(o == null) {
+            throw new OdmaObjectNotFoundException(new OdmaGuid(repositoryObject.getId(), id));
+        }
+        return o;
+    }
+    
+    public Map<OdmaId, OdmaObject> getAllObjectsById() {
+        return allAvailableObjects;
+    }
+    
+    public Map<OdmaQName,OdmaStaticSystemClass> getAllClassesByName() {
+        return classInfos;
+    }
+    
+    public Map<OdmaQName, OdmaProperty> getRepositoryObjectProperties() {
+        return repositoryObjectProperties;
+    }
+    
+    public OdmaStaticClassHierarchy(String repoName, String repoDisplayName, OdmaId repoId, OdmaGuid repoGuid) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
+        buildClassHierarchy();
+        buildRepositoryObject(repoName,repoDisplayName,repoId,repoGuid);
+        generateIds();
+        buildAllAvaialbleObjectsMap();
+    }
+    
+    public OdmaStaticClassHierarchy(OdmaRepository repo) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
+        buildClassHierarchy();
+        repositoryObject = repo;
+        setRepositoryObject();
+        generateIds();
+        buildAllAvaialbleObjectsMap();
+    }
+
+    protected void buildAllAvaialbleObjectsMap() {
+        // all properties
+        Iterator<OdmaStaticSystemPropertyInfo> itPropertyInfos = propertyInfos.values().iterator();
+        while(itPropertyInfos.hasNext()) {
+            OdmaStaticSystemPropertyInfo pi = itPropertyInfos.next();
+            allAvailableObjects.put(pi.getId(),pi);
+        }
+        // all classes
+        Iterator<OdmaStaticSystemClass> itClassInfos = classInfos.values().iterator();
+        while(itClassInfos.hasNext()) {
+            OdmaStaticSystemClass ci = (OdmaStaticSystemClass)itClassInfos.next();
+            allAvailableObjects.put(ci.getId(),ci);
+        }
+        // the repository
+        allAvailableObjects.put(repositoryObject.getId(),repositoryObject);
+    }
+
+    protected void buildRepositoryObject(String name, String displayName, OdmaId id, OdmaGuid guid) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
+        OdmaStaticSystemRepository repo = new OdmaStaticSystemRepository(repositoryObjectProperties,name,displayName,id,guid,getClassInfo(OdmaCommonNames.CLASS_OBJECT),rootAspects);
+        repo.patchClass(getClassInfo(OdmaCommonNames.CLASS_REPOSITORY));
+        repositoryObject = repo;
+        setRepositoryObject();
+    }
+
+    protected void setRepositoryObject() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
+        Iterator<OdmaStaticSystemPropertyInfo> itPropertyInfos = propertyInfos.values().iterator();
+        while(itPropertyInfos.hasNext()) {
+            OdmaStaticSystemPropertyInfo pi = itPropertyInfos.next();
+            pi.patchRepository(repositoryObject);
+        }
+        Iterator<OdmaStaticSystemClass> itClassInfos = classInfos.values().iterator();
+        while(itClassInfos.hasNext()) {
+            OdmaStaticSystemClass ci = itClassInfos.next();
+            ci.patchRepository(repositoryObject);
+        }
+    }
+    
+    protected HashMap<OdmaQName, ArrayList<OdmaClass>> subClassesArrayLists = new HashMap<OdmaQName, ArrayList<OdmaClass>>();
+    
+    private ArrayList<OdmaClass> getInternalSubClassesArrayList(OdmaQName className) {
+        ArrayList<OdmaClass> result = subClassesArrayLists.get(className);
+        if(result != null) {
+            return result;
+        }
+        synchronized(subClassesArrayLists) {
+            result = subClassesArrayLists.get(className);
+            if(result != null) {
+                return result;
+            }
+            result = new ArrayList<OdmaClass>();
+            subClassesArrayLists.put(className,result);
+            return result;
+        }
+    }
+    
+    public Iterable<OdmaClass> getSubClasses(final OdmaQName className) {
+        return new Iterable<OdmaClass>() {
+            public Iterator<OdmaClass> iterator() {
+                final Iterator<OdmaClass> it = getInternalSubClassesArrayList(className).iterator();
+                return new Iterator<OdmaClass>() {
+
+                    public boolean hasNext() {
+                        return it.hasNext();
+                    }
+
+                    public OdmaClass next() {
+                        return it.next();
+                    }
+
+                    public void remove() {
+                        throw new OdmaRuntimeException("Class hierarchy cannot be modified via this method");
+                    }
+                };
+            }
+        };
+    }
+    
+    public void registerSubClass(OdmaQName superClassName, OdmaClass subClass) {
+        if(!superClassName.equals(subClass.getSuperClass().getQName())) {
+            throw new OdmaRuntimeException("Name of super class does not equal registered super class");
+        }
+        ArrayList<OdmaClass> subClasses = getInternalSubClassesArrayList(superClassName);
+        synchronized(subClasses) {
+            if(!subClasses.contains(subClass)) {
+                subClasses.add(subClass);
+            }
+        }
+    }
+    
+    public void registerAspectUsage(OdmaQName aspectName, OdmaClass usingClass) {
+        ArrayList<OdmaClass> subClasses = getInternalSubClassesArrayList(aspectName);
+        synchronized(subClasses) {
+            if(!subClasses.contains(usingClass)) {
+                subClasses.add(usingClass);
+            }
+        }
+    }
+    
+    protected ArrayList<OdmaClass> rootAspects = new ArrayList<OdmaClass>();
+    
+    public void registerRootAspect(OdmaClass aspect) {
+        synchronized(rootAspects) {
+            if(!rootAspects.contains(aspect)) {
+                rootAspects.add(aspect);
+            }
+        }
+    }
+    
+    public Iterable<OdmaClass> getRootAspects() {
+        return rootAspects;
+    }
+    
+    public boolean isOrIsAncestorOf(OdmaClass c, OdmaQName testAgainst) {
+        OdmaClass test = c;
+        HashMap<OdmaQName, Boolean> noLoopTest = new HashMap<OdmaQName, Boolean>();
+        while(test != null) {
+            noLoopTest.put(test.getQName(),Boolean.TRUE);
+            if(test.getQName().equals(testAgainst)) {
+                return true;
+            }
+            test = test.getSuperClass();
+            if((test != null)&&(noLoopTest.containsKey(test.getQName()))) {
+                throw new OdmaRuntimeException("Loop in class hierarchy of "+c.getQName());
+            }
+        }
+        return false;
+    }
+    
+    public boolean isOrIsExtending(OdmaClass c, OdmaQName testAgainst)
+    {
+        // test super class relationship
+        if(isOrIsAncestorOf(c,testAgainst)) {
+            return true;
+        }
+        // test aspects
+        Iterable<OdmaClass> aspects = c.getAspects();
+        if(aspects != null) {
+            Iterator<OdmaClass> itAspects = aspects.iterator();
+            while(itAspects.hasNext()) {
+                OdmaClass aspect = (OdmaClass)itAspects.next();
+                if(isOrIsAncestorOf(aspect,testAgainst)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void updateRepositoryObject(Map<OdmaQName, OdmaProperty> properties) {
+        // remove id from map
+        allAvailableObjects.remove(repositoryObject.getId());
+        // copy all system values that must not be changed
+        properties.put(OdmaCommonNames.PROPERTY_ID, repositoryObjectProperties.get(OdmaCommonNames.PROPERTY_ID));
+        properties.put(OdmaCommonNames.PROPERTY_GUID, repositoryObjectProperties.get(OdmaCommonNames.PROPERTY_GUID));
+        properties.put(OdmaCommonNames.PROPERTY_REPOSITORY, repositoryObjectProperties.get(OdmaCommonNames.PROPERTY_REPOSITORY));
+        properties.put(OdmaCommonNames.PROPERTY_ROOTCLASS, repositoryObjectProperties.get(OdmaCommonNames.PROPERTY_ROOTCLASS));
+        properties.put(OdmaCommonNames.PROPERTY_ROOTASPECTS, repositoryObjectProperties.get(OdmaCommonNames.PROPERTY_ROOTASPECTS));
+        // replace properties
+        repositoryObjectProperties.clear();
+        repositoryObjectProperties.putAll(properties);
+        // put back in map
+        allAvailableObjects.put(repositoryObject.getId(),repositoryObject);
+    }
+
+    protected void generateIds() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
+        OdmaId repoId = repositoryObject.getId();
+        Iterator<OdmaStaticSystemPropertyInfo> itPropertyInfos = propertyInfos.values().iterator();
+        while(itPropertyInfos.hasNext()) {
+            OdmaStaticSystemPropertyInfo pi = itPropertyInfos.next();
+            OdmaId piId = new OdmaId(pi.getNamespace()+"Property"+pi.getName());
+            OdmaGuid piGuid = new OdmaGuid(repoId,piId);
+            pi.patchIds(piId,piGuid);
+        }
+        Iterator<OdmaStaticSystemClass> itClassInfos = classInfos.values().iterator();
+        while(itClassInfos.hasNext()) {
+            OdmaStaticSystemClass ci = itClassInfos.next();
+            OdmaId ciId = new OdmaId(ci.getNamespace()+"Class"+ci.getName());
+            OdmaGuid ciGuid = new OdmaGuid(repoId,ciId);
+            ci.patchIds(ciId,ciGuid);
+        }
+    }
+    
+    public boolean getRetrievable(OdmaQName className) {
+        return false;
+    }
+    
+    public boolean getSearchable(OdmaQName className) {
+        return false;
+    }
+    

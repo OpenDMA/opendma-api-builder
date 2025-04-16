@@ -1,0 +1,25 @@
+<?php
+
+namespace OpenDMA\Api;
+
+/**
+ * Class OdmaInvalidDataTypeException
+ *
+ * Thrown when the provided data type does not match the expected data type.
+ */
+class OdmaInvalidDataTypeException extends OdmaException
+{
+
+    /**
+     * OdmaInvalidDataTypeException constructor.
+     *
+     * @param string $message The error message.
+     * @param int $code The error code (default 0).
+     * @param Exception|null $previous The previous exception used for exception chaining (default null).
+     */
+    public function __construct($message = "Invalid Data Type", $code = 0, ?Exception $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
+
+}

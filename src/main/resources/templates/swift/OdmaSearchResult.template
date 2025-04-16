@@ -1,0 +1,13 @@
+import Foundation
+
+// Represents the result of a search operation.
+// Provides access to the objects found and number of objects.
+public protocol OdmaSearchResult {
+
+    // Returns the collection of objects found by the search.
+    func objects() throws -> any Sequence<any OdmaObject>
+    
+    // Returns the number of objects found by the search or -1 if the total size is unknown.
+    func count() throws -> Int
+
+}

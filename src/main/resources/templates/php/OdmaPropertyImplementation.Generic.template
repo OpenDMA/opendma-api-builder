@@ -1,0 +1,106 @@
+    
+    /** the name of this property */
+    protected OdmaQName $name;
+    
+    /** the data type of this property */
+    protected OdmaType $dataType;
+    
+    /** flag indicating if this property is multivalue or not */
+    protected bool $multiValue;
+    
+    /** the value of this property */
+    protected mixed $value;
+    
+    /** flag indicating if the value of this property has changed */
+    protected bool $dirty;
+    
+    /** flag indicating if this property is read only or not */
+    protected bool $readOnly;
+
+    public function __construct(OdmaQName $name, mixed $value, OdmaType $dataType, bool $multiValue, bool $readOnly) {
+        $this->name = $name;
+        $this->dataType = $dataType;
+        $this->multiValue = $multiValue;
+        $this->readOnly = false;
+        try {
+            $this->setValue($value);
+        } catch (OdmaAccessDeniedException $e) {
+            throw new OdmaRuntimeException("Implementation error.");
+        }
+        $this->readOnly = $readOnly;
+        $this->dirty = false;
+    }
+
+    /**
+     * Gets the qualified name of this property.
+     *
+     * @return OdmaQName The qualified name of this property.
+     */
+    public function getName(): OdmaQName
+    {
+        return $this->name;
+    }
+
+    /**
+     * Gets the data type of this property.
+     *
+     * @return OdmaType The data type of this property.
+     */
+    public function getType(): OdmaType
+    {
+        return $this->dataType;
+    }
+
+    /**
+     * Gets the value of this property. The concrete object returned by this method depends on the data type of this property.
+     *
+     * @return mixed The value of this property.
+     */
+    public function getValue(): mixed
+    {
+        return $this->value;
+    }
+
+    /**
+     * Checks if this property has unsaved changes.
+     *
+     * @return bool True if and only if this property has unsaved changes
+     */
+    public function isDirty(): bool
+    {
+        return $this->dirty;
+    }
+
+    /**
+     * Checks if this property is a multi-value property.
+     *
+     * @return bool True if and only if this property is a multi value property.
+     */
+    public function isMultiValue(): bool
+    {
+        return $this->multiValue;
+    }
+
+    /**
+     * Checks if this property is read-only.
+     *
+     * @return bool True if and only if this property is read-only.
+     */
+    public function isReadOnly(): bool
+    {
+        return $this->readOnly;
+    }
+ 
+    private function checkListAndValues(mixed $value, OdmaType $expectedType): bool
+    {
+        if (!is_array($value)) {
+            return false;
+        }
+        foreach ($value as $element) {
+            if (!checkValue($element, $expectedType)) {
+                return false;
+            }
+        }
+        return true;
+    }
+ 

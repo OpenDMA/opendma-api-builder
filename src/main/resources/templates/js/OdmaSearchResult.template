@@ -1,0 +1,31 @@
+/**
+ * Represents the result of a search operation.
+ * Provides access to the objects found and number of objects.
+ */
+class OdmaSearchResult {
+
+    constructor() {
+        if (new.target === OdmaSearchResult) {
+            throw new Error("OdmaSearchResult is an abstract class and cannot be instantiated directly.");
+        }
+    }
+
+    /**
+     * Gets the collection of objects found by the search.
+     * @abstract
+     * @returns {Iterable<OdmaObject>} The collection of objects found by the search.
+     */
+    getObjects() {
+        throw new Error("Method 'getObjects()' must be implemented.");
+    }
+
+    /**
+     * Gets the number of objects found by the search or -1 if the total size is unknown.
+     * @abstract
+     * @returns {number} The number of objects found by the search or -1 if the total size is unknown.
+     */
+    getSize() {
+        throw new Error("Method 'getSize()' must be implemented.");
+    }
+
+}

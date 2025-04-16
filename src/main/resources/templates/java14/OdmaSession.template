@@ -1,0 +1,93 @@
+package org.opendma;
+
+import org.opendma.api.OdmaId;
+import org.opendma.api.OdmaObject;
+import org.opendma.api.OdmaQName;
+import org.opendma.api.OdmaRepository;
+import org.opendma.api.OdmaSearchResult;
+import org.opendma.exceptions.OdmaAccessDeniedException;
+import org.opendma.exceptions.OdmaObjectNotFoundException;
+import org.opendma.exceptions.OdmaQuerySyntaxException;
+import org.opendma.exceptions.OdmaSearchException;
+
+/**
+ * A session (connection) with a specific OpenDMA domain.<br/>
+ * This interface has been designed with the JDBC <code>Connection</code> interface in mind and
+ * constitutes it's counterpart in the OpenDMA world.
+ * 
+ * @author Stefan Kopf, xaldon Technologies GmbH, the OpenDMA architecture board
+ */
+public interface OdmaSession
+{
+    
+    /**
+     * Returns the <code>{@link OdmaId}</code>s of the repositories the user has access to.
+     * 
+     * @return the <code>{@link OdmaId}</code>s of the repositories the user has access to
+     */
+    public OdmaId[] getRepositoryIds();
+
+    /**
+     * Returns the <code>{@link OdmaRepository}</code> object for the given repository id.
+     * 
+     * @param repositoryId the id of the repository to return
+     * 
+     * @return the <code>{@link OdmaRepository}</code> object for the given repository id
+     * 
+     * @throws OdmaAccessDeniedException if the current user does not have access to the given repository
+     * @throws OdmaObjectNotFoundException if a repository with the given id does not exist
+     */
+    public OdmaRepository getRepository(OdmaId repositoryId) throws OdmaObjectNotFoundException, OdmaAccessDeniedException;
+    
+    /**
+     * Returns the object of the given class identified by the given ID in the given repository.
+     * 
+     * @param repositoryId
+     *            the id of the repository to retrieve the object from
+     * 
+     * @param objectId
+     *            the id of the object to return
+     * 
+     * @param className
+     *            the name of the closest class in the class hierarchy that is retrievable
+     * 
+     * @param propertyNames
+     *            array of qualified property names to retrieve from the server or <code>null</code> to retrieve all
+     * 
+     * @return the object of the given class identified by the given ID in the given repository.
+     * 
+     * @throws OdmaAccessDeniedException if the current user does not have access to the given object
+     * @throws OdmaObjectNotFoundException if such an object does not exist
+     */
+    public OdmaObject getObject(OdmaId repositoryId, OdmaId objectId, OdmaQName className, OdmaQName[] propertyNames) throws OdmaObjectNotFoundException, OdmaAccessDeniedException;
+    
+    /**
+     * Returns the object of the given class identified by the given ID in the given repository.
+     * 
+     * @param repositoryId
+     *            the id of the repository to retrieve the object from
+     * 
+     * @param objectId
+     *            the id of the object to return
+     * 
+     * @param className
+     *            the name of the closest class in the class hierarchy that is retrievable
+     * 
+     * @param propertyNames
+     *            array of qualified property names to retrieve from the server or <code>null</code> to retrieve all
+     * 
+     * @return the object of the given class identified by the given ID in the given repository.
+     * 
+     * @throws OdmaObjectNotFoundException if the repository does not exist
+     * @throws OdmaAccessDeniedException if the current user does not have access to the given object
+     * @throws OdmaQuerySyntaxException if the query string does not follow the OpenDMA query syntax definition
+     * @throws OdmaSearchException if the repository is not able to execute the search
+     */
+    public OdmaSearchResult search(OdmaId repositoryId, String query) throws OdmaObjectNotFoundException, OdmaAccessDeniedException, OdmaQuerySyntaxException, OdmaSearchException;
+    
+    /**
+     * Invalidate this session and release all associated resources.
+     */
+    public void close();
+
+}

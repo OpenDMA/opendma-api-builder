@@ -1,0 +1,35 @@
+/// Standard implementation of the OdmaProperty trait.
+#[derive(Debug)]
+pub struct OdmaPropertyImpl {
+    name: OdmaQName,
+    data_type: OdmaType,
+    multi_value: bool,
+    value: Option<Box<dyn Any>>,
+    dirty: bool,
+    read_only: bool,
+}
+
+impl OdmaPropertyImpl {
+    pub fn new(
+        name: OdmaQName,
+        value: Option<Box<dyn Any>>,
+        data_type: OdmaType,
+        multi_value: bool,
+        read_only: bool,
+    ) -> Result<Self, OdmaError> {
+        let mut instance = OdmaPropertyImpl {
+            name: name,
+            data_type: data_type,
+            multi_value: multi_value,
+            value: None,
+            dirty: false,
+            read_only: false,
+        };
+        instance.set_value(value)?;
+        instance.read_only = read_only;
+        instance.dirty = false;
+        Ok(instance)
+    }
+}
+
+impl OdmaProperty for OdmaPropertyImpl {

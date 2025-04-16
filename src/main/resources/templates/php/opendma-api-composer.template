@@ -1,0 +1,8 @@
+{
+    "name": "opendma/api",
+    "autoload": {
+        "psr-4": {
+            "OpenDMA\\Api\\": ""
+        }
+    }
+}

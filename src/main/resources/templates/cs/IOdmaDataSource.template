@@ -1,0 +1,28 @@
+namespace OpenDMA.Api
+{
+
+    /// <summary>
+    /// A factory for sessions with the physical OpenDMA data source that this <c>OdmaDataSource</c>
+    /// object represents.
+    /// </summary>
+    public interface IOdmaDataSource
+    {
+
+        /// <summary>
+        /// Attempts to establish a session with the ODMA data source this object represents.
+        /// <summary>
+        /// <returns>Returns a <c>{@link OdmaSession}</c> to the ODMA data source</returns>
+        IOdmaSession getSession();
+
+        /// <summary>
+        /// Attempts to establish a session with the ODMA data source this object represents
+        /// with the given username and password.
+        /// <summary>
+        /// <param name="username">the repository user on whose behalf the session is beeing established.</param>
+        /// <param name="password">the user's password.</param>
+        /// <returns>Returns a <c>{@link OdmaSession}</c> to the ODMA data source.</returns>
+        IOdmaSession getSession(string username, string password);
+
+    }
+
+}

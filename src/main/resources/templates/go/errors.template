@@ -1,0 +1,48 @@
+package opendma
+
+import (
+	"errors"
+	"fmt"
+)
+
+// Errors without additional information
+var (
+    // Returned when the current user context does not have sufficient permissions for an operation in OpenDMA
+    ErrAccessDenied = errors.New("access denied")
+)
+
+// Returned when an OpenDMA implementation is unable to locate the requested object
+type OdmaObjectNotFoundError struct {
+    ObjectGuid OdmaGuid
+}
+
+func (e *OdmaObjectNotFoundError) Error() string {
+	return fmt.Sprintf("Object not found: %s", e.ObjectGuid.String())
+}
+
+// Returned when an OpenDMA implementation is unable to locate the requested property
+type OdmaPropertyNotFoundError struct {
+    PropertyName OdmaQName
+}
+
+func (e *OdmaPropertyNotFoundError) Error() string {
+	return fmt.Sprintf("Property not found: %s", e.PropertyName.String())
+}
+
+// Returned when the provided data type does not match the expected data type
+type OdmaInvalidDataTypeError struct {
+    Message string
+}
+
+func (e *OdmaInvalidDataTypeError) Error() string {
+    return e.Message
+}
+
+// Returned when a query in the OpenDMA framework is syntactically incorrect
+type OdmaQuerySyntaxError struct {
+    Message string
+}
+
+func (e *OdmaQuerySyntaxError) Error() string {
+    return e.Message
+}

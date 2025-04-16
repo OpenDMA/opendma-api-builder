@@ -1,0 +1,21 @@
+
+    /// Gets the qualified name of this property.
+    var name: OdmaQName { get }
+
+    /// Gets the data type of this property.
+    var type: OdmaType { get }
+
+    /// Gets the value of this property.
+    func getValue() -> Any?
+
+    /// Sets the value of this property.
+    func setValue(_ newValue: Any?) throws
+
+    /// Checks if this property supports multiple values.
+    var isMultiValue: Bool { get }
+
+    /// Checks if this property has unsaved changes.
+    var isDirty: Bool { get }
+
+    /// Checks if this property is read-only.
+    var isReadOnly: Bool { get }

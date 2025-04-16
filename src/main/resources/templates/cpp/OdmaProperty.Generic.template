@@ -1,0 +1,48 @@
+public:
+    virtual ~OdmaProperty() = default;
+
+    /**
+     * @brief Gets the qualified name of the property.
+     * @return A shared pointer to an `OdmaQName` representing the name.
+     */
+    virtual std::shared_ptr<OdmaQName> getName() const = 0;
+
+    /**
+     * @brief Gets the data type of the property.
+     * @return A shared pointer to an `OdmaType` representing the data type.
+     */
+    virtual std::shared_ptr<OdmaType> getType() const = 0;
+
+    /**
+     * @brief Gets the value of the property. The concrete `std::any` returned by this method
+     * depends on the data type of this property.
+     * @return The value of the property as a `std::any`.
+     */
+    virtual std::any getValue() const = 0;
+
+    /**
+     * @brief Sets the value of the property. The `std::any` of the given `newValue` has to match the
+     * data type of this OdmaProperty.
+     * @param newValue The new value to set as a `std::any`.
+     * @throws OdmaInvalidDataTypeException If the type of the newValue does not match the data type of this OdmaProperty.
+     * @throws OdmaAccessDeniedException If this OdmaProperty is read-only or cannot be set by the current user.
+     */
+    virtual void setValue(const std::any& newValue) = 0;
+
+    /**
+     * @brief Checks if this property is a multi-value property.
+     * @return `true` if and only if this property is a multi value property.
+     */
+    virtual bool isMultiValue() const = 0;
+
+    /**
+     * @brief Checks if the property has unsaved changes.
+     * @return `true` if and only if this property has unsaved changes
+     */
+    virtual bool isDirty() const = 0;
+
+    /**
+     * @brief Checks if this property is read-only.
+     * @return `true` if and only if this property is read-only.
+     */
+    virtual bool isReadOnly() const = 0;

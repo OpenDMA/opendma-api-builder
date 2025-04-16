@@ -1,4 +1,0 @@
-/**
- * Standard implementation of the OdmaProperty interface.
- */
-public class OdmaPropertyImpl implements OdmaProperty {

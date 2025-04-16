@@ -1,0 +1,67 @@
+
+    /**
+     * Returns the qualified name of this property.
+     * 
+     * @return the qualified name of this property.
+     */
+    public @NotNull OdmaQName getName();
+
+    /**
+     * Returns the value of this property.<br>
+     * The concrete <code>Object</code> returned by this method depends on the
+     * data type of this property.
+     * 
+     * @return the value of this property.
+     */
+    public @Nullable Object getValue();
+
+    /**
+     * Returns the numeric identifier of the data type of this property.<br>
+     * You can find a list of all data types in the <code>OdmaTypes</code>
+     * class.
+     * 
+     * @return the numeric identifier of the data type of this property.
+     * 
+     * @see org.opendma.OdmaTypes
+     */
+    public @NotNull OdmaType getType();
+
+    /**
+     * Set the value of this property to the given new value. The
+     * <code>Class</code> of the given <code>Object</code> has to match the
+     * data type of this property.
+     * 
+     * @param newValue
+     *            the new value to set this property to.
+     * 
+     * @throws OdmaInvalidDataTypeException
+     *             if and only if the Class of the given Object does not match
+     *             the data type of this property
+     * 
+     * @throws OdmaAccessDeniedException
+     *             if this property can not be set by the current user
+     */
+    public void setValue(@Nullable Object newValue) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException;
+
+    /**
+     * Returns <code>true</code> if and only if this property is a multi value property.
+     * 
+     * @return <code>true</code> if and only if this property is a multi value property.
+     */
+    public boolean isMultiValue();
+
+    /**
+     * Returns <code>true</code> if and only if this property has been changed and these
+     * changes have not yet been saved.
+     * 
+     * @return <code>true</code> true if and only if this property has been changed and these
+     *         changes have not yet been saved
+     */
+    public boolean isDirty();
+
+    /**
+     * Returns <code>true</code> if and only if this property must not be changed.
+     * 
+     * @return <code>true</code> if and only if this property must not be changed.
+     */
+    public boolean isReadOnly();

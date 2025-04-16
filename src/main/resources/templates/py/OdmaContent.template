@@ -1,0 +1,23 @@
+from abc import ABC, abstractmethod
+from typing import BinaryIO
+
+class OdmaContent(ABC):
+    """
+    Abstract base class representing Content data type in OpenDMA.
+    It provides access to a binary stream and the size of the content.
+    """
+    
+    @abstractmethod
+    def get_stream(self) -> BinaryIO:
+        """
+        Gets the stream to access the content's binary data.
+        This should return a file-like object.
+        """
+        pass
+
+    @abstractmethod
+    def get_size(self) -> int:
+        """
+        Gets the size of the content in bytes.
+        """
+        pass

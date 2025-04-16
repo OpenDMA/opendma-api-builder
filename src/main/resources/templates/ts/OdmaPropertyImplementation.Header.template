@@ -1,0 +1,8 @@
+import { isOdmaObject } from './OdmaObject';
+import { isOdmaContent } from './OdmaContent';
+
+/**
+ * Class OdmaPropertyImpl
+ * Standard implementation of the OdmaProperty interface.
+ */
+export class OdmaPropertyImpl implements OdmaProperty {

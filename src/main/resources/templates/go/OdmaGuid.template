@@ -1,0 +1,44 @@
+package opendma
+
+import (
+	"errors"
+	"fmt"
+)
+
+// OdmaGuid represents a globally unique object identifier, combining the OdmaId
+// of the object with the OdmaId of the repository it belongs to.
+type OdmaGuid struct {
+	objectId     *OdmaId
+	repositoryId *OdmaId
+}
+
+// NewOdmaGuid constructs an OdmaGuid with the specified objectId and repositoryId.
+// Returns an error if either objectId or repositoryId is nil.
+func NewOdmaGuid(objectId, repositoryId *OdmaId) (*OdmaGuid, error) {
+	if objectId == nil {
+		return nil, errors.New("objectId must not be nil")
+	}
+	if repositoryId == nil {
+		return nil, errors.New("repositoryId must not be nil")
+	}
+	return &OdmaGuid{objectId: objectId, repositoryId: repositoryId}, nil
+}
+
+// GetObjectId returns the object OdmaId.
+func (g *OdmaGuid) GetObjectId() *OdmaId {
+	return g.objectId
+}
+
+// GetRepositoryId returns the repository OdmaId.
+func (g *OdmaGuid) GetRepositoryId() *OdmaId {
+	return g.repositoryId
+}
+
+// String returns the string representation of the OdmaGuid in the format "objectId:repositoryId".
+func (g *OdmaGuid) String() string {
+	return fmt.Sprintf("%s:%s", g.objectId.String(), g.repositoryId.String())
+}
+
+func (g *OdmaGuid) Equals(other *OdmaGuid) bool {
+	return g.objectId.Equals(other.objectId) && g.repositoryId.Equals(other.repositoryId)
+}

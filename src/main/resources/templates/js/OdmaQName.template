@@ -1,0 +1,69 @@
+/**
+ * Represents a qualified name in OpenDMA, consisting of a namespace and a name.
+ * Both the namespace and the name must not be null or empty, and they are immutable after creation.
+ */
+class OdmaQName {
+
+    /**
+     * Constructs an OdmaQName object with the specified namespace and name.
+     *
+     * @param {string} namespace - The namespace part of the qualified name. Must not be empty.
+     * @param {string} name - The name part of the qualified name. Must not be empty.
+     * @throws {Error} If either the namespace or name is empty.
+     */
+    constructor(namespace, name) {
+        if (typeof namespace !== 'string' || namespace.trim() === '') {
+            throw new Error("Namespace must not be empty");
+        }
+        if (typeof name !== 'string' || name.trim() === '') {
+            throw new Error("Name must not be empty");
+        }
+
+        this.namespace = namespace;
+        this._name = name;
+        Object.freeze(this); // Ensure immutability
+    }
+
+    /**
+     * Gets the namespace part of the qualified name.
+     *
+     * @returns {string} The namespace.
+     */
+    getNamespace() {
+        return this.namespace;
+    }
+
+    /**
+     * Gets the name part of the qualified name.
+     *
+     * @returns {string} The name.
+     */
+    getName() {
+        return this._name;
+    }
+
+    /**
+     * Compares this OdmaQName with another OdmaQName for value equality.
+     * Two OdmaQName objects are considered equal if their namespace and name are both equal.
+     *
+     * @param {OdmaQName} other - The OdmaQName to compare against.
+     * @returns {boolean} True if the objects are equal, false otherwise.
+     */
+    equals(other) {
+        if (!(other instanceof OdmaQName)) {
+            return false;
+        }
+        return this._namespace === other._namespace && this._name === other._name;
+    }
+
+    /**
+     * Returns a string representation of the OdmaQName object.
+     * The format is "namespace:name".
+     *
+     * @returns {string} The string representation of this OdmaQName.
+     */
+    toString() {
+        return `${this._namespace}:${this._name}`;
+    }
+
+}

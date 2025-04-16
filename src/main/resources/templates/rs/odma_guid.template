@@ -1,0 +1,48 @@
+use std::fmt;
+use std::hash::Hash;
+use crate::OdmaId;
+
+/// Represents a globally unique identifier that combines the OdmaId
+/// of the object with the OdmaId of the repository it belongs to.
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct OdmaGuid {
+    object_id: OdmaId,
+    repository_id: OdmaId,
+}
+
+impl OdmaGuid {
+
+    /// Constructs a new OdmaGuid with the given object_id and repository_id.
+    pub fn new(object_id: OdmaId, repository_id: OdmaId) -> Self {
+        OdmaGuid {
+            object_id,
+            repository_id,
+        }
+    }
+
+    /// Returns the OdmaId of the object.
+    pub fn object_id(&self) -> &OdmaId {
+        &self.object_id
+    }
+
+    /// Returns the OdmaId of the repository.
+    pub fn repository_id(&self) -> &OdmaId {
+        &self.repository_id
+    }
+
+}
+
+impl fmt::Display for OdmaGuid {
+
+    /// Formats the OdmaGuid as "object_id:repository_id".
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}:{}", self.object_id, self.repository_id)
+    }
+
+}
+
+impl From<(OdmaId, OdmaId)> for OdmaGuid {
+    fn from((object_id, repository_id): (OdmaId, OdmaId)) -> Self {
+        Self::new(object_id, repository_id)
+    }
+}

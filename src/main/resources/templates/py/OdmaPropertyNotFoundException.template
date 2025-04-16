@@ -1,0 +1,26 @@
+class OdmaPropertyNotFoundException(OdmaException):
+    """
+    Exception raised when the OpenDMA implementation is unable to locate the requested property.
+    
+    This exception stores the `qname` of the missing property.
+    """
+
+    def __init__(self, propertyName=None, message=None):
+        """
+        Initialize the OdmaPropertyNotFoundException with an error message and a qualified name.
+        
+        :param propertyName: The qualified name of the property that was not found (optional).
+        :param message: Custom error message (optional).
+        """
+        self._propertyName = propertyName
+        if message is None:
+            message = f"Property not found: {propertyName}" if propertyName else "Property not found"
+        super().__init__(message)
+
+    def get_property_name(self):
+        """
+        Retrieve the qualified name of the property that was not found.
+        
+        :return: The QName of the missing property.
+        """
+        return self._propertyName

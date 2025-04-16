@@ -1,0 +1,17 @@
+/**
+ * OdmaQuerySyntaxError
+ * 
+ * Thrown when a query in the OpenDMA framework is syntactically incorrect.
+ */
+class OdmaQuerySyntaxError extends OdmaError {
+
+    /**
+     * Create a new OdmaQuerySyntaxError.
+     * 
+     * @param {string} message - The error message.
+     */
+    constructor(message = "Query syntax error in OpenDMA") {
+        super(message);
+    }
+
+}

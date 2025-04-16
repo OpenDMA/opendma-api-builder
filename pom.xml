@@ -1,0 +1,81 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.opendma</groupId>
+  <artifactId>opendma-api-builder</artifactId>
+  <version>6.2-SNAPSHOT</version>
+
+  <name>OpenDMA API Builder</name>
+  <description>Generates the OpenDMA API for various programming languages from a class hierarchy spec file</description>
+  <url>https://opendma.org</url>
+
+  <dependencies>
+  </dependencies>
+
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <developers>
+    <developer>
+      <id>skopf</id>
+      <name>Stefan Kopf</name>
+      <url>https://github.com/skopf</url>
+      <organization>xaldon Technologies GmbH</organization>
+      <organizationUrl>https://xaldon.com</organizationUrl>
+      <roles>
+        <role>developer</role>
+        <role>maintainer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <scm>
+    <url>https://github.com/OpenDMA/opendma-api-builder</url>
+    <connection>scm:git:git://github.com/OpenDMA/opendma-api-builder.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/OpenDMA/opendma-api-builder.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <issueManagement>
+    <system>GitHub Issues</system>
+    <url>https://github.com/OpenDMA/opendma-api-builder/issues</url>
+  </issueManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.11.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>org.opendma.apibuilder.OdmaApiBuilder</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <mainClass>org.opendma.apibuilder.OdmaApiBuilder</mainClass>
+          <arguments>
+            <argument>OdmaApiDescription_062.xml</argument>
+            <argument>src.generated</argument>
+          </arguments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

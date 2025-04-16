@@ -1,0 +1,22 @@
+from abc import ABC, abstractmethod
+from typing import BinaryIO
+
+class OdmaSearchResult(ABC):
+    """
+    Abstract base class representing the result of a search operation.
+    It provides access to the objects found and number of objects.
+    """
+    
+    @abstractmethod
+    def get_objects(self) -> Iterable[TOdmaObject]:
+        """
+        Gets the collection of objects found by the search.
+        """
+        pass
+
+    @abstractmethod
+    def get_size(self) -> int:
+        """
+        Gets the number of objects found by the search or -1 if the total size is unknown.
+        """
+        pass

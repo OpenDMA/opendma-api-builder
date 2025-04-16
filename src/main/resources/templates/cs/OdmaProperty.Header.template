@@ -1,0 +1,5 @@
+    /// <summary>
+    /// Standard implementation of the IOdmaProperty interface.
+    /// </summary>
+    public class OdmaProperty : IOdmaProperty
+    {

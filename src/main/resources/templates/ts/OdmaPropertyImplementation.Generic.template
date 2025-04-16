@@ -1,0 +1,84 @@
+    
+    /** the name of this property */
+    protected name: OdmaQName;
+    
+    /** the data type of this property */
+    protected dataType: OdmaType;
+    
+    /** flag indicating if this property is multivalue or not */
+    protected multiValue: boolean;
+    
+    /** the value of this property */
+    protected value: any;
+    
+    /** flag indicating if the value of this property has changed */
+    protected dirty: boolean;
+    
+    /** flag indicating if this property is read only or not */
+    protected readOnly: boolean;
+
+    /**
+     * Creates a new OdmaPropertyImpl instance.
+     * @param name - The name of this property.
+     * @param value - The value of this property.
+     * @param dataType - The data type of this property.
+     * @param multiValue - Flag if this property is a multi value property.
+     * @param readOnly - Flag if this property is read only.
+     */
+    constructor(name: OdmaQName, value: any, dataType: OdmaType, multiValue: boolean, readOnly: boolean) {
+        this.name = name;
+        this.dataType = dataType;
+        this.multiValue = multiValue;
+        this.setValue(value);
+        this.readOnly = readOnly;
+        this.dirty = false;
+    }
+
+    /**
+     * Gets the qualified name of this property.
+     * @returns The qualified name as an `OdmaQName`.
+     */
+    getName(): OdmaQName {
+        return this.name;
+    }
+
+    /**
+     * Gets the data type of this property.
+     * @returns The data type of the property as an `OdmaType`.
+     */
+    getType(): OdmaType {
+        return this.dataType;
+    }
+
+    /**
+     * Gets the value of this property. The concrete object returned by this method
+     * depends on the data type of this property.
+     * @returns The value of the property.
+     */
+    getValue(): any {
+        return this.value;
+    }
+
+    /**
+     * Checks if this property is a multi-value property.
+     * @returns `true` if and only if this property is a multi value property.
+     */
+    isMultiValue(): boolean {
+        return this.multiValue;
+    }
+
+    /**
+     * Checks if this property has unsaved changes.
+     * @returns `true` if and only if this property has unsaved changes
+     */
+    isDirty(): boolean {
+        return this.dirty;
+    }
+
+    /**
+     * Checks if this property is read-only.
+     * @returns `true` if and only if this property is read-only.
+     */
+    isReadOnly(): boolean {
+        return this.readOnly;
+    }

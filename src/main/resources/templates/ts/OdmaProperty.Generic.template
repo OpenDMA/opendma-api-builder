@@ -1,0 +1,47 @@
+
+    /**
+     * Gets the qualified name of this property.
+     * @returns The qualified name as an `OdmaQName`.
+     */
+    getName(): OdmaQName;
+
+    /**
+     * Gets the data type of this property.
+     * @returns The data type of the property as an `OdmaType`.
+     */
+    getType(): OdmaType;
+
+    /**
+     * Gets the value of this property. The concrete object returned by this method
+     * depends on the data type of this property.
+     * @returns The value of the property.
+     */
+    getValue(): any;
+
+    /**
+     * Sets the value of this property. The type and class of the given newValue has to match the
+     * data type of this OdmaProperty.
+     * @abstract
+     * @param newValue The new value to set.
+     * @throws OdmaInvalidDataTypeException If the type of the newValue does not match the data type of this OdmaProperty.
+     * @throws OdmaAccessDeniedException If this OdmaProperty is read-only or cannot be set by the current user.
+     */
+    setValue(newValue: any): void;
+
+    /**
+     * Checks if this property is a multi-value property.
+     * @returns `true` if and only if this property is a multi value property.
+     */
+    isMultiValue(): boolean;
+
+    /**
+     * Checks if this property has unsaved changes.
+     * @returns `true` if and only if this property has unsaved changes
+     */
+    isDirty(): boolean;
+
+    /**
+     * Checks if this property is read-only.
+     * @returns `true` if and only if this property is read-only.
+     */
+    isReadOnly(): boolean;

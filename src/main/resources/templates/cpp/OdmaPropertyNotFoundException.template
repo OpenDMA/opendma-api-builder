@@ -1,0 +1,41 @@
+#ifndef _OdmaPropertyNotFoundException_h_
+#define _OdmaPropertyNotFoundException_h_
+
+#include "OdmaException.h"
+#include "OdmaQName.h"
+
+/**
+ * @brief Thrown when an OpenDMA implementation is unable to locate the requested property.
+ */
+class OdmaPropertyNotFoundException : public OdmaException {
+public:
+
+    /**
+     * @brief Constructs an OdmaPropertyNotFoundException with the qualified name of the property that was not found.
+     * @param qname The qualified name of the property that was not found.
+     */
+    explicit OdmaPropertyNotFoundException(const OdmaQName& propertyName) noexcept
+        : OdmaException(propertyName.isValid() ? "Property not found: "+qname.toString() : "Property not found"), propertyName_(propertyName) {}
+
+    /**
+     * @brief Constructs an OdmaPropertyNotFoundException with a specific message and the qualified name of the property that was not found.
+     * @param message The message that describes the exception.
+     * @param propertyName The qualified name of the property that was not found.
+     */
+    OdmaPropertyNotFoundException(const std::string& message, const OdmaQName& propertyName) noexcept
+        : OdmaException(message), propertyName_(propertyName) {}
+
+    /**
+     * @brief Retrieves the qualified name of the property that was not found.
+     * @return The qualified name of the missing property.
+     */
+    OdmaQName getPropertyName() const noexcept {
+        return propertyName_;
+    }
+
+private:
+    OdmaQName propertyName_;
+
+};
+
+#endif // _OdmaPropertyNotFoundException_h_

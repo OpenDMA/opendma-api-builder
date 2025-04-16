@@ -1,0 +1,21 @@
+/**
+ * OdmaError
+ * 
+ * Base class for all exceptions related to the OpenDMA framework.
+ */
+export class OdmaError extends Error {
+
+    /**
+     * Create a new OdmaException.
+     * 
+     * @param message - The error message.
+     */
+    constructor(message: string = "An error occurred in OpenDMA") {
+        super(message);
+        this.name = this.constructor.name;
+        if (Object.setPrototypeOf) {
+            Object.setPrototypeOf(this, new.target.prototype);
+        }
+    }
+
+}

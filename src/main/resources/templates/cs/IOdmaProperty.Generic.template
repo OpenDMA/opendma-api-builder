@@ -1,0 +1,32 @@
+
+        /// <summary>
+        /// The qualified name of this property.
+        /// </summary>
+        OdmaQName Name { get; }
+
+        /// <summary>
+        /// The data type of this property.
+        /// </summary>
+        OdmaType Type { get; }
+
+        /// <summary>
+        /// The value of this property. The concrete <see cref="object"/> of this property depends on the data type of this OdmaProperty.
+        /// </summary>
+        /// <exception cref="OdmaInvalidDataTypeException">If the type of the assigned value does not match the data type of this OdmaProperty.</exception>
+        /// <exception cref="OdmaAccessDeniedException">If this OdmaProperty is read-only or cannot be set by the current user.</exception>
+        object? Value { get; set; }
+
+        /// <summary>
+        /// Indicates whether this property is a multi-value property.
+        /// </summary>
+        bool IsMultiValue { get; }
+
+        /// <summary>
+        /// Indicates whether this property has unsaved changes
+        /// </summary>
+        bool IsDirty { get; }
+
+        /// <summary>
+        /// Indicates whether this property is read-only.
+        /// </summary>
+        bool IsReadOnly { get; }

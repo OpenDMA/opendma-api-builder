@@ -1,0 +1,21 @@
+package org.opendma.impl.core;
+
+import org.opendma.api.OdmaType;
+import org.opendma.api.OdmaCommonNames;
+import org.opendma.api.OdmaChoiceValue;
+import org.opendma.api.OdmaClass;
+import org.opendma.api.OdmaPropertyInfo;
+import org.opendma.api.OdmaQName;
+import org.opendma.exceptions.OdmaAccessDeniedException;
+import org.opendma.exceptions.OdmaRuntimeException;
+import org.opendma.exceptions.OdmaInvalidDataTypeException;
+import org.opendma.exceptions.OdmaPropertyNotFoundException;
+import org.opendma.impl.OdmaPropertyImpl;
+
+public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject implements OdmaPropertyInfo {
+
+    protected void patchReferenceClass(OdmaClass newReferenceClass) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
+        properties.put(OdmaCommonNames.PROPERTY_REFERENCECLASS,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_REFERENCECLASS,newReferenceClass,OdmaType.REFERENCE,false,true));
+    }
+{{template:OdmaPropertyInfo}}
+}

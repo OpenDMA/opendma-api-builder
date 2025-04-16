@@ -1,0 +1,52 @@
+
+    /**
+     * Gets the qualified name of this property.
+     *
+     * @return OdmaQName The qualified name of this property.
+     */
+    public function getName(): OdmaQName;
+
+    /**
+     * Gets the data type of this property.
+     *
+     * @return OdmaType The data type of this property.
+     */
+    public function getType(): OdmaType;
+
+    /**
+     * Gets the value of this property. The concrete object returned by this method depends on the data type of this property.
+     *
+     * @return mixed The value of this property.
+     */
+    public function getValue(): mixed;
+
+    /**
+     * Sets the value of this property. The type and class of the given $newValue has to match the
+     * data type of this OdmaProperty.
+     *
+     * @param mixed $newValue The new value to set.
+     * @throws OdmaInvalidDataTypeException If the type of the $newValue does not match the data type of this OdmaProperty.
+     * @throws OdmaAccessDeniedException If this OdmaProperty is read-only or cannot be set by the current user.
+     */
+    public function setValue($newValue): void;
+
+    /**
+     * Checks if this property is a multi-value property.
+     *
+     * @return bool True if and only if this property is a multi value property.
+     */
+    public function isMultiValue(): bool;
+
+    /**
+     * Checks if this property has unsaved changes.
+     *
+     * @return bool True if and only if this property has unsaved changes
+     */
+    public function isDirty(): bool;
+
+    /**
+     * Checks if this property is read-only.
+     *
+     * @return bool True if and only if this property is read-only.
+     */
+    public function isReadOnly(): bool;

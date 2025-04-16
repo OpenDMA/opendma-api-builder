@@ -1,0 +1,26 @@
+#ifndef _OdmaQuerySyntaxException_h_
+#define _OdmaQuerySyntaxException_h_
+
+#include "OdmaException.h"
+
+/**
+ * @brief Thrown when a query in the OpenDMA framework is syntactically incorrect.
+ */
+class OdmaQuerySyntaxException : public OdmaException {
+public:
+
+    /**
+     * @brief Default constructor for OdmaQuerySyntaxException.
+     */
+    OdmaQuerySyntaxException() noexcept = default;
+
+    /**
+     * @brief Constructs an OdmaQuerySyntaxException with a specific message.
+     * @param message The message that describes the exception.
+     */
+    explicit OdmaQuerySyntaxException(const std::string& message) noexcept
+        : OdmaException(message) {}
+
+};
+
+#endif // _OdmaQuerySyntaxException_h_

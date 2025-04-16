@@ -1,0 +1,41 @@
+#ifndef _OdmaObjectNotFoundException_h_
+#define _OdmaObjectNotFoundException_h_
+
+#include "OdmaException.h"
+#include "OdmaGuid.h"
+
+/**
+ * @brief Thrown when an OpenDMA implementation is unable to locate the requested object.
+ */
+class OdmaObjectNotFoundException : public OdmaException {
+public:
+
+    /**
+     * @brief Constructs an OdmaObjectNotFoundException with the GUID of the object that was not found.
+     * @param guid The unique identifier (GUID) of the object that was not found.
+     */
+    explicit OdmaObjectNotFoundException(const OdmaGuid& guid) noexcept
+        : OdmaException(guid.isValid() ? "Object not found: "+guid.toString() : "Object not found"), objectGuid_(objectGuid) {}
+
+    /**
+     * @brief Constructs an OdmaObjectNotFoundException with a specific message and the GUID of the object that was not found.
+     * @param message The message that describes the exception.
+     * @param objectGuid The unique identifier (GUID) of the object that was not found.
+     */
+    OdmaObjectNotFoundException(const std::string& message, const OdmaGuid& objectGuid) noexcept
+        : OdmaException(message), objectGuid_(objectGuid) {}
+
+    /**
+     * @brief Retrieves the unique identifier (GUID) of the object that was not found.
+     * @return The GUID of the missing object.
+     */
+    OdmaGuid getObjectGuid() const noexcept {
+        return objectGuid_;
+    }
+
+private:
+    OdmaGuid objectGuid_;
+
+};
+
+#endif // _OdmaObjectNotFoundException_h_

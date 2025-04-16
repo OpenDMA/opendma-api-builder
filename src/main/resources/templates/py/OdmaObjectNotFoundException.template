@@ -1,0 +1,24 @@
+class OdmaObjectNotFoundException(OdmaException):
+    """
+    Exception raised when an OpenDMA implementation is unable to locate the requested object.
+    """
+
+    def __init__(self, objectGuid=None, message=None):
+        """
+        Initialize the OdmaObjectNotFoundException with an error message and a GUID.
+        
+        :param objectGuid: The unique identifier of the object that was not found (optional).
+        :param message: Custom error message (optional).
+        """
+        self._objectGuid = objectGuid
+        if message is None:
+            message = f"Object not found: {objectGuid}" if objectGuid else "Object not found"
+        super().__init__(message)
+
+    def get_object_guid(self):
+        """
+        Retrieve the unique identifier (GUID) of the object that was not found.
+        
+        :return: The GUID of the missing object.
+        """
+        return self._objectGuid

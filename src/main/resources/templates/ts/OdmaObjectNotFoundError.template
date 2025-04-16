@@ -1,0 +1,33 @@
+import { OdmaError } from './OdmaError';
+import { OdmaGuid } from './OdmaGuid';
+
+/**
+ * OdmaObjectNotFoundError
+ * 
+ * Thrown when an OpenDMA implementation is unable to locate the requested object.
+ */
+export class OdmaObjectNotFoundError extends OdmaError {
+
+    private readonly objectGuid: OdmaGuid;
+
+    /**
+     * Create a new OdmaObjectNotFoundError.
+     * 
+     * @param objectGuid - The unique identifier of the object that was not found.
+     * @param message - The error message.
+     */
+    constructor(objectGuid: OdmaGuid, message: string | null = null) {
+        super(message || (objectGuid ? `Object not found: ${objectGuid}` : "Object not found"));
+        this.objectGuid = objectGuid;
+    }
+
+    /**
+     * Get the unique identifier (GUID) of the object that was not found.
+     * 
+     * @returns The GUID of the missing object.
+     */
+    getObjectGuid(): OdmaGuid {
+        return this.objectGuid;
+    }
+
+}

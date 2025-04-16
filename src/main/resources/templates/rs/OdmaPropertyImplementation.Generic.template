@@ -1,0 +1,31 @@
+
+    /// Gets the qualified name of this property.
+    fn get_name(&self) -> &OdmaQName {
+        &self.name
+    }
+
+    /// Gets the data type of this property.
+    fn get_type(&self) -> &OdmaType {
+        &self.data_type
+    }
+
+    /// Gets the value of this property.
+    fn get_value(&self) -> &dyn std::any::Any {
+        self.value.as_ref().map(|v| v.as_ref()).unwrap_or(&())
+    }
+
+    /// Checks if this property is a multi-value property.
+    fn is_multi_value(&self) -> bool {
+        self.multi_value
+    }
+
+    /// Checks if this property has unsaved changes.
+    fn is_dirty(&self) -> bool {
+        self.dirty
+    }
+
+    /// Checks if this property is read-only.
+    fn is_read_only(&self) -> bool {
+        self.read_only
+    }
+ 

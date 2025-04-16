@@ -1,0 +1,47 @@
+<?php
+
+namespace OpenDMA\Api;
+
+/**
+ * Class OdmaObjectNotFoundException
+ *
+ * Thrown when an OpenDMA implementation is unable to locate the requested object.
+ */
+class OdmaObjectNotFoundException extends OdmaException
+{
+
+    /**
+     * @var OdmaGuid|null The unique identifier of the object that was not found.
+     */
+    private $objectGuid;
+
+    /**
+     * OdmaObjectNotFoundException constructor.
+     *
+     * @param string|null $message The custom error message (optional).
+     * @param OdmaGuid|null $objectGuid The unique identifier of the object that was not found (optional).
+     * @param int $code The error code (default 0).
+     * @param Exception|null $previous The previous exception used for exception chaining (default null).
+     */
+    public function __construct(?string $message = null, ?OdmaGuid $objectGuid = null, $code = 0, Exception $previous = null)
+    {
+        $this->objectGuid = $objectGuid;
+        
+        if ($message === null) {
+            $message = $objectGuid ? "Object not found: ".$objectGuid : "Object not found";
+        }
+        
+        parent::__construct($message, $code, $previous);
+    }
+
+    /**
+     * Get the unique identifier (GUID) of the object that was not found, or null if no GUID was provided.
+     *
+     * @return OdmaGuid|null
+     */
+    public function getObjectGuid()
+    {
+        return $this->objectGuid;
+    }
+
+}

@@ -1,0 +1,53 @@
+<?php
+
+namespace OpenDMA\Api;
+
+/**
+ * Represents a unique identifier for an OdmaObject in an OdmaRepository.
+ */
+final class OdmaId
+{
+
+    /**
+     * @var string The unique identifier string.
+     */
+    private string $id;
+
+    /**
+     * Constructs an OdmaId with the specified ID.
+     *
+     * @param string $id The unique identifier string. Must not be empty.
+     * @throws \InvalidArgumentException if the id is empty.
+     */
+    public function __construct(string $id)
+    {
+        if (trim($id) === '') {
+            throw new \InvalidArgumentException('ID must not be empty');
+        }
+        $this->id = $id;
+    }
+
+
+    /**
+     * Compares this OdmaId with another OdmaId for equality.
+     * Two OdmaId objects are considered equal if their ID strings are equal.
+     *
+     * @param OdmaId $other The OdmaId to compare against.
+     * @return bool True if the objects are equal, false otherwise.
+     */
+    public function equals(OdmaId $other): bool
+    {
+        return $this->id === $other->id;
+    }
+
+    /**
+     * Returns a string representation of this OdmaId.
+     *
+     * @return string The ID string.
+     */
+    public function __toString(): string
+    {
+        return $this->id;
+    }
+
+}
