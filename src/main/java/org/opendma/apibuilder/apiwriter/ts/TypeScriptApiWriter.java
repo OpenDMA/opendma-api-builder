@@ -175,8 +175,6 @@ public class TypeScriptApiWriter extends AbstractApiWriter
     
     private List<String> opendmaApiExportSources = new LinkedList<String>();
     
-    private File opendmaTemplatesFolder;
-    
     protected void prepareProjectStructureAndBuildFiles(final ApiDescription apiDescription) throws IOException
     {
         PlaceholderResolver resolver = new PlaceholderResolver()
@@ -198,9 +196,6 @@ public class TypeScriptApiWriter extends AbstractApiWriter
         // opendma-api package.json and tsconfig.json
         copyTemplateToStream("opendma-api-package", new FileOutputStream(new File(opendmaApiProjectFolder, "package.json")), resolver);
         copyTemplateToStream("opendma-api-tsconfig", new FileOutputStream(new File(opendmaApiProjectFolder, "tsconfig.json")), resolver);
-        // opendma-templates folder
-        opendmaTemplatesFolder = new File(baseFolder, "opendma-templates");
-        opendmaTemplatesFolder.mkdirs();
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

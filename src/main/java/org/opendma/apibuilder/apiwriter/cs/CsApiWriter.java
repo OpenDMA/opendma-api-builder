@@ -181,8 +181,6 @@ public class CsApiWriter extends AbstractApiWriter
     
     private File opendmaApiFolder;
     
-    private File opendmaTemplatesFolder;
-    
     protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
         // solution
@@ -192,11 +190,6 @@ public class CsApiWriter extends AbstractApiWriter
         opendmaApiFolder.mkdirs();
         // OpenDMA.Api project file
         copyTemplateToStream("OpenDMA.Api.csproj", new FileOutputStream(new File(opendmaApiFolder, "OpenDMA.Api.csproj")));
-        // OpenDMA.Templates folder structure
-        opendmaTemplatesFolder = new File(baseFolder, "OpenDMA.Templates");
-        opendmaTemplatesFolder.mkdirs();
-        // OpenDMA.Api project file
-        copyTemplateToStream("OpenDMA.Templates.csproj", new FileOutputStream(new File(opendmaTemplatesFolder, "OpenDMA.Templates.csproj")));
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

@@ -185,8 +185,6 @@ public class PythonApiWriter extends AbstractApiWriter
     
     private FileOutputStream opendmaApiHelpersFOS;
     
-    private File opendmaTemplatesFolder;
-    
     private List<String> classesImportFromInterfaces = new LinkedList<String>();
     
     private List<String> classesImportFromHelpers = new LinkedList<String>();
@@ -224,9 +222,6 @@ public class PythonApiWriter extends AbstractApiWriter
         copyTemplateToStream("opendma-api-helpers-header", opendmaApiHelpersFOS, false);
         // build file
         copyTemplateToStream("opendma-api-pyproject", new FileOutputStream(new File(opendmaApiProjectFolder, "pyproject.toml")), resolver);
-        // templates folder
-        opendmaTemplatesFolder = new File(baseFolder, "opendma-templates");
-        opendmaTemplatesFolder.mkdirs();
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
