@@ -70,7 +70,7 @@
         <configuration>
           <mainClass>org.opendma.apibuilder.OdmaApiBuilder</mainClass>
           <arguments>
-            <argument>OdmaApiDescription_062.xml</argument>
+            <argument>OdmaApiDescription_070.xml</argument>
             <argument>src.generated</argument>
           </arguments>
         </configuration>

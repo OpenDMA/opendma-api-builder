@@ -121,15 +121,15 @@
         </Property>
 
         <Property namespace="opendma"
-                  name="Namespace"
-                  apiName="Namespace"
+                  name="NameQualifier"
+                  apiName="NameQualifier"
                   readOnly="false"
                   required="false"
                   dataType="string"
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;namespace&lt;/i&gt; of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
+            <Abstract>the name &lt;i&gt;qualifier&lt;/i&gt; of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -325,15 +325,15 @@
         </Property>
 
         <Property namespace="opendma"
-                  name="Namespace"
-                  apiName="Namespace"
+                  name="NameQualifier"
+                  apiName="NameQualifier"
                   readOnly="false"
                   required="false"
                   dataType="string"
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;namespace&lt;/i&gt; of this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
+            <Abstract>the name &lt;i&gt;qualifier&lt;/i&gt; of this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 

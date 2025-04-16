@@ -1,0 +1,1382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApiDescription>
+
+    <Version>0.7.0</Version>
+
+<!-- ========================================================================================== -->
+<!--                                                                                            -->
+<!--                                     S E C T I O N   I                                      -->
+<!--                                                                                            -->
+<!-- ========================================================================================== -->
+
+    <ScalarTypes>
+
+        <ScalarType name="String" numericId="1" reference="false" />
+
+        <ScalarType name="Integer" numericId="2" reference="false" />
+
+        <ScalarType name="Short" numericId="3" reference="false" />
+
+        <ScalarType name="Long" numericId="4" reference="false" />
+
+        <ScalarType name="Float" numericId="5" reference="false" />
+
+        <ScalarType name="Double" numericId="6" reference="false" />
+
+        <ScalarType name="Boolean" numericId="7" reference="false" />
+
+        <ScalarType name="DateTime" numericId="8" reference="false" />
+
+        <ScalarType name="Blob" numericId="9" reference="false" />
+
+        <ScalarType name="Reference" numericId="10" reference="true" />
+
+        <ScalarType name="Content" numericId="11" reference="false" />
+
+        <InternalScalarType name="Id" numericId="100" reference="false" baseScalar="String" />
+
+        <InternalScalarType name="Guid" numericId="101" reference="false" baseScalar="String" />
+
+    </ScalarTypes>
+
+
+    <Class namespace="opendma" name="Object" apiName="OdmaObject" aspect="false" instantiable="false" hidden="false" system="true">
+
+        <Description>Full description follows.</Description>
+
+        <Property namespace="opendma"
+                  name="Class"
+                  apiName="OdmaClass"
+                  readOnly="true"
+                  required="true"
+                  dataType="reference"
+                  multiValue="false"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Class">
+            <Abstract>the OpenDMA &lt;code&gt;Class&lt;/code&gt; describing this &lt;code&gt;Object&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Id"
+                  apiName="Id"
+                  readOnly="true"
+                  required="true"
+                  dataType="id"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the &lt;i&gt;unique object identifier&lt;/i&gt; identifying this &lt;code&gt;Object&lt;/code&gt; inside its &lt;code&gt;Repository&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Guid"
+                  apiName="Guid"
+                  readOnly="true"
+                  required="true"
+                  dataType="guid"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the &lt;i&gt;global unique object identifier&lt;/i&gt; globally identifying this &lt;code&gt;Object&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Repository"
+                  apiName="Repository"
+                  readOnly="true"
+                  required="true"
+                  dataType="reference"
+                  multiValue="false"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Repository">
+            <Abstract>the OpenDMA &lt;code&gt;Repository&lt;/code&gt; where this &lt;code&gt;Object&lt;/code&gt; resides</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+    </Class>
+
+
+    <Class namespace="opendma" name="Class" apiName="OdmaClass" extendsNamespace="opendma" extendsName="Object" aspect="false" instantiable="true" hidden="false" system="true">
+
+        <Description>The &lt;i&gt;Class&lt;/i&gt; specific version of the &lt;code&gt;{@link OdmaObject}&lt;/code&gt; interface that offers short cuts to all defined OpenDMA properties.</Description>
+
+        <Property namespace="opendma"
+                  name="Name"
+                  apiName="Name"
+                  readOnly="false"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the internal (technical) &lt;i&gt;name&lt;/i&gt; of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Namespace"
+                  apiName="Namespace"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the &lt;i&gt;namespace&lt;/i&gt; of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="DisplayName"
+                  apiName="DisplayName"
+                  readOnly="false"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the &lt;i&gt;display name&lt;/i&gt; of this &lt;code&gt;Class&lt;/code&gt; to be displayed to end users</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="SuperClass"
+                  apiName="SuperClass"
+                  readOnly="true"
+                  required="false"
+                  dataType="reference"
+                  multiValue="false"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Class">
+            <Abstract>the &lt;i&gt;super&lt;/i&gt; &lt;code&gt;Class&lt;/code&gt; that is extended by this &lt;code&gt;Class&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Aspects"
+                  apiName="Aspects"
+                  readOnly="false"
+                  required="false"
+                  dataType="reference"
+                  multiValue="true"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Class">
+            <Abstract>the list of &lt;i&gt;aspects&lt;/i&gt; that are implemented by this &lt;code&gt;Class&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="DeclaredProperties"
+                  apiName="DeclaredProperties"
+                  readOnly="false"
+                  required="false"
+                  dataType="reference"
+                  multiValue="true"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="PropertyInfo">
+            <Abstract>the list of &lt;i&gt;properties&lt;/i&gt; that are desclared by this &lt;code&gt;Class&lt;/code&gt; (does not contain inherited properties).</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Properties"
+                  apiName="Properties"
+                  readOnly="true"
+                  required="false"
+                  dataType="reference"
+                  multiValue="true"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="PropertyInfo">
+            <Abstract>the list of &lt;i&gt;properties&lt;/i&gt; that are effective for objects of this &lt;code&gt;Class&lt;/code&gt;. Contains inherited and declared properties.</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Aspect"
+                  apiName="Aspect"
+                  readOnly="true"
+                  required="true"
+                  dataType="boolean"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; describes an Aspect or a valid class object</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Instantiable"
+                  apiName="Instantiable"
+                  readOnly="false"
+                  required="true"
+                  dataType="boolean"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>whether &lt;code&gt;Object&lt;/code&gt;s of this &lt;code&gt;Class&lt;/code&gt; can be created or not</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Hidden"
+                  apiName="Hidden"
+                  readOnly="false"
+                  required="true"
+                  dataType="boolean"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; should be displayed to end users or not</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="System"
+                  apiName="System"
+                  readOnly="false"
+                  required="true"
+                  dataType="boolean"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; is defined by the system (true) or by users (false)</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Retrievable"
+                  apiName="Retrievable"
+                  readOnly="true"
+                  required="true"
+                  dataType="boolean"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>whether objects of this class can be retrieved from a session by their id or not</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Searchable"
+                  apiName="Searchable"
+                  readOnly="true"
+                  required="true"
+                  dataType="boolean"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>whether objects of this class can be found by a search query or not</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="SubClasses"
+                  apiName="SubClasses"
+                  readOnly="true"
+                  required="false"
+                  dataType="reference"
+                  multiValue="true"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Class">
+            <Abstract>the list of &lt;code&gt;Class&lt;/code&gt;es that extend this class (i.e. that contain a reference to this &lt;code&gt;Class&lt;/code&gt; in their &lt;code&gt;SuperClass&lt;/code&gt; property)</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+        
+        <ApiHelper apiName="getQName">
+            <Abstract>the qualified name of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </ApiHelper>
+
+    </Class>
+
+
+    <Class namespace="opendma" name="PropertyInfo" apiName="OdmaPropertyInfo" extendsNamespace="opendma" extendsName="Object" aspect="false" instantiable="true" hidden="false" system="true">
+
+        <Description>Full description follows.</Description>
+
+        <Property namespace="opendma"
+                  name="Name"
+                  apiName="Name"
+                  readOnly="false"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the internal (technical) &lt;i&gt;name&lt;/i&gt; of this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Namespace"
+                  apiName="Namespace"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the &lt;i&gt;namespace&lt;/i&gt; of this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="DisplayName"
+                  apiName="DisplayName"
+                  readOnly="false"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the &lt;i&gt;display name&lt;/i&gt; of this &lt;code&gt;PropertyInfo&lt;/code&gt; to be displayed to end users</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="DataType"
+                  apiName="DataType"
+                  readOnly="false"
+                  required="true"
+                  dataType="integer"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the numeric ID of the data type described by this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="ReferenceClass"
+                  apiName="ReferenceClass"
+                  readOnly="false"
+                  required="false"
+                  dataType="reference"
+                  multiValue="false"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Class">
+            <Abstract>the required &lt;code&gt;Class&lt;/code&gt; of the object referenced by this property if this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="MultiValue"
+                  apiName="MultiValue"
+                  readOnly="false"
+                  required="true"
+                  dataType="boolean"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>whether &lt;code&gt;Object&lt;/code&gt;s of this &lt;code&gt;Class&lt;/code&gt; can be created or not</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Required"
+                  apiName="Required"
+                  readOnly="false"
+                  required="true"
+                  dataType="boolean"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>whether &lt;code&gt;Object&lt;/code&gt;s of this &lt;code&gt;Class&lt;/code&gt; can be created or not</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="ReadOnly"
+                  apiName="ReadOnly"
+                  readOnly="false"
+                  required="true"
+                  dataType="boolean"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; should be displayed to end users or not</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Hidden"
+                  apiName="Hidden"
+                  readOnly="false"
+                  required="true"
+                  dataType="boolean"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; should be displayed to end users or not</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="System"
+                  apiName="System"
+                  readOnly="false"
+                  required="true"
+                  dataType="boolean"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; is defined by the system (true) or by users (false)</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Choices"
+                  apiName="Choices"
+                  readOnly="false"
+                  required="false"
+                  dataType="reference"
+                  multiValue="true"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="ChoiceValue">
+            <Abstract>set of possible choices the values of this property is limited to or null if there are no constraints for the value of this property</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+        
+        <ApiHelper apiName="getQName">
+            <Abstract>the qualified name of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </ApiHelper>
+
+    </Class>
+
+
+    <Class namespace="opendma" name="ChoiceValue" apiName="OdmaChoiceValue" extendsNamespace="opendma" extendsName="Object" aspect="false" instantiable="true" hidden="false" system="true">
+
+        <Description>Full description follows.</Description>
+
+        <Property namespace="opendma"
+                  name="DisplayName"
+                  apiName="DisplayName"
+                  readOnly="false"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the &lt;i&gt;display name&lt;/i&gt; of this Choice to be displayed to end users</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="StringValue"
+                  apiName="StringValue"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the String value of this choice or null, if the property info this choice is assigned to is not of data type String</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="IntegerValue"
+                  apiName="IntegerValue"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the Integer value of this choice or null, if the property info this choice is assigned to is not of data type Integer</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="ShortValue"
+                  apiName="ShortValue"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the Short value of this choice or null, if the property info this choice is assigned to is not of data type Short</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="LongValue"
+                  apiName="LongValue"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the Long value of this choice or null, if the property info this choice is assigned to is not of data type Long</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="FloatValue"
+                  apiName="FloatValue"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the Float value of this choice or null, if the property info this choice is assigned to is not of data type Float</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="DoubleValue"
+                  apiName="DoubleValue"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the Double value of this choice or null, if the property info this choice is assigned to is not of data type Double</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="BooleanValue"
+                  apiName="BooleanValue"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the Boolean value of this choice or null, if the property info this choice is assigned to is not of data type Boolean</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="DateTimeValue"
+                  apiName="DateTimeValue"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the DateTime value of this choice or null, if the property info this choice is assigned to is not of data type DateTime</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="BLOBValue"
+                  apiName="BLOBValue"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the BLOB value of this choice or null, if the property info this choice is assigned to is not of data type BLOB</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="ReferenceValue"
+                  apiName="ReferenceValue"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the Reference value of this choice or null, if the property info this choice is assigned to is not of data type Reference</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+    </Class>
+
+
+<!-- ========================================================================================== -->
+<!--                                                                                            -->
+<!--                                   S E C T I O N   II.1                                     -->
+<!--                                                                                            -->
+<!-- ========================================================================================== -->
+
+
+    <Class namespace="opendma" name="Repository" apiName="OdmaRepository" extendsNamespace="opendma" extendsName="Object" aspect="false" instantiable="false" hidden="false" system="true">
+
+        <Description>Full description follows.</Description>
+
+        <Property namespace="opendma"
+                  name="Name"
+                  apiName="Name"
+                  readOnly="false"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the internal (technical) &lt;i&gt;name&lt;/i&gt; of this &lt;code&gt;Repository&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="DisplayName"
+                  apiName="DisplayName"
+                  readOnly="false"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the &lt;i&gt;display name&lt;/i&gt; of this &lt;code&gt;Repository&lt;/code&gt; to be displayed to end users</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="RootClass"
+                  apiName="RootClass"
+                  readOnly="true"
+                  required="true"
+                  dataType="reference"
+                  multiValue="false"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Class">
+            <Abstract>the &lt;i&gt;root&lt;/i&gt; &lt;code&gt;Class&lt;/code&gt; of the class hierarchy in this &lt;code&gt;Repository&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="RootAspects"
+                  apiName="RootAspects"
+                  readOnly="true"
+                  required="false"
+                  dataType="reference"
+                  multiValue="true"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Class">
+            <Abstract>the list of &lt;code&gt;Class&lt;/code&gt;es that represent an &lt;i&gt;Aspect&lt;/i&gt; and that do not inherit another aspect</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="RootFolder"
+                  apiName="RootFolder"
+                  readOnly="true"
+                  required="false"
+                  dataType="reference"
+                  multiValue="false"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Folder">
+            <Abstract>the &lt;i&gt;root&lt;/i&gt; &lt;code&gt;Folder&lt;/code&gt; of a dedicated folder tree in this &lt;code&gt;Repository&lt;/code&gt; (if any)</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+    </Class>
+
+
+    <Class namespace="opendma" name="Document" apiName="OdmaDocument" aspect="true" instantiable="false" hidden="false" system="true">
+
+        <Description>Full description follows.</Description>
+
+        <Property namespace="opendma"
+                  name="Title"
+                  apiName="Title"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the &lt;i&gt;title&lt;/i&gt; of this &lt;code&gt;Document&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Version"
+                  apiName="Version"
+                  readOnly="true"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the &lt;i&gt;version string&lt;/i&gt; describing this &lt;i&gt;version&lt;/i&gt; of this &lt;code&gt;Document&lt;/code&gt; (e.g. 1.0, 1.1, 1.2, 2.0)</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="VersionCollection"
+                  apiName="VersionCollection"
+                  readOnly="true"
+                  required="false"
+                  dataType="reference"
+                  multiValue="false"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="VersionCollection">
+            <Abstract>reference to a &lt;i&gt;VersionCollection&lt;/i&gt; object containing the collection of all &lt;i&gt;versions&lt;/i&gt; of this &lt;code&gt;Document&lt;/code&gt; along with other information</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="VersionIndependentId"
+                  apiName="VersionIndependentId"
+                  readOnly="true"
+                  required="true"
+                  dataType="id"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the &lt;i&gt;unique object identifier&lt;/i&gt; identifying this logical document independent from the specific version inside its &lt;code&gt;Repository&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="VersionIndependentGuid"
+                  apiName="VersionIndependentGuid"
+                  readOnly="true"
+                  required="true"
+                  dataType="guid"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the &lt;i&gt;global unique object identifier&lt;/i&gt; globally identifying this logical document independent from the specific version</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="ContentElements"
+                  apiName="ContentElements"
+                  readOnly="false"
+                  required="false"
+                  dataType="reference"
+                  multiValue="true"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="ContentElement">
+            <Abstract>the collection of all &lt;code&gt;ContentElement&lt;/code&gt;s this &lt;code&gt;Document&lt;/code&gt; consists of</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="CombinedContentType"
+                  apiName="CombinedContentType"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the combined mime type that has been build over all &lt;code&gt;ContentElement&lt;/code&gt;s this &lt;code&gt;Document&lt;/code&gt; consists of</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="PrimaryContentElement"
+                  apiName="PrimaryContentElement"
+                  readOnly="false"
+                  required="false"
+                  dataType="reference"
+                  multiValue="false"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="ContentElement">
+            <Abstract>the primary &lt;code&gt;ContentElement&lt;/code&gt;s that represents this &lt;code&gt;Document&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="CreatedAt"
+                  apiName="CreatedAt"
+                  readOnly="true"
+                  required="true"
+                  dataType="datetime"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the date when this version of this &lt;code&gt;Document&lt;/code&gt; has been created</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="CreatedBy"
+                  apiName="CreatedBy"
+                  readOnly="true"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the user who has created this version of this &lt;code&gt;Document&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="LastModifiedAt"
+                  apiName="LastModifiedAt"
+                  readOnly="true"
+                  required="true"
+                  dataType="datetime"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the date when this version of this &lt;code&gt;Document&lt;/code&gt; has been modified the last time</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="LastModifiedBy"
+                  apiName="LastModifiedBy"
+                  readOnly="true"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the user who has modified this version of this &lt;code&gt;Document&lt;/code&gt; the last time</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="CheckedOut"
+                  apiName="CheckedOut"
+                  readOnly="true"
+                  required="true"
+                  dataType="boolean"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>&lt;code&gt;true&lt;/code&gt; if and only if this &lt;code&gt;Document&lt;/code&gt; is checked out</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="CheckedOutAt"
+                  apiName="CheckedOutAt"
+                  readOnly="true"
+                  required="false"
+                  dataType="datetime"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the date when this &lt;code&gt;Document&lt;/code&gt; has been checked out</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="CheckedOutBy"
+                  apiName="CheckedOutBy"
+                  readOnly="true"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the user who has checked out this &lt;code&gt;Document&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+    </Class>
+
+
+    <Class namespace="opendma" name="ContentElement" apiName="OdmaContentElement" aspect="true" instantiable="false" hidden="false" system="true">
+
+        <Description>Full description follows.</Description>
+
+        <Property namespace="opendma"
+                  name="ContentType"
+                  apiName="ContentType"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the mime type describing how the &lt;code&gt;Content&lt;/code&gt; of this &lt;code&gt;ContentElement&lt;/code&gt; has to be interpreted</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Position"
+                  apiName="Position"
+                  readOnly="true"
+                  required="true"
+                  dataType="integer"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the position of this element in the list of all content elements of the containing document</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+    </Class>
+
+
+    <Class namespace="opendma" name="DataContentElement" apiName="OdmaDataContentElement" extendsNamespace="opendma" extendsName="ContentElement" aspect="true" instantiable="false" hidden="false" system="true">
+
+        <Description>Full description follows.</Description>
+
+        <Property namespace="opendma"
+                  name="Content"
+                  apiName="Content"
+                  readOnly="false"
+                  required="false"
+                  dataType="content"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the binary content of this &lt;code&gt;ContentElement&lt;/code&gt; as octets</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Size"
+                  apiName="Size"
+                  readOnly="true"
+                  required="true"
+                  dataType="long"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the number of octests the binary content of this &lt;code&gt;ContentElement&lt;/code&gt; consists of</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="FileName"
+                  apiName="FileName"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the optional file name of this &lt;code&gt;ContentElement&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+    </Class>
+
+
+    <Class namespace="opendma" name="ReferenceContentElement" apiName="OdmaReferenceContentElement" extendsNamespace="opendma" extendsName="ContentElement" aspect="true" instantiable="false" hidden="false" system="true">
+
+        <Description>Full description follows.</Description>
+
+        <Property namespace="opendma"
+                  name="Location"
+                  apiName="Location"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the URI where the content is stored</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+    </Class>
+
+
+    <Class namespace="opendma" name="VersionCollection" apiName="OdmaVersionCollection" aspect="true" instantiable="false" hidden="false" system="true">
+
+        <Description>Full description follows.</Description>
+
+        <Property namespace="opendma"
+                  name="Versions"
+                  apiName="Versions"
+                  readOnly="true"
+                  required="true"
+                  dataType="reference"
+                  multiValue="true"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Document">
+            <Abstract>collection of all versions of the &lt;code&gt;Document&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Latest"
+                  apiName="Latest"
+                  readOnly="true"
+                  required="true"
+                  dataType="reference"
+                  multiValue="false"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Document">
+            <Abstract>the latest version of this &lt;code&gt;Document&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Released"
+                  apiName="Released"
+                  readOnly="true"
+                  required="true"
+                  dataType="reference"
+                  multiValue="false"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Document">
+            <Abstract>the last released version of this &lt;code&gt;Document&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="InProgress"
+                  apiName="InProgress"
+                  readOnly="true"
+                  required="true"
+                  dataType="reference"
+                  multiValue="false"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Document">
+            <Abstract>the version of this &lt;code&gt;Document&lt;/code&gt; currently beeing worked on during a checkout. Only valid if and only if the corresponding &lt;code&gt;Document&lt;/code&gt; is checked out.</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="CreatedAt"
+                  apiName="CreatedAt"
+                  readOnly="true"
+                  required="true"
+                  dataType="datetime"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the date when this &lt;code&gt;Document&lt;/code&gt; has been created</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="CreatedBy"
+                  apiName="CreatedBy"
+                  readOnly="true"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the user who has created this &lt;code&gt;Document&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+    </Class>
+
+
+    <Class namespace="opendma" name="Container" apiName="OdmaContainer" aspect="true" instantiable="false" hidden="false" system="true">
+
+        <Description>Full description follows.</Description>
+
+        <Property namespace="opendma"
+                  name="Title"
+                  apiName="Title"
+                  readOnly="false"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the &lt;i&gt;title&lt;/i&gt; of this &lt;code&gt;Container&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Containees"
+                  apiName="Containees"
+                  readOnly="true"
+                  required="true"
+                  dataType="reference"
+                  multiValue="true"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Containable">
+            <Abstract>the collection of all &lt;code&gt;Containable&lt;/code&gt; objects that are contained in this &lt;code&gt;Container&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Associations"
+                  apiName="Associations"
+                  readOnly="true"
+                  required="false"
+                  dataType="reference"
+                  multiValue="true"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Association">
+            <Abstract>the collection of all &lt;code&gt;Association&lt;/code&gt;s between this &lt;code&gt;Container&lt;/code&gt; and its containees</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="CreatedAt"
+                  apiName="CreatedAt"
+                  readOnly="true"
+                  required="true"
+                  dataType="datetime"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the date when this &lt;code&gt;Container&lt;/code&gt; has been created</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="CreatedBy"
+                  apiName="CreatedBy"
+                  readOnly="true"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the user who has created this &lt;code&gt;Container&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="LastModifiedAt"
+                  apiName="LastModifiedAt"
+                  readOnly="true"
+                  required="true"
+                  dataType="datetime"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the date when this &lt;code&gt;Container&lt;/code&gt; has been modified the last time</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="LastModifiedBy"
+                  apiName="LastModifiedBy"
+                  readOnly="true"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the user who has modified this &lt;code&gt;Container&lt;/code&gt; the last time</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+    </Class>
+
+
+    <Class namespace="opendma" name="Folder" apiName="OdmaFolder" extendsNamespace="opendma" extendsName="Container" aspect="true" instantiable="false" hidden="false" system="true">
+
+        <Description>Full description follows.</Description>
+
+        <Property namespace="opendma"
+                  name="Parent"
+                  apiName="Parent"
+                  readOnly="false"
+                  required="false"
+                  dataType="reference"
+                  multiValue="false"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Folder">
+            <Abstract>the &lt;code&gt;Folder&lt;/code&gt; this &lt;code&gt;Folder&lt;/code&gt; is a sub folder of</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="SubFolders"
+                  apiName="SubFolders"
+                  readOnly="true"
+                  required="false"
+                  dataType="reference"
+                  multiValue="true"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Folder">
+            <Abstract>the collection of &lt;code&gt;Folder&lt;/code&gt;s which have this &lt;code&gt;Folder&lt;/code&gt; in their parent property</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+    </Class>
+
+
+    <Class namespace="opendma" name="Containable" apiName="OdmaContainable" aspect="true" instantiable="false" hidden="false" system="true">
+
+        <Description>Full description follows.</Description>
+
+        <Property namespace="opendma"
+                  name="ContainedIn"
+                  apiName="ContainedIn"
+                  readOnly="true"
+                  required="false"
+                  dataType="reference"
+                  multiValue="true"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Container">
+            <Abstract>the collection of &lt;code&gt;Container&lt;/code&gt;s this &lt;code&gt;Containable&lt;/code&gt; is contained in</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="ContainedInAssociations"
+                  apiName="ContainedInAssociations"
+                  readOnly="true"
+                  required="false"
+                  dataType="reference"
+                  multiValue="true"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Association">
+            <Abstract>the collection of &lt;code&gt;Association&lt;/code&gt;s that bind this &lt;code&gt;Containable&lt;/code&gt; in the &lt;code&gt;Container&lt;/code&gt;s</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+    </Class>
+
+
+    <Class namespace="opendma" name="Association" apiName="OdmaAssociation" aspect="true" instantiable="false" hidden="false" system="true">
+
+        <Description>Full description follows.</Description>
+
+        <Property namespace="opendma"
+                  name="Name"
+                  apiName="Name"
+                  readOnly="false"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the &lt;i&gt;name&lt;/i&gt; of this &lt;code&gt;Association&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Container"
+                  apiName="Container"
+                  readOnly="false"
+                  required="true"
+                  dataType="reference"
+                  multiValue="false"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Container">
+            <Abstract>the &lt;code&gt;Container&lt;/code&gt; of this &lt;code&gt;Association&lt;/code&gt; in which the containable is said to be contained</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="Containable"
+                  apiName="Containable"
+                  readOnly="false"
+                  required="true"
+                  dataType="reference"
+                  multiValue="false"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Containable">
+            <Abstract>the &lt;code&gt;Containable&lt;/code&gt; of this &lt;code&gt;Association&lt;/code&gt; which is said to be contained in the container</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="CreatedAt"
+                  apiName="CreatedAt"
+                  readOnly="true"
+                  required="true"
+                  dataType="datetime"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the date when this &lt;code&gt;Association&lt;/code&gt; has been created</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="CreatedBy"
+                  apiName="CreatedBy"
+                  readOnly="true"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the user who has created this &lt;code&gt;Association&lt;/code&gt;</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="LastModifiedAt"
+                  apiName="LastModifiedAt"
+                  readOnly="true"
+                  required="true"
+                  dataType="datetime"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the date when this &lt;code&gt;Association&lt;/code&gt; has been modified the last time</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="LastModifiedBy"
+                  apiName="LastModifiedBy"
+                  readOnly="true"
+                  required="true"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the user who has modified this &lt;code&gt;Association&lt;/code&gt; the last time</Abstract>
+            <Description>Full description follows.</Description>
+        </Property>
+
+    </Class>
+
+    
+</ApiDescription>
