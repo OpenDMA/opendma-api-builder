@@ -82,6 +82,7 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
             System.out.println("Error validating class hierarchy from description file " + descriptionFileName + ":\n" + e);
             return;
         }
+        System.out.println("Property re-use across class hierarchy:");
         odmaClassHierarchy.printPropertyReuse();
         //-----< STEP 5: validate the existence of predefined classes >--------
         try
@@ -96,7 +97,13 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
             return;
         }
         //-----< STEP 6: create API for each programming language >------------
-        String outputFolderRoot = args[1];
+        File outputFolderRoot = new File(args[1]);
+        System.out.println("Target directory for generated APIs: "+outputFolderRoot.getAbsolutePath());
+        if(!outputFolderRoot.mkdirs())
+        {
+            System.out.println("Error creating target directory.");
+            return;
+        }
         List<OdmaApiWriter> odmaApiWriters;
         try
         {
@@ -139,25 +146,24 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         return descriptionDocument.getDocumentElement();
     }
     
-    protected List<OdmaApiWriter> getApiWriters(String outputFolderRoot) throws ApiWriterException
+    protected List<OdmaApiWriter> getApiWriters(File outputFolderRoot) throws ApiWriterException
     {
-        File outputFolderRootFile = new File(outputFolderRoot);
-        if(!outputFolderRootFile.isDirectory())
+        if(!outputFolderRoot.isDirectory())
         {
-            throw new ApiWriterException("The output folder '"+outputFolderRoot+"' does not exist or is not a directory.");
+            throw new ApiWriterException("The output folder '"+outputFolderRoot.getAbsolutePath()+"' does not exist or is not a directory.");
         }
         List<OdmaApiWriter> result = new ArrayList<OdmaApiWriter>();
-        result.add(new JavaApiWriter(outputFolderRootFile));
-        result.add(new CsApiWriter(outputFolderRootFile));
-        // result.add(new CppApiWriter(outputFolderRootFile)); // experimental and incomplete. Does not compile
-        result.add(new PhpApiWriter(outputFolderRootFile));
-        result.add(new PythonApiWriter(outputFolderRootFile));
-        result.add(new JavaScriptApiWriter(outputFolderRootFile));
-        result.add(new TypeScriptApiWriter(outputFolderRootFile));
-        result.add(new GoApiWriter(outputFolderRootFile));
-        result.add(new RustApiWriter(outputFolderRootFile));
-        result.add(new SwiftApiWriter(outputFolderRootFile));
-        // result.add(new Java14ApiWriter(outputFolderRootFile)); // still working, but no longer supported
+        result.add(new JavaApiWriter(outputFolderRoot));
+        result.add(new CsApiWriter(outputFolderRoot));
+        // result.add(new CppApiWriter(outputFolderRoot)); // experimental and incomplete. Does not compile
+        result.add(new PhpApiWriter(outputFolderRoot));
+        result.add(new PythonApiWriter(outputFolderRoot));
+        result.add(new JavaScriptApiWriter(outputFolderRoot));
+        result.add(new TypeScriptApiWriter(outputFolderRoot));
+        result.add(new GoApiWriter(outputFolderRoot));
+        result.add(new RustApiWriter(outputFolderRoot));
+        result.add(new SwiftApiWriter(outputFolderRoot));
+        // result.add(new Java14ApiWriter(outputFolderRoot)); // still working, but no longer supported
         return result;
     }
 
