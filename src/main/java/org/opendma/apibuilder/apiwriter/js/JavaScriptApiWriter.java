@@ -117,6 +117,7 @@ public class JavaScriptApiWriter extends AbstractApiWriter
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException
     {
+        copyClassToApi("OdmaSession");
     }
 
     //-------------------------------------------------------------------------

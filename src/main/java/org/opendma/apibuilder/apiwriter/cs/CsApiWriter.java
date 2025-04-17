@@ -127,7 +127,7 @@ public class CsApiWriter extends AbstractApiWriter
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException
     {
 //        createClassFromTemplate(outputFolder,"IOdmaDataSource");
-//        createClassFromTemplate(outputFolder,"IOdmaSession");
+        createClassFromTemplate(opendmaApiFolder,"IOdmaSession");
     }
 
     //-------------------------------------------------------------------------

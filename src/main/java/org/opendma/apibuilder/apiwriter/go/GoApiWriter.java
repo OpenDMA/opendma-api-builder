@@ -127,6 +127,7 @@ public class GoApiWriter extends AbstractApiWriter
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException
     {
+        createClassFromTemplate(opendmaApiProjectFolder, "OdmaSession");
     }
 
     //-------------------------------------------------------------------------

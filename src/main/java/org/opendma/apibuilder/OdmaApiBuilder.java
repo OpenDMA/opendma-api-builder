@@ -99,11 +99,7 @@ public class OdmaApiBuilder implements DescriptionFileTypes, OdmaBasicTypes
         //-----< STEP 6: create API for each programming language >------------
         File outputFolderRoot = new File(args[1]);
         System.out.println("Target directory for generated APIs: "+outputFolderRoot.getAbsolutePath());
-        if(!outputFolderRoot.mkdirs())
-        {
-            System.out.println("Error creating target directory.");
-            return;
-        }
+        outputFolderRoot.mkdirs();
         List<OdmaApiWriter> odmaApiWriters;
         try
         {

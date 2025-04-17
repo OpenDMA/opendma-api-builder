@@ -1,0 +1,73 @@
+/**
+ * A session is the context through which objects can be retrieved from a specific OpenDMA domain.
+ * It is typically established for a defined account with an instance of a document management system.
+ */
+class OdmaSession {
+
+    constructor() {
+        if (new.target === OdmaSession) {
+            throw new Error("OdmaSession is an abstract class and cannot be instantiated directly.");
+        }
+    }
+
+    /**
+     * Returns a list of repository OdmaIds the account has access to.
+     *
+     * @abstract
+     * @returns {OdmaId[]} A list of repository OdmaIds the account has access to
+     */
+    getRepositoryIds() {
+        throw new Error("Method 'getRepositoryIds()' must be implemented.");
+    }
+
+    /**
+     * Returns the OdmaRepository object for the given repository id.
+     *
+     * @abstract
+     * @param {OdmaId} repositoryId - The id of the repository to return
+     * @returns {OdmaRepository} The OdmaRepository object for the given repository id
+     * @throws {OdmaObjectNotFoundException} If a repository with the given id does not exist or the current account has no access
+     */
+    getRepository(repositoryId) {
+        throw new Error("Method 'getRepository()' must be implemented.");
+    }
+
+    /**
+     * Returns the object of the given class identified by the given ID in the given repository.
+     *
+     * @abstract
+     * @param {OdmaId} repositoryId - The id of the repository to retrieve the object from
+     * @param {OdmaId} objectId - The id of the object to return
+     * @param {OdmaQName[] | null} propertyNames - Array of qualified property names to retrieve from the server or null to retrieve all
+     * @returns {OdmaObject} The object of the given class identified by the given ID in the given repository
+     * @throws {OdmaObjectNotFoundException} If no object with this ID exists or the account has no access
+     */
+    getObject(repositoryId, objectId, propertyNames) {
+        throw new Error("Method 'getObject()' must be implemented.");
+    }
+
+    /**
+     * Performs a search operation against a repository and returns the result.
+     *
+     * @abstract
+     * @param {OdmaId} repositoryId - The id of the repository to retrieve the object from
+     * @param {string} queryLanguage - The language specifier in which the query is given
+     * @param {string} query - Search specification in the given query language
+     * @returns {OdmaSearchResult} The search result of this operation
+     * @throws {OdmaObjectNotFoundException} If the repository does not exist
+     * @throws {OdmaQuerySyntaxException} If the query string is syntactically incorrect or the query language is not supported
+     */
+    search(repositoryId, queryLanguage, query) {
+        throw new Error("Method 'search()' must be implemented.");
+    }
+
+    /**
+     * Invalidate this session and release all associated resources.
+     *
+     * @abstract
+     */
+    close() {
+        throw new Error("Method 'close()' must be implemented.");
+    }
+
+}

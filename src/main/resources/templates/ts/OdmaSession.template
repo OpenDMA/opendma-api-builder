@@ -1,0 +1,82 @@
+import { OdmaId } from './OdmaId';
+import { OdmaQName } from './OdmaQName';
+import { OdmaObject } from './OdmaObject';
+import { OdmaRepository } from './OdmaRepository';
+import { OdmaSearchResult } from './OdmaSearchResult';
+
+/**
+ * A session is the context through which objects can be retrieved from a specific OpenDMA domain.
+ * It is typically established for a defined account with an instance of a document management system.
+ */
+export interface OdmaSession {
+
+  /**
+   * Returns a list of repository OdmaIds the account has access to.
+   *
+   * @returns A list of repository OdmaIds the account has access to
+   */
+  getRepositoryIds(): OdmaId[];
+
+  /**
+   * Returns the OdmaRepository object for the given repository id.
+   *
+   * @param repositoryId - The id of the repository to return
+   * @returns The OdmaRepository object for the given repository id
+   * @throws OdmaObjectNotFoundError if a repository with the given id does not exist or the current account has no access
+   */
+  getRepository(repositoryId: OdmaId): OdmaRepository;
+
+  /**
+   * Returns the object of the given class identified by the given ID in the given repository.
+   *
+   * @param repositoryId - The id of the repository to retrieve the object from
+   * @param objectId - The id of the object to return
+   * @param propertyNames - Array of qualified property names to retrieve from the server or null to retrieve all
+   * @returns The object of the given class identified by the given ID in the given repository
+   * @throws OdmaObjectNotFoundError if no object with this ID exists or the account has no access
+   */
+  getObject(
+    repositoryId: OdmaId,
+    objectId: OdmaId,
+    propertyNames: OdmaQName[] | null
+  ): OdmaObject;
+
+  /**
+   * Performs a search operation against a repository and returns the result.
+   *
+   * @param repositoryId - The id of the repository to retrieve the object from
+   * @param queryLanguage - The language specifier in which the query is given
+   * @param query - Search specification in the given query language
+   * @returns The search result of this operation
+   * @throws OdmaObjectNotFoundError if the repository does not exist
+   * @throws OdmaQuerySyntaxError if the query string is syntactically incorrect or the query language is not supported
+   */
+  search(
+    repositoryId: OdmaId,
+    queryLanguage: string,
+    query: string
+  ): OdmaSearchResult;
+
+  /**
+   * Invalidate this session and release all associated resources.
+   */
+  close(): void;
+
+}
+
+/**
+ * Type guard to check if an object implements the OdmaSession interface.
+ *
+ * @param obj - The object to check
+ * @returns True if the object implements OdmaSession
+ */
+export function isOdmaSession(obj: any): obj is OdmaSession {
+  return (
+    obj &&
+    typeof obj.getRepositoryIds === 'function' &&
+    typeof obj.getRepository === 'function' &&
+    typeof obj.getObject === 'function' &&
+    typeof obj.search === 'function' &&
+    typeof obj.close === 'function'
+  );
+}

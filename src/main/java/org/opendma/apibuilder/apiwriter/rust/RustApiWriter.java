@@ -162,6 +162,9 @@ public class RustApiWriter extends AbstractApiWriter
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException
     {
+        createClassFromTemplate(opendmaApiSourceFolder, "odma_session");
+        registerApiModule("odma_session");
+        registerApiModuleExport("odma_session", "OdmaSession");
     }
 
     //-------------------------------------------------------------------------

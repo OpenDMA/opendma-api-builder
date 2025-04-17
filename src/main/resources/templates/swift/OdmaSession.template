@@ -1,0 +1,54 @@
+import Foundation
+
+/// A session is the context through which objects can be retrieved from a specific OpenDMA domain.
+/// It is typically established for a defined account with an instance of a document management system.
+protocol OdmaSession {
+
+    /// Returns a list of repository `OdmaId`s the account has access to.
+    ///
+    /// - Returns: A list of repository `OdmaId`s the account has access to.
+    func getRepositoryIds() throws -> [OdmaId]
+
+    /// Returns the `OdmaRepository` object for the given repository id.
+    ///
+    /// - Parameter repositoryId: The id of the repository to return.
+    /// - Returns: The `OdmaRepository` object for the given repository id.
+    /// - Throws: `OdmaError.objectNotFound` if a repository with the given id does not exist or the current account has no access.
+    func getRepository(_ repositoryId: OdmaId) throws -> OdmaRepository
+
+    /// Returns the object of the given class identified by the given ID in the given repository.
+    ///
+    /// - Parameters:
+    ///   - repositoryId: The id of the repository to retrieve the object from.
+    ///   - objectId: The id of the object to return.
+    ///   - propertyNames: Array of qualified property names to retrieve from the server, or `nil` to retrieve all.
+    ///
+    /// - Returns: The object of the given class identified by the given ID in the given repository.
+    /// - Throws: `OdmaError.objectNotFound` if no object with this ID exists or the account has no access.
+    func getObject(
+        from repositoryId: OdmaId,
+        objectId: OdmaId,
+        propertyNames: [OdmaQName]?
+    ) throws -> OdmaObject
+
+    /// Performs a search operation against a repository and returns the result.
+    ///
+    /// - Parameters:
+    ///   - repositoryId: The id of the repository to retrieve the object from.
+    ///   - queryLanguage: The language specifier in which the query is given.
+    ///   - query: Search specification in the given query language.
+    ///
+    /// - Returns: The search result of this operation.
+    /// - Throws:
+    ///   - `OdmaError.objectNotFound` if the repository does not exist.
+    ///   - `OdmaError.querySyntax` if the query string is syntactically incorrect or the query language is not supported.
+    func search(
+        in repositoryId: OdmaId,
+        queryLanguage: String,
+        query: String
+    ) throws -> OdmaSearchResult
+
+    /// Invalidate this session and release all associated resources.
+    func close()
+
+}

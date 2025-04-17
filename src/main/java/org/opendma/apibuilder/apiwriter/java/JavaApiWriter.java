@@ -159,7 +159,7 @@ public class JavaApiWriter extends AbstractApiWriter
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException
     {
 //        createClassFromTemplate(outputFolder,"org.opendma","OdmaDataSource");
-//        createClassFromTemplate(outputFolder,"org.opendma","OdmaSession");
+        createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.api","OdmaSession");
     }
 
     //-------------------------------------------------------------------------

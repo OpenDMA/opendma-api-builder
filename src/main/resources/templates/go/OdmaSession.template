@@ -1,0 +1,56 @@
+package opendma
+
+// OdmaSession is the context through which objects can be retrieved from a specific OpenDMA domain.
+// It is typically established for a defined account with an instance of a document management system.
+type OdmaSession interface {
+
+    // GetRepositoryIds returns a list of repository OdmaIds the account has access to.
+    //
+    // Returns:
+    //   A list of repository OdmaIds the account has access to.
+    GetRepositoryIds() ([]OdmaId, error)
+
+    // GetRepository returns the OdmaRepository object for the given repository id.
+    //
+    // Parameters:
+    //   repositoryId - The id of the repository to return.
+    //
+    // Returns:
+    //   The OdmaRepository object for the given repository id.
+    //
+    // Errors:
+    //   OdmaObjectNotFoundError if a repository with the given id does not exist or the current account has no access.
+    GetRepository(repositoryId OdmaId) (OdmaRepository, error)
+
+    // GetObject returns the object of the given class identified by the given ID in the given repository.
+    //
+    // Parameters:
+    //   repositoryId   - The id of the repository to retrieve the object from.
+    //   objectId       - The id of the object to return.
+    //   propertyNames  - Slice of qualified property names to retrieve from the server, or nil to retrieve all.
+    //
+    // Returns:
+    //   The object of the given class identified by the given ID in the given repository.
+    //
+    // Errors:
+    //   OdmaObjectNotFoundError if no object with this ID exists or the account has no access.
+    GetObject(repositoryId OdmaId, objectId OdmaId, propertyNames []OdmaQName) (OdmaObject, error)
+
+    // Search performs a search operation against a repository and returns the result.
+    //
+    // Parameters:
+    //   repositoryId   - The id of the repository to retrieve the object from.
+    //   queryLanguage  - The language specifier in which the query is given.
+    //   query          - Search specification in the given query language.
+    //
+    // Returns:
+    //   The search result of this operation.
+    //
+    // Errors:
+    //   OdmaObjectNotFoundError if the repository does not exist.
+    //   OdmaQuerySyntaxError if the query string is syntactically incorrect or the query language is not supported.
+    Search(repositoryId OdmaId, queryLanguage string, query string) (OdmaSearchResult, error)
+
+    // Close invalidates this session and releases all associated resources.
+    Close() error
+}

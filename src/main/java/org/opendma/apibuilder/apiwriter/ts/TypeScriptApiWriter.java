@@ -125,6 +125,7 @@ public class TypeScriptApiWriter extends AbstractApiWriter
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException
     {
+        createApiClassFromTemplate("OdmaSession");
     }
 
     //-------------------------------------------------------------------------

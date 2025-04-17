@@ -1,0 +1,63 @@
+<?php
+
+namespace OpenDMA\Api;
+
+/**
+ * A session is the context through which objects can be retrieved from a specific OpenDMA domain.
+ * It is typically established for a defined account with an instance of a document management system.
+ */
+interface OdmaSession
+{
+    /**
+     * Returns a list of repository OdmaIds the account has access to.
+     *
+     * @return OdmaId[] A list of repository OdmaIds the account has access to
+     */
+    public function getRepositoryIds(): array;
+
+    /**
+     * Returns the OdmaRepository object for the given repository id.
+     *
+     * @param OdmaId $repositoryId The id of the repository to return
+     *
+     * @return OdmaRepository The OdmaRepository object for the given repository id
+     *
+     * @throws OdmaObjectNotFoundException If a repository with the given id does not exist or the current account has no access
+     */
+    public function getRepository(OdmaId $repositoryId): OdmaRepository;
+
+    /**
+     * Returns the object of the given class identified by the given ID in the given repository.
+     *
+     * @param OdmaId $repositoryId The id of the repository to retrieve the object from
+     * @param OdmaId $objectId The id of the object to return
+     * @param OdmaQName[]|null $propertyNames Array of qualified property names to retrieve from the server or null to retrieve all
+     *
+     * @return OdmaObject The object of the given class identified by the given ID in the given repository.
+     *
+     * @throws OdmaObjectNotFoundException If no object with this ID exists or the account has no access
+     */
+    public function getObject(OdmaId $repositoryId, OdmaId $objectId, ?array $propertyNames): OdmaObject;
+
+    /**
+     * Performs a search operation against a repository and returns the result.
+     *
+     * @param OdmaId $repositoryId The id of the repository to retrieve the object from
+     * @param string $queryLanguage The language specifier in which the query is given
+     * @param string $query Search specification in the given query language
+     *
+     * @return OdmaSearchResult The search result of this operation.
+     *
+     * @throws OdmaObjectNotFoundException If the repository does not exist
+     * @throws OdmaQuerySyntaxException If the query string is syntactically incorrect or the query language is not supported
+     */
+    public function search(OdmaId $repositoryId, string $queryLanguage, string $query): OdmaSearchResult;
+
+    /**
+     * Invalidate this session and release all associated resources.
+     *
+     * @return void
+     */
+    public function close(): void;
+
+}

@@ -130,6 +130,7 @@ public class PythonApiWriter extends AbstractApiWriter
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException
     {
+        copyClassToApiInterfaces("OdmaSession");
     }
 
     //-------------------------------------------------------------------------

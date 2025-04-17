@@ -1,0 +1,69 @@
+use crate::{ OdmaId, OdmaObject, OdmaQName, OdmaRepository, OdmaSearchResult, OdmaError };
+
+/// A session is the context through which objects can be retrieved from a specific OpenDMA domain.
+/// It is typically established for a defined account with an instance of a document management system.
+pub trait OdmaSession {
+
+    /// Returns a list of repository `OdmaId`s the account has access to.
+    ///
+    /// # Returns
+    /// A list of repository `OdmaId`s the account has access to.
+    fn get_repository_ids(&self) -> Result<Vec<OdmaId>, OdmaError>;
+
+    /// Returns the `OdmaRepository` object for the given repository id.
+    ///
+    /// # Parameters
+    /// - `repository_id`: The id of the repository to return.
+    ///
+    /// # Returns
+    /// The `OdmaRepository` object for the given repository id.
+    ///
+    /// # Errors
+    /// Returns `OdmaError::ObjectNotFound` if a repository with the given id does not exist or
+    /// the current account has no access.
+    fn get_repository(&self, repository_id: OdmaId) -> Result<OdmaRepository, OdmaError>;
+
+    /// Returns the object of the given class identified by the given ID in the given repository.
+    ///
+    /// # Parameters
+    /// - `repository_id`: The id of the repository to retrieve the object from.
+    /// - `object_id`: The id of the object to return.
+    /// - `property_names`: A slice of qualified property names to retrieve from the server,
+    ///   or `None` to retrieve all.
+    ///
+    /// # Returns
+    /// The object of the given class identified by the given ID in the given repository.
+    ///
+    /// # Errors
+    /// Returns `OdmaError::ObjectNotFound` if no object with this ID exists or the account has no access.
+    fn get_object(
+        &self,
+        repository_id: OdmaId,
+        object_id: OdmaId,
+        property_names: Option<&[OdmaQName]>,
+    ) -> Result<OdmaObject, OdmaError>;
+
+    /// Performs a search operation against a repository and returns the result.
+    ///
+    /// # Parameters
+    /// - `repository_id`: The id of the repository to retrieve the object from.
+    /// - `query_language`: The language specifier in which the query is given.
+    /// - `query`: Search specification in the given query language.
+    ///
+    /// # Returns
+    /// The search result of this operation.
+    ///
+    /// # Errors
+    /// Returns `OdmaError::ObjectNotFound` if the repository does not exist.  
+    /// Returns `OdmaError::QuerySyntax` if the query string is syntactically incorrect or the query language is not supported.
+    fn search(
+        &self,
+        repository_id: OdmaId,
+        query_language: &str,
+        query: &str,
+    ) -> Result<OdmaSearchResult, OdmaError>;
+
+    /// Invalidate this session and release all associated resources.
+    fn close(&mut self);
+
+}
