@@ -69,7 +69,7 @@ public class TypeScriptPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("     * the data type of this property is a single valued "+scalarName+".");
         out.println("     *");
         out.println("     * @returns The "+scalarName+" value of this property");
-        out.println("     * @throws OdmaInvalidDataTypeException If the data type of this property is not a single-valued "+scalarName+".");
+        out.println("     * @throws OdmaInvalidDataTypeError If the data type of this property is not a single-valued "+scalarName+".");
         out.println("     */");
         out.println("    get"+scalarName+"(): "+returnType+";");
     }
@@ -84,7 +84,7 @@ public class TypeScriptPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("     * the data type of this property is a multi valued "+scalarName+".");
         out.println("     *");
         out.println("     * @returns The "+scalarName+" value of this property");
-        out.println("     * @throws OdmaInvalidDataTypeException If the data type of this property is not a multi-valued "+scalarName+".");
+        out.println("     * @throws OdmaInvalidDataTypeError If the data type of this property is not a multi-valued "+scalarName+".");
         out.println("     */");
         out.println("    get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"Array")+"(): "+returnType+";");
     }

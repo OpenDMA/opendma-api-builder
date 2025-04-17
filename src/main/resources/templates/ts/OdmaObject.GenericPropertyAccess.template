@@ -7,7 +7,7 @@
      * 
      * @param propertyName - The qualified name of the property to return
      * @returns An {@link OdmaProperty} for the property identified by the given qualified name.
-     * @throws {@link OdmaPropertyNotFoundException} Thrown if the given qualified name does not identify a property in the effective properties of the class of this object.
+     * @throws {@link OdmaPropertyNotFoundError} Thrown if the given qualified name does not identify a property in the effective properties of the class of this object.
      */
     getProperty(propertyName: OdmaQName): OdmaProperty;
 
@@ -29,9 +29,9 @@
      * 
      * @param propertyName - The qualified name of the property to be changed
      * @param newValue - The new value for the property
-     * @throws {@link OdmaPropertyNotFoundException} Thrown if the given qualified name does not identify a property in the effective properties of this object's class.
-     * @throws {@link OdmaInvalidDataTypeException} Thrown if the type of <code>newValue</code> does not match the property's data type.
-     * @throws {@link OdmaAccessDeniedException} Thrown if the current user does not have permission to modify the property.
+     * @throws {@link OdmaPropertyNotFoundError} Thrown if the given qualified name does not identify a property in the effective properties of this object's class.
+     * @throws {@link OdmaInvalidDataTypeError} Thrown if the type of <code>newValue</code> does not match the property's data type.
+     * @throws {@link OdmaAccessDeniedError} Thrown if the current user does not have permission to modify the property.
      */
    setProperty(propertyName: OdmaQName, newValue: any): void;
 

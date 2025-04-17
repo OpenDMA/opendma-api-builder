@@ -23,8 +23,8 @@
      * data type of this OdmaProperty.
      * @abstract
      * @param newValue The new value to set.
-     * @throws OdmaInvalidDataTypeException If the type of the newValue does not match the data type of this OdmaProperty.
-     * @throws OdmaAccessDeniedException If this OdmaProperty is read-only or cannot be set by the current user.
+     * @throws OdmaInvalidDataTypeError If the type of the newValue does not match the data type of this OdmaProperty.
+     * @throws OdmaAccessDeniedError If this OdmaProperty is read-only or cannot be set by the current user.
      */
     setValue(newValue: any): void;
 

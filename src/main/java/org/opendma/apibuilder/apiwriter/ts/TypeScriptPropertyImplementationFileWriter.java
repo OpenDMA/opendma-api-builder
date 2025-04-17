@@ -195,7 +195,7 @@ public class TypeScriptPropertyImplementationFileWriter extends AbstractProperty
         out.println("     * the data type of this property is a single valued "+scalarName+".");
         out.println("     *");
         out.println("     * @returns The "+scalarName+" value of this property");
-        out.println("     * @throws OdmaInvalidDataTypeException If the data type of this property is not a single-valued "+scalarName+".");
+        out.println("     * @throws OdmaInvalidDataTypeError If the data type of this property is not a single-valued "+scalarName+".");
         out.println("     */");
         out.println("    get"+scalarName+"(): "+returnType+" {");
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();

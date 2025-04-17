@@ -1,12 +1,12 @@
 /**
  * OdmaError
  * 
- * Base class for all exceptions related to the OpenDMA framework.
+ * Base class for all errors related to the OpenDMA framework.
  */
 export class OdmaError extends Error {
 
     /**
-     * Create a new OdmaException.
+     * Create a new OdmaError.
      * 
      * @param message - The error message.
      */

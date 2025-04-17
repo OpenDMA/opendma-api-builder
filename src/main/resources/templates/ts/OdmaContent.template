@@ -20,6 +20,12 @@ export interface OdmaContent {
 
 }
 
+/**
+ * Type guard to check if an object implements the OdmaContent interface.
+ *
+ * @param obj - The object to check
+ * @returns True if the object implements OdmaContent
+ */
 export function isOdmaContent(obj: any): obj is OdmaContent {
   return (
     obj &&
