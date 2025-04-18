@@ -64,7 +64,7 @@ public interface OdmaSession {
      * @throws OdmaObjectNotFoundException if the repository does not exist
      * @throws OdmaQuerySyntaxException if the query string is syntactically incorrect or the query language is not supported
      */
-    OdmaSearchResult search(OdmaId repositoryId, String query) throws OdmaObjectNotFoundException, OdmaQuerySyntaxException;
+    OdmaSearchResult search(OdmaId repositoryId, OdmaQName queryLanguage, String query) throws OdmaObjectNotFoundException, OdmaQuerySyntaxException;
     
     /**
      * Invalidate this session and release all associated resources.
