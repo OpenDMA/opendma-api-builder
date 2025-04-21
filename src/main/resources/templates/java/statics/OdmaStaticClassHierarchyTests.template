@@ -1,10 +1,11 @@
 package org.opendma.impl.core;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertTrue;
 
+import java.util.Iterator;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.opendma.api.OdmaClass;
 import org.opendma.api.OdmaGuid;
 import org.opendma.api.OdmaId;
@@ -25,17 +26,29 @@ public class OdmaStaticClassHierarchyTests {
     	for(OdmaObject test : hierarchy.getAllObjectsById().values()) {
     		if(test instanceof OdmaRepository) {
     			List<String> failures = OdmaTechnologyCompatibilityKit.verifyOdmaRepository(test);
-    			assertTrue(failures.isEmpty(), "Failed verifying object of type OdmaRepository: "+String.join(", ", failures));
+    			assertTrue("Failed verifying object of type OdmaRepository: "+joinStrings(", ", failures), failures.isEmpty());
     		}
     		if(test instanceof OdmaPropertyInfo) {
     			List<String> failures = OdmaTechnologyCompatibilityKit.verifyOdmaPropertyInfo(test);
-    			assertTrue(failures.isEmpty(), "Failed verifying object of type OdmaPropertyInfo: "+String.join(", ", failures));
+    			assertTrue("Failed verifying object of type OdmaPropertyInfo: "+joinStrings(", ", failures), failures.isEmpty());
     		}
     		if(test instanceof OdmaClass) {
     			List<String> failures = OdmaTechnologyCompatibilityKit.verifyOdmaClass(test);
-    			assertTrue(failures.isEmpty(), "Failed verifying object of type OdmaClass: "+String.join(", ", failures));
+    			assertTrue("Failed verifying object of type OdmaClass: "+joinStrings(", ", failures), failures.isEmpty());
     		}
     	}
+    }
+    
+    private static String joinStrings(String separator, List<String> lines) {
+        StringBuilder sb = new StringBuilder();
+        Iterator<String> it = lines.iterator();
+        while(it.hasNext()) {
+            sb.append(it.next());
+            if(it.hasNext()) {
+                sb.append(separator);
+            }
+        }
+        return sb.toString();
     }
 
 }
