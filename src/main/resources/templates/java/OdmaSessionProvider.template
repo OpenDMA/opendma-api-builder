@@ -1,5 +1,7 @@
 package org.opendma.api;
 
+import org.opendma.exceptions.OdmaException;
+
 /**
  * A factory for sessions with the document management system this <code>OdmaSessionProvider</code>
  * object represents. An adapter that implements the <code>OdmaSessionProvider</code> interface will
@@ -12,21 +14,25 @@ public interface OdmaSessionProvider {
      * Attempts to establish a session with the document management system this object represents.
      * 
      * @return a <code>{@link OdmaSession}</code> to the document management system
+     * 
+     * @throws OdmaException if this provider cannot establish a session
      */
-    public OdmaSession getSession();
+    public OdmaSession getSession() throws OdmaException;
 
     /**
      * Attempts to establish a session with the document management system this object represents
      * as the account represented by the given username and password.
      * 
      * @param username
-     *            the repository user on whose behalf the session is beeing established
+     *            the repository user on whose behalf the session is being established
      * @param password
      *            the user's password
      * 
      * @return a <code>{@link OdmaSession}</code> to the document management system
+     * 
+     * @throws OdmaException if this provider cannot establish a session
      */
-    public OdmaSession getSessionForAccount(String username, String password);
+    public OdmaSession getSessionForAccount(String username, String password) throws OdmaException;
 
     /**
      * Attempts to establish a session with the document management system this object represents
@@ -38,7 +44,9 @@ public interface OdmaSessionProvider {
      *            String representation of the token
      * 
      * @return a <code>{@link OdmaSession}</code> to the document management system
+     * 
+     * @throws OdmaException if this provider cannot establish a session
      */
-    public OdmaSession getSessionWithToken(OdmaQName tokenType, String token);
+    public OdmaSession getSessionWithToken(OdmaQName tokenType, String token) throws OdmaException;
 
 }
