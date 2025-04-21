@@ -18,7 +18,7 @@ createContentFile                      |   x   |   x   |   x   |   x   |   x   |
 createSearchResultFile                 |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 createExceptionFiles                   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   -   |   x   |   o   |
 createSessionManagementFiles Session   |   x   |   x   |       |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
-createSessionManagementFiles Providers |       |       |       |       |       |       |       |       |       |       |   o   |
+createSessionManagementFiles Providers |   x   |       |       |       |       |       |       |       |       |       |   o   |
 -- generated API ----------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 createPropertyFile                     |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 createClassFile                        |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |

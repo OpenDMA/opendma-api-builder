@@ -160,6 +160,8 @@ public class JavaApiWriter extends AbstractApiWriter
     {
         createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.api","OdmaSession");
         createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.api","OdmaSessionProvider");
+        createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.api","OdmaAdaptor");
+        createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.api","OdmaAdaptorDiscovery");
     }
 
     //-------------------------------------------------------------------------
