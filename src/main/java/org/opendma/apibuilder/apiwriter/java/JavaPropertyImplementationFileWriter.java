@@ -90,6 +90,10 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         out.println("        }");
         out.println("        if(newValue == null)");
         out.println("        {");
+        out.println("            if(multiValue)");
+        out.println("            {");
+        out.println("                throw new OdmaInvalidDataTypeException(\"Multi-valued properties must not be `null`. If a value is not required, the collection can be empty.\");");
+        out.println("            }");
         out.println("            value = null;");
         out.println("            dirty = true;");
         out.println("            return;");

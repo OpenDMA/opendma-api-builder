@@ -327,11 +327,26 @@ public class JavaApiWriter extends AbstractApiWriter
                     out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" ReadOnly must be 'true'\");");
                     out.println("            }");
                 }
-                if(propertyDescription.getRequired())
+                if(propertyDescription.getMultiValue())
                 {
                     out.println("            if(prop"+propertyDescription.getApiName()+".getValue() == null) {");
-                    out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" is required but value is null\");");
+                    out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" is multi-valued but value is null\");");
                     out.println("            }");
+                }
+                if(propertyDescription.getRequired())
+                {
+                    if(propertyDescription.getMultiValue())
+                    {
+                        out.println("            if(((List<Object>)prop"+propertyDescription.getApiName()+".getValue()).isEmpty()) {");
+                        out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" is required but value is empty\");");
+                        out.println("            }");
+                    }
+                    else
+                    {
+                        out.println("            if(prop"+propertyDescription.getApiName()+".getValue() == null) {");
+                        out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" is required but value is null\");");
+                        out.println("            }");
+                    }
                 }
                 out.println("        } catch(OdmaPropertyNotFoundException pnfe) {");
                 out.println("            result.add(\"Missing property "+propertyDescription.getOdmaName()+"\");");
@@ -526,8 +541,10 @@ public class JavaApiWriter extends AbstractApiWriter
         PrintWriter out = new PrintWriter(staticPropertyInfoStream);
         out.println("package org.opendma.impl.core;");
         out.println("");
+        out.println("import java.util.ArrayList;");
         out.println("import org.opendma.api.OdmaCommonNames;");
         out.println("import org.opendma.api.OdmaType;");
+        out.println("import org.opendma.api.OdmaObject;");
         out.println("import org.opendma.exceptions.OdmaAccessDeniedException;");
         out.println("import org.opendma.exceptions.OdmaInvalidDataTypeException;");
         out.println("import org.opendma.impl.OdmaPropertyImpl;");
@@ -601,7 +618,7 @@ public class JavaApiWriter extends AbstractApiWriter
         }
         else if(pn.equals("CHOICES"))
         {
-            printXMultivalue(out,"CHOICES","null","REFERENCE");
+            printXMultivalue(out,"CHOICES","new ArrayList<OdmaObject>(0)","REFERENCE");
         }
         else
         {
@@ -766,15 +783,8 @@ public class JavaApiWriter extends AbstractApiWriter
             String className = classDescription.getOdmaName().getName();
             String constantClassName = "CLASS_" + className.toUpperCase();
             out.println("");
-            out.println("        declaredAspects = null;");
-            if(classDescription.getPropertyDescriptions().isEmpty())
-            {
-                out.println("        declaredProperties = null;");
-            }
-            else
-            {
-                out.println("        declaredProperties = new ArrayList<OdmaPropertyInfo>();");
-            }
+            out.println("        declaredAspects = new ArrayList<OdmaClass>();");
+            out.println("        declaredProperties = new ArrayList<OdmaPropertyInfo>();");
             Iterator<PropertyDescription> itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
             while(itPropertyDescriptions.hasNext())
             {

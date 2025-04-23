@@ -74,6 +74,10 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
         out.println("            }");
         out.println("            if(newValue == null)");
         out.println("            {");
+        out.println("                if(_multiValue)");
+        out.println("                {");
+        out.println("                    throw new OdmaInvalidDataTypeException(\"Multi-valued properties must not be `null`. If a value is not required, the collection can be empty.\");");
+        out.println("                }");
         out.println("                _value = null;");
         out.println("                _dirty = true;");
         out.println("                return;");

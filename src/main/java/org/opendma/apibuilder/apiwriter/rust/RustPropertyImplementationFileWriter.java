@@ -64,6 +64,9 @@ public class RustPropertyImplementationFileWriter extends AbstractPropertyImplem
         out.println("        if self.read_only {");
         out.println("            return Err(OdmaError::AccessDenied)");
         out.println("        }");
+        out.println("        if self.multi_value && new_value.is_none() {");
+        out.println("            return Err(OdmaError::InvalidDataType(\"Multi-valued properties must not be `null`. If a value is not required, the collection can be empty.\".into()))");
+        out.println("        }");
         out.println("        if let Some(ref val) = new_value {");
         out.println("            let valid = match self.data_type {");
         List<ScalarTypeDescription> scalarTypes = apiDescription.getScalarTypes();

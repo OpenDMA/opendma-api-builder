@@ -67,6 +67,9 @@ public class GoPropertyImplementationFileWriter extends AbstractPropertyImplemen
         out.println("        return ErrAccessDenied");
         out.println("    }");
         out.println("    if newValue == nil {");
+        out.println("        if pi.multiValue {");
+        out.println("            return &OdmaInvalidDataTypeError{Message: \"Multi-valued properties must not be `null`. If a value is not required, the collection can be empty.\"}");
+        out.println("        }");
         out.println("        pi.value = nil");
         out.println("        pi.dirty = true");
         out.println("        return nil");

@@ -63,6 +63,8 @@ public class PythonPropertyImplementationFileWriter extends AbstractPropertyFile
         out.println("        if self._read_only:");
         out.println("            raise OdmaAccessDeniedException(\"Cannot modify a read-only property.\")");
         out.println("        if new_value is None:");
+        out.println("            if self._multi_value:");
+        out.println("                raise OdmaInvalidDataTypeException(\"Multi-valued properties must not be `null`. If a value is not required, the collection can be empty.\");");
         out.println("            self._value = None");
         out.println("            self._dirty = True");
         out.println("            return");

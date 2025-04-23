@@ -63,6 +63,9 @@ public class JavaScriptPropertyImplementationFileWriter extends AbstractProperty
         out.println("            throw new OdmaAccessDeniedError(\"Cannot modify a read-only property.\");");
         out.println("        }");
         out.println("        if(newValue == null) {");
+        out.println("            if(this._multiValue) {");
+        out.println("                throw new OdmaInvalidDataTypeError(\"Multi-valued properties must not be `null`. If a value is not required, the collection can be empty.\");");
+        out.println("            }");
         out.println("            this._value = null;");
         out.println("            this._dirty = true;");
         out.println("            return;");

@@ -104,6 +104,9 @@ public class PhpPropertyImplementationFileWriter extends AbstractPropertyImpleme
         out.println("            throw new OdmaAccessDeniedException();");
         out.println("        }");
         out.println("        if ($newValue === null) {");
+        out.println("            if ($this->multiValue) {");
+        out.println("                throw new OdmaInvalidDataTypeException(\"Multi-valued properties must not be `null`. If a value is not required, the collection can be empty.\");");
+        out.println("            }");
         out.println("            $this->value = null;");
         out.println("            $this->dirty = true;");
         out.println("            return;");
