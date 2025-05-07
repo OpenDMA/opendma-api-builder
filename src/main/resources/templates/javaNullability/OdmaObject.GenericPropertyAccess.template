@@ -10,7 +10,7 @@
      * 
      * @return an <code>{@link OdmaProperty}</code> for the property identified by the given qualified name.
      * 
-     * @throws OdmaObjectNotFoundException
+     * @throws OdmaPropertyNotFoundException
      *             if and only if the given qualified name does not identify a property in the list of effective
      *             properties of the class of this object
      */
@@ -42,7 +42,7 @@
      * @param newValue
      *            the new value to set the named property to
      * 
-     * @throws OdmaObjectNotFoundException
+     * @throws OdmaPropertyNotFoundException
      *             if and only if the given qualified name does not identify a property in the list of effective
      *             properties of the class of this object
      * @throws OdmaInvalidDataTypeException

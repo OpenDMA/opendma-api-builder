@@ -15,7 +15,7 @@
     // Sets the specified property to a new value.
     // This is a shortcut for `GetProperty(propertyName).SetValue(newValue)`. It avoids the retrieval of the property
     // in the `getProperty(propertyName)` method if the property is not yet in the local cache.
-    /// Returns `OdmaError::ObjectNotFound` if the property does not exist.
+    /// Returns `OdmaError::PropertyNotFound` if the property does not exist.
     /// Returns `OdmaError::InvalidDataType` if the value type is incorrect.
     /// Returns `OdmaError::AccessDenied` if the property cannot be modified by the current user.
     fn set_property(&mut self, property_name: &OdmaQName, new_value: &dyn std::any::Any) -> Result<(), OdmaError>;

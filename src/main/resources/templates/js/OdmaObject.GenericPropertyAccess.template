@@ -7,7 +7,7 @@
      *
      * @param {OdmaQName} propertyName The qualified name of the property to return.
      * @returns {OdmaProperty} The property identified by the given qualified name.
-     * @throws {OdmaObjectNotFoundError} Thrown if the given qualified name does not identify a property in the effective properties of the class of this object.
+     * @throws {OdmaPropertyNotFoundError} Thrown if the given qualified name does not identify a property in the effective properties of the class of this object.
      */
     getProperty(propertyName) {
         throw new Error("Method 'getProperty' must be implemented.");
@@ -33,7 +33,7 @@
      * 
      * @param {OdmaQName} propertyName The qualified name of the property to be changed.
      * @param {any} newValue The new value for the property.
-     * @throws {OdmaObjectNotFoundException} Thrown if the given qualified name does not identify a property in the effective properties of this object's class.
+     * @throws {OdmaPropertyNotFoundException} Thrown if the given qualified name does not identify a property in the effective properties of this object's class.
      * @throws {OdmaInvalidDataTypeException} Thrown if the type of $newValue does not match the property's data type.
      * @throws {OdmaAccessDeniedException} Thrown if the current user does not have permission to modify the property.
      */

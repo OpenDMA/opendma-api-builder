@@ -9,7 +9,7 @@
 
         :param property_name: The qualified name of the property to return.
         :return: The property identified by the given qualified name.
-        :raises OdmaObjectNotFoundException: Raised if the given qualified name does not identify a property in the effective properties of the class of this object.
+        :raises OdmaPropertyNotFoundException: Raised if the given qualified name does not identify a property in the effective properties of the class of this object.
         """
         pass
 
@@ -35,7 +35,7 @@
 
         :param property_name: The qualified name of the property to be changed.
         :param new_value: The new value for the property.
-        :raises OdmaObjectNotFoundException: Raised if the given qualified name does not identify a property in the effective properties of this object's class.
+        :raises OdmaPropertyNotFoundException: Raised if the given qualified name does not identify a property in the effective properties of this object's class.
         :raises OdmaInvalidDataTypeException: Raised if the type of new_value does not match the property's data type.
         :raises OdmaAccessDeniedException: Raised if the current user does not have permission to modify the property.
         """
