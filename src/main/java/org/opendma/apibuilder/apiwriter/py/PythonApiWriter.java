@@ -76,6 +76,23 @@ public class PythonApiWriter extends AbstractApiWriter
             ScalarTypeDescription scalarTypeDescription = itScalarTypes.next();
             out.println("    "+scalarTypeDescription.getName().toUpperCase()+" = "+scalarTypeDescription.getNumericID());
         }
+        out.println();
+        out.println("    def to_string(self) -> str:");
+        out.println("        \"\"\"");
+        out.println("        Returns the string representation of this type.");
+        out.println("        \"\"\"");
+        out.println("        return self.name.lower()");
+        out.println();
+        out.println("    @staticmethod");
+        out.println("    def from_string(value: str) -> \"OdmaType\":");
+        out.println("        \"\"\"");
+        out.println("        Parse string representation into this OdmaType enum (case-insensitive).");
+        out.println("        Raises ValueError if the value does not match any OdmaType.");
+        out.println("        \"\"\"");
+        out.println("        try:");
+        out.println("            return OdmaType[value.upper()]");
+        out.println("        except KeyError:");
+        out.println("            raise ValueError(f\"Invalid string representation of OdmaType: '{value}'\")");
         out.flush();
         classesImportFromHelpers.add("OdmaType");
     }

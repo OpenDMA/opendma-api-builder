@@ -65,3 +65,26 @@ class OdmaQName:
 
     def __repr__(self):
         return str(self)
+
+    @staticmethod
+    def from_string(qname_str: str) -> "OdmaQName":
+        """
+        Parses a string in the format 'namespace:name' into an OdmaQName instance.
+
+        :param qname_str: A string in the format 'namespace:name'
+        :return: An OdmaQName instance
+        :raises ValueError: If the format is invalid or any part is empty
+        """
+
+        if ':' not in qname_str:
+            raise ValueError(f"Invalid OdmaQName format (missing colon): '{qname_str}'")
+
+        namespace, name = qname_str.split(':', 1)
+
+        if not namespace.strip():
+            raise ValueError(f"Namespace must not be empty in OdmaQName: '{qname_str}'")
+
+        if not name.strip():
+            raise ValueError(f"Name must not be empty in OdmaQName: '{qname_str}'")
+
+        return OdmaQName(namespace.strip(), name.strip())
