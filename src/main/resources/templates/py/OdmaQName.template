@@ -51,6 +51,9 @@ class OdmaQName:
             return self.namespace == other.namespace and self.name == other.name
         return False
 
+    def __hash__(self) -> int:
+        return hash((self.namespace, self.name))
+
     def __str__(self) -> str:
         """
         Returns a string representation of the OdmaQName object.

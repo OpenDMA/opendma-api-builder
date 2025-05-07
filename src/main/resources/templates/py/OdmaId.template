@@ -19,5 +19,8 @@ class OdmaId:
             return False
         return self._id == other._id
 
+    def __hash__(self) -> int:
+        return hash(self._id)
+
     def __str__(self) -> str:
         return self._id
