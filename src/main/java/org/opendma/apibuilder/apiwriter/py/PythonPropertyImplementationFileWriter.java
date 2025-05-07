@@ -112,7 +112,7 @@ public class PythonPropertyImplementationFileWriter extends AbstractPropertyFile
             out.println("                        raise OdmaInvalidDataTypeException(\""+generatePropertyDataTypeDescription(multivalue, scalarTypeDescription)+". It can only be set to values assignable to `"+pyType+"`\");");
         }
         out.println("                case _:");
-        out.println("                    raise OdmaException(\"OdmaProperty initialized with unknown data type \"+dataType);");
+        out.println("                    raise OdmaException(\"OdmaProperty initialized with unknown data type \"+self.data_type);");
     }
 
     protected void writeSingleValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException

@@ -6,7 +6,7 @@ class OdmaSession(ABC):
     """
 
     @abstractmethod
-    def get_repository_ids(self) -> List[OdmaId]:
+    def get_repository_ids(self) -> list[OdmaId]:
         """
         Returns a list of repository OdmaIds the account has access to.
 
@@ -15,7 +15,7 @@ class OdmaSession(ABC):
         pass
 
     @abstractmethod
-    def get_repository(self, repository_id: OdmaId) -> OdmaRepository:
+    def get_repository(self, repository_id: OdmaId) -> "OdmaRepository":
         """
         Returns the OdmaRepository object for the given repository id.
 
@@ -32,7 +32,7 @@ class OdmaSession(ABC):
         repository_id: OdmaId,
         object_id: OdmaId,
         property_names: Optional[list[OdmaQName]]
-    ) -> OdmaObject:
+    ) -> "OdmaObject":
         """
         Returns the object of the given class identified by the given ID in the given repository.
 
