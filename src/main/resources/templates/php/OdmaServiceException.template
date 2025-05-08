@@ -1,0 +1,25 @@
+<?php
+
+namespace OpenDMA\Api;
+
+/**
+ * Class OdmaServiceException
+ *
+ * Thrown when the backend service failed.
+ */
+class OdmaQuerySyntaxException extends OdmaException
+{
+
+    /**
+     * OdmaQuerySyntaxException constructor.
+     *
+     * @param string $message The error message.
+     * @param int $code The error code (default 0).
+     * @param Exception|null $previous The previous exception used for exception chaining (default null).
+     */
+    public function __construct($message = "Backend service failed", $code = 0, ?Exception $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
+
+}

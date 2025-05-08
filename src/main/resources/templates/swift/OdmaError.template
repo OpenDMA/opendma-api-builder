@@ -19,6 +19,9 @@ public enum OdmaError: Error {
     /// Thrown when a query in the OpenDMA framework is syntactically incorrect
     case querySyntaxError(details: String)
 
+    /// Thrown when the backend service failed
+    case service(details: String)
+
     case generalError(message: String)
 
 }

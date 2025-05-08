@@ -1,0 +1,26 @@
+#ifndef _OdmaServiceException_h_
+#define _OdmaServiceException_h_
+
+#include "OdmaException.h"
+
+/**
+ * @brief Thrown when the provided data type does not match the expected data type.
+ */
+class OdmaServiceException : public OdmaException {
+public:
+
+    /**
+     * @brief Default constructor for OdmaServiceException.
+     */
+    OdmaServiceException() noexcept = default;
+
+    /**
+     * @brief Constructs an OdmaServiceException with a specific message.
+     * @param message The message that describes the exception.
+     */
+    explicit OdmaServiceException(const std::string& message) noexcept
+        : OdmaException(message) {}
+
+};
+
+#endif // _OdmaServiceException_h_

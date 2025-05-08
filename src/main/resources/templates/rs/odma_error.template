@@ -30,6 +30,10 @@ pub enum OdmaError {
     #[error("{0}")]
     QuerySyntax(String),
 
+    /// Returned when the backend service failed
+    #[error("{0}")]
+    Service(String),
+
     #[error("{0}")]
     General(String),
 

@@ -113,6 +113,7 @@ public class JavaScriptApiWriter extends AbstractApiWriter
         copyClassToApi("OdmaInvalidDataTypeError");
         copyClassToApi("OdmaAccessDeniedError");
         copyClassToApi("OdmaQuerySyntaxError");
+        copyClassToApi("OdmaServiceError");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException

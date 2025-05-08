@@ -1,0 +1,12 @@
+class OdmaServiceException(OdmaException):
+    """
+    Exception raised when the backend service failed.
+    """
+
+    def __init__(self, message="Backend service failed"):
+        """
+        Initialize the OdmaServiceException with an error message.
+        
+        :param message: The error message describing the exception (default: "Backend service failed").
+        """
+        super().__init__(message)

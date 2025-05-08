@@ -121,6 +121,7 @@ public class TypeScriptApiWriter extends AbstractApiWriter
         createApiClassFromTemplate("OdmaInvalidDataTypeError");
         createApiClassFromTemplate("OdmaAccessDeniedError");
         createApiClassFromTemplate("OdmaQuerySyntaxError");
+        createApiClassFromTemplate("OdmaServiceError");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException

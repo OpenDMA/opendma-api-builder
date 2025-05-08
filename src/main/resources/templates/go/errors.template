@@ -46,3 +46,12 @@ type OdmaQuerySyntaxError struct {
 func (e *OdmaQuerySyntaxError) Error() string {
     return e.Message
 }
+
+// Returned when the backend service failed
+type OdmaServiceError struct {
+    Message string
+}
+
+func (e *OdmaServiceError) Error() string {
+    return e.Message
+}

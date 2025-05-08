@@ -154,6 +154,7 @@ public class JavaApiWriter extends AbstractApiWriter
         createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.exceptions","OdmaInvalidDataTypeException");
         createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.exceptions","OdmaAccessDeniedException");
         createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.exceptions","OdmaQuerySyntaxException");
+        createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.exceptions","OdmaServiceException");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException

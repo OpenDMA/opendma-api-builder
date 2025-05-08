@@ -1,0 +1,19 @@
+import { OdmaError } from './OdmaError';
+
+/**
+ * OdmaServiceError
+ * 
+ * Thrown when the backend service failed.
+ */
+export class OdmaServiceError extends OdmaError {
+
+    /**
+     * Create a new OdmaServiceError.
+     * 
+     * @param message - The error message.
+     */
+    constructor(message: string = "Backend service failed") {
+        super(message);
+    }
+
+}
