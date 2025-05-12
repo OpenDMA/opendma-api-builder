@@ -144,9 +144,16 @@ public class CsApiWriter extends AbstractApiWriter
     //-------------------------------------------------------------------------
     // C L A S S   F I L E
     //-------------------------------------------------------------------------
+    
+    private boolean objectCoreCreated =  false;
 
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
+        if(!objectCoreCreated)
+        {
+            createClassFromTemplate(opendmaApiFolder,"IOdmaCoreObject");
+            objectCoreCreated = true;
+        }
         CsObjectsInterfaceFileWriter classFileWriter = new CsObjectsInterfaceFileWriter(this);
         classFileWriter.createClassFile(classDescription, createCsFile(opendmaApiFolder,"I"+classDescription.getApiName()));
     }

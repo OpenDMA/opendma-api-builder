@@ -1,0 +1,75 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace OpenDMA.Api
+{
+
+    /// <summary>
+    /// Generic capabilities of an object in OpenDMA. Do not use directly. Instead, use <see cref="IOdmaObject"/>.
+    /// </summary>
+    public interface IOdmaCoreObject
+    {
+
+        /// <summary>
+        /// Returns an <see cref="IOdmaProperty"/> for the property identified by the given qualified name. The named
+        /// property is automatically retrieved from the server if it is not yet in the local cache. So it is wise to call
+        /// the method <c>prepareProperties</c> at first if you are interested in
+        /// multiple properties to reduce the number of round trips to the server.
+        /// </summary>
+        /// <param name="propertyName">The qualified name of the property to return.</param>
+        /// <returns>An <see cref="IOdmaProperty"/> for the specified property.</returns>
+        /// <exception cref="OdmaPropertyNotFoundException">
+        /// Thrown if the given qualified name does not identify a property in the effective properties of the class of this object.
+        /// </exception>
+        IOdmaProperty GetProperty(OdmaQName propertyName);
+
+        /// <summary>
+        /// Checks if the specified properties are already in the local cache and retrieves them from the server if not.
+        /// If <paramref name="refresh"/> is set to <c>true</c>, all specified properties are always retrieved from the server.
+        /// Such a refresh will reset unsaved changes of properties to the latest state on the server.
+        /// If a given qualified name does not identify a property, it is silently ignored.
+        /// </summary>
+        /// <param name="propertyNames">An array of qualified property names to retrieve or <c>null</c> to retrieve all properties.</param>
+        /// <param name="refresh">Indicates whether properties should be refreshed even if they are in the local cache.</param>
+        void PrepareProperties(OdmaQName[] propertyNames, bool refresh);
+
+        /// <summary>
+        /// Sets the specified property to a new value.
+        /// This is a shortcut for <c>GetProperty(propertyName).SetValue(newValue)</c>. It avoids the retrieval of the property
+        /// in the <c>GetProperty(propertyName)</c> method if the property is not yet in the local cache.
+        /// </summary>
+        /// <param name="propertyName">The qualified name of the property to be changed</param>
+        /// <param name="newValue">The new value for the property</param>
+        /// <exception cref="OdmaPropertyNotFoundException">
+        /// Thrown if the given qualified name does not identify a property in the effective properties of this object's class.
+        /// </exception>
+        /// <exception cref="OdmaInvalidDataTypeException">
+        /// Thrown if the type of <paramref name="newValue"/> does not match the property's data type.
+        /// </exception>
+        /// <exception cref="OdmaAccessDeniedException">
+        /// Thrown if the current user does not have permission to modify the property.
+        /// </exception>
+        void SetProperty(OdmaQName propertyName, object? newValue);
+
+        /// <summary>
+        /// Checks if there are pending changes to properties that have not been persisted to the server.
+        /// </summary>
+        /// <returns><c>true</c> if there are pending changes, <c>false</c> otherwise.</returns>
+        bool IsDirty { get; }
+
+        /// <summary>
+        /// Persists the current pending changes to properties at the server.
+        /// </summary>
+        void Save();
+
+        /// <summary>
+        /// Determines whether this object's class or one of its ancestors matches or incorporates the specified class or aspect.
+        /// </summary>
+        /// <param name="classOrAspectName">The qualified name of the class or aspect to test.</param>
+        /// <returns><c>true</c> if the class matches or incorporates the specified aspect, <c>false</c> otherwise.</returns>
+        bool InstanceOf(OdmaQName classOrAspectName);
+
+    }
+
+}

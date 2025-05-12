@@ -1,9 +1,6 @@
 package org.opendma.apibuilder.apiwriter.py;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -47,8 +44,6 @@ public class PythonObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFi
 
     protected void writeClassFileHeader(ClassDescription classDescription, List<String> requiredImports, PrintWriter out)
     {
-        //out.println("");
-        //out.println("T"+classDescription.getApiName()+" = TypeVar(\"T"+classDescription.getApiName()+"\", bound=\""+classDescription.getApiName()+"\")");
         out.println("");
         String extendsApiName = classDescription.getExtendsApiName();
         if(extendsApiName != null)
@@ -63,7 +58,7 @@ public class PythonObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFi
             }
             else
             {
-                out.println("class "+classDescription.getApiName()+"(ABC):");
+                out.println("class "+classDescription.getApiName()+"(OdmaCoreObject):");
             }
         }
         out.println("    \"\"\"");
@@ -95,15 +90,6 @@ public class PythonObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFi
 
     protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
     {
-        out.println("");
-        out.println("    # Generic property access");
-        InputStream templateIn = apiWriter.getTemplateAsStream("OdmaObject.GenericPropertyAccess");
-        BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
-        String templateLine = null;
-        while( (templateLine = templareReader.readLine()) != null)
-        {
-            out.println(templateLine);
-        }
     }
 
     protected void appendRequiredImportsGenericPropertyAccess(ImportsList requiredImports)
@@ -112,11 +98,9 @@ public class PythonObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFi
 
     protected void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out)
     {
-        out.println("");
-        out.println("    # Object specific property access");
     }
 
-    protected String getReturnDataType(PropertyDescription property)
+    public String getReturnDataType(PropertyDescription property)
     {
         if(property.getDataType().isReference())
         {
@@ -158,8 +142,8 @@ public class PythonObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFi
         out.println("    def get_"+Tools.toSnakeCase(property.getApiName())+"(self) -> "+pythonDataType+":");
         out.println("        \"\"\"");
         out.println("        Returns "+property.getAbstract()+".<br>");
-        String standardGetterName = "get_" + scalarType.getName().toLowerCase() + (property.getMultiValue() ? "_list" : "");
-        out.println("        Shortcut for <code>get_property(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</code>.");
+        String standardGetterName = "get_" + scalarType.getName().toLowerCase() + (property.getMultiValue() ? (scalarType.isReference()?"_iterable":"_list") : "");
+        out.println("        Shortcut for <code>get_property("+constantPropertyName+")."+standardGetterName+"()</code>.");
         out.println("        ");
         for(String s : getPropertyDetails(property))
         {
@@ -178,7 +162,7 @@ public class PythonObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFi
             out.println("        \"\"\"");
             out.println("        Sets "+property.getAbstract()+".<br>");
             String standardSetterName = "set_value";
-            out.println("        Shortcut for <code>get_property(OdmaTypes."+constantPropertyName+")."+standardSetterName+"()</code>.");
+            out.println("        Shortcut for <code>get_property("+constantPropertyName+")."+standardSetterName+"()</code>.");
             out.println("        ");
             for(String s : getPropertyDetails(property))
             {

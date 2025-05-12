@@ -178,9 +178,16 @@ public class JavaApiWriter extends AbstractApiWriter
     //-------------------------------------------------------------------------
     // C L A S S   F I L E
     //-------------------------------------------------------------------------
+    
+    private boolean objectCoreCreated =  false;
 
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
+        if(!objectCoreCreated)
+        {
+            createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.api","OdmaCoreObject");
+            objectCoreCreated = true;
+        }
         JavaObjectsInterfaceFileWriter classFileWriter = new JavaObjectsInterfaceFileWriter(this);
         classFileWriter.createClassFile(classDescription, createJavaFile(opendmaApiSourceFolder,"org.opendma.api",classDescription.getApiName()));
     }

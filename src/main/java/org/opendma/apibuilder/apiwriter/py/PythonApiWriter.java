@@ -165,9 +165,16 @@ public class PythonApiWriter extends AbstractApiWriter
     //-------------------------------------------------------------------------
     // C L A S S   F I L E
     //-------------------------------------------------------------------------
+    
+    private boolean objectCoreCreated =  false;
 
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
+        if(!objectCoreCreated)
+        {
+            copyClassToApiInterfaces("OdmaCoreObject");
+            objectCoreCreated = true;
+        }
         PythonObjectsInterfaceFileWriter classFileWriter = new PythonObjectsInterfaceFileWriter(this);
         classFileWriter.createClassFile(classDescription, opendmaApiInterfacesFOS, false);
         classesImportFromInterfaces.add(classDescription.getApiName());
