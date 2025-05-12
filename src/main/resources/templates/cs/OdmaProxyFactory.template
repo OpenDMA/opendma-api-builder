@@ -1,0 +1,39 @@
+using Castle.DynamicProxy;
+using System;
+using System.Collections.Generic;
+
+namespace OpenDMA.Api
+{
+    public static class OdmaProxyFactory
+    {
+        private static readonly ProxyGenerator _proxyGenerator = new ProxyGenerator();
+        private static readonly Dictionary<OdmaQName, Type> INTERFACE_DICT = new Dictionary<OdmaQName, Type>();
+
+        static OdmaProxyFactory()
+        {
+{{mapping}}
+        }
+
+        public static IOdmaObject CreateProxy(IOdmaCoreObject coreObject, List<OdmaQName> classNames)
+        {
+            var interfaces = new List<Type>();
+
+            foreach (var className in classNames)
+            {
+                if (INTERFACE_DICT.TryGetValue(className, out Type iface))
+                {
+                    interfaces.Add(iface);
+                }
+            }
+
+            // Create the proxy with all mapped interfaces
+            var proxy = _proxyGenerator.CreateInterfaceProxyWithoutTarget(
+                typeof(IOdmaObject),
+                interfaces.ToArray(),
+                new OdmaProxyInterceptor(coreObject)
+            );
+
+            return (IOdmaObject)proxy;
+        }
+    }
+}

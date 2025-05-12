@@ -5,13 +5,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
+import org.opendma.apibuilder.OdmaApiBuilderQName;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.ApiWriterException;
 import org.opendma.apibuilder.structure.ApiDescription;
 import org.opendma.apibuilder.structure.ClassDescription;
+import org.opendma.apibuilder.structure.PropertyDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
 public class CsApiWriter extends AbstractApiWriter
@@ -202,6 +205,110 @@ public class CsApiWriter extends AbstractApiWriter
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
+    }
+
+    //-------------------------------------------------------------------------
+    // E X T R A S
+    //-------------------------------------------------------------------------
+    
+    protected void createExtras(ApiDescription apiDescription) throws IOException, ApiWriterException
+    {
+        createProxyFactory(apiDescription);
+    }
+
+    private void createProxyFactory(ApiDescription apiDescription) throws IOException
+    {
+        PlaceholderResolver placeholderResolver = new PlaceholderResolver() {
+            public String resolve(String placeholder)
+            {
+                if("mapping".equals(placeholder))
+                {
+                    StringBuilder sb = new StringBuilder();
+                    for(ClassDescription clazz : apiDescription.getDescribedClasses())
+                    {
+                        if((new OdmaApiBuilderQName("opendma","Object")).equals(clazz.getOdmaName()))
+                        {
+                            continue;
+                        }
+                        if(sb.length() > 0)
+                        {
+                            sb.append(System.lineSeparator());
+                        }
+                        sb.append("            INTERFACE_DICT[OdmaCommonNames.CLASS_"+clazz.getOdmaName().getName().toUpperCase()+"] = typeof(I"+clazz.getApiName()+");");
+                    }
+                    return sb.toString();
+                }
+                throw new RuntimeException("Unknown placefolder: {{"+placeholder+"}}");
+            }};
+        copyTemplateToStream("OdmaProxyFactory",createCsFile(opendmaApiFolder, "OdmaProxyFactory"),placeholderResolver,true);
+        placeholderResolver = new PlaceholderResolver() {
+            public String resolve(String placeholder)
+            {
+                if("mapping".equals(placeholder))
+                {
+                    HashSet<String> propSet = new HashSet<String>();
+                    StringBuilder sb = new StringBuilder();
+                    for(ClassDescription clazz : apiDescription.getDescribedClasses())
+                    {
+                        for(PropertyDescription prop : clazz.getPropertyDescriptions())
+                        {
+                            if(propSet.contains(prop.getApiName()))
+                            {
+                                continue;
+                            }
+                            if(sb.length() > 0)
+                            {
+                                sb.append(System.lineSeparator());
+                            }
+                            String getterName = "get_" + prop.getApiName();
+                            sb.append("            PROPERTY_DICT[\""+getterName+"\"] = new PropertyMapping(OdmaCommonNames.PROPERTY_"+prop.getOdmaName().getName().toUpperCase()+", OdmaType."+prop.getDataType().getName().toUpperCase()+", "+(prop.getMultiValue()?"true":"false")+");");
+                            if( (!prop.isReadOnly()) && (!prop.getMultiValue()) )
+                            {
+                                if(sb.length() > 0)
+                                {
+                                    sb.append(System.lineSeparator());
+                                }
+                                String setterName = "set_" + prop.getApiName();
+                                sb.append("            PROPERTY_DICT[\""+setterName+"\"] = new PropertyMapping(OdmaCommonNames.PROPERTY_"+prop.getOdmaName().getName().toUpperCase()+", OdmaType."+prop.getDataType().getName().toUpperCase()+", "+(prop.getMultiValue()?"true":"false")+");");
+                            }
+                            propSet.add(prop.getApiName());
+                        }
+                    }
+                    return sb.toString();
+                }
+                if("switch-multivalue".equals(placeholder))
+                {
+                    StringBuilder sb = new StringBuilder();
+                    for(ScalarTypeDescription scalarType : apiDescription.getScalarTypes())
+                    {
+                        if(sb.length() > 0)
+                        {
+                            sb.append(System.lineSeparator());
+                        }
+                        sb.append("                case OdmaType."+scalarType.getName().toUpperCase()+":");
+                        sb.append(System.lineSeparator());
+                        sb.append("                    return property.Get"+scalarType.getName()+(scalarType.isReference()?"Enumerable":"List")+"();");
+                    }
+                    return sb.toString();
+                }
+                if("switch-singlevalue".equals(placeholder))
+                {
+                    StringBuilder sb = new StringBuilder();
+                    for(ScalarTypeDescription scalarType : apiDescription.getScalarTypes())
+                    {
+                        if(sb.length() > 0)
+                        {
+                            sb.append(System.lineSeparator());
+                        }
+                        sb.append("                case OdmaType."+scalarType.getName().toUpperCase()+":");
+                        sb.append(System.lineSeparator());
+                        sb.append("                    return property.Get"+scalarType.getName()+"();");
+                    }
+                    return sb.toString();
+                }
+                throw new RuntimeException("Unknown placefolder: {{"+placeholder+"}}");
+            }};
+        copyTemplateToStream("OdmaProxyInterceptor",createCsFile(opendmaApiFolder, "OdmaProxyInterceptor"),placeholderResolver,true);
     }
 
 }

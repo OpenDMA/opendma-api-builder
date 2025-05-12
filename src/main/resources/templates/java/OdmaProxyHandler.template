@@ -1,0 +1,111 @@
+package org.opendma.impl;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.opendma.api.OdmaCommonNames;
+import org.opendma.api.OdmaCoreObject;
+import org.opendma.api.OdmaProperty;
+import org.opendma.api.OdmaQName;
+import org.opendma.api.OdmaType;
+import org.opendma.exceptions.OdmaAccessDeniedException;
+import org.opendma.exceptions.OdmaInvalidDataTypeException;
+import org.opendma.exceptions.OdmaPropertyNotFoundException;
+import org.opendma.exceptions.OdmaRuntimeException;
+import org.opendma.exceptions.OdmaServiceException;
+
+public class OdmaProxyHandler implements InvocationHandler {
+
+    private final OdmaCoreObject coreObject;
+
+    private static final Map<String, PropertyMapping> PROPERTY_MAP = new HashMap<>();
+
+    static {
+{{mapping}}
+    }
+
+    public static class PropertyMapping {
+        private final OdmaQName qname;
+        private final OdmaType type;
+        private final boolean multiValue;
+        public PropertyMapping(OdmaQName qname, OdmaType type, boolean multiValue) {
+            this.qname = qname;
+            this.type = type;
+            this.multiValue = multiValue;
+        }
+    }
+
+    public OdmaProxyHandler(OdmaCoreObject coreObject) {
+        this.coreObject = coreObject;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+
+        if (method.getDeclaringClass().equals(OdmaCoreObject.class)) {
+            return method.invoke(coreObject, args);
+        }
+
+        String methodName = method.getName();
+        if (methodName.startsWith("get") || methodName.startsWith("is")) {
+            return handleGetter(method);
+        } else if (methodName.startsWith("set")) {
+            return handleSetter(method, args[0]);
+        }
+
+        throw new OdmaRuntimeException("Unsupported method: " + methodName);
+    }
+
+    private Object handleGetter(Method method) {
+        PropertyMapping mapping = PROPERTY_MAP.get(method.getName());
+        if (mapping == null) {
+            throw new OdmaRuntimeException("No property mapping found for method: " + method.getName());
+        }
+    try {
+            OdmaProperty property = coreObject.getProperty(mapping.qname);
+            if (mapping.multiValue) {
+                return handleMultiValueGetter(property, mapping.type);
+            } else {
+                return handleSingleValueGetter(property, mapping.type);
+            }
+        } catch (OdmaPropertyNotFoundException pnfe) {
+            throw new OdmaServiceException("Predefined OpenDMA property missing: "+mapping.qname.toString());
+        } catch (OdmaInvalidDataTypeException idte) {
+            throw new OdmaServiceException("Predefined OpenDMA property has wrong type or cardinality: "+mapping.qname.toString());
+        }
+    }
+
+    private Object handleMultiValueGetter(OdmaProperty property, OdmaType type) throws OdmaInvalidDataTypeException {
+        switch (type) {
+{{switch-multivalue}}
+            default:
+                throw new OdmaRuntimeException("Unsupported multi-value type: " + type);
+        }
+    }
+
+    private Object handleSingleValueGetter(OdmaProperty property, OdmaType type) throws OdmaInvalidDataTypeException {
+        switch (type) {
+{{switch-singlevalue}}
+            default:
+                throw new OdmaRuntimeException("Unsupported single-value type: " + type);
+        }
+    }
+
+    private Object handleSetter(Method method, Object value) throws OdmaAccessDeniedException {
+        PropertyMapping mapping = PROPERTY_MAP.get(method.getName());
+        if (mapping == null) {
+            throw new OdmaRuntimeException("No property mapping found for method: " + method.getName());
+        }
+        try {
+            coreObject.setProperty(mapping.qname, value);
+            return null;
+        } catch (OdmaPropertyNotFoundException pnfe) {
+            throw new OdmaServiceException("Predefined OpenDMA property missing: "+mapping.qname.toString());
+        } catch (OdmaInvalidDataTypeException idte) {
+            throw new OdmaServiceException("Predefined OpenDMA property has wrong type or cardinality: "+mapping.qname.toString());
+        }
+    }
+
+} 

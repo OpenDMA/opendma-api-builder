@@ -1,0 +1,44 @@
+
+from . import constants
+from .helpers import OdmaServiceException
+from typing import Type
+
+def prune_inheritance_chain(classes: list[type]) -> list[type]:
+    pruned = []
+    for cls in classes:
+        if not any(issubclass(other, cls) for other in classes if other is not cls):
+            pruned.append(cls)
+    return pruned
+
+def odma_create_proxy(odma_interfaces: list[OdmaQName], core: OdmaCoreObject) -> OdmaObject:
+
+    def get_property(self, property_name: OdmaQName) -> OdmaProperty:
+        return core.get_property(property_name)
+
+    def prepare_properties(self, property_names: Optional[list[OdmaQName]], refresh: bool) -> None:
+        core.prepare_properties(property_names, refresh)
+
+    def set_property(self, property_name: OdmaQName, new_value: Any) -> None:
+        core.set_property(property_name, new_value)
+
+    def is_dirty(self) -> bool:
+        return core.is_dirty()
+
+    def save(self) -> None:
+        core.save()
+
+    def instance_of(self, class_or_aspect_name: OdmaQName) -> bool:
+        return core.instance_of(class_or_aspect_name)
+
+    def get_qname(self) -> OdmaQName:
+        return OdmaQName(self.get_namespace(), self.get_name())
+
+    dict = {
+        "get_property": get_property,
+        "prepare_properties": prepare_properties,
+        "set_property": set_property,
+        "is_dirty": is_dirty,
+        "save": save,
+        "instance_of": instance_of,
+        "get_qname": get_qname,
+    }

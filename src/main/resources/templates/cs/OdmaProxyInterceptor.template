@@ -1,0 +1,139 @@
+using Castle.DynamicProxy;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+
+namespace OpenDMA.Api
+{
+
+    public class OdmaProxyInterceptor : IInterceptor
+    {
+
+        private static readonly Dictionary<string, PropertyMapping> PROPERTY_DICT = new Dictionary<string, PropertyMapping>();
+
+        private class PropertyMapping
+        {
+            public OdmaQName QName { get; }
+            public OdmaType Type { get; }
+            public bool MultiValue { get; }
+
+            public PropertyMapping(OdmaQName qname, OdmaType type, bool multiValue)
+            {
+                QName = qname;
+                Type = type;
+                MultiValue = multiValue;
+            }
+        }
+        static OdmaProxyInterceptor()
+        {
+{{mapping}}
+        }
+
+        private readonly IOdmaCoreObject _coreObject;
+
+        public OdmaProxyInterceptor(IOdmaCoreObject coreObject)
+        {
+            _coreObject = coreObject;
+        }
+
+        public void Intercept(IInvocation invocation)
+        {
+
+            if (invocation.Method.DeclaringType == typeof(IOdmaCoreObject))
+            {
+                invocation.ReturnValue = invocation.Method.Invoke(_coreObject, invocation.Arguments);
+                return;
+            }
+
+            string methodName = invocation.Method.Name;
+            if (methodName.StartsWith("get_"))
+            {
+                invocation.ReturnValue = HandlePropertyGetter(methodName);
+            }
+            else if (methodName.StartsWith("set_"))
+            {
+                HandlePropertySetter(methodName, invocation.Arguments[0]);
+                invocation.ReturnValue = null;
+            }
+            else
+            {
+                throw new OdmaException($"Unsupported method: {methodName}");
+            }
+
+        }
+
+        private object? HandlePropertyGetter(string methodName)
+        {
+            if (!PROPERTY_DICT.TryGetValue(methodName, out PropertyMapping mapping))
+            {
+                throw new OdmaException($"No property mapping found for method: {methodName}");
+            }
+
+            try
+            {
+                var property = _coreObject.GetProperty(mapping.QName);
+                if (mapping.MultiValue)
+                {
+                    return HandleMultiValueGetter(property, mapping.Type);
+                }
+                else
+                {
+                    return HandleSingleValueGetter(property, mapping.Type);
+                }
+            }
+            catch (OdmaPropertyNotFoundException)
+            {
+                throw new OdmaServiceException($"Predefined OpenDMA property missing: {mapping.QName}");
+            }
+            catch (OdmaInvalidDataTypeException)
+            {
+                throw new OdmaServiceException($"Predefined OpenDMA property has wrong type or cardinality: {mapping.QName}");
+            }
+        }
+
+        private object? HandleMultiValueGetter(IOdmaProperty property, OdmaType type)
+        {
+            switch (type)
+            {
+{{switch-multivalue}}
+                default:
+                    throw new OdmaException($"Unsupported multi-value type: {type}");
+            }
+        }
+
+        private object? HandleSingleValueGetter(IOdmaProperty property, OdmaType type)
+        {
+            switch (type)
+            {
+{{switch-singlevalue}}
+                default:
+                    throw new OdmaException($"Unsupported single-value type: {type}");
+            }
+        }
+
+        private void HandlePropertySetter(string methodName, object? value)
+        {
+            string getterName = "get" + methodName.Substring(3);
+            if (!PROPERTY_DICT.TryGetValue(getterName, out PropertyMapping mapping))
+            {
+                throw new OdmaException($"No property mapping found for method: {methodName}");
+            }
+
+            try
+            {
+                _coreObject.SetProperty(mapping.QName, value);
+            }
+            catch (OdmaPropertyNotFoundException)
+            {
+                throw new OdmaServiceException($"Predefined OpenDMA property missing: {mapping.QName}");
+            }
+            catch (OdmaInvalidDataTypeException)
+            {
+                throw new OdmaServiceException($"Predefined OpenDMA property has wrong type or cardinality: {mapping.QName}");
+            }
+        }
+
+    }
+
+}

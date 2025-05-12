@@ -1,0 +1,42 @@
+package org.opendma.impl;
+
+import org.opendma.api.OdmaCommonNames;
+import org.opendma.api.OdmaCoreObject;
+import org.opendma.api.OdmaQName;
+import org.opendma.exceptions.OdmaRuntimeException;
+{{imports}}
+
+import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class OdmaProxyFactory {
+
+    private static final Map<OdmaQName, Class<? extends OdmaObject>> INTERFACE_MAP = new HashMap<>();
+
+    static {
+{{mapping}}
+    }
+    
+    @SuppressWarnings("unchecked")
+    public static <T extends OdmaObject> T createProxy(OdmaCoreObject coreObject, ClassLoader loader, List<OdmaQName> classNames) {
+
+        List<Class<? extends OdmaObject>> interfaces = new ArrayList<Class<? extends OdmaObject>>();
+        
+        for (OdmaQName className : classNames) {
+            Class<? extends OdmaObject> intf = INTERFACE_MAP.get(className);
+            if (intf != null) {
+                interfaces.add(intf);
+            }
+        }
+        if (interfaces.isEmpty()) {
+            throw new OdmaRuntimeException("No valid OpenDMA classes or aspects given.");
+        }        
+
+        return (T) Proxy.newProxyInstance( loader, interfaces.toArray(new Class<?>[0]), new OdmaProxyHandler(coreObject) );
+
+    }
+
+} 

@@ -1,0 +1,6 @@
+
+    dynamic_class = type(
+        "DynamicClass",
+        tuple(prune_inheritance_chain(classes)),
+        dict)
+    return dynamic_class()

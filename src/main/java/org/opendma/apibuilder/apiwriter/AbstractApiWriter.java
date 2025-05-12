@@ -173,10 +173,10 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
             ClassDescription classDescription = (ClassDescription)itClasses.next();
             createClassTemplateFile(classDescription);
         }
-        // finalise project structure
-        finaliseProjectStructureAndBuildFiles(apiDescription);
         // create any extras
         createExtras(apiDescription);
+        // finalise project structure
+        finaliseProjectStructureAndBuildFiles(apiDescription);
     }
 
     public static InputStream internalGetResourceAsStream(String resource)

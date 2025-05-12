@@ -4,14 +4,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.opendma.apibuilder.Tools;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.ApiWriterException;
 import org.opendma.apibuilder.structure.ApiDescription;
 import org.opendma.apibuilder.structure.ClassDescription;
+import org.opendma.apibuilder.structure.PropertyDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
 public class PythonApiWriter extends AbstractApiWriter
@@ -328,6 +331,107 @@ public class PythonApiWriter extends AbstractApiWriter
     // E X T R A S
     //-------------------------------------------------------------------------
     
-    // protected void createExtras(ApiDescription apiDescription) throws IOException, ApiWriterException {}
+    protected void createExtras(ApiDescription apiDescription) throws IOException, ApiWriterException
+    {
+        createProxyGenerator(apiDescription);
+    }
+
+    protected void createProxyGenerator(ApiDescription apiDescription) throws IOException, ApiWriterException
+    {
+        PythonObjectsInterfaceFileWriter poifw = new PythonObjectsInterfaceFileWriter(this);
+        copyTemplateToStream("odma_create_proxy-start", opendmaApiInterfacesFOS, false);
+        PrintWriter out = new PrintWriter(opendmaApiInterfacesFOS);
+
+        HashSet<String> definedGetter = new HashSet<String>();
+        HashSet<String> definedSetter = new HashSet<String>();
+        for(ClassDescription classDescription : apiDescription.getDescribedClasses())
+        {
+            for(PropertyDescription propertyDescription : classDescription.getPropertyDescriptions())
+            {
+                if(!definedGetter.contains(propertyDescription.getApiName()))
+                {
+                    String propertyGetterName = "get_" + propertyDescription.getDataType().getName().toLowerCase() + (propertyDescription.getMultiValue() ? (propertyDescription.getDataType().isReference()?"_iterable":"_list") : "");
+                    out.println();
+                    out.println("    def get_"+Tools.toSnakeCase(propertyDescription.getApiName())+"(self) -> "+poifw.getReturnDataType(propertyDescription)+":");
+                    out.println("        try:");
+                    out.println("            return core.get_property(constants.PROPERTY_"+propertyDescription.getOdmaName().getName().toUpperCase()+")."+propertyGetterName+"()");
+                    out.println("        except OdmaPropertyNotFoundException:");
+                    out.println("            raise OdmaServiceException(\"Predefined OpenDMA property missing: "+propertyDescription.getOdmaName().toString()+"\")");
+                    out.println("        except OdmaInvalidDataTypeException:");
+                    out.println("            raise OdmaServiceException(\"Predefined OpenDMA property has wrong type or cardinality: "+propertyDescription.getOdmaName().toString()+"\")");
+                    definedGetter.add(propertyDescription.getApiName());
+                }
+                else
+                {
+                    out.println();
+                    out.println("    # Omit double definition of def get_"+Tools.toSnakeCase(propertyDescription.getApiName())+"(self):");
+                }
+                if(!propertyDescription.isReadOnly())
+                {
+                    if(!definedSetter.contains(propertyDescription.getApiName()))
+                    {
+                        out.println();
+                        out.println("    def set_"+Tools.toSnakeCase(propertyDescription.getApiName())+"(self, new_value: "+poifw.getReturnDataType(propertyDescription)+") -> None:");
+                        out.println("        try:");
+                        out.println("            core.get_property(constants.PROPERTY_"+propertyDescription.getOdmaName().getName().toUpperCase()+").set_value(new_value)");
+                        out.println("        except OdmaPropertyNotFoundException:");
+                        out.println("            raise OdmaServiceException(\"Predefined OpenDMA property missing: "+propertyDescription.getOdmaName().toString()+"\")");
+                        out.println("        except OdmaInvalidDataTypeException:");
+                        out.println("            raise OdmaServiceException(\"Predefined OpenDMA property has wrong type or cardinality: "+propertyDescription.getOdmaName().toString()+"\")");
+                        definedSetter.add(propertyDescription.getApiName());
+                    }
+                    else
+                    {
+                        out.println();
+                        out.println("    # Omit double definition of def set_"+Tools.toSnakeCase(propertyDescription.getApiName())+"(self):");
+                    }
+                }
+            }
+            out.println();
+            out.println("    dict_"+Tools.toSnakeCase(classDescription.getApiName())+" = {");
+            ClassDescription cd = classDescription;
+            while(cd != null)
+            {
+                for(PropertyDescription propertyDescription : cd.getPropertyDescriptions())
+                {
+                    out.println("        \"get_"+Tools.toSnakeCase(propertyDescription.getApiName())+"\": get_"+Tools.toSnakeCase(propertyDescription.getApiName())+",");
+                    if(!propertyDescription.isReadOnly())
+                    {
+                        out.println("        \"set_"+Tools.toSnakeCase(propertyDescription.getApiName())+"\": set_"+Tools.toSnakeCase(propertyDescription.getApiName())+",");
+                    }
+                }
+                if(cd.getExtendsOdmaName() != null)
+                {
+                    cd = cd.getContainingApiDescription().getDescribedClass(cd.getExtendsOdmaName());
+                }
+                else if(cd.getAspect())
+                {
+                    cd = cd.getContainingApiDescription().getObjectClass();
+                }
+                else
+                {
+                    cd = null;
+                }
+            }
+            out.println("    }");
+        }
+
+        out.println();
+        out.println("    classes: list[Type] = []");
+        out.println();
+        out.println("    for intf in odma_interfaces:");
+        boolean first = true;
+        for(ClassDescription classDescription : apiDescription.getDescribedClasses())
+        {
+            out.println("        "+(first?"":"el")+"if intf == constants.CLASS_"+classDescription.getOdmaName().getName().toUpperCase()+":");
+            out.println("            classes.append("+classDescription.getApiName()+")");
+            out.println("            dict.update(dict_"+Tools.toSnakeCase(classDescription.getApiName())+")");
+            first = false;
+        }
+        
+        out.flush();
+        copyTemplateToStream("odma_create_proxy-end", opendmaApiInterfacesFOS, false);
+        classesImportFromInterfaces.add("odma_create_proxy");
+   }
 
 }
