@@ -29,17 +29,17 @@ namespace OpenDMA.Api
         /// <param name="namespace">The namespace part of the qualified name. Must not be null or empty.</param>
         /// <param name="name">The name part of the qualified name. Must not be null or empty.</param>
         /// <exception cref="ArgumentException">Thrown when the namespace or name is null or empty.</exception>
-        public OdmaQName(string namespace, string name)
+        public OdmaQName(string ns, string name)
         {
-            if (string.IsNullOrWhiteSpace(namespace))
+            if (string.IsNullOrWhiteSpace(ns))
             {
-                throw new ArgumentException("Namespace must not be null or empty", nameof(namespace));
+                throw new ArgumentException("Namespace must not be null or empty", nameof(ns));
             }
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException("Name must not be null or empty", nameof(name));
             }
-            Namespace = namespace;
+            Namespace = ns;
             Name = name;
         }
 
