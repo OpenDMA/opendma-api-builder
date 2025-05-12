@@ -588,8 +588,8 @@
         </Property>
 
         <Property namespace="opendma"
-                  name="BLOBValue"
-                  apiName="BLOBValue"
+                  name="BlobValue"
+                  apiName="BlobValue"
                   readOnly="false"
                   required="false"
                   dataType="string"
