@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ApiDescription>
 
+<!-- 
+WARNING:
+There are multiple bugs in this ApiDescription file. It does not strictly follow the 0.6.1 OpenDMA
+specification. This file is kept as-is to keep it in line with the already published Java API and
+to make the APIs generated from this file reproducible.
+The discrepancies between the OpenDMA specification and the auto-generated API implementations will
+be fixed in version 0.6.3. Use a diff tool between the 0.6.2 and 0.6.3 ApiDescription files to
+identify these bugs. 
+-->
+
     <Version>0.6.1</Version>
 
 <!-- ========================================================================================== -->
