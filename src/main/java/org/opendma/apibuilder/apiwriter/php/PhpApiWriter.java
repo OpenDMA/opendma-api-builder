@@ -139,6 +139,11 @@ public class PhpApiWriter extends AbstractApiWriter
     // C L A S S   F I L E
     //-------------------------------------------------------------------------
 
+    protected void createCoreObjectFile(ApiDescription apiDescription) throws IOException
+    {
+        createClassFromTemplate(opendmaApiFolder,"OdmaCoreObject");
+    }
+
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
         PhpObjectsInterfaceFileWriter classFileWriter = new PhpObjectsInterfaceFileWriter(this);

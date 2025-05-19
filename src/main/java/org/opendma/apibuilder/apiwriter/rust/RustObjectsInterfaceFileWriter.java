@@ -1,9 +1,6 @@
 package org.opendma.apibuilder.apiwriter.rust;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
@@ -81,7 +78,7 @@ public class RustObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFile
             }
             else
             {
-                out.println("pub trait "+classDescription.getApiName()+" {");
+                out.println("pub trait "+classDescription.getApiName()+": OdmaCoreObject {");
             }
         }
     }
@@ -110,28 +107,15 @@ public class RustObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFile
 
     protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
     {
-        out.println("");
-        out.println("    // ----- Generic property access ---------------------------------------------------------------");
-        InputStream templateIn = apiWriter.getTemplateAsStream("OdmaObject.GenericPropertyAccess");
-        BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
-        String templateLine = null;
-        while( (templateLine = templareReader.readLine()) != null)
-        {
-            out.println(templateLine);
-        }
     }
 
     protected void appendRequiredImportsGenericPropertyAccess(ImportsList requiredImports)
     {
-        requiredImports.registerImport("crate::OdmaQName");
-        requiredImports.registerImport("crate::OdmaProperty");
-        requiredImports.registerImport("crate::OdmaError");
+        requiredImports.registerImport("crate::OdmaCoreObject");
     }
 
     protected void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out)
     {
-        out.println("");
-        out.println("    // ----- Object specific property access -------------------------------------------------------");
     }
 
     protected String getReturnDataType(PropertyDescription property)

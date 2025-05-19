@@ -1,9 +1,6 @@
 package org.opendma.apibuilder.apiwriter.go;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
@@ -80,6 +77,12 @@ public class GoObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileWr
             out.println("    // "+classDescription.getApiName()+" extends "+classDescription.getContainingApiDescription().getObjectClass().getApiName());
             out.println("    "+classDescription.getContainingApiDescription().getObjectClass().getApiName());
         }
+        else
+        {
+            out.println("");
+            out.println("    // "+classDescription.getApiName()+" extends OdmaCoreObject");
+            out.println("    OdmaCoreObject");
+        }
 
     }
 
@@ -96,15 +99,6 @@ public class GoObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileWr
 
     protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
     {
-        out.println("");
-        out.println("    // ----- Generic property access ---------------------------------------------------------------");
-        InputStream templateIn = apiWriter.getTemplateAsStream("OdmaObject.GenericPropertyAccess");
-        BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
-        String templateLine = null;
-        while( (templateLine = templareReader.readLine()) != null)
-        {
-            out.println(templateLine);
-        }
     }
 
     protected void appendRequiredImportsGenericPropertyAccess(ImportsList requiredImports)
@@ -113,8 +107,6 @@ public class GoObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileWr
 
     protected void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out)
     {
-        out.println("");
-        out.println("    // ----- Object specific property access -------------------------------------------------------");
     }
 
     protected String getReturnDataType(PropertyDescription property)

@@ -1,9 +1,6 @@
 package org.opendma.apibuilder.apiwriter.swift;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
@@ -77,7 +74,7 @@ public class SwiftObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFil
             }
             else
             {
-                out.println("public protocol "+classDescription.getApiName()+" {");
+                out.println("public protocol "+classDescription.getApiName()+": OdmaCoreObject {");
             }
         }
     }
@@ -95,15 +92,6 @@ public class SwiftObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFil
 
     protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
     {
-        out.println("");
-        out.println("    // MARK: - Generic property access");
-        InputStream templateIn = apiWriter.getTemplateAsStream("OdmaObject.GenericPropertyAccess");
-        BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
-        String templateLine = null;
-        while( (templateLine = templareReader.readLine()) != null)
-        {
-            out.println(templateLine);
-        }
     }
 
     protected void appendRequiredImportsGenericPropertyAccess(ImportsList requiredImports)
@@ -112,8 +100,6 @@ public class SwiftObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFil
 
     protected void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out)
     {
-        out.println("");
-        out.println("    // MARK: - Object specific property access");
         /*
         Alternative concept:
         extension OdmaObject {

@@ -143,6 +143,11 @@ public class TypeScriptApiWriter extends AbstractApiWriter
     // C L A S S   F I L E
     //-------------------------------------------------------------------------
 
+    protected void createCoreObjectFile(ApiDescription apiDescription) throws IOException
+    {
+        createApiClassFromTemplate("OdmaCoreObject");
+    }
+
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
         TypeScriptObjectsInterfaceFileWriter classFileWriter = new TypeScriptObjectsInterfaceFileWriter(this);

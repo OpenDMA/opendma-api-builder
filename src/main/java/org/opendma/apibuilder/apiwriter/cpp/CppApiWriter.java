@@ -158,6 +158,11 @@ public class CppApiWriter extends AbstractApiWriter
     // C L A S S   F I L E
     //-------------------------------------------------------------------------
 
+    protected void createCoreObjectFile(ApiDescription apiDescription) throws IOException
+    {
+        createHeaderFromTemplate(includeFolder,"OdmaCoreObject");
+    }
+
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
         CppObjectsInterfaceFileWriter classFileWriter = new CppObjectsInterfaceFileWriter(this);

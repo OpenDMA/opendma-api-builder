@@ -1,9 +1,6 @@
 package org.opendma.apibuilder.apiwriter.cpp;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
@@ -86,7 +83,7 @@ public class CppObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileW
             }
             else
             {
-                out.println("class "+classDescription.getApiName()+" {");
+                out.println("class "+classDescription.getApiName()+" : public OdmaCoreObject {");
             }
         }
         out.println("public:");
@@ -106,30 +103,15 @@ public class CppObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileW
 
     protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
     {
-        out.println("");
-        out.println("    // ----- Generic property access ---------------------------------------------------------------");
-        InputStream templateIn = apiWriter.getTemplateAsStream("OdmaObject.GenericPropertyAccess");
-        BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
-        String templateLine = null;
-        while( (templateLine = templareReader.readLine()) != null)
-        {
-            out.println(templateLine);
-        }
     }
 
     protected void appendRequiredImportsGenericPropertyAccess(ImportsList requiredImports)
     {
-        requiredImports.registerImport("<any>");
-        requiredImports.registerImport("<memory>");
-        requiredImports.registerImport("<vector>");
-        requiredImports.registerImport("\"OdmaQName.h\"");
-        requiredImports.registerImport("\"OdmaProperty.h\"");
+        requiredImports.registerImport("\"OdmaCoreObject.h\"");
     }
 
     protected void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out)
     {
-        out.println("");
-        out.println("    // ----- Object specific property access -------------------------------------------------------");
     }
 
     protected String getReturnDataType(PropertyDescription property)

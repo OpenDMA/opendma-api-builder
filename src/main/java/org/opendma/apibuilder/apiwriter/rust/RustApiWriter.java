@@ -183,6 +183,13 @@ public class RustApiWriter extends AbstractApiWriter
     // C L A S S   F I L E
     //-------------------------------------------------------------------------
 
+    protected void createCoreObjectFile(ApiDescription apiDescription) throws IOException
+    {
+        createClassFromTemplate(opendmaApiSourceFolder, "odma_core_object");
+        registerApiModule("odma_core_object");
+        registerApiModuleExport("odma_core_object", "OdmaCoreObject");
+    }
+
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
         RustObjectsInterfaceFileWriter classFileWriter = new RustObjectsInterfaceFileWriter(this);

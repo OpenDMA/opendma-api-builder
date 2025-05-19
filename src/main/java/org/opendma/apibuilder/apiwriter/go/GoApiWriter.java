@@ -144,6 +144,11 @@ public class GoApiWriter extends AbstractApiWriter
     // C L A S S   F I L E
     //-------------------------------------------------------------------------
 
+    protected void createCoreObjectFile(ApiDescription apiDescription) throws IOException
+    {
+        createClassFromTemplate(opendmaApiProjectFolder, "OdmaCoreObject");
+    }
+
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
         GoObjectsInterfaceFileWriter classFileWriter = new GoObjectsInterfaceFileWriter(this);

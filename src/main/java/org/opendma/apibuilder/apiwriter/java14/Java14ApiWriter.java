@@ -141,6 +141,10 @@ public class Java14ApiWriter extends AbstractApiWriter
     // C L A S S   F I L E
     //-------------------------------------------------------------------------
 
+    protected void createCoreObjectFile(ApiDescription apiDescription) throws IOException
+    {
+    }
+
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
         Java14ObjectsInterfaceFileWriter classFileWriter = new Java14ObjectsInterfaceFileWriter(this);

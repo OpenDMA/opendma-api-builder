@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import org.opendma.apibuilder.structure.ApiDescription;
 import org.opendma.apibuilder.structure.ClassDescription;
-import org.opendma.apibuilder.structure.ScalarTypeDescription;
 
 public class TemplateApiWriter extends AbstractApiWriter
 {
@@ -86,6 +85,12 @@ public class TemplateApiWriter extends AbstractApiWriter
     //-------------------------------------------------------------------------
     // C L A S S   F I L E
     //-------------------------------------------------------------------------
+
+    protected void createCoreObjectFile(ApiDescription apiDescription) throws IOException
+    {
+        // TODO Auto-generated method stub
+        
+    }
 
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {

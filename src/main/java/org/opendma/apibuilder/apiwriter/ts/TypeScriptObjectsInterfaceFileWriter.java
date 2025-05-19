@@ -1,9 +1,6 @@
 package org.opendma.apibuilder.apiwriter.ts;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
@@ -86,7 +83,7 @@ public class TypeScriptObjectsInterfaceFileWriter extends AbstractObjectsInterfa
             }
             else
             {
-                out.println("export interface "+classDescription.getApiName()+" {");
+                out.println("export interface "+classDescription.getApiName()+" extends OdmaCoreObject {");
             }
         }
     }
@@ -142,30 +139,15 @@ public class TypeScriptObjectsInterfaceFileWriter extends AbstractObjectsInterfa
 
     protected void writeClassGenericPropertyAccess(ClassDescription classDescription, PrintWriter out) throws IOException
     {
-        out.println("");
-        out.println("    // ----- Generic property access ---------------------------------------------------------------");
-        InputStream templateIn = apiWriter.getTemplateAsStream("OdmaObject.GenericPropertyAccess");
-        BufferedReader templareReader = new BufferedReader(new InputStreamReader(templateIn));
-        String templateLine = null;
-        while( (templateLine = templareReader.readLine()) != null)
-        {
-            out.println(templateLine);
-        }
     }
 
     protected void appendRequiredImportsGenericPropertyAccess(ImportsList requiredImports)
     {
-        requiredImports.registerImport("OdmaQName");
-        requiredImports.registerImport("OdmaProperty");
-        requiredImports.registerImport("OdmaPropertyNotFoundError");
-        requiredImports.registerImport("OdmaInvalidDataTypeError");
-        requiredImports.registerImport("OdmaAccessDeniedError");
+        requiredImports.registerImport("OdmaCoreObject");
     }
 
     protected void writeClassObjectSpecificPropertyAccessSectionHeader(ClassDescription classDescription, PrintWriter out)
     {
-        out.println("");
-        out.println("    // ----- Object specific property access -------------------------------------------------------");
     }
 
     protected String getReturnDataType(PropertyDescription property)

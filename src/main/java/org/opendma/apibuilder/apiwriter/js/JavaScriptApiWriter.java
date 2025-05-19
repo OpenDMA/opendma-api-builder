@@ -135,6 +135,11 @@ public class JavaScriptApiWriter extends AbstractApiWriter
     // C L A S S   F I L E
     //-------------------------------------------------------------------------
 
+    protected void createCoreObjectFile(ApiDescription apiDescription) throws IOException
+    {
+        copyClassToApi("OdmaCoreObject");
+    }
+
     protected void createClassFile(ClassDescription classDescription) throws IOException
     {
         JavaScriptObjectsInterfaceFileWriter classFileWriter = new JavaScriptObjectsInterfaceFileWriter(this);
