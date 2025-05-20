@@ -29,12 +29,11 @@ finaliseProjectStructureAndBuildFiles  |   x   |   x   |   x   |   x   |   x   |
 -- extras -----------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 createExtras                           |       |       |       |       |       |       |       |       |       |       |   o   |
 -- deprecated -------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
-createEnumerationFile                  |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   o   |
+createEnumerationFile                  |   -   |   -   |       |   -   |   -   |   -   |   -   |   x   |   -   |   -   |   o   |
 createListFile                         |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   o   |
 createListImplementationFile           |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   o   |
 
 Open tasks:
-- Insufficient implementation of Enumerations: cpp, go
 - check if OdmaQName properly processes multiple namespaces, e.g. company:product:propName
 - proxy generation only available for Java, C#, Python
 - performance methods `availableProperties()` and `availablePropertiesComplete()` only available for Java
