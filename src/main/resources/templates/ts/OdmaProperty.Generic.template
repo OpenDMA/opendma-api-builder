@@ -45,3 +45,10 @@
      * @returns `true` if and only if this property is read-only.
      */
     isReadOnly(): boolean;
+
+    /**
+     * Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
+     * @abstract
+     * @returns `true` if the value is immediately available, `false` if reading this value requires a round-trip to a back-end system.
+     */
+    isResolved(): boolean;

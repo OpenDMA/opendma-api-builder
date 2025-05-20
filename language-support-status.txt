@@ -38,4 +38,3 @@ createListImplementationFile           |   -   |   -   |   -   |   -   |   -   |
 
 Open tasks:
 - performance methods `availableProperties()` and `availablePropertiesComplete()` only available for Java
-- performance method `isResolved()` in OdmaProperty only available for Java, and not implemented by OdmaPropertyImpl

@@ -29,3 +29,7 @@
         self.read_only
     }
  
+    /// Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
+    fn is_resolved(&self) -> bool {
+        true
+    }

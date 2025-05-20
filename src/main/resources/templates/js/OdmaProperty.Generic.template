@@ -71,3 +71,12 @@
     isReadOnly() {
         throw new Error("Method 'isReadOnly()' must be implemented.");
     }
+
+    /**
+     * Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
+     * @abstract
+     * @returns {boolean} True if the value is immediately available, False if reading this value requires a round-trip to a back-end system.
+     */
+    isResolved() {
+        throw new Error("Method 'isResolved()' must be implemented.");
+    }

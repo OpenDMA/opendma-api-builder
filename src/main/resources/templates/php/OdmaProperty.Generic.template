@@ -50,3 +50,11 @@
      * @return bool True if and only if this property is read-only.
      */
     public function isReadOnly(): bool;
+
+    /**
+     * Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
+     *
+     * @return bool True if the value is immediately available, False if reading this value requires a round-trip to a back-end system.
+     */
+    public function isResolved(): bool;
+    

@@ -28,3 +28,8 @@ func (pi *OdmaPropertyImpl) IsDirty() bool {
 func (pi *OdmaPropertyImpl) IsReadOnly() bool {
     return pi.readOnly
 }
+
+// IsResolved indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
+func (pi *OdmaPropertyImpl) IsResolved() bool {
+    return true
+}

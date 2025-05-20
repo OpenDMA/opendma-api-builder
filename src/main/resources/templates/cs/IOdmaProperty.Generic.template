@@ -30,3 +30,8 @@
         /// Indicates whether this property is read-only.
         /// </summary>
         bool IsReadOnly { get; }
+        
+        /// <summary>
+        /// Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
+        /// </summary>
+        bool IsResolved { get; }

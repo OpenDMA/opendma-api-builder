@@ -68,7 +68,15 @@ public:
     bool isReadOnly() const override {
         return readOnly;
     }
-        
+
+    /**
+     * @brief Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
+     * @return `true` if the value is immediately available, `false` if reading this value requires a round-trip to a back-end system.
+     */
+    bool isResolved() const override {
+        return true;
+    }
+
     /**
      * @brief Sets the value of the property. The `std::any` of the given `newValue` has to match the
      * data type of this OdmaProperty.

@@ -115,6 +115,15 @@
         return readOnly;
     }
 
+    /**
+     * Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
+     * 
+     * @return <code>true</code> if the value is immediately available, <code>false</code> if reading this value requires a round-trip to a back-end system.
+     */
+    public boolean isResolved() {
+        return true;
+    }
+
     private boolean checkListAndValues(Object obj, Class<?> expectedElementsClass) {
         if(!(obj instanceof List<?>)) {
             return false;

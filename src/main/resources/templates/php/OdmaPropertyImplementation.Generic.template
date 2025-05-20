@@ -90,6 +90,16 @@
     {
         return $this->readOnly;
     }
+
+    /**
+     * Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
+     *
+     * @return bool True if the value is immediately available, False if reading this value requires a round-trip to a back-end system.
+     */
+    public function isResolved(): bool
+    {
+        return true;
+    }
  
     private function checkListAndValues(mixed $value, OdmaType $expectedType): bool
     {

@@ -46,3 +46,9 @@ public:
      * @return `true` if and only if this property is read-only.
      */
     virtual bool isReadOnly() const = 0;
+
+    /**
+     * @brief Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
+     * @return `true` if the value is immediately available, `false` if reading this value requires a round-trip to a back-end system.
+     */
+    virtual bool isResolved() const = 0;

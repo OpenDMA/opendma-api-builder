@@ -81,6 +81,11 @@
         /// Indicates whether this property is read-only.
         /// </summary>
         public bool IsReadOnly { get => _readOnly; }
+        
+        /// <summary>
+        /// Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
+        /// </summary>
+        public bool IsResolved { get => True; }
 
         /// <summary>
         /// The value of this property. The concrete <see cref="object"/> of this property depends on the data type of this OdmaProperty.

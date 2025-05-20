@@ -11,6 +11,8 @@
 
     public let isReadOnly: Bool
 
+    public let isResolved: Bool = true
+
     public init(name: OdmaQName, value: Any?, type: OdmaType, isMultiValue: Bool, isReadOnly: Bool) throws {
         self.name = name
         self.type = type
