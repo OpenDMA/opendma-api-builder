@@ -64,6 +64,12 @@ class OdmaQName:
         return f"{self.namespace}:{self.name}"
 
     def __repr__(self):
+        """
+        Returns a string representation for debugging purposes of the OdmaQName object.
+        The format is "namespace:name".
+
+        :return: The debug string representation of this OdmaQName.
+        """
         return str(self)
 
     @staticmethod
@@ -79,7 +85,7 @@ class OdmaQName:
         if ':' not in qname_str:
             raise ValueError(f"Invalid OdmaQName format (missing colon): '{qname_str}'")
 
-        namespace, name = qname_str.split(':', 1)
+        namespace, name = qname_str.rsplit(':', 1)
 
         if not namespace.strip():
             raise ValueError(f"Namespace must not be empty in OdmaQName: '{qname_str}'")

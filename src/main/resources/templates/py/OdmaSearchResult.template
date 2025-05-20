@@ -11,6 +11,8 @@ class OdmaSearchResult(ABC):
     def get_objects(self) -> Iterable[TOdmaObject]:
         """
         Gets the collection of objects found by the search.
+
+        :return: The collection of objects found by the search.
         """
         pass
 
@@ -18,5 +20,7 @@ class OdmaSearchResult(ABC):
     def get_size(self) -> int:
         """
         Gets the number of objects found by the search or -1 if the total size is unknown.
+
+        :return: The number of objects found by the search or -1 if the total size is unknown.
         """
         pass

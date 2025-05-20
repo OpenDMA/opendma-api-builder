@@ -34,7 +34,6 @@ createListFile                         |   -   |   -   |   -   |   -   |   -   |
 createListImplementationFile           |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   o   |
 
 Open tasks:
-- See better doc comment for python at OdmaObject
 - Insufficient implementation of Enumerations: cpp, go
 - check if OdmaQName properly processes multiple namespaces, e.g. company:product:propName
 - proxy generation only available for Java, C#, Python

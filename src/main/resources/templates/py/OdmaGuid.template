@@ -22,12 +22,20 @@ class OdmaGuid:
 
     @property
     def object_id(self):
-        """Returns the OdmaId of the object."""
+        """
+        Returns the OdmaId of the object.
+        
+        :return: The OdmaId of the object.
+        """
         return self._object_id
 
     @property
     def repository_id(self):
-        """Returns the OdmaId of the repository."""
+        """
+        Returns the OdmaId of the repository.
+        
+        :return: The OdmaId of the repository.
+        """
         return self._repository_id
 
     def __eq__(self, other):
