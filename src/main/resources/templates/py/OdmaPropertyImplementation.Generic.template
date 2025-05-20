@@ -1,12 +1,19 @@
 
-    def __init__(self, name: OdmaQName, value: Any, data_type: OdmaType, multi_value: bool, read_only: bool):
+    def __init__(self, name: OdmaQName, value: Optional[Any], value_provider: Optional[LazyPropertyValueProvider], data_type: OdmaType, multi_value: bool, read_only: bool):
         self._name = name
         self._data_type = data_type
         self._multi_value = multi_value
-        self._read_only = False
-        self.set_value(value)
         self._read_only = read_only
-        self._dirty = False
+        if value_provider is not None:
+            if value is not None:
+                raise ValueError("If a value provider is given, the value must be None.")
+            if not callable(getattr(value_provider, "resolve_property_value", None)):
+                raise TypeError("value_provider must implement `resolve_property_value()`")
+            self._value_provider = value_provider
+        else:
+            self._set_value_internal(value)
+            self._dirty = False
+
 
     def get_name(self) -> OdmaQName:
         """
@@ -24,6 +31,16 @@
         """
         return self._data_type
 
+    def _enforce_value(self):
+        if self._value_provider is not None:
+            try:
+                resolved_value = self._value_provider.resolve_property_value()
+                self._set_value_internal(resolved_value)
+                self._value_provider = None
+                self._dirty = False
+            except OdmaInvalidDataTypeException as e:
+                raise OdmaServiceException("Lazy property resolution failed. Provider delivered wrong type or cardinality.") from e
+
     def get_value(self) -> Any:
         """
         Returns the value of this property. The concrete object returned
@@ -31,6 +48,7 @@
 
         :return: The value of this property.
         """
+        self._enforce_value()
         return self._value
 
     def is_multi_value(self) -> bool:
@@ -57,11 +75,24 @@
         """
         return self._read_only
 
-    @abstractmethod
     def is_resolved(self) -> bool:
         """
         Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
         
         :return: `True` if the value is immediately available, `False` if reading this value requires a round-trip to a back-end system.
         """
-        return True        
+        return self._value_provider is None
+
+    def set_value(self, new_value: Any) -> None:
+        """
+        Sets the value of this property. The type and classof the given
+        new_value has to match the data type of this OdmaProperty.
+
+        :param new_value: the new value to set this property to.
+        :raises OdmaInvalidDataTypeException: Raised if the type of the assigned value does not match the data type of this OdmaProperty.
+        :raises OdmaAccessDeniedException: Raised if this OdmaProperty is read-only or cannot be set by the current user.
+        """
+        if self._read_only:
+            raise OdmaAccessDeniedException("Cannot modify a read-only property.")
+        self._set_value_internal(new_value)
+        self._value_provider = None

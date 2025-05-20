@@ -28,33 +28,43 @@
         /// Flag indicating whether this property is read-only.
         /// </summary>
         protected bool _readOnly;
-        
+
+        /// <summary>
+        /// Property value provider for lazy property resolution
+        /// </summary>
+        protected IOdmaLazyPropertyValueProvider? _valueProvider;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="OdmaProperty"/> class with a specified type and value.
         /// </summary>
         /// <param name="name">The qualified name of this property.</param>
         /// <param name="value">The value of this property.</param>
+        /// <param name="valueProvider">The provider of the propertie's value for lazy resolution.</param>
         /// <param name="type">The data type of this property.</param>
         /// <param name="multiValue">Flag indicating whether this property is a multi-value property.</param>
         /// <param name="readOnly">Flag indicating whether this property is read-only.</param>
         /// <exception cref="OdmaInvalidDataTypeException">
         /// Thrown if the type of <paramref name="value"/> does not match the property's data type.
         /// </exception>
-        public OdmaProperty(OdmaQName name, object? value, OdmaType type, bool multiValue, bool readOnly)
+        public OdmaProperty(OdmaQName name, object? value, IOdmaLazyPropertyValueProvider? valueProvider, OdmaType type, bool multiValue, bool readOnly)
         {
             this._name = name;
             this._type = type;
             this._multiValue = multiValue;
-            try
-            {
-                SetValue(value);
-            }
-            catch (OdmaAccessDeniedException)
-            {
-                throw new InvalidOperationException("Implementation error.");
-            }
             this._readOnly = readOnly;
-            this._dirty = false;
+            if(valueProbider != null)
+            {
+                if(value != null)
+                {
+                    throw new ArgumentException("If a value provider is given, the value must be null.");
+                }
+                this-_valueProvider = valueProvider;
+            }
+            else
+            {
+                SetValueInternal(value);
+                this._dirty = false;
+            }
         }
 
         /// <summary>
@@ -85,7 +95,7 @@
         /// <summary>
         /// Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
         /// </summary>
-        public bool IsResolved { get => True; }
+        public bool IsResolved { get => _valueProvider == null; }
 
         /// <summary>
         /// The value of this property. The concrete <see cref="object"/> of this property depends on the data type of this OdmaProperty.
@@ -94,6 +104,40 @@
         /// <exception cref="OdmaAccessDeniedException">If this OdmaProperty is read-only or cannot be set by the current user.</exception>
         public object? Value
         {
-            get { return this._value; }
-            set { SetValue(value); }
+            get
+            {
+                EnforceValue();
+                return this._value;
+            }
+            set
+            {
+                SetValue(value);
+            }
+        }
+
+        protected void EnforceValue()
+        {
+            if (_valueProvider != null)
+            {
+                try
+                {
+                    SetValueInternal(_valueProvider.ResolvePropertyValue());
+                    _dirty = false;
+                    _valueProvider = null;
+                }
+                catch (OdmaInvalidDataTypeException ex)
+                {
+                    throw new OdmaServiceException("Lazy property resolution failed. Provider delivered wrong type or cardinality.", ex);
+                }
+            }
+        }
+
+        protected void SetValue(object? newValue)
+        {
+            if (_readOnly)
+            {
+                throw new OdmaAccessDeniedException();
+            }
+            SetValueInternal(newValue);
+            _valueProvider = null;
         }

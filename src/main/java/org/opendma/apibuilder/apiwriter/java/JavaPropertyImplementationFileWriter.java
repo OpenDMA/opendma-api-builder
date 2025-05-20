@@ -61,33 +61,14 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         {
             out.println(templateLine);
         }
-        out.println("    /**");
-        out.println("     * Set the value of this property to the given new value. The");
-        out.println("     * <code>Class</code> of the given <code>Object</code> has to match the");
-        out.println("     * data type of this property.");
-        out.println("     * ");
-        out.println("     * @param newValue");
-        out.println("     *            the new value to set this property to.");
-        out.println("     * ");
-        out.println("     * @throws OdmaInvalidDataTypeException");
-        out.println("     *             if and only if the Class of the given Object does not match");
-        out.println("     *             the data type of this property");
-        out.println("     * ");
-        out.println("     * @throws OdmaAccessDeniedException");
-        out.println("     *             if this property can not be set by the current user");
-        out.println("     */");
         if(apiWriter.supportNullability())
         {
-            out.println("    public void setValue(@Nullable Object newValue) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {");
+            out.println("    public void setValueInternal(@Nullable Object newValue) throws OdmaInvalidDataTypeException {");
         }
         else
         {
-            out.println("    public void setValue(Object newValue) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {");
+            out.println("    public void setValueInternal(Object newValue) throws OdmaInvalidDataTypeException {");
         }
-        out.println("        if(readOnly)");
-        out.println("        {");
-        out.println("            throw new OdmaAccessDeniedException();");
-        out.println("        }");
         out.println("        if(newValue == null)");
         out.println("        {");
         out.println("            if(multiValue)");
@@ -181,6 +162,7 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         out.println("    public "+javaReturnType+" get"+scalarName+"() throws OdmaInvalidDataTypeException {");
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
         out.println("        if( (multiValue == false) && (dataType == OdmaType."+constantScalarTypeName+") ) {");
+        out.println("            enforceValue();");
         out.println("            return ("+stripAnnotation(javaReturnType)+")value;");
         out.println("        } else {");
         out.println("            throw new OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `get"+scalarName+"()`\");");
@@ -208,6 +190,7 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         out.println("    public "+javaReturnType+" get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"List")+"() throws OdmaInvalidDataTypeException {");
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
         out.println("        if( (multiValue == true) && (dataType == OdmaType."+constantScalarTypeName+") ) {");
+        out.println("            enforceValue();");
         out.println("            return ("+stripAnnotation(javaReturnType)+")value;");
         out.println("        } else {");
         out.println("            throw new OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `get"+scalarName+(scalarTypeDescription.isReference()?"Iterable":"List")+"()`\");");
@@ -223,6 +206,7 @@ public class JavaPropertyImplementationFileWriter extends AbstractPropertyImplem
         requiredImports.registerImport("org.opendma.exceptions.OdmaInvalidDataTypeException");
         requiredImports.registerImport("org.opendma.exceptions.OdmaAccessDeniedException");
         requiredImports.registerImport("org.opendma.exceptions.OdmaRuntimeException");
+        requiredImports.registerImport("org.opendma.exceptions.OdmaServiceException");
     }
 
     protected void appendRequiredImportsScalarAccess(ImportsList requiredImports, ScalarTypeDescription scalarTypeDescription)

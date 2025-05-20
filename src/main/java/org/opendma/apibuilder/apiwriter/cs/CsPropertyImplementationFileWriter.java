@@ -66,12 +66,8 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
             out.println(templateLine);
         }
         out.println("");
-        out.println("        protected void SetValue(object? newValue)");
+        out.println("        protected void SetValueInternal(object? newValue)");
         out.println("        {");
-        out.println("            if(_readOnly)");
-        out.println("            {");
-        out.println("                throw new OdmaAccessDeniedException();");
-        out.println("            }");
         out.println("            if(newValue == null)");
         out.println("            {");
         out.println("                if(_multiValue)");
@@ -147,6 +143,7 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
         out.println("            if( (_multiValue == false) && (_type == OdmaType."+constantScalarTypeName+") )");
         out.println("            {");
+        out.println("                EnforceValue();");
         out.println("                return ("+returnType+")_value;");
         out.println("            }");
         out.println("            else");
@@ -176,6 +173,7 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
         out.println("            if( (_multiValue == true) && (_type == OdmaType."+constantScalarTypeName+") )");
         out.println("            {");
+        out.println("                EnforceValue();");
         out.println("                return _value is "+returnType+" ret ? ret : throw new InvalidOperationException(\"Implementation error.\");");
         out.println("            }");
         out.println("            else");

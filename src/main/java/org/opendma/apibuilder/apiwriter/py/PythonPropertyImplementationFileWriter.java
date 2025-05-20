@@ -51,17 +51,7 @@ public class PythonPropertyImplementationFileWriter extends AbstractPropertyFile
             out.println(templateLine);
         }
         out.println("");
-        out.println("    def set_value(self, new_value: Any) -> None:");
-        out.println("        \"\"\"");
-        out.println("        Sets the value of this property. The type and classof the given");
-        out.println("        new_value has to match the data type of this OdmaProperty.");
-        out.println("");
-        out.println("        :param new_value: the new value to set this property to.");
-        out.println("        :raises OdmaInvalidDataTypeException: Raised if the type of the assigned value does not match the data type of this OdmaProperty.");
-        out.println("        :raises OdmaAccessDeniedException: Raised if this OdmaProperty is read-only or cannot be set by the current user.");
-        out.println("        \"\"\"");
-        out.println("        if self._read_only:");
-        out.println("            raise OdmaAccessDeniedException(\"Cannot modify a read-only property.\")");
+        out.println("    def set_value_internal(self, new_value: Any) -> None:");
         out.println("        if new_value is None:");
         out.println("            if self._multi_value:");
         out.println("                raise OdmaInvalidDataTypeException(\"Multi-valued properties must not be `null`. If a value is not required, the collection can be empty.\");");
@@ -126,6 +116,7 @@ public class PythonPropertyImplementationFileWriter extends AbstractPropertyFile
         out.println("        \"\"\"");
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
         out.println("        if self._multi_value == False and self._data_type == OdmaType."+constantScalarTypeName+":");
+        out.println("            self._enforce_value()");
         out.println("            return self._value");
         out.println("        raise OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `get_"+scalarName.toLowerCase()+"(self)`\");");
     }
@@ -141,6 +132,7 @@ public class PythonPropertyImplementationFileWriter extends AbstractPropertyFile
         out.println("        \"\"\"");
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
         out.println("        if self._multi_value == True and self._data_type == OdmaType."+constantScalarTypeName+":");
+        out.println("            self._enforce_value()");
         out.println("            return self._value");
         out.println("        raise OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `get_"+scalarName.toLowerCase()+"_list(self)`\");");
     }

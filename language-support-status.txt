@@ -24,6 +24,7 @@ createClassFile                        |   x   |   x   |   x   |   x   |   x   |
 object performance optimization [1]    |   x   |       |       |       |       |       |       |       |       |       |       |
 -- generated impl ---------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 createPropertyImplementationFile       |   x   |   x   |       |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
+  lazy property resolution             |   x   |   x   |       |       |   x   |       |       |       |       |       |       |
 createClassTemplateFile                |   x   |       |       |       |       |       |       |       |       |       |   o   |
 -- build ------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 prepareProjectStructureAndBuildFiles   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |

@@ -1,6 +1,17 @@
 from typing import Any, Optional
 from datetime import datetime
 
+class LazyPropertyValueProvider(Protocol):
+    """
+    Interface for lazy property resolution.
+    """
+    
+    def resolve_property_value(self) -> Any:
+        """
+        Resolves the value of the property when accessed.
+        """
+        ...
+
 class OdmaPropertyImpl(OdmaProperty):
     """
     Standard implementation of the OdmaProperty interface.
