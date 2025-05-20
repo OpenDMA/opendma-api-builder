@@ -1,8 +1,10 @@
 package org.opendma.api;
 
-import org.opendma.exceptions.OdmaPropertyNotFoundException;
-import org.opendma.exceptions.OdmaInvalidDataTypeException;
+import java.util.Iterator;
+
 import org.opendma.exceptions.OdmaAccessDeniedException;
+import org.opendma.exceptions.OdmaInvalidDataTypeException;
+import org.opendma.exceptions.OdmaPropertyNotFoundException;
 
 /**
  * Generic capabilities of an object in OpenDMA. Do not use directly. Instead, use <code>{@link OdmaObject}</code>.
@@ -79,5 +81,42 @@ public interface OdmaCoreObject {
      * @return <code>true</code> if the class matches or incorporates the specified aspect, <code>false</code> otherwise.
      */
     boolean instanceOf(OdmaQName classOrAspectName);
+    
+    // ----- EXPERIMENTAL: performance optimization framework
+
+    /**
+     * Provides a list of properties that are immediately available at low cost, e.g. without a request to a back-end system.
+     * This helps to optimize the communication across media boundaries like a network communication. Can return <code>null</code>
+     * if this object does not want to or simply cannot help to optimize performance. In case there are no immediately
+     * available properties and this object wants to force only rudimentary stub objects across media boundaries, it returns
+     * an empty list. If name, type, cardinality and readability of a property is known immediately but not the value, it
+     * is recommended to return an unresolved OdmaProperty.
+     * 
+     * This method is part of the experimental performance optimization framework.
+     * 
+     * @return Iterator over immediately available OdmaProperty objects, <code>null</code> to indicate the performance
+     *         optimization is not supported.
+     */
+    Iterator<OdmaProperty> availableProperties();
+    
+    /**
+     * Indicates if the list of properties returned by <code>availableProperties()</code> is complete, i.e. if it contains
+     * all the properties defined for objects of this class.
+     * 
+     * This method is part of the experimental performance optimization framework.
+     * 
+     * @return <code>true</code> if the list of properties returned by <code>availableProperties()</code> is complete, <code>false</code> if unknown or incomplete.
+     */
+    boolean availablePropertiesComplete();
+    
+    /**
+     * Indicates if it is recommended to embed this entire object within the referencing object in communications across
+     * media boundaries like a network communication.
+     * 
+     * This method is part of the experimental performance optimization framework.
+     * 
+     * @return <code>true</code> if the list of properties returned by <code>availableProperties()</code> is complete, <code>false</code> if unknown or incomplete.
+     */
+    boolean isEmbeddingRecommended();
 
 }

@@ -6,9 +6,9 @@ import java.util.Map;
 
 import org.opendma.api.OdmaClass;
 import org.opendma.api.OdmaCommonNames;
+import org.opendma.api.OdmaCoreObject;
 import org.opendma.api.OdmaGuid;
 import org.opendma.api.OdmaId;
-import org.opendma.api.OdmaObject;
 import org.opendma.api.OdmaProperty;
 import org.opendma.api.OdmaQName;
 import org.opendma.api.OdmaRepository;
@@ -19,7 +19,7 @@ import org.opendma.exceptions.OdmaPropertyNotFoundException;
 import org.opendma.exceptions.OdmaRuntimeException;
 import org.opendma.impl.OdmaPropertyImpl;
 
-public class OdmaStaticSystemObject {
+public class OdmaStaticSystemObject implements OdmaCoreObject {
 
     protected Map<OdmaQName, OdmaProperty> properties = new HashMap<OdmaQName, OdmaProperty>();
 
@@ -44,7 +44,7 @@ public class OdmaStaticSystemObject {
         properties.put(OdmaCommonNames.PROPERTY_REPOSITORY,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_REPOSITORY,newRepository,OdmaType.REFERENCE,false,true));
     }
 
-    // ----- Generic property access ---------------------------------------------------------------
+    // ----- OdmaCoreObject ------------------------------------------------------------------------
 
     /**
      * Returns an <code>{@link OdmaProperty}</code> for the property identified by the given qualified name.
@@ -149,6 +149,40 @@ public class OdmaStaticSystemObject {
             }
             test = test.getSuperClass();
         }
+        return false;
+    }
+
+    /**
+     * Provides a list of properties that are immediately available at low cost, e.g. without a request to a back-end system.
+     * This helps to optimize the communication across media boundaries like a network communication. Can return <code>null</code>
+     * if this object does not want to or simply cannot help to optimize performance. In case there are no immediately
+     * available properties and this object wants to force only rudimentary stub objects across media boundaries it returns
+     * an empty list.
+     * 
+     * @return Iterator over immediately available OdmaProperty objects, <code>null</code> to indicate the performance
+     *         optimization is not supported.
+     */
+    public Iterator<OdmaProperty> availableProperties() {
+        return properties.values().iterator();
+    }
+    
+    /**
+     * Indicates if the list of properties returned by <code>availableProperties()</code> is complete, i.e. if it contains
+     * all the properties defined for objects of this class.
+     * 
+     * @return <code>true</code> if the list of properties returned by <code>availableProperties()</code> is complete, <code>false</code> if unknown or incomplete.
+     */
+    public boolean availablePropertiesComplete() {
+        return true;
+    }
+    
+    /**
+     * Indicates if it is recommended to embed this entire object within the referencing object in communications across
+     * media boundaries like a network communication.
+     * 
+     * @return <code>true</code> if the list of properties returned by <code>availableProperties()</code> is complete, <code>false</code> if unknown or incomplete.
+     */
+    public boolean isEmbeddingRecommended() {
         return false;
     }
 {{template:OdmaObject}}

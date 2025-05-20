@@ -21,6 +21,7 @@ createSessionManagementFiles Providers |   x   |       |       |       |       |
 createPropertyFile                     |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 createCoreObjectFile                   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |       |
 createClassFile                        |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
+object performance optimization [1]    |   x   |       |       |       |       |       |       |       |       |       |       |
 -- generated impl ---------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 createPropertyImplementationFile       |   x   |   x   |       |   x   |   x   |   x   |   x   |   x   |   x   |   x   |   o   |
 createClassTemplateFile                |   x   |       |       |       |       |       |       |       |       |       |   o   |
@@ -36,5 +37,7 @@ createEnumerationFile                  |   -   |   -   |       |   -   |   -   |
 createListFile                         |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   o   |
 createListImplementationFile           |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   o   |
 
-Open tasks:
-- performance methods `availableProperties()` and `availablePropertiesComplete()` only available for Java
+[1]
+The object performance optimization framework helps to optimize the communication across media boundaries. Currently, we only
+have an implementation of the rest API server in Java. We do not intend to implement this outside of Java  until this framework
+has stabilized.
