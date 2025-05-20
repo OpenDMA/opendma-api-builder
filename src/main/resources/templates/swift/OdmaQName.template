@@ -33,3 +33,24 @@ public struct OdmaQName: Equatable, Hashable, CustomStringConvertible, Sendable 
     }
 
 }
+
+extension OdmaQName {
+
+    /// Parses a string in the format "namespace:name" into an `OdmaQName` instance.
+    ///
+    /// - Parameter qname: The string to parse.
+    /// - Throws: `OdmaError.illegalArgument` if the input is empty, does not contain a colon,
+    ///           or if the parsed namespace or name is invalid.
+    /// - Returns: A new `OdmaQName` instance.
+    public static func fromString(_ qname: String) throws -> OdmaQName {
+        guard let lastColonIndex = trimmed.lastIndex(of: ":") else {
+            throw OdmaError.illegalArgument(message: "Qualified name must contain at least one colon")
+        }
+
+        let namespace = String(trimmed[..<lastColonIndex])
+        let name = String(trimmed[trimmed.index(after: lastColonIndex)...])
+
+        return try OdmaQName(namespace: namespace, name: name)
+    }
+
+}

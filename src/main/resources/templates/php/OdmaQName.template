@@ -82,4 +82,24 @@ class OdmaQName
         return $this->namespace . ':' . $this->name;
     }
 
+    /**
+     * Parses a string representation of a qualified name into an OdmaQName.
+     *
+     * @param string $qname The string to parse, in the format "namespace:name".
+     * @return OdmaQName An OdmaQName object with parsed namespace and name.
+     * @throws \InvalidArgumentException if the input is empty or does not contain a colon.
+     */
+    public static function fromString(string $qname): OdmaQName
+    {
+        $lastColonPos = strrpos($qname, ':');
+        if ($lastColonPos === false) {
+            throw new \InvalidArgumentException("Qualified name must contain at least one colon");
+        }
+
+        $namespace = substr($qname, 0, $lastColonPos);
+        $name = substr($qname, $lastColonPos + 1);
+
+        return new OdmaQName($namespace, $name);
+    }
+
 }

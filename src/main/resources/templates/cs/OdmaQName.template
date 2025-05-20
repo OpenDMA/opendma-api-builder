@@ -85,6 +85,31 @@ namespace OpenDMA.Api
             return $"{Namespace}:{Name}";
         }
 
+        /// <summary>
+        /// Parses a string representation of a qualified name into an <see cref="OdmaQName"/>.
+        /// </summary>
+        /// <param name="qname">The string to parse, in the format "namespace:name".</param>
+        /// <returns>An <see cref="OdmaQName"/> object with parsed namespace and name.</returns>
+        /// <exception cref="ArgumentException">Thrown if the input is null, empty, or does not contain a colon.</exception>
+        public static OdmaQName FromString(string qname)
+        {
+            if (string.IsNullOrWhiteSpace(qname))
+            {
+                throw new ArgumentException("Qualified name must not be null or empty", nameof(qname));
+            }
+
+            int lastColonIndex = qname.LastIndexOf(':');
+            if (lastColonIndex == -1)
+            {
+                throw new ArgumentException("Qualified name must contain at least one colon", nameof(qname));
+            }
+
+            string ns = qname.Substring(0, lastColonIndex);
+            string name = qname.Substring(lastColonIndex + 1);
+
+            return new OdmaQName(ns, name);
+        }
+
     }
 
 }

@@ -73,4 +73,28 @@ export class OdmaQName {
     public toString(): string {
         return `${this.namespace}:${this.name}`;
     }
+
+    /**
+     * Parses a string representation of a qualified name into an OdmaQName.
+     *
+     * @param qname The string to parse, in the format "namespace:name".
+     * @returns An OdmaQName instance with parsed namespace and name.
+     * @throws Error If the input is empty or does not contain a colon.
+     */
+    public static fromString(qname: string): OdmaQName {
+        if (typeof qname !== 'string' || qname.trim() === '') {
+            throw new Error("Qualified name must not be empty");
+        }
+
+        const lastColonIndex = qname.lastIndexOf(':');
+        if (lastColonIndex === -1) {
+            throw new Error("Qualified name must contain at least one colon");
+        }
+
+        const namespace = qname.substring(0, lastColonIndex);
+        const name = qname.substring(lastColonIndex + 1);
+
+        return new OdmaQName(namespace, name);
+    }
+
 }

@@ -34,7 +34,6 @@ createListFile                         |   -   |   -   |   -   |   -   |   -   |
 createListImplementationFile           |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   o   |
 
 Open tasks:
-- check if OdmaQName properly processes multiple namespaces, e.g. company:product:propName
 - proxy generation only available for Java, C#, Python
 - performance methods `availableProperties()` and `availablePropertiesComplete()` only available for Java
 - performance method `isResolved()` in OdmaProperty only available for Java, and not implemented by OdmaPropertyImpl

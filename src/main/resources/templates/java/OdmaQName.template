@@ -91,4 +91,27 @@ public final class OdmaQName {
         return namespace + ":" + name;
     }
 
+    /**
+     * Parses a string representation of a qualified name into an {@code OdmaQName}.
+     *
+     * @param qname the string to parse, in the format "namespace:name"
+     * @return an {@code OdmaQName} object with parsed namespace and name
+     * @throws IllegalArgumentException if the input does not contain a valid string representation of a qualified name
+     */
+    public static OdmaQName fromString(String qname) {
+        if (qname == null) {
+            throw new IllegalArgumentException("Qualified name must not be null");
+        }
+
+        int lastColonIndex = qname.lastIndexOf(':');
+        if (lastColonIndex == -1) {
+            throw new IllegalArgumentException("Qualified name must contain at least one colon");
+        }
+
+        String namespace = qname.substring(0, lastColonIndex);
+        String name = qname.substring(lastColonIndex + 1);
+
+        return new OdmaQName(namespace, name);
+    }
+
 }

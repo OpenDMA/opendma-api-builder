@@ -42,6 +42,21 @@ impl OdmaQName {
         &self.name
     }
 
+    /// Parses a string in the format "namespace:name" into an `OdmaQName`.
+    ///
+    /// Returns an `OdmaError` if the input is empty, does not contain a colon,
+    /// or if either the namespace or name is invalid.
+    pub fn from_string(qname: &str) -> Result<Self, OdmaError> {
+        match qname.rfind(':') {
+            Some(index) => {
+                let namespace = &qname[..index];
+                let name = &qname[index + 1..];
+                Self::try_new(namespace, name)
+            }
+            None => Err(OdmaError::IllegalArgument("Qualified name must contain at least one colon".into())),
+        }
+    }
+
 }
 
 impl std::fmt::Display for OdmaQName {

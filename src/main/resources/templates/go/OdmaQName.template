@@ -43,3 +43,22 @@ func (q *OdmaQName) String() string {
 func (q *OdmaQName) Equals(other *OdmaQName) bool {
 	return q.namespace == other.namespace && q.name == other.name
 }
+
+// NewOdmaQNameFromString parses a string representation of a qualified name into an OdmaQName.
+// The expected format is "namespace:name", using the last colon as the delimiter.
+// Returns an error if the input is empty or does not contain a colon.
+func NewOdmaQNameFromString(qname string) (*OdmaQName, error) {
+	if strings.TrimSpace(qname) == "" {
+		return nil, errors.New("Qualified name must not be empty")
+	}
+
+	lastColon := strings.LastIndex(qname, ":")
+	if lastColon == -1 {
+		return nil, errors.New("Qualified name must contain at least one colon")
+	}
+
+	namespace := qname[:lastColon]
+	name := qname[lastColon+1:]
+
+	return NewOdmaQName(namespace, name)
+}

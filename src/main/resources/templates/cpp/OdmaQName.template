@@ -34,6 +34,27 @@ public:
     }
 
     /**
+     * @brief Parses a string in the format "namespace:name" into an OdmaQName object.
+     *
+     * @param qname The qualified name string to parse.
+     * @return An OdmaQName object constructed from the parsed namespace and name.
+     * @throws std::invalid_argument if the string is empty, does not contain a colon,
+     *         or results in an empty namespace or name.
+     */
+    static OdmaQName fromString(const std::string& qname) {
+
+        std::size_t lastColon = qname.rfind(':');
+        if (lastColon == std::string::npos) {
+            throw std::invalid_argument("Qualified name must contain at least one colon");
+        }
+
+        std::string ns = qname.substr(0, lastColon);
+        std::string name = qname.substr(lastColon + 1);
+
+        return OdmaQName(ns, name);
+    }
+
+    /**
      * @brief Gets the namespace part of the qualified name.
      *
      * @return The namespace as a const reference to a string.
