@@ -106,6 +106,25 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("        throw new IllegalArgumentException(\"Unknown numericId \" + numericId);");
         out.println("    }");
         out.println();
+        out.println("    /**");
+        out.println("     * Returns the OdmaType corresponding to the given name, ignoring case.");
+        out.println("     *");
+        out.println("     * @param name the name of the OdmaType (case-insensitive)");
+        out.println("     * @return the matching OdmaType");
+        out.println("     * @throws IllegalArgumentException if no matching OdmaType exists");
+        out.println("     */");
+        out.println("    public static OdmaType fromString(String name) {");
+        out.println("        if (name == null || name.trim().isEmpty()) {");
+        out.println("            throw new IllegalArgumentException(\"OdmaType name must not be null or empty\");");
+        out.println("        }");
+        out.println("        for (OdmaType type : OdmaType.values()) {");
+        out.println("            if (type.name().equalsIgnoreCase(name.trim())) {");
+        out.println("                return type;");
+        out.println("            }");
+        out.println("        }");
+        out.println("        throw new IllegalArgumentException(\"Unknown OdmaType name: \" + name);");
+        out.println("    }");
+        out.println();
         out.println("}");
         out.close();
     }
