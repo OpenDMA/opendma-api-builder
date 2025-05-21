@@ -211,6 +211,17 @@ public class JavaApiWriter extends AbstractApiWriter
     }
     
     //-------------------------------------------------------------------------
+    // C O L L E C T I O N   F I L E S
+    //-------------------------------------------------------------------------
+
+    protected void createPagingFiles(ApiDescription apiDescription) throws IOException
+    {
+        createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.api","OdmaPageIterator");
+        createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.api","OdmaPagingIterable");
+        createClassFromTemplate(opendmaApiSourceFolder,"org.opendma.api","OdmaDefaultPagingIterator");
+    }
+    
+    //-------------------------------------------------------------------------
     // I M P L E M E N T A T I O N   F I L E S
     //-------------------------------------------------------------------------
 

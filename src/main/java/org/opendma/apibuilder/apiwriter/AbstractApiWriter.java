@@ -139,6 +139,7 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
             createClassFile(classDescription);
         }
         // create collection files (Lists and Enumerations)
+        createPagingFiles(apiDescription);
         itClasses = classes.iterator();
         while(itClasses.hasNext())
         {
@@ -350,6 +351,11 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
     //-------------------------------------------------------------------------
     // C O L L E C T I O N   F I L E S
     //-------------------------------------------------------------------------
+
+    protected void createPagingFiles(ApiDescription apiDescription) throws IOException
+    {
+        // currently experimental and only implemented for Java
+    }
     
     protected void createEnumerationFile(ClassDescription classDescription) throws IOException
     {
