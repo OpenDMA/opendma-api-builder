@@ -59,7 +59,7 @@
      *             if and only if the Class of the given Object does not match
      *             the data type of this property
      */
-    public OdmaPropertyImpl(OdmaQName name, Object value, OdmaLazyPropertyValueProvider valueProvider, OdmaType dataType, boolean multiValue, boolean readOnly) throws OdmaInvalidDataTypeException {
+    private OdmaPropertyImpl(OdmaQName name, Object value, OdmaLazyPropertyValueProvider valueProvider, OdmaType dataType, boolean multiValue, boolean readOnly) throws OdmaInvalidDataTypeException {
         this.name = name;
         this.dataType = dataType;
         this.multiValue = multiValue;
@@ -73,6 +73,58 @@
             setValueInternal(value);
             this.dirty = false;
         }
+    }
+    
+    /**
+     * Create a new <code>OdmaPropertyImpl</code> with the given value.
+     * 
+     * @param name
+     *     The name of this property.
+     *     
+     * @param value
+     *     The value of this property.
+     *     
+     * @param dataType
+     *     The data type of this property
+     *     
+     * @param multiValue
+     *     Flag if this property is a multi value property
+     *     
+     * @param readOnly
+     *     Flag if this property is read only.
+     * 
+     * @throws OdmaInvalidDataTypeException
+     *             if and only if the Class of the given Object does not match
+     *             the data type of this property
+     */
+    public static OdmaPropertyImpl fromValue(OdmaQName name, Object value, OdmaType dataType, boolean multiValue, boolean readOnly) throws OdmaInvalidDataTypeException {
+        return new OdmaPropertyImpl(name, value, null, dataType, multiValue, readOnly);
+    }
+    
+    /**
+     * Create a new lazily resolved <code>OdmaPropertyImpl</code> from the given <code>OdmaLazyPropertyValueProvider</code>.
+     * 
+     * @param name
+     *     The name of this property.
+     *     
+     * @param valueProvider
+     *     The provider of the propertie's value for lazy resolution.
+     *     
+     * @param dataType
+     *     The data type of this property
+     *     
+     * @param multiValue
+     *     Flag if this property is a multi value property
+     *     
+     * @param readOnly
+     *     Flag if this property is read only.
+     * 
+     * @throws OdmaInvalidDataTypeException
+     *             if and only if the Class of the given Object does not match
+     *             the data type of this property
+     */
+    public static OdmaPropertyImpl fromValueProvider(OdmaQName name, OdmaLazyPropertyValueProvider valueProvider, OdmaType dataType, boolean multiValue, boolean readOnly) throws OdmaInvalidDataTypeException {
+        return new OdmaPropertyImpl(name, null, valueProvider, dataType, multiValue, readOnly);
     }
 
     /**

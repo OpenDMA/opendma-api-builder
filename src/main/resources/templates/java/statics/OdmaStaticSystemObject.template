@@ -32,16 +32,16 @@ public class OdmaStaticSystemObject implements OdmaCoreObject {
     }
 
     protected void patchClass(OdmaClass newClass) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
-        properties.put(OdmaCommonNames.PROPERTY_CLASS,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_CLASS,newClass,OdmaType.REFERENCE,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_CLASS,OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_CLASS,newClass,OdmaType.REFERENCE,false,true));
     }
 
     protected void patchIds(OdmaId newId, OdmaGuid newGuid) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
-        properties.put(OdmaCommonNames.PROPERTY_ID,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_ID,newId,OdmaType.ID,false,true));
-        properties.put(OdmaCommonNames.PROPERTY_GUID,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_GUID,newGuid,OdmaType.GUID,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_ID,OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_ID,newId,OdmaType.ID,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_GUID,OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_GUID,newGuid,OdmaType.GUID,false,true));
     }
 
     protected void patchRepository(OdmaRepository newRepository) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
-        properties.put(OdmaCommonNames.PROPERTY_REPOSITORY,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_REPOSITORY,newRepository,OdmaType.REFERENCE,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_REPOSITORY,OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_REPOSITORY,newRepository,OdmaType.REFERENCE,false,true));
     }
 
     // ----- OdmaCoreObject ------------------------------------------------------------------------

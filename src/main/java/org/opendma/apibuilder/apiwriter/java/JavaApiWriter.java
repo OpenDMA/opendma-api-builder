@@ -655,12 +655,12 @@ public class JavaApiWriter extends AbstractApiWriter
 
     private void printX(PrintWriter out, String propertyNameConstant, String value, String typeConstantName)
     {
-        out.println("        properties.put(OdmaCommonNames.PROPERTY_"+propertyNameConstant+",new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_"+propertyNameConstant+","+value+",OdmaType."+typeConstantName+",false,true));");        
+        out.println("        properties.put(OdmaCommonNames.PROPERTY_"+propertyNameConstant+",OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_"+propertyNameConstant+","+value+",OdmaType."+typeConstantName+",false,true));");        
     }
     
     private void printXMultivalue(PrintWriter out, String propertyNameConstant, String value, String typeConstantName)
     {
-        out.println("        properties.put(OdmaCommonNames.PROPERTY_"+propertyNameConstant+",new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_"+propertyNameConstant+","+value+",OdmaType."+typeConstantName+",true,true));");        
+        out.println("        properties.put(OdmaCommonNames.PROPERTY_"+propertyNameConstant+",OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_"+propertyNameConstant+","+value+",OdmaType."+typeConstantName+",true,true));");        
     }
 
     protected void createStaticClassHierarchyHelperClass(ApiDescription apiDescription, ClassDescription classDescription) throws IOException, ApiWriterException

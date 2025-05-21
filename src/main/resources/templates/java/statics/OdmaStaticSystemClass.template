@@ -23,7 +23,7 @@ import org.opendma.impl.OdmaPropertyImpl;
 public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject implements OdmaClass {
 
     protected OdmaStaticSystemClass(Iterable<OdmaClass> subClasses) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
-        properties.put(OdmaCommonNames.PROPERTY_SUBCLASSES,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_SUBCLASSES,subClasses,OdmaType.REFERENCE,true,true));
+        properties.put(OdmaCommonNames.PROPERTY_SUBCLASSES,OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_SUBCLASSES,subClasses,OdmaType.REFERENCE,true,true));
     }
 
     protected void buildProperties() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
@@ -39,7 +39,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
         while(itDeclaredProperties.hasNext()) {
             props.add(itDeclaredProperties.next());
         }
-        properties.put(OdmaCommonNames.PROPERTY_PROPERTIES,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_PROPERTIES,props,OdmaType.REFERENCE,true,true));
+        properties.put(OdmaCommonNames.PROPERTY_PROPERTIES,OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_PROPERTIES,props,OdmaType.REFERENCE,true,true));
     }
 {{template:OdmaClass}}
 }

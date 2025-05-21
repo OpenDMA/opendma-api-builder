@@ -15,7 +15,7 @@ import org.opendma.impl.OdmaPropertyImpl;
 public class OdmaStaticSystemPropertyInfo extends OdmaStaticSystemObject implements OdmaPropertyInfo {
 
     protected void patchReferenceClass(OdmaClass newReferenceClass) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
-        properties.put(OdmaCommonNames.PROPERTY_REFERENCECLASS,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_REFERENCECLASS,newReferenceClass,OdmaType.REFERENCE,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_REFERENCECLASS,OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_REFERENCECLASS,newReferenceClass,OdmaType.REFERENCE,false,true));
     }
 {{template:OdmaPropertyInfo}}
 }

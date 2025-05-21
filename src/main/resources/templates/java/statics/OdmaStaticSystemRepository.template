@@ -21,14 +21,14 @@ public class OdmaStaticSystemRepository extends OdmaStaticSystemObject implement
 
     protected OdmaStaticSystemRepository(Map<OdmaQName, OdmaProperty> externalProperties, String name, String displayName, OdmaId id, OdmaGuid guid, OdmaClass rootClass, Iterable<OdmaClass> rootAspects) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
         properties = externalProperties;
-        properties.put(OdmaCommonNames.PROPERTY_NAME,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_NAME,name,OdmaType.STRING,false,true));
-        properties.put(OdmaCommonNames.PROPERTY_DISPLAYNAME,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_DISPLAYNAME,displayName,OdmaType.STRING,false,true));
-        properties.put(OdmaCommonNames.PROPERTY_ROOTCLASS,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_ROOTCLASS,rootClass,OdmaType.REFERENCE,false,true));
-        properties.put(OdmaCommonNames.PROPERTY_ROOTASPECTS,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_ROOTASPECTS,rootAspects,OdmaType.REFERENCE,true,true));
-        properties.put(OdmaCommonNames.PROPERTY_ROOTFOLDER,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_ROOTFOLDER,null,OdmaType.REFERENCE,false,true));
-        properties.put(OdmaCommonNames.PROPERTY_ID,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_ID,id,OdmaType.ID,false,true));
-        properties.put(OdmaCommonNames.PROPERTY_GUID,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_GUID,guid,OdmaType.GUID,false,true));
-        properties.put(OdmaCommonNames.PROPERTY_REPOSITORY,new OdmaPropertyImpl(OdmaCommonNames.PROPERTY_REPOSITORY,this,OdmaType.REFERENCE,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_NAME,OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_NAME,name,OdmaType.STRING,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_DISPLAYNAME,OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_DISPLAYNAME,displayName,OdmaType.STRING,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_ROOTCLASS,OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_ROOTCLASS,rootClass,OdmaType.REFERENCE,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_ROOTASPECTS,OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_ROOTASPECTS,rootAspects,OdmaType.REFERENCE,true,true));
+        properties.put(OdmaCommonNames.PROPERTY_ROOTFOLDER,OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_ROOTFOLDER,null,OdmaType.REFERENCE,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_ID,OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_ID,id,OdmaType.ID,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_GUID,OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_GUID,guid,OdmaType.GUID,false,true));
+        properties.put(OdmaCommonNames.PROPERTY_REPOSITORY,OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_REPOSITORY,this,OdmaType.REFERENCE,false,true));
     }
 {{template:OdmaRepository}}
 }
