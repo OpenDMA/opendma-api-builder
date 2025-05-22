@@ -49,21 +49,25 @@ public class OdmaProxyHandler implements InvocationHandler {
         }
 
         String methodName = method.getName();
-        if (methodName.startsWith("get") || methodName.startsWith("is")) {
-            return handleGetter(method);
+        if (methodName.equals("getQName")) {
+            String namespace = (String) handleGetter("getNamespace");
+            String name = (String) handleGetter("getName");
+            return new OdmaQName(namespace, name);
+        } else if (methodName.startsWith("get") || methodName.startsWith("is")) {
+            return handleGetter(method.getName());
         } else if (methodName.startsWith("set")) {
-            return handleSetter(method, args[0]);
+            return handleSetter(method.getName(), args[0]);
         }
 
         throw new OdmaRuntimeException("Unsupported method: " + methodName);
     }
 
-    private Object handleGetter(Method method) {
-        PropertyMapping mapping = PROPERTY_MAP.get(method.getName());
+    private Object handleGetter(String methodName) {
+        PropertyMapping mapping = PROPERTY_MAP.get(methodName);
         if (mapping == null) {
-            throw new OdmaRuntimeException("No property mapping found for method: " + method.getName());
+            throw new OdmaRuntimeException("No property mapping found for method: " + methodName);
         }
-    try {
+        try {
             OdmaProperty property = coreObject.getProperty(mapping.qname);
             if (mapping.multiValue) {
                 return handleMultiValueGetter(property, mapping.type);
@@ -93,10 +97,10 @@ public class OdmaProxyHandler implements InvocationHandler {
         }
     }
 
-    private Object handleSetter(Method method, Object value) throws OdmaAccessDeniedException {
-        PropertyMapping mapping = PROPERTY_MAP.get(method.getName());
+    private Object handleSetter(String methodName, Object value) throws OdmaAccessDeniedException {
+        PropertyMapping mapping = PROPERTY_MAP.get(methodName);
         if (mapping == null) {
-            throw new OdmaRuntimeException("No property mapping found for method: " + method.getName());
+            throw new OdmaRuntimeException("No property mapping found for method: " + methodName);
         }
         try {
             coreObject.setProperty(mapping.qname, value);

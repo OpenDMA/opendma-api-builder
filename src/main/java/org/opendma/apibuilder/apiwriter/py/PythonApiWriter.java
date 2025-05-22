@@ -13,6 +13,7 @@ import org.opendma.apibuilder.Tools;
 import org.opendma.apibuilder.apiwriter.AbstractApiWriter;
 import org.opendma.apibuilder.apiwriter.ApiWriterException;
 import org.opendma.apibuilder.structure.ApiDescription;
+import org.opendma.apibuilder.structure.ApiHelperDescription;
 import org.opendma.apibuilder.structure.ClassDescription;
 import org.opendma.apibuilder.structure.PropertyDescription;
 import org.opendma.apibuilder.structure.ScalarTypeDescription;
@@ -396,6 +397,17 @@ public class PythonApiWriter extends AbstractApiWriter
                     if(!propertyDescription.isReadOnly())
                     {
                         out.println("        \"set_"+Tools.toSnakeCase(propertyDescription.getApiName())+"\": set_"+Tools.toSnakeCase(propertyDescription.getApiName())+",");
+                    }
+                }
+                for(ApiHelperDescription apiHelper : cd.getApiHelpers())
+                {
+                    if(apiHelper.getApiName().equals("getQName"))
+                    {
+                        out.println("        \"get_qname\": lambda self: return OdmaQName(self.get_namespace(),self.get_name()),");
+                    }
+                    else
+                    {
+                        throw new ApiWriterException("Unknown ApiHelper: "+apiHelper.getApiName());
                     }
                 }
                 if(cd.getExtendsOdmaName() != null)

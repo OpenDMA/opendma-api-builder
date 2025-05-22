@@ -47,7 +47,13 @@ namespace OpenDMA.Api
             }
 
             string methodName = invocation.Method.Name;
-            if (methodName.StartsWith("get_"))
+            if (methodName.Equals("get_QName"))
+            {
+                string namespace = HandlePropertyGetter("get_Namespace");
+                string name = HandlePropertyGetter("get_Name");
+                invocation.ReturnValue = new OdmaQName(namespace, name);
+            }
+            else if (methodName.StartsWith("get_"))
             {
                 invocation.ReturnValue = HandlePropertyGetter(methodName);
             }
