@@ -157,18 +157,24 @@ public class OdmaStaticClassHierarchy {
         }
         ArrayList<OdmaClass> subClasses = getInternalSubClassesArrayList(superClassName);
         synchronized(subClasses) {
-            if(!subClasses.contains(subClass)) {
-                subClasses.add(subClass);
+            for(OdmaClass c : subClasses) {
+                if(c.getQName().equals(subClass.getQName())) {
+                    throw new OdmaRuntimeException("registerSubClass failed. Subclass with same name already exists: "+subClass.getQName().toString());
+                }
             }
+            subClasses.add(subClass);
         }
     }
     
     public void registerAspectUsage(OdmaQName aspectName, OdmaClass usingClass) {
         ArrayList<OdmaClass> subClasses = getInternalSubClassesArrayList(aspectName);
         synchronized(subClasses) {
-            if(!subClasses.contains(usingClass)) {
-                subClasses.add(usingClass);
+            for(OdmaClass c : subClasses) {
+                if(c.getQName().equals(usingClass.getQName())) {
+                    throw new OdmaRuntimeException("registerAspectUsage failed. Usage already registered for name: "+usingClass.getQName().toString());
+                }
             }
+            subClasses.add(usingClass);
         }
     }
     
