@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any, Optional, Protocol
 from datetime import datetime
 
 class LazyPropertyValueProvider(Protocol):

@@ -260,7 +260,7 @@ public class PythonApiWriter extends AbstractApiWriter
         opendmaApiHelpersFOS.flush();
         opendmaApiHelpersFOS.close();
         // generate __INIT__.py file importing classes into namespace
-        FileOutputStream initFOS = new FileOutputStream(new File(opendmaApiSourceFolder, "__INIT__.py"));
+        FileOutputStream initFOS = new FileOutputStream(new File(opendmaApiSourceFolder, "__init__.py"));
         copyTemplateToStream("opendma-api-init-header", initFOS, false);
         PrintWriter out = new PrintWriter(initFOS);
         if(!classesImportFromInterfaces.isEmpty())
@@ -403,7 +403,7 @@ public class PythonApiWriter extends AbstractApiWriter
                 {
                     if(apiHelper.getApiName().equals("getQName"))
                     {
-                        out.println("        \"get_qname\": lambda self: return OdmaQName(self.get_namespace(),self.get_name()),");
+                        out.println("        \"get_qname\": lambda self: OdmaQName(self.get_namespace(), self.get_name()),");
                     }
                     else
                     {
