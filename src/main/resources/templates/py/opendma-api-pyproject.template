@@ -20,6 +20,8 @@ classifiers = [
 ]
 requires-python = ">=3.9"
 
-[tool.setuptools.packages.find]
-include = ["opendma*"]
-exclude = ["tests*"]
+[tool.setuptools]
+packages = ["opendma.api"]
+
+[tool.setuptools.package-data]
+"opendma.api" = ["*"]
