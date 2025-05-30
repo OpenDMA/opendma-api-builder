@@ -51,7 +51,7 @@ public class PythonPropertyImplementationFileWriter extends AbstractPropertyFile
             out.println(templateLine);
         }
         out.println("");
-        out.println("    def set_value_internal(self, new_value: Any) -> None:");
+        out.println("    def _set_value_internal(self, new_value: Any) -> None:");
         out.println("        if new_value is None:");
         out.println("            if self._multi_value:");
         out.println("                raise OdmaInvalidDataTypeException(\"Multi-valued properties must not be `null`. If a value is not required, the collection can be empty.\");");

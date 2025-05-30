@@ -11,6 +11,7 @@
                 raise TypeError("value_provider must implement `resolve_property_value()`")
             self._value_provider = value_provider
         else:
+            self._value_provider = None
             self._set_value_internal(value)
             self._dirty = False
 
@@ -35,7 +36,7 @@
         if self._value_provider is not None:
             try:
                 resolved_value = self._value_provider.resolve_property_value()
-                self._set_value_internal(resolved_value)
+                self.set_value_internal(resolved_value)
                 self._value_provider = None
                 self._dirty = False
             except OdmaInvalidDataTypeException as e:
