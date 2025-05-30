@@ -30,6 +30,8 @@ public class OdmaStaticClassHierarchy {
     protected Map<OdmaQName, OdmaProperty> repositoryObjectProperties = new HashMap<OdmaQName, OdmaProperty>();
    
     protected OdmaRepository repositoryObject;
+    
+    protected OdmaIdProvider idProvider;
 
     public OdmaStaticSystemPropertyInfo getPropertyInfo(OdmaQName name) {
         return propertyInfos.get(name);
@@ -59,14 +61,39 @@ public class OdmaStaticClassHierarchy {
         return repositoryObjectProperties;
     }
     
-    public OdmaStaticClassHierarchy(String repoName, String repoDisplayName, OdmaId repoId, OdmaGuid repoGuid) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
+    public interface OdmaIdProvider
+    {
+        OdmaId generatePropertyInfoId(OdmaPropertyInfo propInfo);
+        OdmaId generateClassInfoId(OdmaClass cls);
+    }
+    
+    public OdmaStaticClassHierarchy(String repoName, String repoDisplayName, OdmaId repoId, OdmaGuid repoGuid, OdmaIdProvider idProvider) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
+        this.idProvider = idProvider;
         buildClassHierarchy();
         buildRepositoryObject(repoName,repoDisplayName,repoId,repoGuid);
         generateIds();
         buildAllAvaialbleObjectsMap();
     }
     
+    public OdmaStaticClassHierarchy(String repoName, String repoDisplayName, OdmaId repoId, OdmaGuid repoGuid) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
+        this.idProvider =  new DefaultIdProvider();
+        buildClassHierarchy();
+        buildRepositoryObject(repoName,repoDisplayName,repoId,repoGuid);
+        generateIds();
+        buildAllAvaialbleObjectsMap();
+    }
+    
+    public OdmaStaticClassHierarchy(OdmaRepository repo, OdmaIdProvider idProvider) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
+        this.idProvider = idProvider;
+        buildClassHierarchy();
+        repositoryObject = repo;
+        setRepositoryObject();
+        generateIds();
+        buildAllAvaialbleObjectsMap();
+    }
+    
     public OdmaStaticClassHierarchy(OdmaRepository repo) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
+        this.idProvider =  new DefaultIdProvider();
         buildClassHierarchy();
         repositoryObject = repo;
         setRepositoryObject();
@@ -243,20 +270,37 @@ public class OdmaStaticClassHierarchy {
         // put back in map
         allAvailableObjects.put(repositoryObject.getId(),repositoryObject);
     }
+    
+    private class DefaultIdProvider implements OdmaIdProvider
+    {
+
+        @Override
+        public OdmaId generatePropertyInfoId(OdmaPropertyInfo propInfo)
+        {
+            return new OdmaId(propInfo.getNamespace()+"Property"+propInfo.getName());
+        }
+
+        @Override
+        public OdmaId generateClassInfoId(OdmaClass cls)
+        {
+            return new OdmaId(cls.getNamespace()+"Class"+cls.getName());
+        }
+        
+    }
 
     protected void generateIds() throws OdmaInvalidDataTypeException, OdmaAccessDeniedException {
         OdmaId repoId = repositoryObject.getId();
         Iterator<OdmaStaticSystemPropertyInfo> itPropertyInfos = propertyInfos.values().iterator();
         while(itPropertyInfos.hasNext()) {
             OdmaStaticSystemPropertyInfo pi = itPropertyInfos.next();
-            OdmaId piId = new OdmaId(pi.getNamespace()+"Property"+pi.getName());
+            OdmaId piId = idProvider.generatePropertyInfoId(pi);
             OdmaGuid piGuid = new OdmaGuid(repoId,piId);
             pi.patchIds(piId,piGuid);
         }
         Iterator<OdmaStaticSystemClass> itClassInfos = classInfos.values().iterator();
         while(itClassInfos.hasNext()) {
             OdmaStaticSystemClass ci = itClassInfos.next();
-            OdmaId ciId = new OdmaId(ci.getNamespace()+"Class"+ci.getName());
+            OdmaId ciId = idProvider.generateClassInfoId(ci);
             OdmaGuid ciGuid = new OdmaGuid(repoId,ciId);
             ci.patchIds(ciId,ciGuid);
         }
