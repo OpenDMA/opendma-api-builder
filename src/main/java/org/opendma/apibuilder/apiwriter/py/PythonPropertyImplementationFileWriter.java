@@ -99,7 +99,8 @@ public class PythonPropertyImplementationFileWriter extends AbstractPropertyFile
             out.println("                        self._value = new_value");
             out.println("                    else:");
             String pyType = multivalue ? (scalarTypeDescription.isReference() ? "Iterable[TOdmaObject]" : "list["+apiWriter.getScalarDataType(scalarTypeDescription,false,true)+"]") : (scalarTypeDescription.isReference() ? "OdmaObject" : apiWriter.getScalarDataType(scalarTypeDescription,false,false));
-            out.println("                        raise OdmaInvalidDataTypeException(\""+generatePropertyDataTypeDescription(multivalue, scalarTypeDescription)+". It can only be set to values assignable to `"+pyType+"`\");");
+            out.println("                        raise OdmaInvalidDataTypeException(\""+generatePropertyDataTypeDescription(multivalue, scalarTypeDescription)+". It can only be set to values assignable to `"+pyType+"` but got \"+type(new_value).__name__);");
+
         }
         out.println("                case _:");
         out.println("                    raise OdmaException(\"OdmaProperty initialized with unknown data type \"+self.data_type);");
