@@ -68,7 +68,7 @@ public:
      * @return The string representation of this OdmaGuid.
      */
     inline std::string toString() const {
-        return objectId_.toString() + ":" + repositoryId_.toString();
+        return "`" + objectId_.toString() + "` in `" + repositoryId_.toString() + "`";
     }
 
     /**

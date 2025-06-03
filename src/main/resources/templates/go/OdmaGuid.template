@@ -36,7 +36,7 @@ func (g *OdmaGuid) GetRepositoryId() *OdmaId {
 
 // String returns the string representation of the OdmaGuid in the format "objectId:repositoryId".
 func (g *OdmaGuid) String() string {
-	return fmt.Sprintf("%s:%s", g.objectId.String(), g.repositoryId.String())
+	return fmt.Sprintf("`%s` in `%s`", g.objectId.String(), g.repositoryId.String())
 }
 
 func (g *OdmaGuid) Equals(other *OdmaGuid) bool {

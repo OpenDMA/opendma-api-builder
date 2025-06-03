@@ -69,7 +69,7 @@ export class OdmaGuid {
      * @return The string representation in the format "objectId:repositoryId".
      */
     toString(): string {
-        return `${this._objectId}:${this._repositoryId}`;
+        return `${this._objectId} in ${this._repositoryId}`;
     }
 
 }

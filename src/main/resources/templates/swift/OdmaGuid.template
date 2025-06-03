@@ -21,7 +21,7 @@ public struct OdmaGuid: Equatable, Hashable, CustomStringConvertible, Sendable {
 
     // MARK: - CustomStringConvertible
     public var description: String {
-        return "\(objectId):\(repositoryId)"
+        return "`\(objectId)` in `\(repositoryId)`"
     }
 
 }

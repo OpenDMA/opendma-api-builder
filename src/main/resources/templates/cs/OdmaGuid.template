@@ -73,7 +73,7 @@ namespace OpenDMA.Api
         /// <returns>A string representation of this OdmaGuid.</returns>
         public override string ToString()
         {
-            return $"{ObjectId}:{RepositoryId}";
+            return $"`{ObjectId}` in `{RepositoryId}`";
         }
 
     }

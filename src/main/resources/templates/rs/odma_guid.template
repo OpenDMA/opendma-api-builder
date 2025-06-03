@@ -36,7 +36,7 @@ impl fmt::Display for OdmaGuid {
 
     /// Formats the OdmaGuid as "object_id:repository_id".
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}:{}", self.object_id, self.repository_id)
+        write!(f, "`{}` in `{}`", self.object_id, self.repository_id)
     }
 
 }

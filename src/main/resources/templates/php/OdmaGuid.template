@@ -85,7 +85,7 @@ final class OdmaGuid
      */
     public function __toString(): string
     {
-        return $this->objectId . ':' . $this->repositoryId;
+        return '`' . $this->objectId . '` in `' . $this->repositoryId . '`';
     }
 
 }

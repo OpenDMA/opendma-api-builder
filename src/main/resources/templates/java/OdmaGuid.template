@@ -90,7 +90,7 @@ public final class OdmaGuid {
      */
     @Override
     public String toString() {
-        return objectId.toString() + ":" + repositoryId.toString();
+        return "`" + objectId.toString() + "` in `" + repositoryId.toString() + "`";
     }
 
 }

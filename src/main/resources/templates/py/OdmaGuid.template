@@ -48,7 +48,7 @@ class OdmaGuid:
         return hash((self._object_id, self._repository_id))
 
     def __str__(self):
-        return f"{self._object_id}:{self._repository_id}"
+        return f"`{self._object_id}` in `{self._repository_id}`"
 
     def __repr__(self):
         return str(self)

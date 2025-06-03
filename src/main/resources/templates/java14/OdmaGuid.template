@@ -54,7 +54,7 @@ public class OdmaGuid
      */
     public String toString()
     {
-        return repositoryId.toString() + ":" + objectId.toString();
+        return "`" + repositoryId.toString() + "` in `" + objectId.toString() + "`";
     }
 
 }
