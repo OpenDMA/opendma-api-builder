@@ -137,7 +137,7 @@ public class JavaScriptObjectsInterfaceFileWriter extends AbstractObjectsInterfa
         String standardGetterName = "get" + ((!scalarType.isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceIterable" : "Reference"));
         out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</code>.");
         out.println("     * ");
-        for(String s : getPropertyDetails(property))
+        for(String s : getPropertyDetails(property, true))
         {
             out.println("     * "+s);
         }
@@ -157,7 +157,7 @@ public class JavaScriptObjectsInterfaceFileWriter extends AbstractObjectsInterfa
             String standardSetterName = "set" + ((!property.getDataType().isReference()) ? jsCommentDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
             out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value)</code>.");
             out.println("     * ");
-            for(String s : getPropertyDetails(property))
+            for(String s : getPropertyDetails(property, true))
             {
                 out.println("     * "+s);
             }

@@ -128,7 +128,7 @@ public abstract class AbstractObjectsInterfaceFileWriter
         }
     }
     
-    protected List<String> getPropertyDetails(PropertyDescription property)
+    protected List<String> getPropertyDetails(PropertyDescription property, boolean htmlFormat)
     {
         LinkedList<String> result = new LinkedList<String>();
         ScalarTypeDescription scalarTypeDescription = property.getDataType();
@@ -137,9 +137,13 @@ public abstract class AbstractObjectsInterfaceFileWriter
         {
             dataTypeName = dataTypeName + " to " + property.getReferenceClassName().getName() + " ("+property.getReferenceClassName().getNamespace()+")";
         }
-        result.add("<p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getNamespace()+"): <b>"+dataTypeName+"</b><br/>");
-        result.add((property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[NotRequired]")+"<br/>");
-        result.add(property.getDescription()+"</p>");
+        boolean hasDescription = property.getDescription() != null;
+        result.add((htmlFormat?"<p>":"")+"Property "+property.getOdmaName().getNamespace()+":"+(htmlFormat?"<b>":"")+property.getOdmaName().getName()+(htmlFormat?"</b>":"")+": "+dataTypeName+(htmlFormat?"<br/>":""));
+        result.add((property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[Optional]")+(htmlFormat?(hasDescription?"<br/>":"</p>"):""));
+        if(hasDescription)
+        {
+            result.add(property.getDescription()+(htmlFormat?"</p>":""));
+        }
         return result;
     }
 

@@ -172,26 +172,22 @@ public class PhpClassTemplateFileWriter extends AbstractObjectsInterfaceFileWrit
     protected void writeClassPropertyAccess(PropertyDescription property, PrintWriter out)
     {
         // generate names
-        String javaDataType = getReturnDataType(property);
+        String phpDataType = getReturnDataType(property);
+        ScalarTypeDescription scalarType = property.getDataType();
         String constantPropertyName = "PROPERTY_" + property.getOdmaName().getName().toUpperCase();
         // getter
         out.println("");
         out.println("    /**");
         out.println("     * Returns "+property.getAbstract()+".<br>");
-        String standardGetterName = "get" + ((!property.getDataType().isReference()) ? javaDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
+        String standardGetterName = "get" + ((!scalarType.isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceArray" : "Reference"));
         out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</code>.");
         out.println("     * ");
-        ScalarTypeDescription scalarTypeDescription = property.getDataType();
-        String dataTypeName = scalarTypeDescription.isInternal() ? scalarTypeDescription.getBaseScalar() : scalarTypeDescription.getName();
-        if(property.getDataType().isReference())
+        for(String s : getPropertyDetails(property, true))
         {
-            dataTypeName = dataTypeName + " to " + property.getReferenceClassName().getName() + " ("+property.getReferenceClassName().getNamespace()+")";
+            out.println("     * "+s);
         }
-        out.println("     * <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getNamespace()+"): <b>"+dataTypeName+"</b><br>");
-        out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[NotRequired]")+"<br>");
-        out.println("     * "+property.getDescription()+"</p>");
         out.println("     * ");
-        out.println("     * @return "+dataTypeName+" "+property.getAbstract());
+        out.println("     * @return "+phpDataType+" "+property.getAbstract());
         out.println("     */");
         out.println("    public function get"+property.getApiName()+"();");
         // setter
@@ -200,14 +196,15 @@ public class PhpClassTemplateFileWriter extends AbstractObjectsInterfaceFileWrit
             out.println("");
             out.println("    /**");
             out.println("     * Sets "+property.getAbstract()+".<br>");
-            String standardSetterName = "set" + ((!property.getDataType().isReference()) ? javaDataType : (property.getMultiValue() ? "ObjectEnumeration" : "Object"));
+            String standardSetterName = "setValue";
             out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value)</code>.");
             out.println("     * ");
-            out.println("     * <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getNamespace()+"): <b>"+dataTypeName+"</b><br>");
-            out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[NotRequired]")+"<br>");
-            out.println("     * "+property.getDescription()+"</p>");
+            for(String s : getPropertyDetails(property, true))
+            {
+                out.println("     * "+s);
+            }
             out.println("     * ");
-            out.println("     * @param "+dataTypeName+" $value the new value");
+            out.println("     * @param "+phpDataType+" $value the new value");
             out.println("     */");
             out.println("    public function set"+property.getApiName()+"($value);");
         }

@@ -326,6 +326,11 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
                     abstractComment = abstractComment + testchild.getNodeValue();
                 }
             }
+            abstractComment = abstractComment.trim();
+            if(abstractComment.length() == 0)
+            {
+                abstractComment = null;
+            }
         }
         if(descriptionElement != null)
         {
@@ -339,14 +344,15 @@ public class PropertyDescription implements DescriptionFileTypes, OdmaBasicTypes
                     descriptionComment = descriptionComment + testchild.getNodeValue();
                 }
             }
+            descriptionComment = descriptionComment.trim();
+            if(descriptionComment.length() == 0)
+            {
+                descriptionComment = null;
+            }
         }
-        if( (abstractComment == null) || (abstractComment.trim().length() == 0))
+        if(abstractComment == null)
         {
             throw new DescriptionFileSyntaxException("No "+DESCRIPTION_ELEMENT_ABSTRACT+" defined for property description "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
-        }
-        if( (descriptionComment == null) || (descriptionComment.trim().length() == 0))
-        {
-            throw new DescriptionFileSyntaxException("No "+DESCRIPTION_ELEMENT_DESCRIPTION+" defined for property description "+OdmaName.toString()+" in class "+this.ContainingClass.getOdmaName().toString());
         }
     }
 

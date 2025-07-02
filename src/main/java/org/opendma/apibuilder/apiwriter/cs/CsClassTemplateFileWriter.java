@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.opendma.apibuilder.OdmaApiWriter;
+import org.opendma.apibuilder.Tools;
 import org.opendma.apibuilder.apiwriter.AbstractObjectsInterfaceFileWriter;
 import org.opendma.apibuilder.apiwriter.ApiHelperWriter;
 import org.opendma.apibuilder.apiwriter.ImportsList;
@@ -175,18 +176,14 @@ public class CsClassTemplateFileWriter extends AbstractObjectsInterfaceFileWrite
         // getter
         out.println("");
         out.println("        /// <summary>");
-        out.println("        /// Property for "+property.getAbstract()+".<br>");
+        out.println("        /// "+Tools.upperCaseFirstChar(property.getAbstract())+".<br/>");
         String standardGetterName = "get" + ((!property.getDataType().isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceEnumerable" : "Reference"));
-        out.println("        // ");
-        ScalarTypeDescription scalarTypeDescription = property.getDataType();
-        String dataTypeName = scalarTypeDescription.isInternal() ? scalarTypeDescription.getBaseScalar() : scalarTypeDescription.getName();
-        if(property.getDataType().isReference())
+        out.println("        /// Shortcut for <c>GetProperty(OdmaCommonNames."+constantPropertyName+")."+standardGetterName+"()</c> or <c>GetProperty(OdmaCommonNames."+constantPropertyName+").Value</c>.");
+        out.println("        /// ");
+        for(String s : getPropertyDetails(property, false))
         {
-            dataTypeName = dataTypeName + " to " + property.getReferenceClassName().getName() + " ("+property.getReferenceClassName().getNamespace()+")";
+            out.println("        /// "+s);
         }
-        out.println("        /// <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getNamespace()+"): <b>"+dataTypeName+"</b><br>");
-        out.println("        /// "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[NotRequired]")+"<br>");
-        out.println("        /// "+property.getDescription()+"</p>");
         out.println("        /// </summary>");
         out.println("        public "+csDataType+" "+property.getApiName());
         out.println("        {");

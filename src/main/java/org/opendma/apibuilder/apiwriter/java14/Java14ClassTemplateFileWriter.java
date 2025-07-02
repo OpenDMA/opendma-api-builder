@@ -205,16 +205,12 @@ public class Java14ClassTemplateFileWriter extends AbstractObjectsInterfaceFileW
         out.println("    /**");
         out.println("     * Returns "+property.getAbstract()+".<br>");
         String standardGetterName = "get" + ((!property.getDataType().isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceEnumeration" : "Reference"));
+        out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</code>.");
         out.println("     * ");
-        ScalarTypeDescription scalarTypeDescription = property.getDataType();
-        String dataTypeName = scalarTypeDescription.isInternal() ? scalarTypeDescription.getBaseScalar() : scalarTypeDescription.getName();
-        if(property.getDataType().isReference())
+        for(String s : getPropertyDetails(property, true))
         {
-            dataTypeName = dataTypeName + " to " + property.getReferenceClassName().getName() + " ("+property.getReferenceClassName().getNamespace()+")";
+            out.println("     * "+s);
         }
-        out.println("     * <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getNamespace()+"): <b>"+dataTypeName+"</b><br>");
-        out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[NotRequired]")+"<br>");
-        out.println("     * "+property.getDescription()+"</p>");
         out.println("     * ");
         out.println("     * @return "+property.getAbstract());
         out.println("     */");
@@ -247,10 +243,11 @@ public class Java14ClassTemplateFileWriter extends AbstractObjectsInterfaceFileW
             out.println("    /**");
             out.println("     * Sets "+property.getAbstract()+".<br>");
             String standardSetterName = "setValue";
-            out.println("     * ");
-            out.println("     * <p>Property <b>"+property.getOdmaName().getName()+"</b> ("+property.getOdmaName().getNamespace()+"): <b>"+dataTypeName+"</b><br>");
-            out.println("     * "+(property.getMultiValue()?"[MultiValue]":"[SingleValue]")+" "+(property.isReadOnly()?"[ReadOnly]":"[Writable]")+" "+(property.getRequired()?"[Required]":"[NotRequired]")+"<br>");
-            out.println("     * "+property.getDescription()+"</p>");
+            out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value)</code>.");
+            for(String s : getPropertyDetails(property, true))
+            {
+                out.println("     * "+s);
+            }
             out.println("     * ");
             out.println("     * @throws OdmaAccessDeniedException");
             out.println("     *             if this property can not be set by the current user");

@@ -164,7 +164,7 @@ public class CsObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileWr
         String standardGetterName = "Get" + ((!scalarType.isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceEnumerable" : "Reference"));
         out.println("        /// Shortcut for <c>GetProperty(OdmaCommonNames."+constantPropertyName+")."+standardGetterName+"()</c> or <c>GetProperty(OdmaCommonNames."+constantPropertyName+").Value</c>.");
         out.println("        /// ");
-        for(String s : getPropertyDetails(property))
+        for(String s : getPropertyDetails(property, false))
         {
             out.println("        /// "+s);
         }

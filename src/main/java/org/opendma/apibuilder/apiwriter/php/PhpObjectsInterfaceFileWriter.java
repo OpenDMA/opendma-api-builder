@@ -162,7 +162,7 @@ public class PhpObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileW
         String standardGetterName = "get" + ((!scalarType.isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceArray" : "Reference"));
         out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()</code>.");
         out.println("     * ");
-        for(String s : getPropertyDetails(property))
+        for(String s : getPropertyDetails(property, true))
         {
             out.println("     * "+s);
         }
@@ -180,7 +180,7 @@ public class PhpObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileW
             String standardSetterName = "setValue";
             out.println("     * Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value)</code>.");
             out.println("     * ");
-            for(String s : getPropertyDetails(property))
+            for(String s : getPropertyDetails(property, true))
             {
                 out.println("     * "+s);
             }

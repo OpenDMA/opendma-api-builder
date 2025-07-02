@@ -42,7 +42,7 @@
 
     <Class namespace="opendma" name="Object" apiName="OdmaObject" aspect="false" instantiable="false" hidden="false" system="true">
 
-        <Description>Full description follows.</Description>
+        <Description>Root of the class hierarchy. Every class in OpenDMA extends this class. All objects in OpenDMA have the properties defined for this class.</Description>
 
         <Property namespace="opendma"
                   name="Class"
@@ -55,8 +55,8 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Class">
-            <Abstract>the OpenDMA &lt;code&gt;Class&lt;/code&gt; describing this &lt;code&gt;Object&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Reference to a valid class object describing this object</Abstract>
+            <Description>The opendma:Class describes the layout and features of this object. Here you can find a set of odma:PropertyInfo objects that describe all the properties with their qualified name, data type and cardinality. It also provides the text to be displayed to users to refer to these objects as well as flags indicating if these objects are system owner or should be hidden from end users.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -68,8 +68,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;unique object identifier&lt;/i&gt; identifying this &lt;code&gt;Object&lt;/code&gt; inside its &lt;code&gt;Repository&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the unique object identifier</Abstract>
+            <Description>This identifier is unique within it's Repository and  must be immutable during the lifetime of this object. You can use it to refer to this object and retrieve it again at a later time.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -81,8 +81,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;global unique object identifier&lt;/i&gt; globally identifying this &lt;code&gt;Object&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the global unique object identifier</Abstract>
+            <Description>A combination of the unique object identifier and the unique repository identifier. Use it to refer to this object across multiple repositories.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -96,8 +96,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Repository">
-            <Abstract>the OpenDMA &lt;code&gt;Repository&lt;/code&gt; where this &lt;code&gt;Object&lt;/code&gt; resides</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the Repository this object belongs to</Abstract>
         </Property>
 
     </Class>
@@ -105,7 +104,7 @@
 
     <Class namespace="opendma" name="Class" apiName="OdmaClass" extendsNamespace="opendma" extendsName="Object" aspect="false" instantiable="true" hidden="false" system="true">
 
-        <Description>The &lt;i&gt;Class&lt;/i&gt; specific version of the &lt;code&gt;{@link OdmaObject}&lt;/code&gt; interface that offers short cuts to all defined OpenDMA properties.</Description>
+        <Description>Describes Classes and Aspects in OpenDMA. Every object in OpenDMA has a reference to an instance of this class describing it.</Description>
 
         <Property namespace="opendma"
                   name="Name"
@@ -116,8 +115,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the internal (technical) &lt;i&gt;name&lt;/i&gt; of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the name part of the qualified name of the class described by this object</Abstract>
+            <Description>The qualified name is a technical identifier that typically has some restrictions, e.g. for database table names. The DisplayName in contrast is tailored for end users.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -129,8 +128,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;namespace&lt;/i&gt; of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the namespace part of the qualified name of the class described by this object</Abstract>
+            <Description>The qualified name is a technical identifier that typically has some restrictions, e.g. for database table names. The DisplayName in contrast is tailored for end users.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -142,8 +141,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;display name&lt;/i&gt; of this &lt;code&gt;Class&lt;/code&gt; to be displayed to end users</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Text shown to end users to refer to this class</Abstract>
+            <Description>The qualified name is a technical identifier that typically has some restrictions, e.g. for database table names. The DisplayName in contrast is tailored for end users.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -157,8 +156,8 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Class">
-            <Abstract>the &lt;i&gt;super&lt;/i&gt; &lt;code&gt;Class&lt;/code&gt; that is extended by this &lt;code&gt;Class&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Super class of this class or aspect.</Abstract>
+            <Description>OpenDMA guarantees this relationship to be loop-free. You can use it to explore the class hierarchy starting from the class described by this object. All opendma:PropertyInfo objects contained in the opendma:Properties set of the super class are also part of the opendma:Properties set of this class.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -172,8 +171,8 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Class">
-            <Abstract>the list of &lt;i&gt;aspects&lt;/i&gt; that are implemented by this &lt;code&gt;Class&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>List of aspects that are implemented by this class</Abstract>
+            <Description>If this object describes an Aspect, i.e. the opendma:Aspect property is true, it cannot have any Aspects itself. For classes, this set contains all elements of the opendma:Aspects set of the super class. All opendma:PropertyInfo objects contained in the opendma:Properties set of any of the opendma:Class objects in this set are also part of the opendma:Properties set of this class.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -187,8 +186,8 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="PropertyInfo">
-            <Abstract>the list of &lt;i&gt;properties&lt;/i&gt; that are desclared by this &lt;code&gt;Class&lt;/code&gt; (does not contain inherited properties).</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>List of properties declared by this class</Abstract>
+            <Description>Set of opendma:PropertyInfo objects describing properties newly introduced by this level in the class hierarchy. All elements of this set are also contained in the opendma:Properties set. Properties cannot be overwritten, i.e. the qualified nyme of any property described by an opendma:PropertyInfo object in this set cannot be used in the opendma:Properties sets of the super class or any Aspect.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -202,8 +201,8 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="PropertyInfo">
-            <Abstract>the list of &lt;i&gt;properties&lt;/i&gt; that are effective for objects of this &lt;code&gt;Class&lt;/code&gt;. Contains inherited and declared properties.</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>List of effective properties</Abstract>
+            <Description>Set of opendma:PropertyInfo objects describing all properties of an object of this class. This set combines the opendma:DeclaredProperties set with the opendma:Properties of the super class as well as the opendma:Properties sets of all aspect objects listed in opendma:Aspects. Properties cannot be overwritten, i.e. the qualified nyme of any property described by an opendma:PropertyInfo object in the opendma:DeclaredProperties set cannot be used in the opendma:Properties sets of the super class or any Aspect.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -215,8 +214,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; describes an Aspect or a valid class object</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Indicates if this object represents an Aspect (true) or a Class (false)</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -228,8 +226,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>whether &lt;code&gt;Object&lt;/code&gt;s of this &lt;code&gt;Class&lt;/code&gt; can be created or not</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Indicates if there can ob objects of this class (true) or if this class is abstract (false)</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -241,8 +238,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; should be displayed to end users or not</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Indicates if this class should be hidden from end users and probably administrators</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -254,8 +250,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; is defined by the system (true) or by users (false)</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Indicates if instances of this class are owned and managed by the system</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -267,8 +262,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>whether objects of this class can be retrieved from a session by their id or not</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Indicates if instances of this class can by retrieved by their Id</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -280,8 +274,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>whether objects of this class can be found by a search query or not</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Indicates if instances of this class can be retrieved in a search</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -295,13 +288,13 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Class">
-            <Abstract>the list of &lt;code&gt;Class&lt;/code&gt;es that extend this class (i.e. that contain a reference to this &lt;code&gt;Class&lt;/code&gt; in their &lt;code&gt;SuperClass&lt;/code&gt; property)</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>List of classes or aspects that extend this class</Abstract>
+            <Description>The value of the `opendma:SubClasses` property is exactly the set of valid class objects whose `opendma:SuperClass` property contains a reference to this class info object</Description>
         </Property>
         
         <ApiHelper apiName="getQName">
-            <Abstract>the qualified name of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the qualified name of this class</Abstract>
+            <Description>A convenience shortcut to getting the name and namespace separately</Description>
         </ApiHelper>
 
     </Class>
@@ -309,7 +302,7 @@
 
     <Class namespace="opendma" name="PropertyInfo" apiName="OdmaPropertyInfo" extendsNamespace="opendma" extendsName="Object" aspect="false" instantiable="true" hidden="false" system="true">
 
-        <Description>Full description follows.</Description>
+        <Description>Describes a property in OpenmDMA. Every object in OpenDMA has a reference to an opendma:Class which has the opendma:Properties set of PropertyInfo objects. Each describes one of the properties on the object.</Description>
 
         <Property namespace="opendma"
                   name="Name"
@@ -320,8 +313,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the internal (technical) &lt;i&gt;name&lt;/i&gt; of this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>The name part of the qualified name of this property</Abstract>
+            <Description>The qualified name is a technical identifier that typically has some restrictions, e.g. for database table names. The DisplayName in contrast is tailored for end users.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -333,8 +326,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;namespace&lt;/i&gt; of this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>The namespace part of the qualified name of this property</Abstract>
+            <Description>The qualified name is a technical identifier that typically has some restrictions, e.g. for database table names. The DisplayName in contrast is tailored for end users.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -346,8 +339,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;display name&lt;/i&gt; of this &lt;code&gt;PropertyInfo&lt;/code&gt; to be displayed to end users</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Text shown to end users to refer to this property</Abstract>
+            <Description>The qualified name is a technical identifier that typically has some restrictions, e.g. for database table names. The DisplayName in contrast is tailored for end users.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -359,8 +352,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the numeric ID of the data type described by this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Numeric data type ID</Abstract>
+            <Description>The data type of the property described by this object. See also the OdmaType enumeration for a mapping between the numeric type id and the type.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -374,8 +367,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Class">
-            <Abstract>the required &lt;code&gt;Class&lt;/code&gt; of the object referenced by this property if this &lt;code&gt;PropertyInfo&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>The opendma:Class values of the property described by this object must be an instance of if and only if the data type is "Reference" (8), null otherwise </Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -387,8 +379,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>whether &lt;code&gt;Object&lt;/code&gt;s of this &lt;code&gt;Class&lt;/code&gt; can be created or not</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Indicates if this property has single or multi cardinality</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -400,8 +391,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>whether &lt;code&gt;Object&lt;/code&gt;s of this &lt;code&gt;Class&lt;/code&gt; can be created or not</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Indicates if at least one value is required</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -413,8 +403,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; should be displayed to end users or not</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Indicates if this property can be updated</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -426,8 +415,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; should be displayed to end users or not</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Indicates if this class should be hidden from end users and probably administrators</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -439,8 +427,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>whether this &lt;code&gt;Class&lt;/code&gt; is defined by the system (true) or by users (false)</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Indicates if instances of this property are owned and managed by the system</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -454,13 +441,13 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="ChoiceValue">
-            <Abstract>set of possible choices the values of this property is limited to or null if there are no constraints for the value of this property</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>List of opendma:ChoiceValue instances each describing one valid value for this property</Abstract>
+            <Description>OpenDMA can restrict values of a property to a predefined set of valid values. In this case, this set is not empty and each opendma:ChoiceValue describes one valid option. If this set is empty, any value is allowed.</Description>
         </Property>
         
         <ApiHelper apiName="getQName">
-            <Abstract>the qualified name of this &lt;code&gt;Class&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the qualified name of this class</Abstract>
+            <Description>A convenience shortcut to getting the name and namespace separately</Description>
         </ApiHelper>
 
     </Class>
@@ -468,7 +455,7 @@
 
     <Class namespace="opendma" name="ChoiceValue" apiName="OdmaChoiceValue" extendsNamespace="opendma" extendsName="Object" aspect="false" instantiable="true" hidden="false" system="true">
 
-        <Description>Full description follows.</Description>
+        <Description>Describes a possible value of a property</Description>
 
         <Property namespace="opendma"
                   name="DisplayName"
@@ -479,8 +466,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;display name&lt;/i&gt; of this Choice to be displayed to end users</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Text shown to end users to refer to this possible value option</Abstract>
+            <Description>This DisplayName indirections allows Administrators to define friendly descriptions for end users while storing internal numbers or abbreviation in the system</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -627,7 +614,7 @@
 
     <Class namespace="opendma" name="Repository" apiName="OdmaRepository" extendsNamespace="opendma" extendsName="Object" aspect="false" instantiable="false" hidden="false" system="true">
 
-        <Description>Full description follows.</Description>
+        <Description>A Repository represents a place where all Objects are stored. It often constitues a data isolation boundary where objects with different management requirements or access restrictions are separated into different repositories. Qualified names of classes and properties as well as unique object identifiers are only unique within a repository. They can be reused across different repositories. Object references are limited in scope within a single repository.</Description>
 
         <Property namespace="opendma"
                   name="Name"
@@ -638,8 +625,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the internal (technical) &lt;i&gt;name&lt;/i&gt; of this &lt;code&gt;Repository&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the internal technical name of this repository</Abstract>
+            <Description>The name is a technical identifier that typically has some restrictions, e.g. for database table names. The DisplayName in contrast is tailored for end users.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -651,8 +638,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;display name&lt;/i&gt; of this &lt;code&gt;Repository&lt;/code&gt; to be displayed to end users</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the text shown to end users to refer to this repository</Abstract>
+            <Description>The name is a technical identifier that typically has some restrictions, e.g. for database table names. The DisplayName in contrast is tailored for end users.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -666,8 +653,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Class">
-            <Abstract>the &lt;i&gt;root&lt;/i&gt; &lt;code&gt;Class&lt;/code&gt; of the class hierarchy in this &lt;code&gt;Repository&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Valid class object describing the class hierarchy root</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -681,8 +667,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Class">
-            <Abstract>the list of &lt;code&gt;Class&lt;/code&gt;es that represent an &lt;i&gt;Aspect&lt;/i&gt; and that do not inherit another aspect</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>set of valid aspect objects without a super class</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -696,7 +681,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Folder">
-            <Abstract>the &lt;i&gt;root&lt;/i&gt; &lt;code&gt;Folder&lt;/code&gt; of a dedicated folder tree in this &lt;code&gt;Repository&lt;/code&gt; (if any)</Abstract>
+            <Abstract>Object that has the opendma:Folder aspect representing the single root if this repository has a dedicated folder tree, null otherwise</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -705,7 +690,7 @@
 
     <Class namespace="opendma" name="Document" apiName="OdmaDocument" aspect="true" instantiable="false" hidden="false" system="true">
 
-        <Description>Full description follows.</Description>
+        <Description>A Document is the atomic element users work on in a content based environment. It can be compared to a file in a file system. Unlike files, it may consist of multiple octet streams. These content streams can for example contain images of the individual pages that make up the document. A Document is able to keep track of its changes (versioning) and manage the access to it (checkin and checkout).</Description>
 
         <Property namespace="opendma"
                   name="Title"
@@ -716,8 +701,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;title&lt;/i&gt; of this &lt;code&gt;Document&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the title of this document</Abstract>
+            <Description>Typically a human friendly readable description of this document. Does not need to be a file name, but can be the file name.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -729,8 +714,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;version string&lt;/i&gt; describing this &lt;i&gt;version&lt;/i&gt; of this &lt;code&gt;Document&lt;/code&gt; (e.g. 1.0, 1.1, 1.2, 2.0)</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Identifier of this version consisting of a set of numbers separated by a point (e.g. 1.2.3)</Abstract>
+            <Description>This value is heavily vendor specific. You should not have any expectations of the format.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -744,8 +729,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="VersionCollection">
-            <Abstract>reference to a &lt;i&gt;VersionCollection&lt;/i&gt; object containing the collection of all &lt;i&gt;versions&lt;/i&gt; of this &lt;code&gt;Document&lt;/code&gt; along with other information</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>reference to a opendma:VersionCollection object representing all versions of this document or null if versioning is not supported</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -757,8 +741,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;unique object identifier&lt;/i&gt; identifying this logical document independent from the specific version inside its &lt;code&gt;Repository&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the unique object identifier identifying this logical document independent from the specific version inside its opendma:Repository</Abstract>
+            <Description>Retrieving this Id from the Repository will result in the latest version</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -770,8 +754,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;global unique object identifier&lt;/i&gt; globally identifying this logical document independent from the specific version</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the global unique object identifier globally identifying this logical document independent from the specific version</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -785,8 +768,8 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="ContentElement">
-            <Abstract>the collection of all &lt;code&gt;ContentElement&lt;/code&gt;s this &lt;code&gt;Document&lt;/code&gt; consists of</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>set of opendma:ContentElement objects representing the individual binary elements this document is made up of</Abstract>
+            <Description>Typically has only one element. Can contain more then one element in rare cases, e.g. if individual pages of a document are scanned as separate images</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -798,8 +781,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the combined mime type that has been build over all &lt;code&gt;ContentElement&lt;/code&gt;s this &lt;code&gt;Document&lt;/code&gt; consists of</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the combined conent type of the whole Document, calculated from the content types of each ContentElement</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -813,8 +795,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="ContentElement">
-            <Abstract>the primary &lt;code&gt;ContentElement&lt;/code&gt;s that represents this &lt;code&gt;Document&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the dedicated primary ContentElement. May only be null if ContentElements is empty.</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -826,8 +807,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the date when this version of this &lt;code&gt;Document&lt;/code&gt; has been created</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the timestamp when this version of this document has been created</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -839,8 +819,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the user who has created this version of this &lt;code&gt;Document&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the User who created this version of this document</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -852,8 +831,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the date when this version of this &lt;code&gt;Document&lt;/code&gt; has been modified the last time</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the timestamp when this version of this document has been modified the last time</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -865,8 +843,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the user who has modified this version of this &lt;code&gt;Document&lt;/code&gt; the last time</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the user who modified this version of this document the last time</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -878,8 +855,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>&lt;code&gt;true&lt;/code&gt; if and only if this &lt;code&gt;Document&lt;/code&gt; is checked out</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>indicates if this document is checked out</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -891,8 +867,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the date when this &lt;code&gt;Document&lt;/code&gt; has been checked out</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the timestamp when this version of the document has been checked out, null if this document is not checked out</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -904,7 +879,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the user who has checked out this &lt;code&gt;Document&lt;/code&gt;</Abstract>
+            <Abstract>the user who checked out this version of this document, null if this document is not checked out</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
@@ -913,7 +888,7 @@
 
     <Class namespace="opendma" name="ContentElement" apiName="OdmaContentElement" aspect="true" instantiable="false" hidden="false" system="true">
 
-        <Description>Full description follows.</Description>
+        <Description>A ContentElement represents one atomic content element the Documents are made of. This abstract (non instantiable) base class defines the type of content and the position of this element in the sequence of all content elements.</Description>
 
         <Property namespace="opendma"
                   name="ContentType"
@@ -924,8 +899,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the mime type describing how the &lt;code&gt;Content&lt;/code&gt; of this &lt;code&gt;ContentElement&lt;/code&gt; has to be interpreted</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the content type (aka MIME type) of the content represented by this element</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -938,7 +912,6 @@
                   hidden="false"
                   system="true">
             <Abstract>the position of this element in the list of all content elements of the containing document</Abstract>
-            <Description>Full description follows.</Description>
         </Property>
 
     </Class>
@@ -946,7 +919,7 @@
 
     <Class namespace="opendma" name="DataContentElement" apiName="OdmaDataContentElement" extendsNamespace="opendma" extendsName="ContentElement" aspect="true" instantiable="false" hidden="false" system="true">
 
-        <Description>Full description follows.</Description>
+        <Description>A DataContentElement represents one atomic octet stream. The binary data is stored together with meta data like size and filename</Description>
 
         <Property namespace="opendma"
                   name="Content"
@@ -957,8 +930,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the binary content of this &lt;code&gt;ContentElement&lt;/code&gt; as octets</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the binary data of this content element</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -970,8 +942,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the number of octests the binary content of this &lt;code&gt;ContentElement&lt;/code&gt; consists of</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the size of the data in number of octets</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -983,8 +954,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the optional file name of this &lt;code&gt;ContentElement&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the optional file name of the data</Abstract>
         </Property>
 
     </Class>
@@ -992,7 +962,7 @@
 
     <Class namespace="opendma" name="ReferenceContentElement" apiName="OdmaReferenceContentElement" extendsNamespace="opendma" extendsName="ContentElement" aspect="true" instantiable="false" hidden="false" system="true">
 
-        <Description>Full description follows.</Description>
+        <Description>A ReferenceContentElement represents a reference to external data. The reference is stored as URI to the content location.</Description>
 
         <Property namespace="opendma"
                   name="Location"
@@ -1004,7 +974,6 @@
                   hidden="false"
                   system="true">
             <Abstract>the URI where the content is stored</Abstract>
-            <Description>Full description follows.</Description>
         </Property>
 
     </Class>
@@ -1012,7 +981,7 @@
 
     <Class namespace="opendma" name="VersionCollection" apiName="OdmaVersionCollection" aspect="true" instantiable="false" hidden="false" system="true">
 
-        <Description>Full description follows.</Description>
+        <Description>A VersionCollection represents the set of all versions of a Document. Based on the actual document management system, it can represent a single series of versions, a tree of version, or any other versioning concept.</Description>
 
         <Property namespace="opendma"
                   name="Versions"
@@ -1025,8 +994,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Document">
-            <Abstract>collection of all versions of the &lt;code&gt;Document&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Set of all versions of a document</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1040,8 +1008,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Document">
-            <Abstract>the latest version of this &lt;code&gt;Document&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Latest version of a document</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1055,8 +1022,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Document">
-            <Abstract>the last released version of this &lt;code&gt;Document&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Latest released version of a document if a version has been released</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1070,8 +1036,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Document">
-            <Abstract>the version of this &lt;code&gt;Document&lt;/code&gt; currently beeing worked on during a checkout. Only valid if and only if the corresponding &lt;code&gt;Document&lt;/code&gt; is checked out.</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>Latest checked out working copy of a document</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1083,8 +1048,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the date when this &lt;code&gt;Document&lt;/code&gt; has been created</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the timestamp when this version collection has been created</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1096,8 +1060,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the user who has created this &lt;code&gt;Document&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the user who created this version collection</Abstract>
         </Property>
 
     </Class>
@@ -1105,7 +1068,7 @@
 
     <Class namespace="opendma" name="Container" apiName="OdmaContainer" aspect="true" instantiable="false" hidden="false" system="true">
 
-        <Description>Full description follows.</Description>
+        <Description>A Container holds a set of containable objects that are said to be contained in this Container. This list of containees is build up with Association objects based on references to the containmer and the containee. This allows an object to be contained in multiple Containers or in no Container at all. A Container does not enforce a loop-free single rooted tree. Use a folder instead for this requirement.</Description>
 
         <Property namespace="opendma"
                   name="Title"
@@ -1116,8 +1079,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;title&lt;/i&gt; of this &lt;code&gt;Container&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the title of this container</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1131,8 +1093,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Containable">
-            <Abstract>the collection of all &lt;code&gt;Containable&lt;/code&gt; objects that are contained in this &lt;code&gt;Container&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the set of containable objects contained in this container</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1146,8 +1107,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Association">
-            <Abstract>the collection of all &lt;code&gt;Association&lt;/code&gt;s between this &lt;code&gt;Container&lt;/code&gt; and its containees</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the set of associations between this container and the contained objects</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1159,8 +1119,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the date when this &lt;code&gt;Container&lt;/code&gt; has been created</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the timestamp when this container has been created</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1172,8 +1131,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the user who has created this &lt;code&gt;Container&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the user who created this container</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1185,8 +1143,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the date when this &lt;code&gt;Container&lt;/code&gt; has been modified the last time</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the timestamp when this container has been modified the last time</Abstract>
+            <Description>There is no definition what counts as a modification. Some systems update this timestamp when objects are added or removed, other systems only update this timestamp when properties of this object get changed.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -1198,8 +1156,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the user who has modified this &lt;code&gt;Container&lt;/code&gt; the last time</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the user who modified this container the last time</Abstract>
+            <Description>There is no definition what counts as a modification. Some systems update this timestamp when objects are added or removed, other systems only update this timestamp when properties of this object get changed.</Description>
         </Property>
 
     </Class>
@@ -1207,7 +1165,7 @@
 
     <Class namespace="opendma" name="Folder" apiName="OdmaFolder" extendsNamespace="opendma" extendsName="Container" aspect="true" instantiable="false" hidden="false" system="true">
 
-        <Description>Full description follows.</Description>
+        <Description>A Folder is an extension of the Container forming one single rooted loop-free tree.</Description>
 
         <Property namespace="opendma"
                   name="Parent"
@@ -1220,8 +1178,8 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Folder">
-            <Abstract>the &lt;code&gt;Folder&lt;/code&gt; this &lt;code&gt;Folder&lt;/code&gt; is a sub folder of</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the parent folder this folder is contained in</Abstract>
+            <Description>Following this property from folder object to folder object will ultimately lead to the single root folder of the Repository. This is the only folder having a null value for this property</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -1235,8 +1193,8 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Folder">
-            <Abstract>the collection of &lt;code&gt;Folder&lt;/code&gt;s which have this &lt;code&gt;Folder&lt;/code&gt; in their parent property</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the set of Folder objects that contain this folder in their opendma:Parent property</Abstract>
+            <Description>Using this property for a tree walk is safe. A folder is guaranteed to be loop free. It is neither defined if this set of objects is also part of the opendma:Containees property nor if there are corresponding association objects in opendma:Associations for each folder in this set.</Description>
         </Property>
 
     </Class>
@@ -1244,7 +1202,7 @@
 
     <Class namespace="opendma" name="Containable" apiName="OdmaContainable" aspect="true" instantiable="false" hidden="false" system="true">
 
-        <Description>Full description follows.</Description>
+        <Description>The Containable aspect is used by all classes and aspects that can be contained in a Container.</Description>
 
         <Property namespace="opendma"
                   name="ContainedIn"
@@ -1257,8 +1215,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Container">
-            <Abstract>the collection of &lt;code&gt;Container&lt;/code&gt;s this &lt;code&gt;Containable&lt;/code&gt; is contained in</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the set of container objects this Containable is contained in</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1272,8 +1229,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Association">
-            <Abstract>the collection of &lt;code&gt;Association&lt;/code&gt;s that bind this &lt;code&gt;Containable&lt;/code&gt; in the &lt;code&gt;Container&lt;/code&gt;s</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the set of associations that bind this Containable in the opendma:Conatiner objects</Abstract>
         </Property>
 
     </Class>
@@ -1281,7 +1237,7 @@
 
     <Class namespace="opendma" name="Association" apiName="OdmaAssociation" aspect="true" instantiable="false" hidden="false" system="true">
 
-        <Description>Full description follows.</Description>
+        <Description>An Association represents the directed link between an opendma:Container and an opendma:Containable object.</Description>
 
         <Property namespace="opendma"
                   name="Name"
@@ -1292,8 +1248,8 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the &lt;i&gt;name&lt;/i&gt; of this &lt;code&gt;Association&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the name of this association</Abstract>
+            <Description>This name is used to refer to this specific association in the context of it's container and tell tem apart. Many systems pose additional constraints on this name.</Description>
         </Property>
 
         <Property namespace="opendma"
@@ -1307,8 +1263,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Container">
-            <Abstract>the &lt;code&gt;Container&lt;/code&gt; of this &lt;code&gt;Association&lt;/code&gt; in which the containable is said to be contained</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the source of this directed link</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1322,8 +1277,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Containable">
-            <Abstract>the &lt;code&gt;Containable&lt;/code&gt; of this &lt;code&gt;Association&lt;/code&gt; which is said to be contained in the container</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the destination of this directed link</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1335,8 +1289,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the date when this &lt;code&gt;Association&lt;/code&gt; has been created</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the timestamp when this association has been created</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1348,8 +1301,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the user who has created this &lt;code&gt;Association&lt;/code&gt;</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the user who created this association</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1361,8 +1313,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the date when this &lt;code&gt;Association&lt;/code&gt; has been modified the last time</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the timestamp when this association has been modified the last time</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1374,8 +1325,7 @@
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the user who has modified this &lt;code&gt;Association&lt;/code&gt; the last time</Abstract>
-            <Description>Full description follows.</Description>
+            <Abstract>the user who modified this association the last time</Abstract>
         </Property>
 
     </Class>

@@ -145,7 +145,7 @@ public class PythonObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFi
         String standardGetterName = "get_" + scalarType.getName().toLowerCase() + (property.getMultiValue() ? (scalarType.isReference()?"_iterable":"_list") : "");
         out.println("        Shortcut for <code>get_property("+constantPropertyName+")."+standardGetterName+"()</code>.");
         out.println("        ");
-        for(String s : getPropertyDetails(property))
+        for(String s : getPropertyDetails(property, false))
         {
             out.println("        "+s);
         }
@@ -164,7 +164,7 @@ public class PythonObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFi
             String standardSetterName = "set_value";
             out.println("        Shortcut for <code>get_property("+constantPropertyName+")."+standardSetterName+"()</code>.");
             out.println("        ");
-            for(String s : getPropertyDetails(property))
+            for(String s : getPropertyDetails(property, false))
             {
                 out.println("        "+s);
             }

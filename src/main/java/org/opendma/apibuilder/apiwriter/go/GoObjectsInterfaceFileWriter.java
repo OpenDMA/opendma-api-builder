@@ -154,7 +154,7 @@ public class GoObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileWr
         out.println("    // "+(goDataType.equalsIgnoreCase("bool")?"Is":"Get")+property.getApiName()+" returns "+property.getAbstract()+".");
         String standardGetterName = "Get" + ((!scalarType.isReference()) ? scalarType.getName() : (property.getMultiValue() ? "ReferenceIterable" : "Reference"));
         out.println("    // Shortcut for `GetProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()`.");
-        for(String s : getPropertyDetails(property))
+        for(String s : getPropertyDetails(property, false))
         {
             out.println("    //"+s);
         }
@@ -166,7 +166,7 @@ public class GoObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFileWr
             out.println("    // Set"+property.getApiName()+" sets "+property.getAbstract()+".");
             String standardSetterName = "setValue";
             out.println("    // Shortcut for `getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value)`.");
-            for(String s : getPropertyDetails(property))
+            for(String s : getPropertyDetails(property, false))
             {
                 out.println("    // "+s);
             }

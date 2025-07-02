@@ -156,7 +156,7 @@ public class SwiftObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFil
         String standardGetterName = Tools.lowerCaseFirstChar(scalarType.getName()) + (scalarType.isReference() ? (property.getMultiValue() ? "Sequence" : "Value") : (property.getMultiValue() ? "Velues" : "Value"));
         out.println("    /// Shortcut for `getProperty(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()`.");
         out.println("    ///");
-        for(String s : getPropertyDetails(property))
+        for(String s : getPropertyDetails(property, false))
         {
             out.println("    /// "+s);
         }
@@ -172,7 +172,7 @@ public class SwiftObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFil
             String standardSetterName = "setValue";
             out.println("    /// Shortcut for `getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(newValue)`.");
             out.println("    ///");
-            for(String s : getPropertyDetails(property))
+            for(String s : getPropertyDetails(property, false))
             {
                 out.println("    /// "+s);
             }

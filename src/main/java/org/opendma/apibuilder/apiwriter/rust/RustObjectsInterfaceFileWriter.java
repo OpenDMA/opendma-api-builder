@@ -162,7 +162,7 @@ public class RustObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFile
         out.println("    // Returns "+property.getAbstract()+".");
         String standardGetterName = "get_" + ((!scalarType.isReference()) ? scalarType.getName() : (property.getMultiValue() ? "reference_iterator" : "reference"));
         out.println("    // Shortcut for `get_property(OdmaTypes."+constantPropertyName+")."+standardGetterName+"()`.");
-        for(String s : getPropertyDetails(property))
+        for(String s : getPropertyDetails(property, true))
         {
             out.println("    //"+s);
         }
@@ -174,7 +174,7 @@ public class RustObjectsInterfaceFileWriter extends AbstractObjectsInterfaceFile
             out.println("    // Sets "+property.getAbstract()+".");
             String standardSetterName = "setValue";
             out.println("    // Shortcut for <code>getProperty(OdmaTypes."+constantPropertyName+")."+standardSetterName+"(value)</code>.");
-            for(String s : getPropertyDetails(property))
+            for(String s : getPropertyDetails(property, true))
             {
                 out.println("    // "+s);
             }
