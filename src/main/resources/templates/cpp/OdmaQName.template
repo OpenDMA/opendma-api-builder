@@ -29,6 +29,12 @@ public:
         if (name.empty()) {
             throw std::invalid_argument("Name must not be empty");
         }
+        if (name.find(':') != std::string::npos) {
+            throw std::invalid_argument("Name must not contain colon ':' character");
+        }
+        if (ns.front() == ':' || ns.back() == ':' || ns.find("::") != std::string::npos) {
+            throw std::invalid_argument("Segments in Namespace must have at least 1 character");
+        }
         this->namespace_ = namespace;
         this->name_ = name;
     }
@@ -38,8 +44,8 @@ public:
      *
      * @param qname The qualified name string to parse.
      * @return An OdmaQName object constructed from the parsed namespace and name.
-     * @throws std::invalid_argument if the string is empty, does not contain a colon,
-     *         or results in an empty namespace or name.
+     * @throws std::invalid_argument if the input does not contain a valid string
+     *         representation of a qualified name.
      */
     static OdmaQName fromString(const std::string& qname) {
 

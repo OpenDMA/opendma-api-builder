@@ -23,6 +23,12 @@ public struct OdmaQName: Equatable, Hashable, CustomStringConvertible, Sendable 
         guard !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             throw OdmaError.illegalArgument(message: "Name must not be empty")
         }
+        if name.contains(":") {
+            throw OdmaError.illegalArgument(message: "Name must not contain colon ':' character")
+        }
+        if namespace.hasPrefix(":") || namespace.hasSuffix(":") || namespace.contains("::") {
+            throw OdmaError.illegalArgument(message: "Segments in Namespace must have at least 1 character")
+        }
         self.namespace = namespace
         self.name = name
     }
@@ -39,8 +45,8 @@ extension OdmaQName {
     /// Parses a string in the format "namespace:name" into an `OdmaQName` instance.
     ///
     /// - Parameter qname: The string to parse.
-    /// - Throws: `OdmaError.illegalArgument` if the input is empty, does not contain a colon,
-    ///           or if the parsed namespace or name is invalid.
+    /// - Throws: `OdmaError.illegalArgument` if the input does not contain a valid
+    ///           string representation of a qualified name.
     /// - Returns: A new `OdmaQName` instance.
     public static func fromString(_ qname: String) throws -> OdmaQName {
         guard let lastColonIndex = trimmed.lastIndex(of: ":") else {

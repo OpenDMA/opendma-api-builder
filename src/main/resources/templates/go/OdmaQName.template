@@ -22,6 +22,12 @@ func NewOdmaQName(namespace string, name string) (*OdmaQName, error) {
 	if strings.TrimSpace(name) == "" {
 		return nil, errors.New("Name must not be empty")
 	}
+	if strings.Contains(name, ":") {
+		return nil, errors.New("Name must not contain colon ':' character")
+	}
+	if strings.HasPrefix(namespace, ":") || strings.HasSuffix(namespace, ":") || strings.Contains(namespace, "::") {
+		return nil, errors.New("Segments in Namespace must have at least 1 character")
+	}
 	return &OdmaQName{namespace: namespace, name: name}, nil
 }
 
@@ -46,7 +52,7 @@ func (q *OdmaQName) Equals(other *OdmaQName) bool {
 
 // NewOdmaQNameFromString parses a string representation of a qualified name into an OdmaQName.
 // The expected format is "namespace:name", using the last colon as the delimiter.
-// Returns an error if the input is empty or does not contain a colon.
+// Returns an error if the input does not contain a valid string representation of a qualified name.
 func NewOdmaQNameFromString(qname string) (*OdmaQName, error) {
 	if strings.TrimSpace(qname) == "" {
 		return nil, errors.New("Qualified name must not be empty")

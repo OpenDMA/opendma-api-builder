@@ -39,6 +39,14 @@ namespace OpenDMA.Api
             {
                 throw new ArgumentException("Name must not be null or empty", nameof(name));
             }
+            if (name.Contains(":"))
+            {
+                throw new ArgumentException("Name must not contain colon ':' character", nameof(name));
+            }
+            if (ns.StartsWith(":") || ns.EndsWith(":") || ns.Contains("::"))
+            {
+                throw new ArgumentException("Segments in Namespace must have at least 1 character", nameof(ns));
+            }
             Namespace = ns;
             Name = name;
         }
@@ -90,7 +98,7 @@ namespace OpenDMA.Api
         /// </summary>
         /// <param name="qname">The string to parse, in the format "namespace:name".</param>
         /// <returns>An <see cref="OdmaQName"/> object with parsed namespace and name.</returns>
-        /// <exception cref="ArgumentException">Thrown if the input is null, empty, or does not contain a colon.</exception>
+        /// <exception cref="ArgumentException">Thrown if the input does not contain a valid string representation of a qualified name.</exception>
         public static OdmaQName FromString(string qname)
         {
             if (string.IsNullOrWhiteSpace(qname))

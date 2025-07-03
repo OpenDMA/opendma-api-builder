@@ -17,6 +17,10 @@ class OdmaQName:
             raise ValueError("Namespace must not be empty")
         if not name.strip():
             raise ValueError("Name must not be empty")
+        if ':' in name:
+            raise ValueError("Name must not contain colon ':' character")
+        if namespace.startswith(':') or namespace.endswith(':') or '::' in namespace:
+            raise ValueError("Segments in Namespace must have at least 1 character")
 
         self._namespace = namespace
         self._name = name
@@ -79,7 +83,7 @@ class OdmaQName:
 
         :param qname_str: A string in the format 'namespace:name'
         :return: An OdmaQName instance
-        :raises ValueError: If the format is invalid or any part is empty
+        :raises ValueError: If the input does not contain a valid string representation of a qualified name
         """
 
         if ':' not in qname_str:

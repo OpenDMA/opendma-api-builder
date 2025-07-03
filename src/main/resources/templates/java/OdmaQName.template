@@ -18,7 +18,7 @@ public final class OdmaQName {
      *
      * @param namespace the namespace part of the qualified name, must not be null or empty
      * @param name      the name part of the qualified name, must not be null or empty
-     * @throws IllegalArgumentException if either the namespace or name is null or empty
+     * @throws IllegalArgumentException if either the namespace or name is invalid
      */
     public OdmaQName(String namespace, String name) {
         if (namespace == null || namespace.trim().isEmpty()) {
@@ -26,6 +26,12 @@ public final class OdmaQName {
         }
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Name must not be null or empty");
+        }
+        if (name.contains(":")) {
+            throw new IllegalArgumentException("Name must not contain colon ':' character");
+        }
+        if (namespace.startsWith(":") || namespace.endsWith(":") || namespace.contains("::")) {
+            throw new IllegalArgumentException("Segments in Namespace must have at least 1 character");
         }
         this.namespace = namespace;
         this.name = name;

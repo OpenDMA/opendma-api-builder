@@ -35,6 +35,12 @@ class OdmaQName
         if (empty(trim($name))) {
             throw new \InvalidArgumentException("Name must not be empty");
         }
+        if (strpos($name, ':') !== false) {
+            throw new \InvalidArgumentException("Name must not contain colon ':' character");
+        }
+        if ($namespace[0] === ':' || substr($namespace, -1) === ':' || strpos($namespace, '::') !== false) {
+            throw new \InvalidArgumentException("Segments in Namespace must have at least 1 character");
+        }
 
         $this->namespace = $namespace;
         $this->name = $name;
@@ -87,7 +93,7 @@ class OdmaQName
      *
      * @param string $qname The string to parse, in the format "namespace:name".
      * @return OdmaQName An OdmaQName object with parsed namespace and name.
-     * @throws \InvalidArgumentException if the input is empty or does not contain a colon.
+     * @throws \InvalidArgumentException if the input does not contain a valid string representation of a qualified name.
      */
     public static function fromString(string $qname): OdmaQName
     {

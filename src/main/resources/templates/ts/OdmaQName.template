@@ -30,6 +30,12 @@ export class OdmaQName {
         if (!name.trim()) {
             throw new Error("Name must not be empty");
         }
+        if (name.includes(':')) {
+            throw new Error("Name must not contain colon ':' character");
+        }
+        if (namespace.startsWith(':') || namespace.endsWith(':') || namespace.includes('::')) {
+            throw new Error("Segments in Namespace must have at least 1 character");
+        }
 
         this.namespace = namespace;
         this.name = name;
@@ -79,7 +85,7 @@ export class OdmaQName {
      *
      * @param qname The string to parse, in the format "namespace:name".
      * @returns An OdmaQName instance with parsed namespace and name.
-     * @throws Error If the input is empty or does not contain a colon.
+     * @throws Error If the input does not contain a valid string representation of a qualified name.
      */
     public static fromString(qname: string): OdmaQName {
         if (typeof qname !== 'string' || qname.trim() === '') {
