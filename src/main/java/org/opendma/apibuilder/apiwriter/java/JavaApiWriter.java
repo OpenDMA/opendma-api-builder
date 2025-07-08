@@ -311,12 +311,17 @@ public class JavaApiWriter extends AbstractApiWriter
         PrintWriter out = new PrintWriter(tckStream);
         out.println("package org.opendma.tck;");
         out.println("");
+        out.println("import java.util.HashMap;");
+        out.println("import java.util.HashSet;");
         out.println("import java.util.LinkedList;");
         out.println("import java.util.List;");
         out.println("import org.opendma.api.*;");
+        out.println("import org.opendma.exceptions.OdmaInvalidDataTypeException;");
         out.println("import org.opendma.exceptions.OdmaPropertyNotFoundException;");
         out.println("");
         out.println("public class OdmaTechnologyCompatibilityKit {");
+        out.flush();
+        copyTemplateToStream("tck-baseline-checks", tckStream, false);
         Iterator<ClassDescription> itClasses = apiDescription.getDescribedClasses().iterator();
         while(itClasses.hasNext())
         {
@@ -324,6 +329,10 @@ public class JavaApiWriter extends AbstractApiWriter
             out.println("");
             out.println("    public static List<String> verify"+classDescription.getApiName()+"(OdmaObject obj) {");
             out.println("        LinkedList<String> result = new LinkedList<>();");
+            out.println("        result.addAll(verifyObjectBaseline(obj));");
+            if(classDescription == apiDescription.getClassClass()) {
+                out.println("        result.addAll(verifyClassBaseline(obj));");
+            }
             if(classDescription.getExtendsOdmaName() != null)
             {
                 out.println("        result.addAll(verify"+classDescription.getExtendsApiName()+"(obj));");

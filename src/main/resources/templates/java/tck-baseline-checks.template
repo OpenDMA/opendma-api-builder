@@ -1,0 +1,276 @@
+
+    public static List<String> verifyObjectBaseline(OdmaObject obj) {
+        LinkedList<String> result = new LinkedList<>();
+        if(obj.getId() == null) {
+            result.add("getId() returns null");
+        }
+        if(obj.getGuid() == null) {
+            result.add("getGuid() returns null");
+        }
+        if(obj.getRepository() == null) {
+            result.add(obj.getId()+" getRepository() returns null");
+        }
+        if(obj.getOdmaClass() == null) {
+            result.add(obj.getId()+" getOdmaClass() returns null");
+            result.add(obj.getId()+" ABORT baseline verification");
+            return result;
+        }
+        if(obj.getOdmaClass().getProperties() == null) {
+            result.add(obj.getId()+" getOdmaClass().getProperties() returns null");
+            result.add(obj.getId()+" ABORT baseline verification");
+            return result;
+        }
+        if(obj.getOdmaClass().isInstantiable() == false) {
+            result.add(obj.getId()+" getOdmaClass().isInstantiable() == false");
+        }
+        if(obj.getOdmaClass().isAspect() == true) {
+            result.add(obj.getId()+" getOdmaClass().isAspect() == true");
+        }
+        // check we have all properties
+        OdmaClass clazz = obj.getOdmaClass();
+        for(OdmaPropertyInfo pi : clazz.getProperties()) {
+            OdmaProperty prop;
+            try
+            {
+                prop = obj.getProperty(pi.getQName());
+            }
+            catch (OdmaPropertyNotFoundException e)
+            {
+                result.add("Missing property `"+pi.getQName()+"` in object with ID `"+obj.getId()+"`");
+                continue;
+            }
+            if(prop.getType() != OdmaType.fromNumericId(pi.getDataType())) {
+                result.add("Property `"+pi.getQName()+"` in object `"+obj.getId()+"` has a different data type than described in the property info object");
+            }
+            if(prop.isMultiValue() != pi.isMultiValue()) {
+                result.add("Property `"+pi.getQName()+"` in object `"+obj.getId()+"` has a different cardinality than described in the property info object");
+            }
+            if(pi.isRequired() && prop.getValue() == null) {
+                result.add("Property `"+pi.getQName()+"` in object `"+obj.getId()+"` is required but has null value");
+            }
+            if(pi.isMultiValue() && prop.getValue() == null) {
+                result.add("Property `"+pi.getQName()+"` in object `"+obj.getId()+"` is MultiValue but has null value");
+            }
+            if(pi.isMultiValue() && pi.isRequired()) {
+                try {
+                    if(prop.getType() == OdmaType.REFERENCE) {
+                        if(!prop.getReferenceIterable().iterator().hasNext()) {
+                            result.add("Property `"+pi.getQName()+"` in object `"+obj.getId()+"` is required but reference set does not have any elements");
+                        }
+                    } else {
+                        List<?> list = (List<?>)prop.getValue();
+                        if(list.isEmpty()) {
+                            result.add("Property `"+pi.getQName()+"` in object `"+obj.getId()+"` is required but list does not have any elements");
+                        }
+                    }
+                } catch(OdmaInvalidDataTypeException e) {
+                    result.add("Property `"+pi.getQName()+"` in object `"+obj.getId()+"` caused OdmaInvalidDataTypeException");
+                } catch(ClassCastException e) {
+                    result.add("Property `"+pi.getQName()+"` in object `"+obj.getId()+"` caused ClassCastException");
+                }
+            }
+        }
+        result.addAll(verifyClassBaseline(obj.getOdmaClass(), new HashSet<OdmaQName>()));
+        return result;
+    }
+
+    public static List<String> verifyClassBaseline(OdmaClass cls, HashSet<OdmaQName> loopCheck) {
+        List<String> result = verifyObjectBaseline(cls);
+        if(!result.isEmpty()) {
+            result.add("object baseline test failed for class with ID `"+cls.getId()+"`");
+            result.add("ABORT class baseline verification");
+            return result;
+            
+        }
+        if(cls.getName() == null) {
+            result.add(cls.getId()+" cls.getName() returns null");
+        }
+        if(cls.getNamespace() == null) {
+            result.add(cls.getId()+" cls.getNamespace() returns null");
+        }
+        if(cls.getQName() == null) {
+            result.add(cls.getId()+" cls.getQName() returns null");
+            result.add("ABORT class baseline verification");
+            return result;
+        }
+        if(loopCheck.contains(cls.getQName())) {
+            result.add(cls.getId()+" loop check failed for "+cls.getQName());
+            result.add("ABORT class baseline verification");
+            return result;
+        }
+        loopCheck.add(cls.getQName());
+        if(cls.getProperties() == null) {
+            result.add(cls.getId()+" cls.getProperties() returns null");
+            result.add("ABORT class baseline verification");
+            return result;
+        }
+        if(cls.getProperties().iterator().hasNext() == false) {
+            result.add(cls.getId()+" cls.getProperties().iterator().hasNext() == false");
+            result.add("ABORT class baseline verification");
+            return result;
+        }
+        if(cls.getDeclaredProperties() == null) {
+            result.add(cls.getId()+" cls.getDeclaredProperties() returns null");
+            result.add("ABORT class baseline verification");
+            return result;
+        }
+        if(cls.getAspects() == null) {
+            result.add(cls.getId()+" cls.getAspects() returns null");
+        }
+        if(cls.getSuperClass() != null) {
+            if(cls.isAspect() != cls.getSuperClass().isAspect()) {
+                result.add(cls.getId()+" cls.isAspect() != cls.getSuperClass().isAspect()");
+            }
+            if(cls.getSuperClass().getSubClasses() == null) {
+                result.add(cls.getId()+" cls.getSuperClass().getSubClasses() == null");
+            }  else {
+                boolean found = false;
+                for(OdmaClass superSubClass : cls.getSuperClass().getSubClasses()) {
+                    if(superSubClass.getQName().equals(cls.getQName())) {
+                        found = true;
+                    }
+                }
+                if(!found) {
+                    result.add(cls.getId()+" cls.getSuperClass().getSubClasses() does not contain cls");
+                }
+            }
+        }
+        if(cls.getSubClasses() == null) {
+            result.add(cls.getId()+" cls.getSubClasses() == null");
+        } else {
+            for(OdmaClass subClass : cls.getSubClasses()) {
+                if(subClass.getSuperClass() == null) {
+                    result.add(cls.getId()+" cls.getSubClasses()[].getSuperClass() == null for cls.getSubClasses()[] "+subClass.getId());
+                } else if(!subClass.getSuperClass().getQName().equals(cls.getQName())) {
+                    result.add(cls.getId()+" cls.getSubClasses()[].getSuperClass().getQName() != cls.getQName() for cls.getSubClasses()[] "+subClass.getId());
+                }
+            }
+        }
+        HashMap<OdmaQName, OdmaPropertyInfo> superProps = new HashMap<OdmaQName, OdmaPropertyInfo>();
+        if(cls.getSuperClass() != null) {
+            for(OdmaPropertyInfo pi : cls.getSuperClass().getProperties()) {
+                if(pi.getQName() == null) {
+                    result.add("class "+cls.getSuperClass().getQName()+" contains property info with getQName()==null");
+                    continue;
+                }
+                if(superProps.containsKey(pi.getQName())) {
+                    result.add("class "+cls.getSuperClass().getQName()+" contains property info with duplicate QName "+pi.getQName());
+                    continue;
+                }
+                superProps.put(pi.getQName(), pi);
+            }
+        }
+        if(cls.isAspect()) {
+            if(cls.getAspects().iterator().hasNext()) {
+                result.add(cls.getId()+" is declared as Aspect but does have aspects itself");
+            }
+        }
+        HashMap<OdmaQName, OdmaPropertyInfo> aspectProps = new HashMap<OdmaQName, OdmaPropertyInfo>();
+        HashSet<OdmaQName> aspectNames = new HashSet<OdmaQName>();
+        for(OdmaClass aspect : cls.getAspects()) {
+            if(!aspect.isAspect()) {
+                result.add(cls.getId()+" aspect "+aspect.getQName()+" has isAspect()==false");
+            }
+            if(!aspect.isInstantiable()) {
+                result.add(cls.getId()+" aspect "+aspect.getQName()+" has isInstantiable()==false");
+            }
+            aspectNames.add(aspect.getQName());
+            for(OdmaPropertyInfo pi : aspect.getProperties()) {
+                if(pi.getQName() == null) {
+                    result.add(cls.getId()+" aspect "+aspect.getQName()+" contains property info with getQName()==null");
+                    continue;
+                }
+                if(aspectProps.containsKey(pi.getQName())) {
+                    result.add(cls.getId()+ "class imports multiple properties with same name through aspects: "+pi.getQName());
+                    continue;
+                }
+                if(superProps.containsKey(pi.getQName())) {
+                    result.add(cls.getId()+ "class imports aspect "+aspect.getQName()+" with naming conflict of property "+pi.getQName()+" with inherited properties from super class");
+                }
+                aspectProps.put(pi.getQName(), pi);
+            }
+        }
+        HashMap<OdmaQName, OdmaPropertyInfo> allProps = new HashMap<OdmaQName, OdmaPropertyInfo>();
+        for(OdmaPropertyInfo pi : cls.getProperties()) {
+            if(pi.getQName() == null) {
+                result.add(cls.getId()+" class "+cls.getQName()+" contains property info with getQName()==null");
+                continue;
+            }
+            if(allProps.containsKey(pi.getQName())) {
+                result.add(cls.getId()+" class "+cls.getQName()+" contains property info with duplicate QName "+pi.getQName());
+                continue;
+            }
+            allProps.put(pi.getQName(), pi);
+        }
+        HashMap<OdmaQName, OdmaPropertyInfo> declaredProps = new HashMap<OdmaQName, OdmaPropertyInfo>();
+        for(OdmaPropertyInfo pi : cls.getDeclaredProperties()) {
+            if(pi.getQName() == null) {
+                result.add(cls.getId()+" class "+cls.getQName()+" contains declared property info with getQName()==null");
+                continue;
+            }
+            if(declaredProps.containsKey(pi.getQName())) {
+                result.add(cls.getId()+" class "+cls.getQName()+" contains declared property info with duplicate QName "+pi.getQName());
+                continue;
+            }
+            declaredProps.put(pi.getQName(), pi);
+            if(superProps.containsKey(pi.getQName())) {
+                if(pi.getDataType() == OdmaType.REFERENCE.getNumericId()) {
+                    if(!propInfoEquals(pi,superProps.get(pi.getQName()),true)) {
+                        result.add(cls.getId()+" class "+cls.getQName()+" declared property "+pi.getQName()+" conflicts with inherited properties from superclass. both are reference but have different specs");
+                    }
+                    if(!isOrExtends(superProps.get(pi.getQName()).getReferenceClass().getQName(),pi.getReferenceClass())) {
+                        result.add(cls.getId()+" class "+cls.getQName()+" declared property "+pi.getQName()+" conflicts with inherited properties from superclass. both are reference but reference class of declared prop does not extend reference class of super prop");
+                    }
+                } else {
+                    result.add(cls.getId()+ " class declares property "+pi.getQName()+" with naming conflict with inherited properties from super class");
+                }
+            }
+            if(aspectProps.containsKey(pi.getQName())) {
+                result.add(cls.getId()+ " class declared property "+pi.getQName()+" with naming conflict with inherited properties from aspects");
+            }
+            if(allProps.containsKey(pi.getQName())) {
+                result.add(cls.getId()+" class "+cls.getQName()+" declared property "+pi.getQName()+" is missing in getProperties()");
+            } else {
+                if(!propInfoEquals(pi,allProps.get(pi.getQName()),false)) {
+                    result.add(cls.getId()+" class "+cls.getQName()+" declared property "+pi.getQName()+" is different in getProperties()");
+                }
+            }
+        }
+        for(OdmaPropertyInfo pi : superProps.values()) {
+            if(!allProps.containsKey(pi.getQName())) {
+                result.add(cls.getId()+ " inherited superclass property "+pi.getQName()+" not part of properties");
+            } else {
+                if(!propInfoEquals(pi,allProps.get(pi.getQName()),false)) {
+                    result.add(cls.getId()+" class "+cls.getQName()+" inherited superclass property "+pi.getQName()+" is different in getProperties()");
+                }
+            }
+        }
+        for(OdmaPropertyInfo pi : aspectProps.values()) {
+            if(!allProps.containsKey(pi.getQName())) {
+                result.add(cls.getId()+ " inherited aspect property "+pi.getQName()+" not part of properties");
+            } else {
+                if(!propInfoEquals(pi,allProps.get(pi.getQName()),false)) {
+                    result.add(cls.getId()+" class "+cls.getQName()+" inherited aspect property "+pi.getQName()+" is different in getProperties()");
+                }
+            }
+        }
+        for(OdmaQName pn : allProps.keySet()) {
+            if( !superProps.containsKey(pn) && !aspectProps.containsKey(pn) && !declaredProps.containsKey(pn) ) {
+                result.add(cls.getId()+" class "+cls.getQName()+" property "+pn+" is neither inherited through sper class, inherited through aspects or declared");
+            }
+        }
+        if(cls.getSuperClass() != null) {
+            verifyClassBaseline(cls.getSuperClass(), loopCheck);            
+        }
+        for(OdmaClass aspect : cls.getAspects()) {
+            verifyClassBaseline(aspect, loopCheck);            
+        }
+        if(cls.getSuperClass() != null) {
+            for(OdmaClass superAspect : cls.getSuperClass().getAspects()) {
+                if(!aspectNames.contains(superAspect.getQName())) {
+                    result.add(cls.getId()+" class "+cls.getQName()+" inherited aspect "+superAspect.getQName()+" from super class but is missing in aspects");
+                }
+            }
+        }
+        return result;
+    }
