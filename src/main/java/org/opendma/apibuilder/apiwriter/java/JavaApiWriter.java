@@ -589,6 +589,7 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("package org.opendma.impl.core;");
         out.println("");
         out.println("import java.util.ArrayList;");
+        out.println("import java.util.Collections;");
         out.println("import org.opendma.api.OdmaCommonNames;");
         out.println("import org.opendma.api.OdmaType;");
         out.println("import org.opendma.api.OdmaObject;");
@@ -665,7 +666,7 @@ public class JavaApiWriter extends AbstractApiWriter
         }
         else if(pn.equals("CHOICES"))
         {
-            printXMultivalue(out,"CHOICES","new ArrayList<OdmaObject>(0)","REFERENCE");
+            printXMultivalue(out,"CHOICES","Collections.unmodifyableList(new ArrayList<OdmaObject>(0))","REFERENCE");
         }
         else
         {
@@ -841,7 +842,7 @@ public class JavaApiWriter extends AbstractApiWriter
                 out.println("        declaredProperties.add(getPropertyInfo(OdmaCommonNames."+constantPropertyName+"));");
             }
             String parentClassExpression = (classDescription.getExtendsOdmaName()==null) ? "null" : "getClassInfo(OdmaCommonNames.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+")";
-            out.println("        ssc = new OdmaStaticSystemClass"+className+"("+parentClassExpression+",getSubClasses(OdmaCommonNames."+constantClassName+"),declaredAspects,declaredProperties,getRetrievable(OdmaCommonNames."+constantClassName+"),getSearchable(OdmaCommonNames."+constantClassName+"));");
+            out.println("        ssc = new OdmaStaticSystemClass"+className+"("+parentClassExpression+",getSubClasses(OdmaCommonNames."+constantClassName+"),Collections.unmodifiableList(declaredAspects),Collections.unmodifiableList(declaredProperties),getRetrievable(OdmaCommonNames."+constantClassName+"),getSearchable(OdmaCommonNames."+constantClassName+"));");
             if(classDescription.getExtendsOdmaName() != null)
             {
                 out.println("        registerSubClass(OdmaCommonNames.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+", ssc);");
