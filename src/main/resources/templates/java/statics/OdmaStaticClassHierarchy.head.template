@@ -22,7 +22,7 @@ import org.opendma.exceptions.OdmaRuntimeException;
 
 public class OdmaStaticClassHierarchy {
 
-    protected Map<OdmaQName, OdmaStaticSystemPropertyInfo> propertyInfos = new HashMap<OdmaQName, OdmaStaticSystemPropertyInfo>();
+    private Map<PropertyInfoKey, OdmaStaticSystemPropertyInfo> propertyInfos = new HashMap<PropertyInfoKey, OdmaStaticSystemPropertyInfo>();
 
     protected Map<OdmaQName, OdmaStaticSystemClass> classInfos = new HashMap<OdmaQName, OdmaStaticSystemClass>();
 
@@ -35,9 +35,22 @@ public class OdmaStaticClassHierarchy {
     protected OdmaRepository repositoryObject;
     
     protected OdmaIdProvider idProvider;
+    
+    private class PropertyInfoKey {
+        PropertyInfoKey(OdmaQName className, OdmaQName propertyName) {
+            this.className = className;
+            this.propertyName = propertyName;
+        }
+        OdmaQName className;
+        OdmaQName propertyName;
+    }
 
-    public OdmaStaticSystemPropertyInfo getPropertyInfo(OdmaQName name) {
-        return propertyInfos.get(name);
+    public OdmaStaticSystemPropertyInfo getPropertyInfo(OdmaQName className, OdmaQName propertyName) {
+        return propertyInfos.get(new PropertyInfoKey(className, propertyName));
+    }
+
+    protected void registerPropertyInfo(OdmaQName className, OdmaQName propertyName, OdmaStaticSystemPropertyInfo propertyInfo) {
+        propertyInfos.put(new PropertyInfoKey(className, propertyName), propertyInfo);
     }
 
     public OdmaStaticSystemClass getClassInfo(OdmaQName name) {

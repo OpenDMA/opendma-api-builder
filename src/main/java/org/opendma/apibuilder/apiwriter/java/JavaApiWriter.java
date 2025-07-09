@@ -529,7 +529,7 @@ public class JavaApiWriter extends AbstractApiWriter
             while(itDeclaredProperties.hasNext())
             {
                 PropertyDescription propertyDescription = itDeclaredProperties.next();
-                createStaticClassHierarchyHelperProperty(apiDescription,propertyDescription);
+                createStaticClassHierarchyPropertyInfo(apiDescription,propertyDescription);
             }
         }
         // class
@@ -537,10 +537,10 @@ public class JavaApiWriter extends AbstractApiWriter
         while(itClasses.hasNext())
         {
             ClassDescription classDescription = (ClassDescription)itClasses.next();
-            createStaticClassHierarchyHelperClass(apiDescription,classDescription);
+            createStaticClassHierarchyClass(apiDescription,classDescription);
         }
         // hierarchy
-        createStaticClassHierarchyHelper(apiDescription);
+        createStaticClassHierarchy(apiDescription);
    }
     
     private void createStaticClassFromTemplate(File targetFolder, String packageName, String className, final ApiDescription apiDescription) throws IOException
@@ -580,7 +580,7 @@ public class JavaApiWriter extends AbstractApiWriter
         copyTemplateToStream("statics/"+className,createJavaFile(targetFolder,packageName,className),placeholderResolver,true);
     }
 
-    private void createStaticClassHierarchyHelperProperty(ApiDescription apiDescription, PropertyDescription propertyDescription) throws IOException, ApiWriterException
+    private void createStaticClassHierarchyPropertyInfo(ApiDescription apiDescription, PropertyDescription propertyDescription) throws IOException, ApiWriterException
     {
         String className = propertyDescription.getContainingClass().getOdmaName().getName();
         String propName = propertyDescription.getOdmaName().getName();
@@ -684,7 +684,7 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("        properties.put(OdmaCommonNames.PROPERTY_"+propertyNameConstant+",OdmaPropertyImpl.fromValue(OdmaCommonNames.PROPERTY_"+propertyNameConstant+","+value+",OdmaType."+typeConstantName+",true,true));");        
     }
 
-    protected void createStaticClassHierarchyHelperClass(ApiDescription apiDescription, ClassDescription classDescription) throws IOException, ApiWriterException
+    protected void createStaticClassHierarchyClass(ApiDescription apiDescription, ClassDescription classDescription) throws IOException, ApiWriterException
     {
         String className = classDescription.getOdmaName().getName();
         OutputStream staticClassStream = createJavaFile(opendmaApiSourceFolder,"org.opendma.impl.core","OdmaStaticSystemClass"+className);
@@ -795,7 +795,7 @@ public class JavaApiWriter extends AbstractApiWriter
         }
     }
 
-    private void createStaticClassHierarchyHelper(ApiDescription apiDescription) throws IOException
+    private void createStaticClassHierarchy(ApiDescription apiDescription) throws IOException
     {
         OutputStream staticClassStream = createJavaFile(opendmaApiSourceFolder,"org.opendma.impl.core","OdmaStaticClassHierarchy");
         copyTemplateToStream("statics/OdmaStaticClassHierarchy.head",staticClassStream,false);
@@ -812,6 +812,7 @@ public class JavaApiWriter extends AbstractApiWriter
         {
             ClassDescription classDescription = itClassDescriptions.next();
             String className = classDescription.getOdmaName().getName();
+            String constantClassName = "CLASS_" + className.toUpperCase();
             Iterator<PropertyDescription> itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
             while(itPropertyDescriptions.hasNext())
             {
@@ -821,7 +822,7 @@ public class JavaApiWriter extends AbstractApiWriter
                 if(uniquePropMap.containsKey(constantPropertyName))
                     continue;
                 uniquePropMap.put(constantPropertyName,Boolean.TRUE);
-                out.println("        propertyInfos.put(OdmaCommonNames."+constantPropertyName+", new OdmaStaticSystemPropertyInfo"+className+propName+"());");
+                out.println("        registerPropertyInfo(OdmaCommonNames."+constantClassName+", OdmaCommonNames."+constantPropertyName+", new OdmaStaticSystemPropertyInfo"+className+propName+"());");
             }
         }
         itClassDescriptions = apiDescription.getDescribedClasses().iterator();
@@ -839,10 +840,10 @@ public class JavaApiWriter extends AbstractApiWriter
                 PropertyDescription propertyDescription = itPropertyDescriptions.next();
                 String propName = propertyDescription.getOdmaName().getName();
                 String constantPropertyName = "PROPERTY_" + propName.toUpperCase();
-                out.println("        declaredProperties.add(getPropertyInfo(OdmaCommonNames."+constantPropertyName+"));");
+                out.println("        declaredProperties.add(getPropertyInfo(OdmaCommonNames."+constantClassName+", OdmaCommonNames."+constantPropertyName+"));");
             }
             String parentClassExpression = (classDescription.getExtendsOdmaName()==null) ? "null" : "getClassInfo(OdmaCommonNames.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+")";
-            out.println("        ssc = new OdmaStaticSystemClass"+className+"("+parentClassExpression+",getSubClasses(OdmaCommonNames."+constantClassName+"),Collections.unmodifiableList(declaredAspects),Collections.unmodifiableList(declaredProperties),getRetrievable(OdmaCommonNames."+constantClassName+"),getSearchable(OdmaCommonNames."+constantClassName+"));");
+            out.println("        ssc = new OdmaStaticSystemClass"+className+"("+parentClassExpression+", getSubClasses(OdmaCommonNames."+constantClassName+"), Collections.unmodifiableList(declaredAspects), Collections.unmodifiableList(declaredProperties), getRetrievable(OdmaCommonNames."+constantClassName+"), getSearchable(OdmaCommonNames."+constantClassName+"));");
             if(classDescription.getExtendsOdmaName() != null)
             {
                 out.println("        registerSubClass(OdmaCommonNames.CLASS_"+classDescription.getExtendsOdmaName().getName().toUpperCase()+", ssc);");
