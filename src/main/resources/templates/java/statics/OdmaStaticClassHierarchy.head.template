@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 
 import org.opendma.api.OdmaClass;
 import org.opendma.api.OdmaCommonNames;
@@ -36,13 +37,28 @@ public class OdmaStaticClassHierarchy {
     
     protected OdmaIdProvider idProvider;
     
-    private class PropertyInfoKey {
-        PropertyInfoKey(OdmaQName className, OdmaQName propertyName) {
+    private static class PropertyInfoKey {
+        private PropertyInfoKey(OdmaQName className, OdmaQName propertyName) {
             this.className = className;
             this.propertyName = propertyName;
         }
         OdmaQName className;
         OdmaQName propertyName;
+        @Override
+        public int hashCode() {
+            return Objects.hash(className, propertyName);
+        }
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            PropertyInfoKey other = (PropertyInfoKey) obj;
+            return Objects.equals(className, other.className) && Objects.equals(propertyName, other.propertyName);
+        }
     }
 
     public OdmaStaticSystemPropertyInfo getPropertyInfo(OdmaQName className, OdmaQName propertyName) {
