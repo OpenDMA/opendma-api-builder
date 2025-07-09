@@ -331,7 +331,9 @@ public class JavaApiWriter extends AbstractApiWriter
             out.println("        LinkedList<String> result = new LinkedList<>();");
             out.println("        result.addAll(verifyObjectBaseline(obj));");
             if(classDescription == apiDescription.getClassClass()) {
-                out.println("        result.addAll(verifyClassBaseline(obj));");
+                out.println("        if(obj instanceof OdmaClass) {");
+                out.println("            result.addAll(verifyClassBaseline((OdmaClass)obj, new HashSet<OdmaQName>()));");
+                out.println("        }");
             }
             if(classDescription.getExtendsOdmaName() != null)
             {
