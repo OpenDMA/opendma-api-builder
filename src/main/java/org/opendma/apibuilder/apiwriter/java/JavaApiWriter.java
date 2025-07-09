@@ -330,6 +330,9 @@ public class JavaApiWriter extends AbstractApiWriter
             out.println("    public static List<String> verify"+classDescription.getApiName()+"(OdmaObject obj) {");
             out.println("        LinkedList<String> result = new LinkedList<>();");
             out.println("        result.addAll(verifyObjectBaseline(obj));");
+            out.println("        if(!(obj instanceof "+classDescription.getApiName()+")) {");
+            out.println("            result.add(\"Does not implement "+classDescription.getApiName()+" interface\");");
+            out.println("        }");
             if(classDescription == apiDescription.getClassClass()) {
                 out.println("        if(obj instanceof OdmaClass) {");
                 out.println("            result.addAll(verifyClassBaseline((OdmaClass)obj, new HashSet<OdmaQName>()));");
