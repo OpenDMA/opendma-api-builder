@@ -80,6 +80,25 @@ public class JavaPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("     *             property");
         out.println("     */");
         out.println("    public "+returnType+" get"+scalarName+"() throws OdmaInvalidDataTypeException;");
+        if(scalarTypeDescription.isReference())
+		{
+			out.println("");
+	        out.println("    /**");
+	        out.println("     * Returns the <code>OdmaId</code> of the <code>"+scalarName+"</code> if and only if");
+	        out.println("     * the data type of this property is a single valued <i>"+scalarName+"</i>. Throws");
+	        out.println("     * an <code>OdmaInvalidDataTypeException</code> otherwise.");
+	        out.println("     * ");
+	        out.println("     * Based on the PropertyResolutionState, it is possible that this OdmaId is immediately available");
+	        out.println("     * while the OdmaObject requires an additional round-trip to the server.");
+	        out.println("     * ");
+	        out.println("     * @return the <code>OdmaId</code> of the <code>"+scalarName+"</code> value of this property");
+	        out.println("     * ");
+	        out.println("     * @throws OdmaInvalidDataTypeException");
+	        out.println("     *             if and only if this property is not a single valued <i>"+scalarName+"</i>");
+	        out.println("     *             property");
+	        out.println("     */");
+	        out.println("    public OdmaId get"+scalarName+"Id() throws OdmaInvalidDataTypeException;");
+		}
     }
 
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException

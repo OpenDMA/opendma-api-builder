@@ -48,7 +48,16 @@ public:
     virtual bool isReadOnly() const = 0;
 
     /**
-     * @brief Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
-     * @return `true` if the value is immediately available, `false` if reading this value requires a round-trip to a back-end system.
+     * @brief The availability state of a property value.
      */
-    virtual bool isResolved() const = 0;
+    enum class PropertyResolutionState {
+        UNRESOLVED,   ///< Reading this value requires a round-trip to a back-end system
+        IDRESOLVED,   ///< The OdmaId of the referenced object is immediately available, but reading the object value requires a round-trip to a back-end system
+        RESOLVED      ///< The value is immediately available
+    };
+
+    /**
+     * @brief Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
+     * @return the availability state of this property value.
+     */
+    virtual PropertyResolutionState isResolved() getResolutionState() const = 0;

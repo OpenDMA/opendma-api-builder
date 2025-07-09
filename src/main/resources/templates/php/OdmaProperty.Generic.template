@@ -54,7 +54,7 @@
     /**
      * Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
      *
-     * @return bool True if the value is immediately available, False if reading this value requires a round-trip to a back-end system.
+     * @return PropertyResolutionState The availability state of this property value.
      */
-    public function isResolved(): bool;
+    public function getResolutionState(): PropertyResolutionState;
     

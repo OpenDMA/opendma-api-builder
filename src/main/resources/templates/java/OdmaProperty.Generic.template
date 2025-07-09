@@ -65,8 +65,23 @@
     public boolean isReadOnly();
 
     /**
+     * The availability state of a property value.
+     */
+    public enum PropertyResolutionState {
+        
+        /** Reading this value requires a round-trip to a back-end system */
+        UNRESOLVED,
+
+	    /** The OdmaId of the referenced object is immediately available, but reading the object value requires a round-trip to a back-end system */
+        IDRESOLVED,
+        
+        /** The value is immediately available */
+        RESOLVED
+    }
+
+    /**
      * Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
      * 
-     * @return <code>true</code> if the value is immediately available, <code>false</code> if reading this value requires a round-trip to a back-end system.
+     * @return the availability state of this property value.
      */
-    public boolean isResolved();
+     public PropertyResolutionState getResolutionState();

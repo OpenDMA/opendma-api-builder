@@ -23,4 +23,4 @@
     fn is_read_only(&self) -> bool;
 
     /// Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
-    fn is_resolved(&self) -> bool;
+    fn get_resolution_state(&self) -> PropertyResolutionState;

@@ -1,13 +1,21 @@
     
     /**
      * Interface for lazy property resolution.
-     *
      */
     public interface OdmaLazyPropertyValueProvider {
+    
+        /**
+         * Indicates of the OdmaId of a referenced object is available without a round-trip to a back-end system.
+         */
+        boolean hasReferenceId();
+        
+        /**
+         * Get the OdmaId of a referenced object, if available. Returns null otherwise.
+         */
+        OdmaId getReferenceId();
         
         /**
          * Resolves the value of the property when accessed.
-         *
          */
         Object resovlePropertyValue();
         
@@ -205,10 +213,16 @@
     /**
      * Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
      * 
-     * @return <code>true</code> if the value is immediately available, <code>false</code> if reading this value requires a round-trip to a back-end system.
+     * @return the availability state of this property value.
      */
-    public boolean isResolved() {
-        return valueProvider == null;
+    public PropertyResolutionState getResolutionState() {
+        if(valueProvider == null) {
+            return PropertyResolutionState.RESOLVED;
+        } else if(valueProvider.hasReferenceId()) {
+            return PropertyResolutionState.IDRESOLVED;
+        } else {
+            return PropertyResolutionState.UNRESOLVED;
+        }
     }
 
     private boolean checkListAndValues(Object obj, Class<?> expectedElementsClass) {

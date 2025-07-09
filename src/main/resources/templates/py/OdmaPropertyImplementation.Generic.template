@@ -76,13 +76,18 @@
         """
         return self._read_only
 
-    def is_resolved(self) -> bool:
+    def get_resolution_state(self) -> PropertyResolutionState:
         """
         Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
         
-        :return: `True` if the value is immediately available, `False` if reading this value requires a round-trip to a back-end system.
+        :return: the availability state of this property value.
         """
-        return self._value_provider is None
+        if self._value_provider is None:
+            return PropertyResolutionState.RESOLVED
+        elif self._value_provider.has_reference_id():
+            return PropertyResolutionState.ID_RESOLVED
+        else:
+            return PropertyResolutionState.UNRESOLVED
 
     def set_value(self, new_value: Any) -> None:
         """

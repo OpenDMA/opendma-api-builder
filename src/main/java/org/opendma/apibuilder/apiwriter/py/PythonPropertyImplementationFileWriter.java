@@ -120,6 +120,26 @@ public class PythonPropertyImplementationFileWriter extends AbstractPropertyFile
         out.println("            self._enforce_value()");
         out.println("            return self._value");
         out.println("        raise OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `get_"+scalarName.toLowerCase()+"(self)`\");");
+        if(scalarTypeDescription.isReference())
+		{
+            out.println("");
+            out.println("    def get_"+scalarName.toLowerCase()+"_id(self) -> Optional[OdmaId]:");
+            out.println("        \"\"\" Retrieves the OdmaId of the "+scalarName+" value of this property if and only if");
+            out.println("        the data type of this property is a single valued "+scalarName+".");
+	        out.println("        ");
+	        out.println("        Based on the PropertyResolutionState, it is possible that this OdmaId is immediately available");
+	        out.println("        while the OdmaObject requires an additional round-trip to the server.");
+            out.println("        \"\"\"");
+            out.println("        if self._multi_value == False and self._data_type == OdmaType."+constantScalarTypeName+":");
+            out.println("            if self._value_provider is None:");
+            out.println("                return self._value.get_id()");
+            out.println("            elif self._value_provider.has_reference_id():");
+            out.println("                return self._value_provider.get_reference_id()");
+            out.println("            else:");
+            out.println("                self._enforce_value()");
+            out.println("                return self._value.get_id()");
+            out.println("        raise OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `get_"+scalarName.toLowerCase()+"(self)`\");");
+		}
     }
 
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException

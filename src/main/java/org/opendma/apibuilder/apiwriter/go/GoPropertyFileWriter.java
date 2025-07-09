@@ -72,6 +72,16 @@ public class GoPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("    // the data type of this property is a single valued "+scalarName+".");
         out.println("    // Returns an OdmaInvalidDataTypeError if the data type of this property is not a single-valued "+scalarName+".");
         out.println("    Get"+scalarName+"() ("+returnType+",error)");
+        if(scalarTypeDescription.isReference())
+		{
+            out.println("");
+            out.println("    // Returns the OdmaId of the "+scalarName+" value of this property if and only if");
+            out.println("    // the data type of this property is a single valued "+scalarName+".");
+	        out.println("    // Based on the PropertyResolutionState, it is possible that this OdmaId is immediately available");
+	        out.println("    // while the OdmaObject requires an additional round-trip to the server.");
+            out.println("    // Returns an OdmaInvalidDataTypeError if the data type of this property is not a single-valued "+scalarName+".");
+            out.println("    Get"+scalarName+"Id() (*OdmaId,error)");
+		}
     }
 
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException

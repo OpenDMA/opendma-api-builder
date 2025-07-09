@@ -21,4 +21,4 @@
     var isReadOnly: Bool { get }
 
     /// Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
-    var isResolved: Bool { get }
+    func getResolutionState() -> PropertyResolutionState

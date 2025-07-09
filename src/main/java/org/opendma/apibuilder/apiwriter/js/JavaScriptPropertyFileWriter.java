@@ -67,6 +67,24 @@ public class JavaScriptPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("    get"+scalarName+"() {");
         out.println("        throw new Error(\"Method 'get"+scalarName+"()' must be implemented.\");");
         out.println("    }");
+        if(scalarTypeDescription.isReference())
+		{
+            out.println("");
+            out.println("    /**");
+            out.println("     * Retrieves the OdmaId of the "+scalarName+" value of this property if and only if");
+            out.println("     * the data type of this property is a single valued "+scalarName+".");
+	        out.println("     * ");
+	        out.println("     * Based on the PropertyResolutionState, it is possible that this OdmaId is immediately available");
+	        out.println("     * while the OdmaObject requires an additional round-trip to the server.");
+            out.println("     *");
+            out.println("     * @abstract");
+            out.println("     * @returns {OdmaId} The OdmaId of the "+scalarName+" value of this property");
+            out.println("     * @throws {OdmaInvalidDataTypeException} If the data type of this property is not a single-valued "+scalarName+".");
+            out.println("     */");
+            out.println("    get"+scalarName+"Id() {");
+            out.println("        throw new Error(\"Method 'get"+scalarName+"Id()' must be implemented.\");");
+            out.println("    }");
+		}
     }
 
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException

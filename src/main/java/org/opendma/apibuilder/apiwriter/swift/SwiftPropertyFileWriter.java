@@ -68,6 +68,15 @@ public class SwiftPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("    /// Gets the "+scalarName+" value of this property if and only if");
         out.println("    /// the data type of this property is a single valued "+scalarName+".");
         out.println("    func "+Tools.lowerCaseFirstChar(scalarName)+"Value() throws -> "+returnType);
+        if(scalarTypeDescription.isReference())
+		{
+            out.println("");
+            out.println("    /// Gets the OdmaId of  the "+scalarName+" value of this property if and only if");
+            out.println("    /// the data type of this property is a single valued "+scalarName+".");
+	        out.println("    /// Based on the PropertyResolutionState, it is possible that this OdmaId is immediately available");
+	        out.println("    /// while the OdmaObject requires an additional round-trip to the server.");
+            out.println("    func "+Tools.lowerCaseFirstChar(scalarName)+"Id() throws -> OdmaId?");
+		}
     }
 
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException

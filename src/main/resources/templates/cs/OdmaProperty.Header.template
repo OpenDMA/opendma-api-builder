@@ -1,15 +1,4 @@
     /// <summary>
-    /// Interface for lazy property resolution.
-    /// </summary>
-    public interface IOdmaLazyPropertyValueProvider
-    {
-        /// <summary>
-        /// Resolves the value of the property when accessed.
-        /// </summary>
-        object? ResolvePropertyValue();
-    }
-
-    /// <summary>
     /// Standard implementation of the IOdmaProperty interface.
     /// </summary>
     public class OdmaProperty : IOdmaProperty

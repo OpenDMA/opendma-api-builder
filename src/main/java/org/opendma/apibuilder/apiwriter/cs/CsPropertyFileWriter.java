@@ -83,6 +83,24 @@ public class CsPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("        /// Thrown if the data type of this property is not a single-valued "+scalarName+".");
         out.println("        /// </exception>");
         out.println("        "+returnType+" Get"+scalarName+"();");
+        if(scalarTypeDescription.isReference())
+		{
+			out.println("");
+	        out.println("    public OdmaId get"+scalarName+"Id() throws OdmaInvalidDataTypeException;");
+	        out.println("        /// <summary>");
+	        out.println("        /// Retrieves the OdmaId of the "+scalarName+" value of this property if and only if");
+	        out.println("        /// the data type of this property is a single valued "+scalarName+".");
+	        out.println("        /// Based on the PropertyResolutionState, it is possible that this OdmaId is immediately available");
+	        out.println("        /// while the OdmaObject requires an additional round-trip to the server.");
+	        out.println("        /// </summary>");
+	        out.println("        /// <returns>");
+	        out.println("        /// The OdmaId of the "+returnType+" value of this property");
+	        out.println("        /// </returns>");
+	        out.println("        /// <exception cref=\"OdmaInvalidDataTypeException\">");
+	        out.println("        /// Thrown if the data type of this property is not a single-valued "+scalarName+".");
+	        out.println("        /// </exception>");
+	        out.println("        OdmaId? Get"+scalarName+"Id();");
+		}
     }
 
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException

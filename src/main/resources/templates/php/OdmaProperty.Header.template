@@ -1,3 +1,10 @@
+enum PropertyResolutionState
+{
+    case UNRESOLVED;   // Reading this value requires a round-trip to a back-end system
+    case IDRESOLVED;   // The OdmaId of the referenced object is immediately available, but reading the object value requires a round-trip to a back-end system
+    case RESOLVED;     // The value is immediately available
+}
+
 /**
  * Interface OdmaProperty
  * A Property of an OdmaObject in the OpenDMA architecture. It is always bound

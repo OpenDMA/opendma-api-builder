@@ -1,5 +1,11 @@
 from typing import Any, Optional
 from datetime import datetime
+from enum import Enum, auto
+
+class PropertyResolutionState(Enum):
+    UNRESOLVED = auto()   # Reading this value requires a round-trip to a back-end system
+    IDRESOLVED = auto()   # The OdmaId of the referenced object is immediately available, but reading the object value requires a round-trip to a back-end system
+    RESOLVED = auto()     # The value is immediately available
 
 class OdmaProperty(ABC):
     """Abstract base class representing a property of an OdmaObject in the OpenDMA

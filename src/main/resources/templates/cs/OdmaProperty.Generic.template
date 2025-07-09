@@ -95,7 +95,11 @@
         /// <summary>
         /// Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
         /// </summary>
-        public bool IsResolved { get => _valueProvider == null; }
+        public PropertyResolutionState ResolutionState { get => 
+            _valueProvider == null ? PropertyResolutionState.Resolved :
+            _valueProvider.HasReferenceId ? PropertyResolutionState.IdResolved :
+            PropertyResolutionState.Unresolved; 
+        }
 
         /// <summary>
         /// The value of this property. The concrete <see cref="object"/> of this property depends on the data type of this OdmaProperty.

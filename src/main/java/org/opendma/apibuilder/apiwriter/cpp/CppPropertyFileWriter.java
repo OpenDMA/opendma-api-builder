@@ -71,6 +71,19 @@ public class CppPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("     * @throws OdmaInvalidDataTypeException if the data type of this property is not a single-valued "+scalarName+".");
         out.println("     */");
         out.println("    virtual "+returnType+" get"+scalarName+"() = 0;");
+        if(scalarTypeDescription.isReference())
+		{
+			out.println("");
+	        out.println("    /**");
+	        out.println("     * @brief Retrieves the OdmaId of the "+scalarName+" value of this property if and only if");
+	        out.println("     * the data type of this property is a single valued "+scalarName+".");
+	        out.println("     * Based on the PropertyResolutionState, it is possible that this OdmaId is immediately available");
+	        out.println("     * while the OdmaObject requires an additional round-trip to the server.");
+	        out.println("     * @return The OdmaId of the "+returnType+" value of this property");
+	        out.println("     * @throws OdmaInvalidDataTypeException if the data type of this property is not a single-valued "+scalarName+".");
+	        out.println("     */");
+	        out.println("    virtual std::optional<OdmaId> get"+scalarName+"Id() = 0;");
+		}
     }
 
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException

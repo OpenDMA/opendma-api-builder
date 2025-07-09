@@ -6,6 +6,18 @@ class LazyPropertyValueProvider(Protocol):
     Interface for lazy property resolution.
     """
     
+    def has_reference_id(self) -> bool:
+        """
+        Indicates if the OdmaId of a referenced object is available without a round-trip to a back-end system.
+        """
+        ...
+
+	def get_reference_id(self) -> Optional[str]:
+        """
+        Get the OdmaId of a referenced object, if available. Returns None otherwise.
+        """
+        ...
+    
     def resolve_property_value(self) -> Any:
         """
         Resolves the value of the property when accessed.

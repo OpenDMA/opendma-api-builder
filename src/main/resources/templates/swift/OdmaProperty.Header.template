@@ -1,3 +1,13 @@
+/// The availability state of a property value
+public enum PropertyResolutionState {
+    /// Reading this value requires a round-trip to a back-end system
+    case unresolved
+    /// The OdmaId of the referenced object is immediately available, but reading the object value requires a round-trip to a back-end system
+    case idResolved
+    /// The value is immediately available
+    case resolved
+}
+
 /// OdmaProperty is a protocol for a Property of an OdmaObject in the OpenDMA
 /// architecture. It is always bound in name, data type and cardinality and can
 /// not change these. If this property is not read only (i.e. isReadOnly()

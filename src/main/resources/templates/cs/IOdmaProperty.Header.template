@@ -1,4 +1,26 @@
     /// <summary>
+    /// Interface for lazy property resolution.
+    /// </summary>
+    public interface IOdmaLazyPropertyValueProvider
+    {
+
+        /// <summary>
+        /// Indicates of the OdmaId of a referenced object is available without a round-trip to a back-end system.
+        /// </summary>
+        bool HasReferenceId();
+        
+        /// <summary>
+        /// Get the OdmaId of a referenced object, if available. Returns null otherwise.
+        /// </summary>
+        OdmaId? GetReferenceId();
+
+        /// <summary>
+        /// Resolves the value of the property when accessed.
+        /// </summary>
+        object? ResolvePropertyValue();
+    }
+
+    /// <summary>
     /// A <i>Property</i> of an <see cref="OdmaObject"/> in the OpenDMA architecture.
     /// It is always bound in name, data type, and cardinality and cannot change these.
     /// If this property is not read-only (i.e., <see cref="IsReadOnly"/> returns <c>false</c>),

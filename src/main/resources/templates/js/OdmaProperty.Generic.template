@@ -73,10 +73,19 @@
     }
 
     /**
+     * The availability state of a property value.
+     */
+    static PropertyResolutionState = Object.freeze({
+        UNRESOLVED: "UNRESOLVED",   // Reading this value requires a round-trip to a back-end system
+        IDRESOLVED: "IDRESOLVED",   // The OdmaId of the referenced object is immediately available, but reading the object value requires a round-trip to a back-end system
+        RESOLVED: "RESOLVED"        // The value is immediately available
+    });
+
+    /**
      * Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
      * @abstract
-     * @returns {boolean} True if the value is immediately available, False if reading this value requires a round-trip to a back-end system.
+     * @returns {OdmaProperty.PropertyResolutionState} The availability state of this property value.
      */
-    isResolved() {
-        throw new Error("Method 'isResolved()' must be implemented.");
+    getResolutionState() {
+        throw new Error("Method 'getResolutionState()' must be implemented.");
     }

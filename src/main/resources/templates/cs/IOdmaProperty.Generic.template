@@ -30,8 +30,29 @@
         /// Indicates whether this property is read-only.
         /// </summary>
         bool IsReadOnly { get; }
+
+        /// <summary>
+        /// The availability state of a property value.
+        /// </summary>
+        public enum PropertyResolutionState
+        {
+            /// <summary>
+            /// Reading this value requires a round-trip to a back-end system.
+            /// </summary>
+            Unresolved,
+
+            /// <summary>
+            /// The OdmaId of the referenced object is immediately available, but reading the object value requires a round-trip to a back-end system.
+            /// </summary>
+            IdResolved,
+
+            /// <summary>
+            /// The value is immediately available.
+            /// </summary>
+            Resolved
+        }}
         
         /// <summary>
         /// Indicates if the value of this property is immediately available can be read without a round-trip to a back-end system.
         /// </summary>
-        bool IsResolved { get; }
+        PropertyResolutionState ResolutionState { get; }

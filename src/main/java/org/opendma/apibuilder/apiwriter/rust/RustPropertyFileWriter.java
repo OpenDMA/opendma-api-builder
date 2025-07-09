@@ -69,6 +69,18 @@ public class RustPropertyFileWriter extends AbstractPropertyFileWriter
         out.println("    ///");
         out.println("    /// Returns OdmaError::InvalidDataType if the data type of this property is not a single-valued "+scalarName+".");
         out.println("    fn get_"+scalarName.toLowerCase()+"(&self) -> Result<"+returnType+", OdmaError>;");
+        if(scalarTypeDescription.isReference())
+		{
+            out.println("");
+            out.println("    /// Gets the OdmaId of the "+scalarName+" value of this property if and only if");
+            out.println("    /// the data type of this property is a single valued "+scalarName+".");
+	        out.println("    ///");
+	        out.println("    /// Based on the PropertyResolutionState, it is possible that this OdmaId is immediately available");
+	        out.println("    /// while the OdmaObject requires an additional round-trip to the server.");
+            out.println("    ///");
+            out.println("    /// Returns OdmaError::InvalidDataType if the data type of this property is not a single-valued "+scalarName+".");
+            out.println("    fn get_"+scalarName.toLowerCase()+"_id(&self) -> Result<Option<OdmaId>, OdmaError>;");
+		}
     }
 
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
