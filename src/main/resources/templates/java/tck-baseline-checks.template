@@ -274,3 +274,71 @@
         }
         return result;
     }
+
+    private static boolean propInfoEquals(OdmaPropertyInfo piA, OdmaPropertyInfo piB, boolean ignoreReferenceClass) {
+        if(!piA.getName().equals(piB.getName())) {
+            return false;
+        }
+        if(!piA.getNamespace().equals(piB.getNamespace())) {
+            return false;
+        }
+        if(!piA.getDisplayName().equals(piB.getDisplayName())) {
+            return false;
+        }
+        if(!piA.getDataType().equals(piB.getDataType())) {
+            return false;
+        }
+        if(!piA.isMultiValue().equals(piB.isMultiValue())) {
+            return false;
+        }
+        if(!piA.isRequired().equals(piB.isRequired())) {
+            return false;
+        }
+        if(!piA.isReadOnly().equals(piB.isReadOnly())) {
+            return false;
+        }
+        if(!piA.isHidden().equals(piB.isHidden())) {
+            return false;
+        }
+        if(!piA.isSystem().equals(piB.isSystem())) {
+            return false;
+        }
+        if(!piA.getQName().equals(piB.getQName())) {
+            return false;
+        }
+        if(!(piA.getChoices().iterator().hasNext() == piB.getChoices().iterator().hasNext())) {
+            return false;
+        }
+        if(piA.getChoices().iterator().hasNext()) {
+            HashSet<OdmaId> choices = new HashSet<OdmaId>();
+            for(OdmaChoiceValue cv : piA.getChoices()) {
+                choices.add(cv.getId());
+            }
+            for(OdmaChoiceValue cv : piB.getChoices()) {
+                if(!choices.contains(cv.getId())) {
+                    return false;
+                }
+                choices.remove(cv.getId());
+            }
+            if(!choices.isEmpty()) {
+                return false;
+            }
+        }
+        if(!ignoreReferenceClass && piA.getDataType() == OdmaType.REFERENCE.getNumericId()) {
+            if(piA.getReferenceClass().getQName().equals(piB.getReferenceClass().getQName())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean isOrExtends(OdmaQName name, OdmaClass cls) {
+        while(cls != null) {
+            if(cls.getQName().equals(name)) {
+                return true;
+            }
+            cls = cls.getSuperClass();
+        }
+        return false;
+    }
+    
