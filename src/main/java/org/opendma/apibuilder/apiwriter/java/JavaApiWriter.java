@@ -668,7 +668,7 @@ public class JavaApiWriter extends AbstractApiWriter
         }
         else if(pn.equals("CHOICES"))
         {
-            printXMultivalue(out,"CHOICES","Collections.unmodifyableList(new ArrayList<OdmaObject>(0))","REFERENCE");
+            printXMultivalue(out,"CHOICES","Collections.unmodifiableList(new ArrayList<OdmaObject>(0))","REFERENCE");
         }
         else
         {
@@ -881,6 +881,8 @@ public class JavaApiWriter extends AbstractApiWriter
         while(itClassDescriptions.hasNext())
         {
             ClassDescription classDescription = (ClassDescription)itClassDescriptions.next();
+            String className = classDescription.getOdmaName().getName();
+            String constantClassName = "CLASS_" + className.toUpperCase();
             Iterator<PropertyDescription> itPropertyDescriptions = classDescription.getPropertyDescriptions().iterator();
             while(itPropertyDescriptions.hasNext())
             {
@@ -892,7 +894,7 @@ public class JavaApiWriter extends AbstractApiWriter
                 if(uniquePropMap.containsKey(constantPropertyName))
                     continue;
                 uniquePropMap.put(constantPropertyName,Boolean.TRUE);
-                out.println("        getPropertyInfo(OdmaCommonNames."+constantPropertyName+").patchReferenceClass(getClassInfo(OdmaCommonNames.CLASS_"+propertyDescription.getReferenceClassName().getName().toUpperCase()+"));");
+                out.println("        getPropertyInfo(OdmaCommonNames."+constantClassName+", OdmaCommonNames."+constantPropertyName+").patchReferenceClass(getClassInfo(OdmaCommonNames.CLASS_"+propertyDescription.getReferenceClassName().getName().toUpperCase()+"));");
             }
         }
         out.println("    }");
