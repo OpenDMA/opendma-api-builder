@@ -329,14 +329,18 @@ public class JavaApiWriter extends AbstractApiWriter
             out.println("");
             out.println("    public static List<String> verify"+classDescription.getApiName()+"(OdmaObject obj) {");
             out.println("        LinkedList<String> result = new LinkedList<>();");
-            out.println("        result.addAll(verifyObjectBaseline(obj));");
             out.println("        if(!(obj instanceof "+classDescription.getApiName()+")) {");
             out.println("            result.add(\"Does not implement "+classDescription.getApiName()+" interface\");");
             out.println("        }");
             if(classDescription == apiDescription.getClassClass()) {
                 out.println("        if(obj instanceof OdmaClass) {");
-                out.println("            result.addAll(verifyClassBaseline((OdmaClass)obj, new HashSet<OdmaQName>()));");
+                out.println("            result.addAll(verifyClassBaseline((OdmaClass)obj));");
+                out.println("        } else {");
+                out.println("            result.add(\"Skipping class baseline verification\");");
+                out.println("            result.addAll(verifyObjectBaseline(obj));");
                 out.println("        }");
+            } else {
+                out.println("        result.addAll(verifyObjectBaseline(obj));");
             }
             if(classDescription.getExtendsOdmaName() != null)
             {
@@ -389,9 +393,28 @@ public class JavaApiWriter extends AbstractApiWriter
                 {
                     if(propertyDescription.getMultiValue())
                     {
-                        out.println("            if(((List<Object>)prop"+propertyDescription.getApiName()+".getValue()).isEmpty()) {");
-                        out.println("                result.add(\"Property "+propertyDescription.getOdmaName()+" is required but value is empty\");");
-                        out.println("            }");
+                        if(propertyDescription.isReference())
+                        {
+                            String scalarName = propertyDescription.getDataType().getName();
+                            out.println("            try {");
+                            out.println("                if(prop"+propertyDescription.getApiName()+".get"+scalarName+"Iterable().iterator().hasNext()) {");
+                            out.println("                    result.add(\"Property "+propertyDescription.getOdmaName()+" is required but value is empty\");");
+                            out.println("                }");
+                            out.println("            } catch(OdmaInvalidDataTypeException idte) {");
+                            out.println("                result.add(\"OdmaInvalidDataTypeException accessing value of property "+propertyDescription.getOdmaName()+"\");");
+                            out.println("            }");
+                        }
+                        else
+                        {
+                            String scalarName = propertyDescription.getDataType().getName();
+                            out.println("            try {");
+                            out.println("                if(prop"+propertyDescription.getApiName()+".get"+scalarName+"List().isEmpty()) {");
+                            out.println("                    result.add(\"Property "+propertyDescription.getOdmaName()+" is required but value is empty\");");
+                            out.println("                }");
+                            out.println("            } catch(OdmaInvalidDataTypeException idte) {");
+                            out.println("                result.add(\"OdmaInvalidDataTypeException accessing value of property "+propertyDescription.getOdmaName()+"\");");
+                            out.println("            }");
+                        }
                     }
                     else
                     {

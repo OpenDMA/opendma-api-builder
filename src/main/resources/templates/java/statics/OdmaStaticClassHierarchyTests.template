@@ -1,5 +1,6 @@
 package org.opendma.impl.core;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Iterator;
@@ -23,18 +24,25 @@ public class OdmaStaticClassHierarchyTests {
         OdmaId repoObjectId = new OdmaId("repoobjectid");
     	OdmaStaticClassHierarchy hierarchy = new OdmaStaticClassHierarchy("repo-name","Repo display name",repoId,repoObjectId);
     	for(OdmaObject test : hierarchy.getAllObjectsById().values()) {
+    	    boolean verified = false;
     		if(test instanceof OdmaRepository) {
     			List<String> failures = OdmaTechnologyCompatibilityKit.verifyOdmaRepository(test);
-    			assertTrue("Failed verifying object of type OdmaRepository: "+joinStrings(", ", failures), failures.isEmpty());
+    			assertTrue("Failed verifying object of type OdmaRepository:\n"+joinStrings(",\n", failures), failures.isEmpty());
+                verified = true;
     		}
     		if(test instanceof OdmaPropertyInfo) {
+    		    assertFalse("Object implements complimentary class interfaces: "+test.getId(), verified);
     			List<String> failures = OdmaTechnologyCompatibilityKit.verifyOdmaPropertyInfo(test);
-    			assertTrue("Failed verifying object of type OdmaPropertyInfo: "+joinStrings(", ", failures), failures.isEmpty());
+    			assertTrue("Failed verifying object of type OdmaPropertyInfo:\n"+joinStrings(",\n", failures), failures.isEmpty());
+                verified = true;
     		}
     		if(test instanceof OdmaClass) {
+                assertFalse("Object implements complimentary class interfaces: "+test.getId(), verified);
     			List<String> failures = OdmaTechnologyCompatibilityKit.verifyOdmaClass(test);
-    			assertTrue("Failed verifying object of type OdmaClass: "+joinStrings(", ", failures), failures.isEmpty());
+    			assertTrue("Failed verifying object of type OdmaClass:\n"+joinStrings(",\n", failures), failures.isEmpty());
+                verified = true;
     		}
+            assertTrue("Object does not implement OdmaRepository, OdmaPropertyInfo or OdmaClass: "+test.getId(), verified);
     	}
     }
     

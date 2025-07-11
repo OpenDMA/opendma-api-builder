@@ -1,9 +1,17 @@
 
     public static List<String> verifyObjectBaseline(OdmaObject obj) {
+        return verifyObjectBaseline(obj, new HashSet<OdmaId>(), new HashSet<OdmaQName>());
+    }
+
+    public static List<String> verifyObjectBaseline(OdmaObject obj, HashSet<OdmaId> objectLoopCheck, HashSet<OdmaQName> classLoopCheck) {
         LinkedList<String> result = new LinkedList<>();
         if(obj.getId() == null) {
             result.add("getId() returns null");
         }
+        if(objectLoopCheck.contains(obj.getId())) {
+            return result;
+        }
+        objectLoopCheck.add(obj.getId());
         if(obj.getGuid() == null) {
             result.add("getGuid() returns null");
         }
@@ -70,12 +78,16 @@
                 }
             }
         }
-        result.addAll(verifyClassBaseline(obj.getOdmaClass(), new HashSet<OdmaQName>()));
+        result.addAll(verifyClassBaseline(obj.getOdmaClass(), objectLoopCheck, classLoopCheck));
         return result;
     }
 
-    public static List<String> verifyClassBaseline(OdmaClass cls, HashSet<OdmaQName> loopCheck) {
-        List<String> result = verifyObjectBaseline(cls);
+    public static List<String> verifyClassBaseline(OdmaClass cls) {
+        return verifyClassBaseline(cls, new HashSet<OdmaId>(), new HashSet<OdmaQName>());
+    }
+
+    public static List<String> verifyClassBaseline(OdmaClass cls, HashSet<OdmaId> objectLoopCheck, HashSet<OdmaQName> classLoopCheck) {
+        List<String> result = verifyObjectBaseline(cls, objectLoopCheck, classLoopCheck);
         if(!result.isEmpty()) {
             result.add("object baseline test failed for class with ID `"+cls.getId()+"`");
             result.add("ABORT class baseline verification");
@@ -93,12 +105,10 @@
             result.add("ABORT class baseline verification");
             return result;
         }
-        if(loopCheck.contains(cls.getQName())) {
-            result.add(cls.getId()+" loop check failed for "+cls.getQName());
-            result.add("ABORT class baseline verification");
+        if(classLoopCheck.contains(cls.getQName())) {
             return result;
         }
-        loopCheck.add(cls.getQName());
+        classLoopCheck.add(cls.getQName());
         if(cls.getProperties() == null) {
             result.add(cls.getId()+" cls.getProperties() returns null");
             result.add("ABORT class baseline verification");
@@ -215,11 +225,12 @@
             declaredProps.put(pi.getQName(), pi);
             if(superProps.containsKey(pi.getQName())) {
                 if(pi.getDataType() == OdmaType.REFERENCE.getNumericId()) {
-                    if(!propInfoEquals(pi,superProps.get(pi.getQName()),true)) {
-                        result.add(cls.getId()+" class "+cls.getQName()+" declared property "+pi.getQName()+" conflicts with inherited properties from superclass. both are reference but have different specs");
+                    String piDiff = propInfoDiff(pi,superProps.get(pi.getQName()),true);
+                    if(piDiff != null) {
+                        result.add(cls.getId()+" class "+cls.getQName()+" declared property "+pi.getQName()+" conflicts with inherited properties from superclass. both are reference but have different specs: "+piDiff);
                     }
                     if(!isOrExtends(superProps.get(pi.getQName()).getReferenceClass().getQName(),pi.getReferenceClass())) {
-                        result.add(cls.getId()+" class "+cls.getQName()+" declared property "+pi.getQName()+" conflicts with inherited properties from superclass. both are reference but reference class of declared prop does not extend reference class of super prop");
+                        result.add(cls.getId()+" class "+cls.getQName()+" declared property "+pi.getQName()+" conflicts with inherited properties from superclass. both are reference but reference class of declared prop does not extend reference class of super prop: "+pi.getReferenceClass().getQName()+" is not and does not extend "+superProps.get(pi.getQName()).getReferenceClass().getQName());
                     }
                 } else {
                     result.add(cls.getId()+ " class declares property "+pi.getQName()+" with naming conflict with inherited properties from super class");
@@ -228,11 +239,12 @@
             if(aspectProps.containsKey(pi.getQName())) {
                 result.add(cls.getId()+ " class declared property "+pi.getQName()+" with naming conflict with inherited properties from aspects");
             }
-            if(allProps.containsKey(pi.getQName())) {
+            if(!allProps.containsKey(pi.getQName())) {
                 result.add(cls.getId()+" class "+cls.getQName()+" declared property "+pi.getQName()+" is missing in getProperties()");
             } else {
-                if(!propInfoEquals(pi,allProps.get(pi.getQName()),false)) {
-                    result.add(cls.getId()+" class "+cls.getQName()+" declared property "+pi.getQName()+" is different in getProperties()");
+                String piDiff = propInfoDiff(pi,allProps.get(pi.getQName()),false);
+                if(piDiff != null) {
+                    result.add(cls.getId()+" class "+cls.getQName()+" declared property "+pi.getQName()+" is different in getProperties(): "+piDiff);
                 }
             }
         }
@@ -240,8 +252,9 @@
             if(!allProps.containsKey(pi.getQName())) {
                 result.add(cls.getId()+ " inherited superclass property "+pi.getQName()+" not part of properties");
             } else {
-                if(!propInfoEquals(pi,allProps.get(pi.getQName()),false)) {
-                    result.add(cls.getId()+" class "+cls.getQName()+" inherited superclass property "+pi.getQName()+" is different in getProperties()");
+                String piDiff = propInfoDiff(pi,allProps.get(pi.getQName()),false); 
+                if(piDiff != null) {
+                    result.add(cls.getId()+" class "+cls.getQName()+" inherited superclass property "+pi.getQName()+" is different in getProperties(): "+piDiff);
                 }
             }
         }
@@ -249,8 +262,9 @@
             if(!allProps.containsKey(pi.getQName())) {
                 result.add(cls.getId()+ " inherited aspect property "+pi.getQName()+" not part of properties");
             } else {
-                if(!propInfoEquals(pi,allProps.get(pi.getQName()),false)) {
-                    result.add(cls.getId()+" class "+cls.getQName()+" inherited aspect property "+pi.getQName()+" is different in getProperties()");
+                String piDiff = propInfoDiff(pi,allProps.get(pi.getQName()),false); 
+                if(piDiff != null) {
+                    result.add(cls.getId()+" class "+cls.getQName()+" inherited aspect property "+pi.getQName()+" is different in getProperties(): "+piDiff);
                 }
             }
         }
@@ -260,10 +274,10 @@
             }
         }
         if(cls.getSuperClass() != null) {
-            verifyClassBaseline(cls.getSuperClass(), loopCheck);            
+            verifyClassBaseline(cls.getSuperClass(), objectLoopCheck, classLoopCheck);            
         }
         for(OdmaClass aspect : cls.getAspects()) {
-            verifyClassBaseline(aspect, loopCheck);            
+            verifyClassBaseline(aspect, objectLoopCheck, classLoopCheck);            
         }
         if(cls.getSuperClass() != null) {
             for(OdmaClass superAspect : cls.getSuperClass().getAspects()) {
@@ -275,39 +289,39 @@
         return result;
     }
 
-    private static boolean propInfoEquals(OdmaPropertyInfo piA, OdmaPropertyInfo piB, boolean ignoreReferenceClass) {
+    private static String propInfoDiff(OdmaPropertyInfo piA, OdmaPropertyInfo piB, boolean ignoreReferenceClass) {
         if(!piA.getName().equals(piB.getName())) {
-            return false;
+            return "Name is different: `"+piA.getName()+"` and `"+piB.getName()+"`";
         }
         if(!piA.getNamespace().equals(piB.getNamespace())) {
-            return false;
+            return "Namespace is different: `"+piA.getNamespace()+"` and `"+piB.getNamespace()+"`";
         }
         if(!piA.getDisplayName().equals(piB.getDisplayName())) {
-            return false;
+            return "DisplayName is different: `"+piA.getDisplayName()+"` and `"+piB.getDisplayName()+"`";
         }
         if(!piA.getDataType().equals(piB.getDataType())) {
-            return false;
+            return "DataType is different: `"+piA.getDataType()+"` and `"+piB.getDataType()+"`";
         }
         if(!piA.isMultiValue().equals(piB.isMultiValue())) {
-            return false;
+            return "MultiValue is different: `"+piA.isMultiValue()+"` and `"+piB.isMultiValue()+"`";
         }
         if(!piA.isRequired().equals(piB.isRequired())) {
-            return false;
+            return "Required is different: `"+piA.isRequired()+"` and `"+piB.isRequired()+"`";
         }
         if(!piA.isReadOnly().equals(piB.isReadOnly())) {
-            return false;
+            return "ReadOnly is different: `"+piA.isReadOnly()+"` and `"+piB.isReadOnly()+"`";
         }
         if(!piA.isHidden().equals(piB.isHidden())) {
-            return false;
+            return "Hidden is different: `"+piA.isHidden()+"` and `"+piB.isHidden()+"`";
         }
         if(!piA.isSystem().equals(piB.isSystem())) {
-            return false;
+            return "System is different: `"+piA.isSystem()+"` and `"+piB.isSystem()+"`";
         }
         if(!piA.getQName().equals(piB.getQName())) {
-            return false;
+            return "QName is different: `"+piA.getQName()+"` and `"+piB.getQName()+"`";
         }
         if(!(piA.getChoices().iterator().hasNext() == piB.getChoices().iterator().hasNext())) {
-            return false;
+            return "Choices presence is different: `"+piA.getChoices().iterator().hasNext()+"` and `"+piB.getChoices().iterator().hasNext()+"`";
         }
         if(piA.getChoices().iterator().hasNext()) {
             HashSet<OdmaId> choices = new HashSet<OdmaId>();
@@ -316,20 +330,20 @@
             }
             for(OdmaChoiceValue cv : piB.getChoices()) {
                 if(!choices.contains(cv.getId())) {
-                    return false;
+                    return "Choice elements are different";
                 }
                 choices.remove(cv.getId());
             }
             if(!choices.isEmpty()) {
-                return false;
+                return "Choice elements are different";
             }
         }
         if(!ignoreReferenceClass && piA.getDataType() == OdmaType.REFERENCE.getNumericId()) {
-            if(piA.getReferenceClass().getQName().equals(piB.getReferenceClass().getQName())) {
-                return false;
+            if(!piA.getReferenceClass().getQName().equals(piB.getReferenceClass().getQName())) {
+                return "ReferenceClass is different: `"+piA.getReferenceClass().getQName()+"` and `"+piB.getReferenceClass().getQName()+"`";
             }
         }
-        return true;
+        return null;
     }
 
     private static boolean isOrExtends(OdmaQName name, OdmaClass cls) {
@@ -341,4 +355,3 @@
         }
         return false;
     }
-    
