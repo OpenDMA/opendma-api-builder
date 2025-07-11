@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -835,7 +834,6 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("        OdmaStaticSystemClass ssc;");
         out.println("");
         Iterator<ClassDescription> itClassDescriptions = apiDescription.getDescribedClasses().iterator();
-        HashMap<String, Boolean> uniquePropMap = new HashMap<String, Boolean>();
         while(itClassDescriptions.hasNext())
         {
             ClassDescription classDescription = itClassDescriptions.next();
@@ -847,9 +845,6 @@ public class JavaApiWriter extends AbstractApiWriter
                 PropertyDescription propertyDescription = itPropertyDescriptions.next();
                 String propName = propertyDescription.getOdmaName().getName();
                 String constantPropertyName = "PROPERTY_" + propName.toUpperCase();
-                if(uniquePropMap.containsKey(constantPropertyName))
-                    continue;
-                uniquePropMap.put(constantPropertyName,Boolean.TRUE);
                 out.println("        registerPropertyInfo(OdmaCommonNames."+constantClassName+", OdmaCommonNames."+constantPropertyName+", new OdmaStaticSystemPropertyInfo"+className+propName+"());");
             }
         }
@@ -903,7 +898,6 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("        }");
         out.println("");
         itClassDescriptions = apiDescription.getDescribedClasses().iterator();
-        uniquePropMap.clear();
         while(itClassDescriptions.hasNext())
         {
             ClassDescription classDescription = (ClassDescription)itClassDescriptions.next();
@@ -917,9 +911,6 @@ public class JavaApiWriter extends AbstractApiWriter
                     continue;
                 String propName = propertyDescription.getOdmaName().getName();
                 String constantPropertyName = "PROPERTY_" + propName.toUpperCase();
-                if(uniquePropMap.containsKey(constantPropertyName))
-                    continue;
-                uniquePropMap.put(constantPropertyName,Boolean.TRUE);
                 out.println("        getPropertyInfo(OdmaCommonNames."+constantClassName+", OdmaCommonNames."+constantPropertyName+").patchReferenceClass(getClassInfo(OdmaCommonNames.CLASS_"+propertyDescription.getReferenceClassName().getName().toUpperCase()+"));");
             }
         }
