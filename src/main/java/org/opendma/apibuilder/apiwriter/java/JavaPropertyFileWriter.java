@@ -103,7 +103,7 @@ public class JavaPropertyFileWriter extends AbstractPropertyFileWriter
 
     protected void writeMultiValueScalarAccess(ScalarTypeDescription scalarTypeDescription, PrintWriter out) throws IOException
     {
-        String scalarName =  scalarTypeDescription.getName();
+        String scalarName = scalarTypeDescription.getName();
         String returnType = scalarTypeDescription.isReference() ? (apiWriter.supportNullability() ? "@NotNull " : "") + "Iterable<? extends OdmaObject>" : apiWriter.getScalarDataType(scalarTypeDescription,true,true);
         out.println("");
         out.println("    /**");
