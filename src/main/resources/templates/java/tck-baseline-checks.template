@@ -144,6 +144,18 @@
                     result.add(cls.getId()+" cls.getSuperClass().getSubClasses() does not contain cls");
                 }
             }
+            HashSet<OdmaQName> classHierarchyLoopCheck = new HashSet<OdmaQName>();
+            classHierarchyLoopCheck.add(cls.getQName());
+            OdmaClass s = cls.getSuperClass();
+            String loop = cls.getQName().toString();
+            while(s != null) {
+                loop = loop+"->"+s.getQName();
+                if(classHierarchyLoopCheck.contains(s.getQName())) {
+                    result.add(cls.getId()+" Class HierarchyLoopCheck failed. Loop: "+loop);
+                    break;
+                }
+                s = s.getSuperClass();
+            }
         }
         if(cls.getSubClasses() == null) {
             result.add(cls.getId()+" cls.getSubClasses() == null");
