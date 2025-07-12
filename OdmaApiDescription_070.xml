@@ -1039,30 +1039,6 @@
             <Abstract>Latest checked out working copy of a document</Abstract>
         </Property>
 
-        <Property namespace="opendma"
-                  name="CreatedAt"
-                  apiName="CreatedAt"
-                  readOnly="true"
-                  required="true"
-                  dataType="datetime"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the timestamp when this version collection has been created</Abstract>
-        </Property>
-
-        <Property namespace="opendma"
-                  name="CreatedBy"
-                  apiName="CreatedBy"
-                  readOnly="true"
-                  required="true"
-                  dataType="string"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the user who created this version collection</Abstract>
-        </Property>
-
     </Class>
 
 
