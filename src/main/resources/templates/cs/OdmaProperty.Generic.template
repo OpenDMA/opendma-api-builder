@@ -52,13 +52,13 @@
             this._type = type;
             this._multiValue = multiValue;
             this._readOnly = readOnly;
-            if(valueProbider != null)
+            if(valueProvider != null)
             {
                 if(value != null)
                 {
                     throw new ArgumentException("If a value provider is given, the value must be null.");
                 }
-                this-_valueProvider = valueProvider;
+                this._valueProvider = valueProvider;
             }
             else
             {
@@ -97,7 +97,7 @@
         /// </summary>
         public PropertyResolutionState ResolutionState { get => 
             _valueProvider == null ? PropertyResolutionState.Resolved :
-            _valueProvider.HasReferenceId ? PropertyResolutionState.IdResolved :
+            _valueProvider.HasReferenceId() ? PropertyResolutionState.IdResolved :
             PropertyResolutionState.Unresolved; 
         }
 

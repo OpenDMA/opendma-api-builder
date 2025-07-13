@@ -86,7 +86,6 @@ public class CsPropertyFileWriter extends AbstractPropertyFileWriter
         if(scalarTypeDescription.isReference())
 		{
 			out.println("");
-	        out.println("    public OdmaId get"+scalarName+"Id() throws OdmaInvalidDataTypeException;");
 	        out.println("        /// <summary>");
 	        out.println("        /// Retrieves the OdmaId of the "+scalarName+" value of this property if and only if");
 	        out.println("        /// the data type of this property is a single valued "+scalarName+".");

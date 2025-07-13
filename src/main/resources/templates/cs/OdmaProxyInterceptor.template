@@ -49,9 +49,18 @@ namespace OpenDMA.Api
             string methodName = invocation.Method.Name;
             if (methodName.Equals("get_QName"))
             {
-                string namespace = HandlePropertyGetter("get_Namespace");
-                string name = HandlePropertyGetter("get_Name");
-                invocation.ReturnValue = new OdmaQName(namespace, name);
+                object? ns = HandlePropertyGetter("get_Namespace");
+                object? name = HandlePropertyGetter("get_Name");
+                if (ns == null || !(ns is string nsStr))
+                {
+                    throw new OdmaException("Required property `opemdma:Namespace` does not have a string value.");
+                }
+
+                if (name == null || !(name is string nameStr))
+                {
+                    throw new OdmaException("Required property `opendma:Name` does not have a string value.");
+                }
+                invocation.ReturnValue = new OdmaQName(nsStr, nameStr);
             }
             else if (methodName.StartsWith("get_"))
             {
@@ -71,7 +80,7 @@ namespace OpenDMA.Api
 
         private object? HandlePropertyGetter(string methodName)
         {
-            if (!PROPERTY_DICT.TryGetValue(methodName, out PropertyMapping mapping))
+            if (!PROPERTY_DICT.TryGetValue(methodName, out PropertyMapping? mapping))
             {
                 throw new OdmaException($"No property mapping found for method: {methodName}");
             }
@@ -121,7 +130,7 @@ namespace OpenDMA.Api
         private void HandlePropertySetter(string methodName, object? value)
         {
             string getterName = "get" + methodName.Substring(3);
-            if (!PROPERTY_DICT.TryGetValue(getterName, out PropertyMapping mapping))
+            if (!PROPERTY_DICT.TryGetValue(getterName, out PropertyMapping? mapping))
             {
                 throw new OdmaException($"No property mapping found for method: {methodName}");
             }

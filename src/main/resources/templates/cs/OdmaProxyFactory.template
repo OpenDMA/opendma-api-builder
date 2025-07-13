@@ -20,7 +20,7 @@ namespace OpenDMA.Api
 
             foreach (var className in classNames)
             {
-                if (INTERFACE_DICT.TryGetValue(className, out Type iface))
+                if (INTERFACE_DICT.TryGetValue(className, out Type? iface))
                 {
                     interfaces.Add(iface);
                 }

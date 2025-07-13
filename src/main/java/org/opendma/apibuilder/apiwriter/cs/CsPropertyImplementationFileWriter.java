@@ -154,7 +154,6 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
         if(scalarTypeDescription.isReference())
 		{
 			out.println("");
-	        out.println("    public OdmaId get"+scalarName+"Id() throws OdmaInvalidDataTypeException;");
 	        out.println("        /// <summary>");
 	        out.println("        /// Retrieves the OdmaId of the "+scalarName+" value of this property if and only if");
 	        out.println("        /// the data type of this property is a single valued "+scalarName+".");
@@ -162,27 +161,27 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
 	        out.println("        /// while the OdmaObject requires an additional round-trip to the server.");
 	        out.println("        /// </summary>");
 	        out.println("        /// <returns>");
-	        out.println("        /// The OdmaId of the "+returnType+" value of this property");
+	        out.println("        /// The OdmaId of the IOdmaObject value of this property");
 	        out.println("        /// </returns>");
 	        out.println("        /// <exception cref=\"OdmaInvalidDataTypeException\">");
 	        out.println("        /// Thrown if the data type of this property is not a single-valued "+scalarName+".");
 	        out.println("        /// </exception>");
-	        out.println("        OdmaId? Get"+scalarName+"Id()");
+	        out.println("        public OdmaId? Get"+scalarName+"Id()");
 	        out.println("        {");
 	        out.println("            if( (_multiValue == false) && (_type == OdmaType."+constantScalarTypeName+") )");
 	        out.println("            {");
 	        out.println("                if(_valueProvider == null)");
 	        out.println("                {");
-	        out.println("                    return (("+returnType+")_value).Id;");
+	        out.println("                    return (_value as IOdmaObject)?.Id;");
 	        out.println("                }");
-	        out.println("                else if(_valueProvider.HasReferenceId)");
+	        out.println("                else if(_valueProvider.HasReferenceId())");
 	        out.println("                {");
 	        out.println("                    return _valueProvider.GetReferenceId();");
 	        out.println("                }");
 	        out.println("                else");
 	        out.println("                {");
 	        out.println("                    EnforceValue();");
-	        out.println("                    return (("+returnType+")_value).Id;");
+            out.println("                    return (_value as IOdmaObject)?.Id;");
 	        out.println("                }");
 	        out.println("            }");
 	        out.println("            else");
@@ -228,6 +227,7 @@ public class CsPropertyImplementationFileWriter extends AbstractPropertyFileWrit
         requiredImports.registerImport("System");
         requiredImports.registerImport("System.Collections.Generic");
         requiredImports.registerImport("System.Text");
+        requiredImports.registerImport("static OpenDMA.Api.IOdmaProperty");
     }
 
     protected void appendRequiredImportsScalarAccess(ImportsList requiredImports, ScalarTypeDescription scalarTypeDescription)
