@@ -36,7 +36,7 @@
         if self._value_provider is not None:
             try:
                 resolved_value = self._value_provider.resolve_property_value()
-                self.set_value_internal(resolved_value)
+                self._set_value_internal(resolved_value)
                 self._value_provider = None
                 self._dirty = False
             except OdmaInvalidDataTypeException as e:
@@ -85,7 +85,7 @@
         if self._value_provider is None:
             return PropertyResolutionState.RESOLVED
         elif self._value_provider.has_reference_id():
-            return PropertyResolutionState.ID_RESOLVED
+            return PropertyResolutionState.IDRESOLVED
         else:
             return PropertyResolutionState.UNRESOLVED
 

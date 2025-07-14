@@ -38,10 +38,10 @@ from opendma.api import OdmaType
 from opendma.api import OdmaPropertyImpl
 from datetime import datetime
 
-piString = OdmaPropertyImpl(qn, "hello", OdmaType.STRING, False, False)
-piInteger = OdmaPropertyImpl(qn, 123, OdmaType.INTEGER, False, False)
-piDouble = OdmaPropertyImpl(qn, 1.23, OdmaType.DOUBLE, False, False)
-piDate = OdmaPropertyImpl(qn, datetime.today(), OdmaType.DATETIME, False, False)
+piString = OdmaPropertyImpl(qn, "hello", None, OdmaType.STRING, False, False)
+piInteger = OdmaPropertyImpl(qn, 123, None, OdmaType.INTEGER, False, False)
+piDouble = OdmaPropertyImpl(qn, 1.23, None, OdmaType.DOUBLE, False, False)
+piDate = OdmaPropertyImpl(qn, datetime.today(), None, OdmaType.DATETIME, False, False)
 
 print(piString.get_value())
 print(piString.is_multi_value())
@@ -49,23 +49,27 @@ print(piString.is_read_only())
 print(piString.is_dirty())
 print(piString.get_string())
 print(piString.get_integer())
-		System.out.println(piInteger.getValue());
-		System.out.println(piInteger.getInteger());
-		//System.out.println(piInteger.getString());
-		System.out.println(piDouble.getValue());
-		System.out.println(piDate.getValue());
-		System.out.println(piString.isDirty());
-		piString.setValue("world");
-		System.out.println(piString.isDirty());
-		System.out.println(piString.getValue());
-		piString.setValue(null);
-		System.out.println(piString.getValue());
-		OdmaPropertyImpl piStringRO = new OdmaPropertyImpl(qn, "hello", OdmaType.STRING, false, true);
-		System.out.println(piStringRO.getValue());
-		System.out.println(piStringRO.isReadOnly());
-		//piStringRO.setValue("world");
-		//OdmaPropertyImpl piIntFailing = new OdmaPropertyImpl(qn, "hello", OdmaType.INTEGER, false, false);
-		//OdmaPropertyImpl piStringMV = new OdmaPropertyImpl(qn, "hello", OdmaType.STRING, true, false);
-		OdmaPropertyImpl piStringMV = new OdmaPropertyImpl(qn, new ArrayList<String>(), OdmaType.STRING, true, false);
-		System.out.println(piStringMV.isMultiValue());
-		System.out.println(piStringMV.isReadOnly());
+print(piInteger.get_value())
+print(piInteger.get_integer())
+print(piInteger.get_string())
+print(piDouble.get_value())
+print(piDate.get_value())
+print(piString.is_dirty())
+piString.set_value("world")
+print(piString.is_dirty())
+print(piString.get_value())
+piString.set_value(None)
+print(piString.get_value())
+
+piStringRO = OdmaPropertyImpl(qn, "hello", None, OdmaType.STRING, False, True)
+print(piStringRO.get_value())
+print(piStringRO.is_read_only())
+piStringRO.set_value("world")
+
+piIntFailing = OdmaPropertyImpl(qn, "hello", None, OdmaType.INTEGER, False, False)
+
+piStringMVFailing = OdmaPropertyImpl(qn, "hello", None, OdmaType.STRING, True, False)
+
+piStringMV = OdmaPropertyImpl(qn, [], None, OdmaType.STRING, True, False)
+print(piStringMV.is_multi_value())
+print(piStringMV.is_read_only())

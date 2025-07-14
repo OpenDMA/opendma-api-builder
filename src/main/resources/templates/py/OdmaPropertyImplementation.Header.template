@@ -12,7 +12,7 @@ class LazyPropertyValueProvider(Protocol):
         """
         ...
 
-	def get_reference_id(self) -> Optional[str]:
+    def get_reference_id(self) -> Optional[OdmaId]:
         """
         Get the OdmaId of a referenced object, if available. Returns None otherwise.
         """

@@ -353,7 +353,17 @@ public class PythonApiWriter extends AbstractApiWriter
                     out.println();
                     out.println("    def get_"+Tools.toSnakeCase(propertyDescription.getApiName())+"(self) -> "+poifw.getReturnDataType(propertyDescription)+":");
                     out.println("        try:");
-                    out.println("            return core.get_property(constants.PROPERTY_"+propertyDescription.getOdmaName().getName().toUpperCase()+")."+propertyGetterName+"()");
+                    if(propertyDescription.getRequired())
+                    {
+                        out.println("            result = core.get_property(constants.PROPERTY_"+propertyDescription.getOdmaName().getName().toUpperCase()+")."+propertyGetterName+"()");
+                        out.println("            if result is None:");
+                        out.println("                raise OdmaServiceException(\"Predefined OpenDMA property "+propertyDescription.getOdmaName().toString()+" is None\")");
+                        out.println("            return result");
+                    }
+                    else
+                    {
+                        out.println("            return core.get_property(constants.PROPERTY_"+propertyDescription.getOdmaName().getName().toUpperCase()+")."+propertyGetterName+"()");
+                    }
                     out.println("        except OdmaPropertyNotFoundException:");
                     out.println("            raise OdmaServiceException(\"Predefined OpenDMA property missing: "+propertyDescription.getOdmaName().toString()+"\")");
                     out.println("        except OdmaInvalidDataTypeException:");

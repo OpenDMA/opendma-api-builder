@@ -3,4 +3,4 @@
         "DynamicClass",
         tuple(prune_inheritance_chain(classes)),
         dict)
-    return dynamic_class()
+    return dynamic_class()  # type: ignore[return-value]

@@ -118,7 +118,7 @@ public class PythonPropertyImplementationFileWriter extends AbstractPropertyFile
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
         out.println("        if self._multi_value == False and self._data_type == OdmaType."+constantScalarTypeName+":");
         out.println("            self._enforce_value()");
-        out.println("            return self._value");
+        out.println("            return self._value  # type: ignore[return-value]");
         out.println("        raise OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `get_"+scalarName.toLowerCase()+"(self)`\");");
         if(scalarTypeDescription.isReference())
 		{
@@ -166,7 +166,7 @@ public class PythonPropertyImplementationFileWriter extends AbstractPropertyFile
         String constantScalarTypeName = scalarTypeDescription.getName().toUpperCase();
         out.println("        if self._multi_value == True and self._data_type == OdmaType."+constantScalarTypeName+":");
         out.println("            self._enforce_value()");
-        out.println("            return self._value");
+        out.println("            return self._value  # type: ignore[return-value]");
         out.println("        raise OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `get_"+scalarName.toLowerCase()+"_list(self)`\");");
     }
 
