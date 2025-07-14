@@ -132,12 +132,24 @@ public class PythonPropertyImplementationFileWriter extends AbstractPropertyFile
             out.println("        \"\"\"");
             out.println("        if self._multi_value == False and self._data_type == OdmaType."+constantScalarTypeName+":");
             out.println("            if self._value_provider is None:");
-            out.println("                return self._value.get_id()");
+            out.println("                if self._value is not None:");
+            out.println("                    if isinstance(self._value, OdmaObject):");
+            out.println("                        return self._value.get_id()");
+            out.println("                    else:");
+            out.println("                        raise OdmaException(\"Internal error. Reference value is expected to be instance of OdmaObject\")");
+            out.println("                else:");
+            out.println("                    return None");
             out.println("            elif self._value_provider.has_reference_id():");
             out.println("                return self._value_provider.get_reference_id()");
             out.println("            else:");
             out.println("                self._enforce_value()");
-            out.println("                return self._value.get_id()");
+            out.println("                if self._value is not None:");
+            out.println("                    if isinstance(self._value, OdmaObject):");
+            out.println("                        return self._value.get_id()");
+            out.println("                    else:");
+            out.println("                        raise OdmaException(\"Internal error. Reference value is expected to be instance of OdmaObject\")");
+            out.println("                else:");
+            out.println("                    return None");
             out.println("        raise OdmaInvalidDataTypeException(\"This property has a different data type and/or cardinality. It cannot return values with `get_"+scalarName.toLowerCase()+"(self)`\");");
 		}
     }
