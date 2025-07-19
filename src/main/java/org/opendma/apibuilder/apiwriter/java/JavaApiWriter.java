@@ -396,7 +396,7 @@ public class JavaApiWriter extends AbstractApiWriter
                         {
                             String scalarName = propertyDescription.getDataType().getName();
                             out.println("            try {");
-                            out.println("                if(prop"+propertyDescription.getApiName()+".get"+scalarName+"Iterable().iterator().hasNext()) {");
+                            out.println("                if(!prop"+propertyDescription.getApiName()+".get"+scalarName+"Iterable().iterator().hasNext()) {");
                             out.println("                    result.add(\"Property "+propertyDescription.getOdmaName()+" is required but value is empty\");");
                             out.println("                }");
                             out.println("            } catch(OdmaInvalidDataTypeException idte) {");
