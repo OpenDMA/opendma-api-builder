@@ -257,7 +257,18 @@
                     result.add(debugDescribe(cls)+ " imports multiple properties with same name through aspects: "+pi.getQName());
                     continue;
                 }
-                if(!superClassAspectNames.contains(aspect.getQName()) && superProps.containsKey(pi.getQName())) {
+                boolean aspectInherited;
+                if(superClassAspectNames.contains(aspect.getQName())) {
+                	aspectInherited = true;
+                } else {
+                	aspectInherited = false;
+                	for(OdmaQName superAspectName : superClassAspectNames) {
+                		if(isOrExtends(superAspectName, aspect)) {
+                			aspectInherited = true;
+                		}
+                	}
+                }
+                if(!aspectInherited && superProps.containsKey(pi.getQName())) {
                     result.add(debugDescribe(cls)+" imports aspect "+debugDescribe(aspect)+" with naming conflict of property "+debugDescribe(pi)+" with inherited properties from super class");
                 }
                 aspectProps.put(pi.getQName(), pi);
@@ -350,7 +361,13 @@
         if(cls.getSuperClass() != null) {
             for(OdmaClass superAspect : cls.getSuperClass().getAspects()) {
                 if(!aspectNames.contains(superAspect.getQName())) {
-                    result.add(debugDescribe(cls)+" inherited aspect "+debugDescribe(superAspect)+" from super class "+debugDescribe(cls.getSuperClass())+" but is missing in aspects");
+                	boolean foundExtendingAspect = false;
+                    for(OdmaClass a : cls.getAspects()) {
+                    	foundExtendingAspect |= isOrExtends(superAspect.getQName(), a);
+                    }
+                	if(!foundExtendingAspect) {
+                        result.add(debugDescribe(cls)+" inherited aspect "+debugDescribe(superAspect)+" from super class "+debugDescribe(cls.getSuperClass())+" but is missing in aspects");
+                	}
                 }
             }
         }
