@@ -315,9 +315,14 @@
             if(!allProps.containsKey(pi.getQName())) {
                 result.add(debugDescribe(cls)+" inherited superclass property "+debugDescribe(pi)+" not part of properties");
             } else {
-                String piDiff = propInfoDiff(pi,allProps.get(pi.getQName()),false); 
+                String piDiff = propInfoDiff(pi,allProps.get(pi.getQName()),true); 
                 if(piDiff != null) {
                     result.add(debugDescribe(cls)+" inherited superclass property "+debugDescribe(pi)+" is different in getProperties(): "+piDiff);
+                }
+                if(pi.getDataType() == OdmaType.REFERENCE.getNumericId()) {
+                    if(!isOrExtends(pi.getReferenceClass().getQName(),allProps.get(pi.getQName()).getReferenceClass())) {
+                        result.add(debugDescribe(cls)+" inherited superclass property "+debugDescribe(pi)+" is different in getProperties(): Both are reference but reference class of property in getProperties() does not extend reference class of super prop: "+allProps.get(pi.getQName()).getReferenceClass().getQName()+" is not and does not extend "+pi.getReferenceClass().getQName());
+                    }
                 }
             }
         }
