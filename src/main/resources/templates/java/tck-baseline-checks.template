@@ -402,6 +402,14 @@
             }
         }
         if(!ignoreReferenceClass && piA.getDataType() == OdmaType.REFERENCE.getNumericId()) {
+        	OdmaClass refClassA = piA.getReferenceClass();
+        	OdmaClass refClassB = piB.getReferenceClass();
+        	if(refClassA == null) {
+        		return "Property Info "+piA.getQName()+" has REFERENCE type but ReferenceClass is null";
+        	}
+        	if(refClassB == null) {
+        		return "Property Info "+piB.getQName()+" has REFERENCE type but ReferenceClass is null";
+        	}
             if(!piA.getReferenceClass().getQName().equals(piB.getReferenceClass().getQName())) {
                 return "ReferenceClass is different: `"+piA.getReferenceClass().getQName()+"` and `"+piB.getReferenceClass().getQName()+"`";
             }
