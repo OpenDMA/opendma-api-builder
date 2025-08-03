@@ -462,7 +462,7 @@
                   apiName="DisplayName"
                   readOnly="false"
                   required="true"
-                  dataType="string"
+                  dataType="String"
                   multiValue="false"
                   hidden="false"
                   system="true">
@@ -475,7 +475,7 @@
                   apiName="StringValue"
                   readOnly="false"
                   required="false"
-                  dataType="string"
+                  dataType="String"
                   multiValue="false"
                   hidden="false"
                   system="true">
@@ -488,7 +488,7 @@
                   apiName="IntegerValue"
                   readOnly="false"
                   required="false"
-                  dataType="string"
+                  dataType="Integer"
                   multiValue="false"
                   hidden="false"
                   system="true">
@@ -501,7 +501,7 @@
                   apiName="ShortValue"
                   readOnly="false"
                   required="false"
-                  dataType="string"
+                  dataType="Short"
                   multiValue="false"
                   hidden="false"
                   system="true">
@@ -514,7 +514,7 @@
                   apiName="LongValue"
                   readOnly="false"
                   required="false"
-                  dataType="string"
+                  dataType="Long"
                   multiValue="false"
                   hidden="false"
                   system="true">
@@ -527,7 +527,7 @@
                   apiName="FloatValue"
                   readOnly="false"
                   required="false"
-                  dataType="string"
+                  dataType="Float"
                   multiValue="false"
                   hidden="false"
                   system="true">
@@ -540,7 +540,7 @@
                   apiName="DoubleValue"
                   readOnly="false"
                   required="false"
-                  dataType="string"
+                  dataType="Double"
                   multiValue="false"
                   hidden="false"
                   system="true">
@@ -553,7 +553,7 @@
                   apiName="BooleanValue"
                   readOnly="false"
                   required="false"
-                  dataType="string"
+                  dataType="Boolean"
                   multiValue="false"
                   hidden="false"
                   system="true">
@@ -566,7 +566,7 @@
                   apiName="DateTimeValue"
                   readOnly="false"
                   required="false"
-                  dataType="string"
+                  dataType="DateTime"
                   multiValue="false"
                   hidden="false"
                   system="true">
@@ -579,7 +579,7 @@
                   apiName="BlobValue"
                   readOnly="false"
                   required="false"
-                  dataType="string"
+                  dataType="Blob"
                   multiValue="false"
                   hidden="false"
                   system="true">
@@ -592,7 +592,7 @@
                   apiName="ReferenceValue"
                   readOnly="false"
                   required="false"
-                  dataType="reference"
+                  dataType="Reference"
                   multiValue="false"
                   hidden="false"
                   system="true"
