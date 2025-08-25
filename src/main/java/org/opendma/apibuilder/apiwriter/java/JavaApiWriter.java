@@ -312,6 +312,7 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("");
         out.println("import java.util.HashMap;");
         out.println("import java.util.HashSet;");
+        out.println("import java.util.Iterator;");
         out.println("import java.util.LinkedList;");
         out.println("import java.util.List;");
         out.println("import org.opendma.api.*;");
