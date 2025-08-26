@@ -43,7 +43,7 @@ interface OdmaSession
      * Performs a search operation against a repository and returns the result.
      *
      * @param OdmaId $repositoryId The id of the repository to retrieve the object from
-     * @param string $queryLanguage The language specifier in which the query is given
+     * @param OdmaQName $queryLanguage The language specifier in which the query is given
      * @param string $query Search specification in the given query language
      *
      * @return OdmaSearchResult The search result of this operation.
@@ -51,7 +51,7 @@ interface OdmaSession
      * @throws OdmaObjectNotFoundException If the repository does not exist
      * @throws OdmaQuerySyntaxException If the query string is syntactically incorrect or the query language is not supported
      */
-    public function search(OdmaId $repositoryId, string $queryLanguage, string $query): OdmaSearchResult;
+    public function search(OdmaId $repositoryId, OdmaQName $queryLanguage, string $query): OdmaSearchResult;
 
     /**
      * Returns a list of query languages that can be used to search the repository.

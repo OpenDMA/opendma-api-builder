@@ -49,7 +49,7 @@ class OdmaSession(ABC):
     def search(
         self,
         repository_id: OdmaId,
-        query_language: str,
+        query_language: OdmaQName,
         query: str
     ) -> OdmaSearchResult:
         """

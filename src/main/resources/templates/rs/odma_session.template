@@ -59,7 +59,7 @@ pub trait OdmaSession {
     fn search(
         &self,
         repository_id: OdmaId,
-        query_language: &str,
+        query_language: OdmaQName,
         query: &str,
     ) -> Result<OdmaSearchResult, OdmaError>;
 

@@ -53,7 +53,7 @@ export interface OdmaSession {
    */
   search(
     repositoryId: OdmaId,
-    queryLanguage: string,
+    queryLanguage: OdmaQName,
     query: string
   ): OdmaSearchResult;
 

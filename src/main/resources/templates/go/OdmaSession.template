@@ -49,7 +49,7 @@ type OdmaSession interface {
     // Errors:
     //   OdmaObjectNotFoundError if the repository does not exist.
     //   OdmaQuerySyntaxError if the query string is syntactically incorrect or the query language is not supported.
-    Search(repositoryId OdmaId, queryLanguage string, query string) (OdmaSearchResult, error)
+    Search(repositoryId OdmaId, queryLanguage OdmaQName, query string) (OdmaSearchResult, error)
 
     // GetSupportedQueryLanguages returns list of query languages that can be used to search the repository.
     //

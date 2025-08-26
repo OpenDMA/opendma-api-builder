@@ -51,7 +51,7 @@ class OdmaSession {
      *
      * @abstract
      * @param {OdmaId} repositoryId - The id of the repository to retrieve the object from
-     * @param {string} queryLanguage - The language specifier in which the query is given
+     * @param {OdmaQName} queryLanguage - The language specifier in which the query is given
      * @param {string} query - Search specification in the given query language
      * @returns {OdmaSearchResult} The search result of this operation
      * @throws {OdmaObjectNotFoundException} If the repository does not exist

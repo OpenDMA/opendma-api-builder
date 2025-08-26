@@ -45,7 +45,7 @@ namespace OpenDMA.Api
         /// <returns>The search result of this operation.</returns>
         /// <exception cref="OdmaObjectNotFoundException">If the repository does not exist.</exception>
         /// <exception cref="OdmaQuerySyntaxException">If the query string is syntactically incorrect or the query language is not supported.</exception>
-        IOdmaSearchResult Search(OdmaId repositoryId, string queryLanguage, string query);
+        IOdmaSearchResult Search(OdmaId repositoryId, OdmaQName queryLanguage, string query);
 
         /// <summary>
         /// Returns a list of query languages that can be used to search the repository.

@@ -44,7 +44,7 @@ protocol OdmaSession {
     ///   - `OdmaError.querySyntax` if the query string is syntactically incorrect or the query language is not supported.
     func search(
         in repositoryId: OdmaId,
-        queryLanguage: String,
+        queryLanguage: OdmaQName,
         query: String
     ) throws -> OdmaSearchResult
 
