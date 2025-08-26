@@ -48,6 +48,12 @@ namespace OpenDMA.Api
         IOdmaSearchResult Search(OdmaId repositoryId, string queryLanguage, string query);
 
         /// <summary>
+        /// Returns a list of query languages that can be used to search the repository.
+        /// </summary>
+        /// <returns>A list of query languages that can be used to search the repository.</returns>
+        IList<OdmaQName> GetSupportedQueryLanguages();
+
+        /// <summary>
         /// Invalidate this session and release all associated resources.
         /// </summary>
         void Close();

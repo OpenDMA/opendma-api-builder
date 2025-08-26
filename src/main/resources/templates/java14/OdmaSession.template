@@ -86,6 +86,13 @@ public interface OdmaSession
     public OdmaSearchResult search(OdmaId repositoryId, String query) throws OdmaObjectNotFoundException, OdmaAccessDeniedException, OdmaQuerySyntaxException, OdmaSearchException;
     
     /**
+     *  Returns a list of query languages that can be used to search the repository.
+     * 
+     * @return a list of query languages that can be used to search the repository
+     */
+    public OdmaQName[] getSupportedQueryLanguages();
+    
+    /**
      * Invalidate this session and release all associated resources.
      */
     public void close();
