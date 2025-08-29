@@ -247,7 +247,7 @@ public class OdmaStaticClassHierarchy {
         synchronized(rootAspects) {
             for(OdmaClass c : rootAspects) {
                 if(c.getQName().equals(aspect.getQName())) {
-                    return;
+                    throw new OdmaRuntimeException("registerRootAspect failed. Root Aspect with same name already exists: "+aspect.getQName().toString());
                 }
             }
             rootAspects.add(aspect);
