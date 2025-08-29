@@ -245,9 +245,12 @@ public class OdmaStaticClassHierarchy {
     
     public void registerRootAspect(OdmaClass aspect) {
         synchronized(rootAspects) {
-            if(!rootAspects.contains(aspect)) {
-                rootAspects.add(aspect);
+            for(OdmaClass c : rootAspects) {
+                if(c.getQName().equals(aspect.getQName())) {
+                    return;
+                }
             }
+            rootAspects.add(aspect);
         }
     }
     
