@@ -5,8 +5,8 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "opendma-api"
 version = "{{version}}"
-# description = ""
-# readme = "README.md"
+description = "Python API for OpenDMA"
+readme = "README.md"
 # license = {text = ""}
 dependencies = []
 classifiers = [

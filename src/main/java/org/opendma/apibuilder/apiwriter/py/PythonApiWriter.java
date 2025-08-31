@@ -250,6 +250,8 @@ public class PythonApiWriter extends AbstractApiWriter
         copyTemplateToStream("opendma-api-helpers-header", opendmaApiHelpersFOS, false);
         // build file
         copyTemplateToStream("opendma-api-pyproject", new FileOutputStream(new File(opendmaApiProjectFolder, "pyproject.toml")), resolver);
+        // README.md
+        copyTemplateToStream("README", new FileOutputStream(new File(opendmaApiProjectFolder, "README.md")), resolver);
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
