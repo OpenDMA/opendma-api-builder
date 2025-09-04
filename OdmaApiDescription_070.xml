@@ -874,7 +874,7 @@
                   name="CheckedOutBy"
                   apiName="CheckedOutBy"
                   readOnly="true"
-                  required="true"
+                  required="false"
                   dataType="string"
                   multiValue="false"
                   hidden="false"
