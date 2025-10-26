@@ -27,7 +27,7 @@
 
         <ScalarType name="DateTime" numericId="8" reference="false" />
 
-        <ScalarType name="Blob" numericId="9" reference="false" />
+        <ScalarType name="Binary" numericId="9" reference="false" />
 
         <ScalarType name="Reference" numericId="10" reference="true" />
 
@@ -575,15 +575,15 @@
         </Property>
 
         <Property namespace="opendma"
-                  name="BlobValue"
-                  apiName="BlobValue"
+                  name="BinaryValue"
+                  apiName="BinaryValue"
                   readOnly="false"
                   required="false"
-                  dataType="Blob"
+                  dataType="Binary"
                   multiValue="false"
                   hidden="false"
                   system="true">
-            <Abstract>the BLOB value of this choice or null, if the property info this choice is assigned to is not of data type BLOB</Abstract>
+            <Abstract>the Binary value of this choice or null, if the property info this choice is assigned to is not of data type Binary</Abstract>
             <Description>Full description follows.</Description>
         </Property>
 
