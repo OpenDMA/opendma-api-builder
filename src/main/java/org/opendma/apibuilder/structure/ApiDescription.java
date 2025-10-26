@@ -135,7 +135,7 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
      */
     public ScalarTypeDescription getScalarTypeDescription(int scalarTypeId)
     {
-        return scalarTypesIdToDescriptionMap.get(new Integer(scalarTypeId));
+        return scalarTypesIdToDescriptionMap.get(Integer.valueOf(scalarTypeId));
     }
     
     /**
@@ -259,13 +259,13 @@ public class ApiDescription implements DescriptionFileTypes, OdmaBasicTypes
                 {
                     throw new DescriptionFileSemanticException("Multiple definitions of scalar type name "+scalarTypeDescription.getName());
                 }
-                if(scalarTypesIdToDescriptionMap.containsKey(new Integer(scalarTypeDescription.getNumericID())))
+                if(scalarTypesIdToDescriptionMap.containsKey(Integer.valueOf(scalarTypeDescription.getNumericID())))
                 {
                     throw new DescriptionFileSemanticException("Multiple definitions of scalar type ID "+scalarTypeDescription.getNumericID());
                 }
                 scalarTypes.add(scalarTypeDescription);
                 scalarTypesNameToDescriptionMap.put(scalarTypeDescription.getName().toLowerCase(),scalarTypeDescription);
-                scalarTypesIdToDescriptionMap.put(new Integer(scalarTypeDescription.getNumericID()),scalarTypeDescription);
+                scalarTypesIdToDescriptionMap.put(Integer.valueOf(scalarTypeDescription.getNumericID()),scalarTypeDescription);
             }
         }
     }
