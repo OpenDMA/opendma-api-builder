@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.opendma</groupId>
   <artifactId>opendma-api-builder</artifactId>
-  <version>0.7.0</version>
+  <version>0.8.0-SNAPSHOT</version>
 
   <name>OpenDMA API Builder</name>
   <description>Generates the OpenDMA API for various programming languages from a class hierarchy spec file</description>
