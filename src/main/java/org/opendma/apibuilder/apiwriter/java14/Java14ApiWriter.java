@@ -452,10 +452,6 @@ public class Java14ApiWriter extends AbstractApiWriter
         {
             printXMultivalue(out,"DECLAREDPROPERTIES","declaredProperties","REFERENCE");
         }
-        else if(pn.equals("INSTANTIABLE"))
-        {
-            printX(out,"INSTANTIABLE",(classDescription.getInstantiable()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");
-        }
         else if(pn.equals("HIDDEN"))
         {
             printX(out,"HIDDEN",(classDescription.getHidden()?"Boolean.TRUE":"Boolean.FALSE"),"BOOLEAN");

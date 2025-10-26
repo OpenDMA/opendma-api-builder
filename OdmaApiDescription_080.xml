@@ -40,7 +40,7 @@
     </ScalarTypes>
 
 
-    <Class namespace="opendma" name="Object" apiName="OdmaObject" aspect="false" instantiable="true" hidden="false" system="true">
+    <Class namespace="opendma" name="Object" apiName="OdmaObject" aspect="false" hidden="false" system="true">
 
         <Description>Root of the class hierarchy. Every class in OpenDMA extends this class. All objects in OpenDMA have the properties defined for this class.</Description>
 
@@ -102,7 +102,7 @@
     </Class>
 
 
-    <Class namespace="opendma" name="Class" apiName="OdmaClass" extendsNamespace="opendma" extendsName="Object" aspect="false" instantiable="true" hidden="false" system="true">
+    <Class namespace="opendma" name="Class" apiName="OdmaClass" extendsNamespace="opendma" extendsName="Object" aspect="false" hidden="false" system="true">
 
         <Description>Describes Classes and Aspects in OpenDMA. Every object in OpenDMA has a reference to an instance of this class describing it.</Description>
 
@@ -218,18 +218,6 @@
         </Property>
 
         <Property namespace="opendma"
-                  name="Instantiable"
-                  apiName="Instantiable"
-                  readOnly="false"
-                  required="true"
-                  dataType="boolean"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>Indicates if there can ob objects of this class (true) or if this class is abstract (false)</Abstract>
-        </Property>
-
-        <Property namespace="opendma"
                   name="Hidden"
                   apiName="Hidden"
                   readOnly="false"
@@ -300,7 +288,7 @@
     </Class>
 
 
-    <Class namespace="opendma" name="PropertyInfo" apiName="OdmaPropertyInfo" extendsNamespace="opendma" extendsName="Object" aspect="false" instantiable="true" hidden="false" system="true">
+    <Class namespace="opendma" name="PropertyInfo" apiName="OdmaPropertyInfo" extendsNamespace="opendma" extendsName="Object" aspect="false" hidden="false" system="true">
 
         <Description>Describes a property in OpenmDMA. Every object in OpenDMA has a reference to an opendma:Class which has the opendma:Properties set of PropertyInfo objects. Each describes one of the properties on the object.</Description>
 
@@ -453,7 +441,7 @@
     </Class>
 
 
-    <Class namespace="opendma" name="ChoiceValue" apiName="OdmaChoiceValue" extendsNamespace="opendma" extendsName="Object" aspect="false" instantiable="true" hidden="false" system="true">
+    <Class namespace="opendma" name="ChoiceValue" apiName="OdmaChoiceValue" extendsNamespace="opendma" extendsName="Object" aspect="false" hidden="false" system="true">
 
         <Description>Describes a possible value of a property</Description>
 
@@ -612,7 +600,7 @@
 <!-- ========================================================================================== -->
 
 
-    <Class namespace="opendma" name="Repository" apiName="OdmaRepository" extendsNamespace="opendma" extendsName="Object" aspect="false" instantiable="true" hidden="false" system="true">
+    <Class namespace="opendma" name="Repository" apiName="OdmaRepository" extendsNamespace="opendma" extendsName="Object" aspect="false" hidden="false" system="true">
 
         <Description>A Repository represents a place where all Objects are stored. It often constitues a data isolation boundary where objects with different management requirements or access restrictions are separated into different repositories. Qualified names of classes and properties as well as unique object identifiers are only unique within a repository. They can be reused across different repositories. Object references are limited in scope within a single repository.</Description>
 
@@ -688,7 +676,7 @@
     </Class>
 
 
-    <Class namespace="opendma" name="Document" apiName="OdmaDocument" aspect="true" instantiable="true" hidden="false" system="true">
+    <Class namespace="opendma" name="Document" apiName="OdmaDocument" aspect="true" hidden="false" system="true">
 
         <Description>A Document is the atomic element users work on in a content based environment. It can be compared to a file in a file system. Unlike files, it may consist of multiple octet streams. These content streams can for example contain images of the individual pages that make up the document. A Document is able to keep track of its changes (versioning) and manage the access to it (checkin and checkout).</Description>
 
@@ -886,9 +874,9 @@
     </Class>
 
 
-    <Class namespace="opendma" name="ContentElement" apiName="OdmaContentElement" aspect="true" instantiable="false" hidden="false" system="true">
+    <Class namespace="opendma" name="ContentElement" apiName="OdmaContentElement" aspect="true" hidden="false" system="true">
 
-        <Description>A ContentElement represents one atomic content element the Documents are made of. This abstract (non instantiable) base class defines the type of content and the position of this element in the sequence of all content elements.</Description>
+        <Description>A ContentElement represents one atomic content element the Documents are made of. This base class defines the type of content and the position of this element in the sequence of all content elements.</Description>
 
         <Property namespace="opendma"
                   name="ContentType"
@@ -917,7 +905,7 @@
     </Class>
 
 
-    <Class namespace="opendma" name="DataContentElement" apiName="OdmaDataContentElement" extendsNamespace="opendma" extendsName="ContentElement" aspect="true" instantiable="true" hidden="false" system="true">
+    <Class namespace="opendma" name="DataContentElement" apiName="OdmaDataContentElement" extendsNamespace="opendma" extendsName="ContentElement" aspect="true" hidden="false" system="true">
 
         <Description>A DataContentElement represents one atomic octet stream. The binary data is stored together with meta data like size and filename</Description>
 
@@ -960,7 +948,7 @@
     </Class>
 
 
-    <Class namespace="opendma" name="ReferenceContentElement" apiName="OdmaReferenceContentElement" extendsNamespace="opendma" extendsName="ContentElement" aspect="true" instantiable="true" hidden="false" system="true">
+    <Class namespace="opendma" name="ReferenceContentElement" apiName="OdmaReferenceContentElement" extendsNamespace="opendma" extendsName="ContentElement" aspect="true" hidden="false" system="true">
 
         <Description>A ReferenceContentElement represents a reference to external data. The reference is stored as URI to the content location.</Description>
 
@@ -979,7 +967,7 @@
     </Class>
 
 
-    <Class namespace="opendma" name="VersionCollection" apiName="OdmaVersionCollection" aspect="true" instantiable="true" hidden="false" system="true">
+    <Class namespace="opendma" name="VersionCollection" apiName="OdmaVersionCollection" aspect="true" hidden="false" system="true">
 
         <Description>A VersionCollection represents the set of all versions of a Document. Based on the actual document management system, it can represent a single series of versions, a tree of version, or any other versioning concept.</Description>
 
@@ -1042,7 +1030,7 @@
     </Class>
 
 
-    <Class namespace="opendma" name="Container" apiName="OdmaContainer" aspect="true" instantiable="true" hidden="false" system="true">
+    <Class namespace="opendma" name="Container" apiName="OdmaContainer" aspect="true" hidden="false" system="true">
 
         <Description>A Container holds a set of containable objects that are said to be contained in this Container. This list of containees is build up with Association objects based on references to the containmer and the containee. This allows an object to be contained in multiple Containers or in no Container at all. A Container does not enforce a loop-free single rooted tree. Use a folder instead for this requirement.</Description>
 
@@ -1139,7 +1127,7 @@
     </Class>
 
 
-    <Class namespace="opendma" name="Folder" apiName="OdmaFolder" extendsNamespace="opendma" extendsName="Container" aspect="true" instantiable="true" hidden="false" system="true">
+    <Class namespace="opendma" name="Folder" apiName="OdmaFolder" extendsNamespace="opendma" extendsName="Container" aspect="true" hidden="false" system="true">
 
         <Description>A Folder is an extension of the Container forming one single rooted loop-free tree.</Description>
 
@@ -1176,7 +1164,7 @@
     </Class>
 
 
-    <Class namespace="opendma" name="Containable" apiName="OdmaContainable" aspect="true" instantiable="true" hidden="false" system="true">
+    <Class namespace="opendma" name="Containable" apiName="OdmaContainable" aspect="true" hidden="false" system="true">
 
         <Description>The Containable aspect is used by all classes and aspects that can be contained in a Container.</Description>
 
@@ -1211,7 +1199,7 @@
     </Class>
 
 
-    <Class namespace="opendma" name="Association" apiName="OdmaAssociation" aspect="true" instantiable="true" hidden="false" system="true">
+    <Class namespace="opendma" name="Association" apiName="OdmaAssociation" aspect="true" hidden="false" system="true">
 
         <Description>An Association represents the directed link between an opendma:Container and an opendma:Containable object.</Description>
 

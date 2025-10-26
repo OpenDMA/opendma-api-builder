@@ -53,8 +53,6 @@ public interface DescriptionFileTypes
 
     public final static String DESCRIPTION_ATTRIBUTE_ASPECT = "aspect";
 
-    public final static String DESCRIPTION_ATTRIBUTE_INSTANTIABLE = "instantiable";
-
     public final static String DESCRIPTION_ATTRIBUTE_REFERENCENAMESPACE = "referenceNamespace";
 
     public final static String DESCRIPTION_ATTRIBUTE_REFERENCENAME = "referenceName";

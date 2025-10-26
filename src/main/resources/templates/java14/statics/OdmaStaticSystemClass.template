@@ -352,57 +352,6 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
     }
 
     /**
-     * Returns whether <code>Object</code>s of this <code>Class</code> can be created or not.<br>
-     * 
-     * <p>Property <b>Instantiable</b> (opendma): <b>Boolean</b><br>
-     * [SingleValue] [Writable] [Required]<br>
-     * Full description follows.</p>
-     * 
-     * @return whether <code>Object</code>s of this <code>Class</code> can be created or not
-     */
-    public Boolean getInstantiable()
-    {
-        try
-        {
-            return getProperty(OdmaTypes.PROPERTY_INSTANTIABLE).getBoolean();
-        }
-        catch(OdmaInvalidDataTypeException oidte)
-        {
-            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
-        }
-        catch(OdmaObjectNotFoundException oonfe)
-        {
-            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
-        }
-    }
-
-    /**
-     * Sets whether <code>Object</code>s of this <code>Class</code> can be created or not.<br>
-     * 
-     * <p>Property <b>Instantiable</b> (opendma): <b>Boolean</b><br>
-     * [SingleValue] [Writable] [Required]<br>
-     * Full description follows.</p>
-     * 
-     * @throws OdmaAccessDeniedException
-     *             if this property can not be set by the current user
-     */
-    public void setInstantiable(Boolean value) throws OdmaAccessDeniedException
-    {
-        try
-        {
-            getProperty(OdmaTypes.PROPERTY_INSTANTIABLE).setValue(value);
-        }
-        catch(OdmaInvalidDataTypeException oidte)
-        {
-            throw new OdmaRuntimeException("Invalid data type of system property",oidte);
-        }
-        catch(OdmaObjectNotFoundException oonfe)
-        {
-            throw new OdmaRuntimeException("Predefined system property missing",oonfe);
-        }
-    }
-
-    /**
      * Returns whether this <code>Class</code> should be displayed to end users or not.<br>
      * 
      * <p>Property <b>Hidden</b> (opendma): <b>Boolean</b><br>

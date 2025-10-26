@@ -73,9 +73,6 @@
             result.add(debugDescribe(obj)+" ABORT baseline verification");
             return result;
         }
-        if(obj.getOdmaClass().isInstantiable() == false) {
-            result.add(debugDescribe(obj)+".getOdmaClass().isInstantiable() == false");
-        }
         if(obj.getOdmaClass().isAspect() == true) {
             result.add(debugDescribe(obj)+".getOdmaClass().isAspect() == true");
         }
@@ -257,9 +254,6 @@
         for(OdmaClass aspect : cls.getAspects()) {
             if(!aspect.isAspect()) {
                 result.add(debugDescribe(cls)+" aspect "+debugDescribe(aspect)+" has isAspect()==false");
-            }
-            if(!aspect.isInstantiable()) {
-                result.add(debugDescribe(cls)+" aspect "+debugDescribe(aspect)+" has isInstantiable()==false");
             }
             aspectNames.add(aspect.getQName());
             if(!superClassAspectNames.contains(aspect.getQName())) {

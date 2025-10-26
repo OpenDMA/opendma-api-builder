@@ -22,8 +22,6 @@ public class ClassDescription implements DescriptionFileTypes
     /** the name of this class in the programmers API. This might differ from the name in ODMA due to naming conflicts (e.g. Class) */
     protected String apiName;
     
-    protected boolean instantiable;
-    
     protected boolean hidden;
     
     protected boolean system;
@@ -91,11 +89,6 @@ public class ClassDescription implements DescriptionFileTypes
     public String getApiName()
     {
         return apiName;
-    }
-
-    public boolean getInstantiable()
-    {
-        return instantiable;
     }
 
     public boolean getHidden()
@@ -212,7 +205,6 @@ public class ClassDescription implements DescriptionFileTypes
         }
         String hiddenString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_HIDDEN);
         String systemString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_SYSTEM);
-        String instantiableString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_INSTANTIABLE);
         String aspectString = classDescriptionElement.getAttribute(DESCRIPTION_ATTRIBUTE_ASPECT);
         if((hiddenString==null) || (hiddenString.trim().length()==0) )
         {
@@ -222,17 +214,12 @@ public class ClassDescription implements DescriptionFileTypes
         {
             throw new DescriptionFileSyntaxException("Missing system attribute in class "+odmaName.toString());
         }
-        if((instantiableString==null) || (instantiableString.trim().length()==0) )
-        {
-            throw new DescriptionFileSyntaxException("Missing instantiable attribute in class "+odmaName.toString());
-        }
         if((aspectString==null) || (aspectString.trim().length()==0) )
         {
             throw new DescriptionFileSyntaxException("Missing aspect attribute in class "+odmaName.toString());
         }
         hidden = parseBoolean(hiddenString,DESCRIPTION_ATTRIBUTE_HIDDEN);
         system = parseBoolean(systemString,DESCRIPTION_ATTRIBUTE_SYSTEM);
-        instantiable = parseBoolean(instantiableString,DESCRIPTION_ATTRIBUTE_INSTANTIABLE);
         aspect = parseBoolean(aspectString,DESCRIPTION_ATTRIBUTE_ASPECT);
         // iterate through all elements below the <Class> Element
         propertyDescriptions = new ArrayList<PropertyDescription>();
