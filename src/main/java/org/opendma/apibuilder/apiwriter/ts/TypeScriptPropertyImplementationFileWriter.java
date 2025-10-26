@@ -126,7 +126,7 @@ public class TypeScriptPropertyImplementationFileWriter extends AbstractProperty
         {
             return test+" instanceof Date";
         }
-        if("BLOB".equals(name))
+        if("BLOB".equals(name) || "BINARY".equals(name))
         {
             return test+" instanceof Uint8Array";
         }

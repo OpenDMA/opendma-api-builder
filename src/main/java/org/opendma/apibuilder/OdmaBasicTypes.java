@@ -52,10 +52,10 @@ public interface OdmaBasicTypes
     public final static int TYPE_DATETIME = 8;
 
     /**
-     * Numeric type identifier of the data type <code>BLOB</code>.<br>
+     * Numeric type identifier of the data type <code>Binary</code>.<br>
      * Value is 9.
      */
-    public final static int TYPE_BLOB = 9;
+    public final static int TYPE_Binary = 9;
 
     /**
      * Numeric type identifier of the data type <code>Reference</code>.<br>

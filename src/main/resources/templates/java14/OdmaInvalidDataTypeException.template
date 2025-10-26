@@ -245,8 +245,8 @@ public class OdmaInvalidDataTypeException extends OdmaException
         case OdmaTypes.TYPE_DATETIME:
             msgBuffer.append("datetime");
             break;
-        case OdmaTypes.TYPE_BLOB:
-            msgBuffer.append("blob");
+        case OdmaTypes.TYPE_Binary:
+            msgBuffer.append("binary");
             break;
         case OdmaTypes.TYPE_REFERENCE:
             msgBuffer.append("object");
@@ -315,8 +315,8 @@ public class OdmaInvalidDataTypeException extends OdmaException
         case OdmaTypes.TYPE_DATETIME:
             msgBuffer.append("datetime");
             break;
-        case OdmaTypes.TYPE_BLOB:
-            msgBuffer.append("blob");
+        case OdmaTypes.TYPE_Binary:
+            msgBuffer.append("binary");
             break;
         case OdmaTypes.TYPE_REFERENCE:
             msgBuffer.append("object");
@@ -369,8 +369,8 @@ public class OdmaInvalidDataTypeException extends OdmaException
         case OdmaTypes.TYPE_DATETIME:
             msgBuffer.append("datetime");
             break;
-        case OdmaTypes.TYPE_BLOB:
-            msgBuffer.append("blob");
+        case OdmaTypes.TYPE_Binary:
+            msgBuffer.append("binary");
             break;
         case OdmaTypes.TYPE_REFERENCE:
             msgBuffer.append("object");
