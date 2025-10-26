@@ -192,13 +192,26 @@ public class CsApiWriter extends AbstractApiWriter
     
     protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
+        PlaceholderResolver resolver = new PlaceholderResolver()
+        {
+            public String resolve(String placeholder)
+            {
+                if("version".equals(placeholder))
+                {
+                    return apiDescription.getVersion();
+                }
+                throw new RuntimeException("Unknown placefolder: {{"+placeholder+"}}");
+            }
+        };
         // solution
-        copyTemplateToStream("OpenDMA.sln", new FileOutputStream(new File(baseFolder, "OpenDMA.sln")));
+        copyTemplateToStream("OpenDMA.sln", new FileOutputStream(new File(baseFolder, "OpenDMA.sln")), resolver);
         // OpenDMA.Api folder structure
         opendmaApiFolder = new File(baseFolder, "OpenDMA.Api");
         opendmaApiFolder.mkdirs();
         // OpenDMA.Api project file
-        copyTemplateToStream("OpenDMA.Api.csproj", new FileOutputStream(new File(opendmaApiFolder, "OpenDMA.Api.csproj")));
+        copyTemplateToStream("OpenDMA.Api.csproj", new FileOutputStream(new File(opendmaApiFolder, "OpenDMA.Api.csproj")), resolver);
+        // README.md
+        copyTemplateToStream("README", new FileOutputStream(new File(baseFolder, "README.md")), resolver);
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
