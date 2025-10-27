@@ -4,7 +4,7 @@
 #include "OdmaException.h"
 
 /**
- * @brief Thrown when the provided data type does not match the expected data type.
+ * @brief Thrown when the backend service failed.
  */
 class OdmaServiceException : public OdmaException {
 public:
