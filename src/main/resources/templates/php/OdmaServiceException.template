@@ -7,11 +7,11 @@ namespace OpenDMA\Api;
  *
  * Thrown when the backend service failed.
  */
-class OdmaQuerySyntaxException extends OdmaException
+class OdmaServiceException extends OdmaException
 {
 
     /**
-     * OdmaQuerySyntaxException constructor.
+     * OdmaServiceException constructor.
      *
      * @param string $message The error message.
      * @param int $code The error code (default 0).
