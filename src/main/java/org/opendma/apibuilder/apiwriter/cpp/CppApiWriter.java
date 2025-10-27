@@ -136,6 +136,7 @@ public class CppApiWriter extends AbstractApiWriter
         createHeaderFromTemplate(includeFolder,"OdmaAccessDeniedException");
         createHeaderFromTemplate(includeFolder,"OdmaQuerySyntaxException");
         createHeaderFromTemplate(includeFolder,"OdmaServiceException");
+        createHeaderFromTemplate(includeFolder,"OdmaAuthenticationException");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException

@@ -1,0 +1,26 @@
+#ifndef _OdmaAuthenticationException_h_
+#define _OdmaAuthenticationException_h_
+
+#include "OdmaException.h"
+
+/**
+ * @brief Thrown when the provided credentials are invalid, authentication fails or the session has expired.
+ */
+class OdmaAuthenticationException : public OdmaException {
+public:
+
+    /**
+     * @brief Default constructor for OdmaAuthenticationException.
+     */
+    OdmaAuthenticationException() noexcept = default;
+
+    /**
+     * @brief Constructs an OdmaAuthenticationException with a specific message.
+     * @param message The message that describes the exception.
+     */
+    explicit OdmaAuthenticationException(const std::string& message) noexcept
+        : OdmaException(message) {}
+
+};
+
+#endif // _OdmaAuthenticationException_h_

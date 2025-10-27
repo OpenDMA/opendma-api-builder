@@ -1,0 +1,17 @@
+/**
+ * OdmaQuerySyntaxError
+ * 
+ * Thrown when the provided credentials are invalid, authentication fails or the session has expired.
+ */
+class OdmaAuthenticationError extends OdmaError {
+
+    /**
+     * Create a new OdmaAuthenticationError.
+     * 
+     * @param {string} message - The error message.
+     */
+    constructor(message = "Credentials are invalid, authentication has failed or the session has expired") {
+        super(message);
+    }
+
+}

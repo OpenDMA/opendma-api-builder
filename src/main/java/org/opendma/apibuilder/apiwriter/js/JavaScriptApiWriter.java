@@ -114,6 +114,7 @@ public class JavaScriptApiWriter extends AbstractApiWriter
         copyClassToApi("OdmaAccessDeniedError");
         copyClassToApi("OdmaQuerySyntaxError");
         copyClassToApi("OdmaServiceError");
+        copyClassToApi("OdmaAuthenticationError");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException

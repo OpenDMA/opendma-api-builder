@@ -55,3 +55,12 @@ type OdmaServiceError struct {
 func (e *OdmaServiceError) Error() string {
     return e.Message
 }
+
+// Returned when the provided credentials are invalid, authentication fails or the session has expired
+type OdmaAuthenticationError struct {
+    Message string
+}
+
+func (e *OdmaAuthenticationError) Error() string {
+    return e.Message
+}

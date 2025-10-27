@@ -117,6 +117,7 @@ public class PhpApiWriter extends AbstractApiWriter
         createClassFromTemplate(opendmaApiFolder,"OdmaAccessDeniedException");
         createClassFromTemplate(opendmaApiFolder,"OdmaQuerySyntaxException");
         createClassFromTemplate(opendmaApiFolder,"OdmaServiceException");
+        createClassFromTemplate(opendmaApiFolder,"OdmaAuthenticationException");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException

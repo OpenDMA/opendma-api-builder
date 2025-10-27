@@ -22,6 +22,9 @@ public enum OdmaError: Error {
     /// Thrown when the backend service failed
     case service(details: String)
 
+    /// Thrown when the provided credentials are invalid, authentication fails or the session has expired
+    case authentication(details: String)
+
     case generalError(message: String)
 
 }

@@ -148,6 +148,7 @@ public class PythonApiWriter extends AbstractApiWriter
         copyClassToApiHelpers("OdmaAccessDeniedException");
         copyClassToApiHelpers("OdmaQuerySyntaxException");
         copyClassToApiHelpers("OdmaServiceException");
+        copyClassToApiHelpers("OdmaAuthenticationException");
     }
 
     protected void createSessionManagementFiles(ApiDescription apiDescription) throws IOException

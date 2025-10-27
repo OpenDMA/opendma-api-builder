@@ -1,0 +1,25 @@
+<?php
+
+namespace OpenDMA\Api;
+
+/**
+ * Class OdmaAuthenticationException
+ *
+ * Thrown when the provided credentials are invalid, authentication fails or the session has expired.
+ */
+class OdmaAuthenticationException extends OdmaException
+{
+
+    /**
+     * OdmaAuthenticationException constructor.
+     *
+     * @param string $message The error message.
+     * @param int $code The error code (default 0).
+     * @param Exception|null $previous The previous exception used for exception chaining (default null).
+     */
+    public function __construct($message = "Credentials are invalid, authentication has failed or the session has expired", $code = 0, ?Exception $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
+
+}

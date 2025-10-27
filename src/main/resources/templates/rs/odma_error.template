@@ -34,6 +34,10 @@ pub enum OdmaError {
     #[error("{0}")]
     Service(String),
 
+    /// Returned when the provided credentials are invalid, authentication fails or the session has expired
+    #[error("{0}")]
+    Authentication(String),
+
     #[error("{0}")]
     General(String),
 
