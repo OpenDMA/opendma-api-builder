@@ -1,5 +1,7 @@
 package org.opendma.api;
 
+import java.util.List;
+
 import org.opendma.exceptions.OdmaException;
 
 /**
