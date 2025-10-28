@@ -8,6 +8,9 @@ namespace OpenDMA.Api
     public interface IOdmaDataSource
     {
 
+        /// <summary>qualified name of the JWT token type</summary>
+        public static readonly OdmaQName TOKEN_TYPE_JWT = new OdmaQName("web", "jwt");
+
         /// <summary>
         /// Attempts to establish a session with the ODMA data source this object represents.
         /// <summary>
@@ -21,7 +24,22 @@ namespace OpenDMA.Api
         /// <param name="username">the repository user on whose behalf the session is beeing established.</param>
         /// <param name="password">the user's password.</param>
         /// <returns>Returns a <c>{@link OdmaSession}</c> to the ODMA data source.</returns>
-        IOdmaSession getSession(string username, string password);
+        IOdmaSession getSessionForAccount(string username, string password);
+
+        /// <summary>
+        /// Attempts to establish a session with the ODMA data source this object represents
+        /// as the account represented by the given token.
+        /// <summary>
+        /// <param name="tokenType">the type of the token, e.g. web:jwt</param>
+        /// <param name="token">String representation of the token</param>
+        /// <returns>Returns a <c>{@link OdmaSession}</c> to the ODMA data source.</returns>
+        IOdmaSession getSessionWithToken(OdmaQName tokenType, string token);
+        
+        /// <summary>
+        /// Returns a list of token types that can be used for authentication.
+        /// <summary>
+        /// <returns>Returns a list of token types that can be used for authentication.</returns>
+        IList<IOdmaQName> GetSupportedTokenTypes();
 
     }
 
