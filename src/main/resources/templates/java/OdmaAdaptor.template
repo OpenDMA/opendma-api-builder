@@ -11,6 +11,8 @@ public interface OdmaAdaptor
 
     public static final String PARAM_PASSWORD = "password";
 
+    public static final String PARAM_TOKEN_TYPE = "tokenType";
+
     public static final String PARAM_TOKEN = "token";
 
     public static final String PARAM_ENDPOINT = "endpoint";
