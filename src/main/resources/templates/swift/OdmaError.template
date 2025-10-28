@@ -5,7 +5,10 @@ public enum OdmaError: Error {
     case illegalArgument(message: String)
 
     /// Thrown when an OpenDMA implementation is unable to locate the requested object
-    case objectNotFound(objectGuid: OdmaGuid)
+    case repositoryNotFound(repositoryId: OdmaId)
+
+    /// Thrown when an OpenDMA implementation is unable to locate the requested object
+    case objectNotFound(repositoryId: OdmaId, objectId: OdmaId)
 
     /// Thrown when an OpenDMA implementation is unable to locate the requested property
     case propertyNotFound(propertyName: OdmaQName)

@@ -1,5 +1,5 @@
 import { OdmaError } from './OdmaError';
-import { OdmaGuid } from './OdmaGuid';
+import { OdmaId } from './OdmaId';
 
 /**
  * OdmaObjectNotFoundError
@@ -8,26 +8,39 @@ import { OdmaGuid } from './OdmaGuid';
  */
 export class OdmaObjectNotFoundError extends OdmaError {
 
-    private readonly objectGuid: OdmaGuid;
+    private readonly repositoryId: OdmaId;
+
+    private readonly objectId: OdmaId;
 
     /**
      * Create a new OdmaObjectNotFoundError.
      * 
-     * @param objectGuid - The unique identifier of the object that was not found.
+     * @param repositoryId - The unique identifier of the repository.
+     * @param objectId - The unique identifier of the object that was not found or null, if the repository does not exist.
      * @param message - The error message.
      */
-    constructor(objectGuid: OdmaGuid, message: string | null = null) {
-        super(message || (objectGuid ? `Object not found: ${objectGuid}` : "Object not found"));
-        this.objectGuid = objectGuid;
+    constructor(repositoryId: OdmaId, objectId: OdmaId, message: string | null = null) {
+        super(message || (objectId ? "Object `${objectId}` not found in repository `${repositoryId}`" : "Repository not found: `${repositoryId}`"));
+        this.repositoryId = repositoryId;
+        this.objectId = objectId;
     }
 
     /**
-     * Get the unique identifier (GUID) of the object that was not found.
+     * Get the unique identifier of the repository.
      * 
-     * @returns The GUID of the missing object.
+     * @returns The ID of the repository.
      */
-    getObjectGuid(): OdmaGuid {
-        return this.objectGuid;
+    getRepositoryId(): OdmaId {
+        return this.repositoryId;
+    }
+
+    /**
+     * Get the unique identifier of the object that was not found or null, if the repository does not exist.
+     * 
+     * @returns The ID of the object that was not found or null, if the repository does not exist.
+     */
+    getObjectId(): OdmaId {
+        return this.objectId;
     }
 
 }

@@ -8,21 +8,32 @@ class OdmaObjectNotFoundError extends OdmaError {
     /**
      * Create a new OdmaObjectNotFoundError.
      * 
-     * @param {OdmaGuid} objectGuid - The unique identifier of the object that was not found.
+     * @param {OdmaId} repositoryId - The unique identifier of the repository.
+     * @param {OdmaId} objectId - The unique identifier of the object that was not found or null, if the repository does not exist.
      * @param {string} message - The error message.
      */
-    constructor(objectGuid, message = null) {
-        super(message || (objectGuid ? `Object not found: ${objectGuid}` : "Object not found"));
-        this.objectGuid = objectGuid;
+    constructor(repositoryId, objectId, message = null) {
+        super(message || (objectId ? "Object `${objectId}` not found in repository `${repositoryId}`" : "Repository not found: `${repositoryId}`"));
+        this.repositoryId = repositoryId;
+        this.objectId = objectId;
     }
 
     /**
-     * Get the unique identifier (GUID) of the object that was not found.
+     * Get the unique identifier of the repository.
      * 
-     * @return {OdmaGuid} The GUID of the missing object.
+     * @return {OdmaId} The ID of the repository.
      */
-    getObjectGuid() {
-        return this.objectGuid;
+    getRepositoryId() {
+        return this.repositoryId;
+    }
+
+    /**
+     * Get the unique identifier of the object that was not found or null, if the repository does not exist.
+     * 
+     * @return {OdmaId} The ID of the object that was not found or null, if the repository does not exist.
+     */
+    getObjectId() {
+        return this.objectId;
     }
 
 }

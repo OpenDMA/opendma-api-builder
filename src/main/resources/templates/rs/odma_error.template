@@ -11,8 +11,12 @@ pub enum OdmaError {
     IllegalArgument(String),
 
     /// Returned when an OpenDMA implementation is unable to locate the requested object
-    #[error("Object not found: {0}")]
-    ObjectNotFound(OdmaGuid),
+    #[error("Repository not found: `{0}`")]
+    RepositoryNotFound(OdmaId),
+
+    /// Returned when an OpenDMA implementation is unable to locate the requested object
+    #[error("Object `{1}` not found in repository `{0}`")]
+    ObjectNotFound(OdmaId,OdmaId),
 
     /// Returned when an OpenDMA implementation is unable to locate the requested property
     #[error("Property not found: {0}")]

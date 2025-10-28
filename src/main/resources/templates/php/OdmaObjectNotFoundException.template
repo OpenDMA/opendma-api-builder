@@ -19,29 +19,41 @@ class OdmaObjectNotFoundException extends OdmaException
      * OdmaObjectNotFoundException constructor.
      *
      * @param string|null $message The custom error message (optional).
-     * @param OdmaGuid|null $objectGuid The unique identifier of the object that was not found (optional).
+     * @param OdmaId|null $repositoryId The unique identifier of the repository (optional).
+     * @param OdmaId|null $objectId The unique identifier of the object that was not found or null, if the repository does not exist(optional).
      * @param int $code The error code (default 0).
      * @param Exception|null $previous The previous exception used for exception chaining (default null).
      */
-    public function __construct(?string $message = null, ?OdmaGuid $objectGuid = null, $code = 0, Exception $previous = null)
+    public function __construct(?string $message = null, ?OdmaId $repositoryId = null, ?OdmaId $objectId = null, $code = 0, Exception $previous = null)
     {
-        $this->objectGuid = $objectGuid;
+        $this->repositoryId = $repositoryId;
+        $this->objectId = $objectId;
         
         if ($message === null) {
-            $message = $objectGuid ? "Object not found: ".$objectGuid : "Object not found";
+            $message = $objectId ? "Object `".$objectId."` not found in repository `".$repositoryId."`" : "Repository not found: `".$repositoryId."`";
         }
         
         parent::__construct($message, $code, $previous);
     }
 
     /**
-     * Get the unique identifier (GUID) of the object that was not found, or null if no GUID was provided.
+     * Get the unique identifier of the repository.
      *
-     * @return OdmaGuid|null
+     * @return OdmaId|null
      */
-    public function getObjectGuid()
+    public function getRepositoryId()
     {
-        return $this->objectGuid;
+        return $this->repositoryId;
+    }
+
+    /**
+     * Get the unique identifier of the object that was not found, or null if the repository does not exist.
+     *
+     * @return OdmaId|null
+     */
+    public function getObjectId()
+    {
+        return $this->objectId;
     }
 
 }

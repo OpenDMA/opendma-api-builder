@@ -2,7 +2,7 @@
 #define _OdmaObjectNotFoundException_h_
 
 #include "OdmaException.h"
-#include "OdmaGuid.h"
+#include "OdmaId.h"
 
 /**
  * @brief Thrown when an OpenDMA implementation is unable to locate the requested object.
@@ -11,30 +11,48 @@ class OdmaObjectNotFoundException : public OdmaException {
 public:
 
     /**
-     * @brief Constructs an OdmaObjectNotFoundException with the GUID of the object that was not found.
-     * @param guid The unique identifier (GUID) of the object that was not found.
+     * @brief TBD.
+     * @param repositoryId TBD.
      */
-    explicit OdmaObjectNotFoundException(const OdmaGuid& guid) noexcept
-        : OdmaException(guid.isValid() ? "Object not found: "+guid.toString() : "Object not found"), objectGuid_(objectGuid) {}
+    explicit OdmaObjectNotFoundException(const OdmaId& repositoryId) noexcept
+        : OdmaException("Repository not found: "+repositoryId.toString()), repositoryId_(repositoryId) {}
 
     /**
-     * @brief Constructs an OdmaObjectNotFoundException with a specific message and the GUID of the object that was not found.
+     * @brief TBD.
+     * @param repositoryId TBD.
+     * @param objectId TBD.
+     */
+    explicit OdmaObjectNotFoundException(const OdmaId& repositoryId, const OdmaId& objectId) noexcept
+        : OdmaException("Object `"+objectId.toString()+"` not found in repository `"+repositoryId.toString()+"`"), repositoryId_(repositoryGuid), objectId_(objectId) {}
+
+    /**
+     * @brief Constructs an OdmaObjectNotFoundException with a specific message and IDs.
      * @param message The message that describes the exception.
-     * @param objectGuid The unique identifier (GUID) of the object that was not found.
+     * @param repositoryId TBD.
+     * @param objectId TBD.
      */
-    OdmaObjectNotFoundException(const std::string& message, const OdmaGuid& objectGuid) noexcept
-        : OdmaException(message), objectGuid_(objectGuid) {}
+    OdmaObjectNotFoundException(const std::string& message, const OdmaId& repositoryId, const OdmaId& objectId) noexcept
+        : OdmaException(message), repositoryId_(repositoryGuid), objectId_(objectId) {}
 
     /**
-     * @brief Retrieves the unique identifier (GUID) of the object that was not found.
-     * @return The GUID of the missing object.
+     * @brief TBD.
+     * @return TBD.
      */
-    OdmaGuid getObjectGuid() const noexcept {
-        return objectGuid_;
+    OdmaGuid getRepositoryId() const noexcept {
+        return repositoryId_;
+    }
+
+    /**
+     * @brief TBD.
+     * @return TBD.
+     */
+    OdmaGuid getObjectId() const noexcept {
+        return objectId_;
     }
 
 private:
-    OdmaGuid objectGuid_;
+    OdmaId repositoryId_;
+    OdmaId objectId_;
 
 };
 

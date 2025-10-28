@@ -3,22 +3,35 @@ class OdmaObjectNotFoundException(OdmaException):
     Exception raised when an OpenDMA implementation is unable to locate the requested object.
     """
 
-    def __init__(self, objectGuid=None, message=None):
+    def __init__(self, repositoryId=None, objectId=None, message=None):
         """
-        Initialize the OdmaObjectNotFoundException with an error message and a GUID.
+        Initialize the OdmaObjectNotFoundException with an error message and IDs.
         
-        :param objectGuid: The unique identifier of the object that was not found (optional).
+        :param repositoryId: The unique identifier of the repository (optional).
+        :param objectId: The unique identifier of the object that was not found or null, if the repository does not exist (optional).
         :param message: Custom error message (optional).
         """
-        self._objectGuid = objectGuid
+        self._repositoryId = repositoryId
+        self._objectId = objectId
         if message is None:
-            message = f"Object not found: {objectGuid}" if objectGuid else "Object not found"
+            if objectId is None:
+                message = f"Repository not found: {repositoryId}" if repositoryId else "Object not found"
+            else:
+                message = f"Object `{objectId}` not found in repository `{repositoryId}`" if repositoryId else "Object not found: `{objectId}`"
         super().__init__(message)
 
-    def get_object_guid(self):
+    def get_repository_id(self):
         """
-        Retrieve the unique identifier (GUID) of the object that was not found.
+        Retrieve the unique identifier of the repository.
         
-        :return: The GUID of the missing object.
+        :return: The ID of the repository.
         """
-        return self._objectGuid
+        return self._repositoryId
+
+    def get_object_id(self):
+        """
+        Retrieve the unique identifier of the object that was not found or None, if the repository does not exist.
+        
+        :return: The ID of the object that was not found or None, if the repository does not exist.
+        """
+        return self._objectId
