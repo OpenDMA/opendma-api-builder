@@ -676,6 +676,61 @@
     </Class>
 
 
+    <Class namespace="opendma" name="AuditStamped" apiName="OdmaAuditStamped" aspect="true" hidden="false" system="true">
+
+        <Description>Objects with this aspect record information about their creation and their last modification.</Description>
+
+        <Property namespace="opendma"
+                  name="CreatedAt"
+                  apiName="CreatedAt"
+                  readOnly="true"
+                  required="false"
+                  dataType="datetime"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the timestamp when this object has been created</Abstract>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="CreatedBy"
+                  apiName="CreatedBy"
+                  readOnly="true"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the User who created this object</Abstract>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="LastModifiedAt"
+                  apiName="LastModifiedAt"
+                  readOnly="true"
+                  required="false"
+                  dataType="datetime"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the timestamp when this object has been modified the last time</Abstract>
+        </Property>
+
+        <Property namespace="opendma"
+                  name="LastModifiedBy"
+                  apiName="LastModifiedBy"
+                  readOnly="true"
+                  required="false"
+                  dataType="string"
+                  multiValue="false"
+                  hidden="false"
+                  system="true">
+            <Abstract>the user who modified this object the last time</Abstract>
+        </Property>
+
+    </Class>
+
+
     <Class namespace="opendma" name="Document" apiName="OdmaDocument" aspect="true" hidden="false" system="true">
 
         <Description>A Document is the atomic element users work on in a content based environment. It can be compared to a file in a file system. Unlike files, it may consist of multiple octet streams. These content streams can for example contain images of the individual pages that make up the document. A Document is able to keep track of its changes (versioning) and manage the access to it (checkin and checkout).</Description>
@@ -784,54 +839,6 @@
                   referenceNamespace="opendma"
                   referenceName="ContentElement">
             <Abstract>the dedicated primary ContentElement. May only be null if ContentElements is empty.</Abstract>
-        </Property>
-
-        <Property namespace="opendma"
-                  name="CreatedAt"
-                  apiName="CreatedAt"
-                  readOnly="true"
-                  required="false"
-                  dataType="datetime"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the timestamp when this version of this document has been created</Abstract>
-        </Property>
-
-        <Property namespace="opendma"
-                  name="CreatedBy"
-                  apiName="CreatedBy"
-                  readOnly="true"
-                  required="false"
-                  dataType="string"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the User who created this version of this document</Abstract>
-        </Property>
-
-        <Property namespace="opendma"
-                  name="LastModifiedAt"
-                  apiName="LastModifiedAt"
-                  readOnly="true"
-                  required="false"
-                  dataType="datetime"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the timestamp when this version of this document has been modified the last time</Abstract>
-        </Property>
-
-        <Property namespace="opendma"
-                  name="LastModifiedBy"
-                  apiName="LastModifiedBy"
-                  readOnly="true"
-                  required="false"
-                  dataType="string"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the user who modified this version of this document the last time</Abstract>
         </Property>
 
         <Property namespace="opendma"
@@ -1074,56 +1081,6 @@
             <Abstract>the set of associations between this container and the contained objects</Abstract>
         </Property>
 
-        <Property namespace="opendma"
-                  name="CreatedAt"
-                  apiName="CreatedAt"
-                  readOnly="true"
-                  required="false"
-                  dataType="datetime"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the timestamp when this container has been created</Abstract>
-        </Property>
-
-        <Property namespace="opendma"
-                  name="CreatedBy"
-                  apiName="CreatedBy"
-                  readOnly="true"
-                  required="false"
-                  dataType="string"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the user who created this container</Abstract>
-        </Property>
-
-        <Property namespace="opendma"
-                  name="LastModifiedAt"
-                  apiName="LastModifiedAt"
-                  readOnly="true"
-                  required="false"
-                  dataType="datetime"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the timestamp when this container has been modified the last time</Abstract>
-            <Description>There is no definition what counts as a modification. Some systems update this timestamp when objects are added or removed, other systems only update this timestamp when properties of this object get changed.</Description>
-        </Property>
-
-        <Property namespace="opendma"
-                  name="LastModifiedBy"
-                  apiName="LastModifiedBy"
-                  readOnly="true"
-                  required="false"
-                  dataType="string"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the user who modified this container the last time</Abstract>
-            <Description>There is no definition what counts as a modification. Some systems update this timestamp when objects are added or removed, other systems only update this timestamp when properties of this object get changed.</Description>
-        </Property>
-
     </Class>
 
 
@@ -1242,54 +1199,6 @@
                   referenceNamespace="opendma"
                   referenceName="Containable">
             <Abstract>the destination of this directed link</Abstract>
-        </Property>
-
-        <Property namespace="opendma"
-                  name="CreatedAt"
-                  apiName="CreatedAt"
-                  readOnly="true"
-                  required="false"
-                  dataType="datetime"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the timestamp when this association has been created</Abstract>
-        </Property>
-
-        <Property namespace="opendma"
-                  name="CreatedBy"
-                  apiName="CreatedBy"
-                  readOnly="true"
-                  required="false"
-                  dataType="string"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the user who created this association</Abstract>
-        </Property>
-
-        <Property namespace="opendma"
-                  name="LastModifiedAt"
-                  apiName="LastModifiedAt"
-                  readOnly="true"
-                  required="false"
-                  dataType="datetime"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the timestamp when this association has been modified the last time</Abstract>
-        </Property>
-
-        <Property namespace="opendma"
-                  name="LastModifiedBy"
-                  apiName="LastModifiedBy"
-                  readOnly="true"
-                  required="false"
-                  dataType="string"
-                  multiValue="false"
-                  hidden="false"
-                  system="true">
-            <Abstract>the user who modified this association the last time</Abstract>
         </Property>
 
     </Class>
