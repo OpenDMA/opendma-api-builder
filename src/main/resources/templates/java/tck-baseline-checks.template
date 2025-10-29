@@ -250,10 +250,15 @@
             }
         }
         HashMap<OdmaQName, OdmaPropertyInfo> aspectProps = new HashMap<OdmaQName, OdmaPropertyInfo>();
+        HashMap<OdmaQName, OdmaClass> propNameToAspect = new HashMap<OdmaQName, OdmaClass>();
         HashSet<OdmaQName> aspectNames = new HashSet<OdmaQName>();
         for(OdmaClass aspect : cls.getAspects()) {
             if(!aspect.isAspect()) {
                 result.add(debugDescribe(cls)+" aspect "+debugDescribe(aspect)+" has isAspect()==false");
+            }
+            if(aspectNames.contains(aspect.getQName())) {
+                result.add(debugDescribe(cls)+" has multiple aspects with same name: "+aspect.getQName());
+                cls.getAspects();
             }
             aspectNames.add(aspect.getQName());
             if(!superClassAspectNames.contains(aspect.getQName())) {
@@ -273,7 +278,7 @@
                     continue;
                 }
                 if(aspectProps.containsKey(pi.getQName())) {
-                    result.add(debugDescribe(cls)+ " imports multiple properties with same name through aspects: "+pi.getQName());
+                    result.add(debugDescribe(cls)+ " imports multiple properties with same name through aspects: "+pi.getQName()+". Imported through aspect "+propNameToAspect.get(pi.getQName()).getQName()+" and again through aspect "+aspect.getQName());
                     continue;
                 }
                 boolean aspectPropInherited;
@@ -302,6 +307,7 @@
                     result.add(debugDescribe(cls)+" imports aspect "+debugDescribe(aspect)+" with naming conflict of property "+debugDescribe(pi)+" with inherited properties from super class");
                 }
                 aspectProps.put(pi.getQName(), pi);
+                propNameToAspect.put(pi.getQName(), aspect);
             }
         }
         HashMap<OdmaQName, OdmaPropertyInfo> allProps = new HashMap<OdmaQName, OdmaPropertyInfo>();
