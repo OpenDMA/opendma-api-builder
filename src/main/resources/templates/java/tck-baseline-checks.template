@@ -258,7 +258,6 @@
             }
             if(aspectNames.contains(aspect.getQName())) {
                 result.add(debugDescribe(cls)+" has multiple aspects with same name: "+aspect.getQName());
-                cls.getIncludedAspects();
             }
             aspectNames.add(aspect.getQName());
             if(!superClassAspectNames.contains(aspect.getQName())) {
