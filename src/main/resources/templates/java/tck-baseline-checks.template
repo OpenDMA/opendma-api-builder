@@ -180,8 +180,8 @@
             result.add(debugDescribe(cls)+" ABORT class baseline verification");
             return result;
         }
-        if(cls.getAspects() == null) {
-            result.add(debugDescribe(cls)+".getAspects() returns null");
+        if(cls.getIncludedAspects() == null) {
+            result.add(debugDescribe(cls)+".getIncludedAspects() returns null");
         }
         if(cls.getSuperClass() != null) {
             if(cls.isAspect() != cls.getSuperClass().isAspect()) {
@@ -239,26 +239,26 @@
             }
         }
         if(cls.isAspect()) {
-            if(cls.getAspects().iterator().hasNext()) {
+            if(cls.getIncludedAspects().iterator().hasNext()) {
                 result.add(debugDescribe(cls)+" is declared as Aspect but does have aspects itself");
             }
         }
         HashSet<OdmaQName> superClassAspectNames = new HashSet<OdmaQName>();
         if(cls.getSuperClass() != null) {
-            for(OdmaClass superAspect : cls.getSuperClass().getAspects()) {
+            for(OdmaClass superAspect : cls.getSuperClass().getIncludedAspects()) {
                 superClassAspectNames.add(superAspect.getQName());
             }
         }
         HashMap<OdmaQName, OdmaPropertyInfo> aspectProps = new HashMap<OdmaQName, OdmaPropertyInfo>();
         HashMap<OdmaQName, OdmaClass> propNameToAspect = new HashMap<OdmaQName, OdmaClass>();
         HashSet<OdmaQName> aspectNames = new HashSet<OdmaQName>();
-        for(OdmaClass aspect : cls.getAspects()) {
+        for(OdmaClass aspect : cls.getIncludedAspects()) {
             if(!aspect.isAspect()) {
                 result.add(debugDescribe(cls)+" aspect "+debugDescribe(aspect)+" has isAspect()==false");
             }
             if(aspectNames.contains(aspect.getQName())) {
                 result.add(debugDescribe(cls)+" has multiple aspects with same name: "+aspect.getQName());
-                cls.getAspects();
+                cls.getIncludedAspects();
             }
             aspectNames.add(aspect.getQName());
             if(!superClassAspectNames.contains(aspect.getQName())) {
@@ -287,7 +287,7 @@
                 } else {
                 	aspectPropInherited = false;
                     if(cls.getSuperClass() != null) {
-                        for(OdmaClass superAspect : cls.getSuperClass().getAspects()) {
+                        for(OdmaClass superAspect : cls.getSuperClass().getIncludedAspects()) {
                             if(isOrExtends(superAspect.getQName(), aspect)) {
                                 for(OdmaPropertyInfo superAspectProp : superAspect.getProperties()) {
                                     if(superAspectProp.getQName().equals(pi.getQName())) {
@@ -393,14 +393,14 @@
         if(cls.getSuperClass() != null) {
             verifyClassBaseline(cls.getSuperClass(), objectLoopCheck, classLoopCheck);            
         }
-        for(OdmaClass aspect : cls.getAspects()) {
+        for(OdmaClass aspect : cls.getIncludedAspects()) {
             verifyClassBaseline(aspect, objectLoopCheck, classLoopCheck);            
         }
         if(cls.getSuperClass() != null) {
-            for(OdmaClass superAspect : cls.getSuperClass().getAspects()) {
+            for(OdmaClass superAspect : cls.getSuperClass().getIncludedAspects()) {
                 if(!aspectNames.contains(superAspect.getQName())) {
                 	boolean foundExtendingAspect = false;
-                    for(OdmaClass a : cls.getAspects()) {
+                    for(OdmaClass a : cls.getIncludedAspects()) {
                     	foundExtendingAspect |= isOrExtends(superAspect.getQName(), a);
                     }
                 	if(!foundExtendingAspect) {

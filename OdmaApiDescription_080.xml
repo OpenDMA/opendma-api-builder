@@ -161,8 +161,8 @@
         </Property>
 
         <Property namespace="opendma"
-                  name="Aspects"
-                  apiName="Aspects"
+                  name="IncludedAspects"
+                  apiName="IncludedAspects"
                   readOnly="false"
                   required="false"
                   dataType="reference"
@@ -171,7 +171,7 @@
                   system="true"
                   referenceNamespace="opendma"
                   referenceName="Class">
-            <Abstract>List of aspects that are implemented by this class</Abstract>
+            <Abstract>List of aspects that are included in this class</Abstract>
             <Description>If this object describes an Aspect, i.e. the opendma:Aspect property is true, it cannot have any Aspects itself. For classes, this set contains all elements of the opendma:Aspects set of the super class. All opendma:PropertyInfo objects contained in the opendma:Properties set of any of the opendma:Class objects in this set are also part of the opendma:Properties set of this class.</Description>
         </Property>
 

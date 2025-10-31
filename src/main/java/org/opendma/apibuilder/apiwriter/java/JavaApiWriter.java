@@ -733,7 +733,7 @@ public class JavaApiWriter extends AbstractApiWriter
         out.println("public class OdmaStaticSystemClass"+className+" extends OdmaStaticSystemClass");
         out.println("{");
         out.println("");
-        out.println("    public OdmaStaticSystemClass"+className+"(OdmaStaticSystemClass superClass, Iterable<OdmaClass> subClasses, Iterable<OdmaClass> aspects, Iterable<OdmaPropertyInfo> declaredProperties, boolean retrievable, boolean searchable) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
+        out.println("    public OdmaStaticSystemClass"+className+"(OdmaStaticSystemClass superClass, Iterable<OdmaClass> subClasses, Iterable<OdmaClass> includedAspects, Iterable<OdmaPropertyInfo> declaredProperties, boolean retrievable, boolean searchable) throws OdmaInvalidDataTypeException, OdmaAccessDeniedException");
         out.println("    {");
         out.println("        super(subClasses);");
         // iterate through all properties defined in the propertyInfo class
@@ -780,9 +780,9 @@ public class JavaApiWriter extends AbstractApiWriter
         {
             printX(out,"PARENT","parent","REFERENCE");
         }
-        else if(pn.equals("ASPECTS"))
+        else if(pn.equals("INCLUDEDASPECTS"))
         {
-            printXMultivalue(out,"ASPECTS","aspects","REFERENCE");
+            printXMultivalue(out,"INCLUDEDASPECTS","includedAspects","REFERENCE");
         }
         else if(pn.equals("DECLAREDPROPERTIES"))
         {

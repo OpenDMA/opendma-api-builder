@@ -281,7 +281,7 @@ public class OdmaStaticClassHierarchy {
             return true;
         }
         // test aspects
-        Iterable<OdmaClass> aspects = c.getAspects();
+        Iterable<OdmaClass> aspects = c.getIncludedAspects();
         if(aspects != null) {
             Iterator<OdmaClass> itAspects = aspects.iterator();
             while(itAspects.hasNext()) {

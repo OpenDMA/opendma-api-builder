@@ -137,7 +137,7 @@ public class OdmaStaticSystemObject implements OdmaCoreObject {
             if(test.getQName().equals(classOrAspectName)) {
                 return true;
             }
-            Iterable<OdmaClass> aspects = test.getAspects();
+            Iterable<OdmaClass> aspects = test.getIncludedAspects();
             if(aspects != null) {
                 Iterator<OdmaClass> itAspects = aspects.iterator();
                 while(itAspects.hasNext()) {

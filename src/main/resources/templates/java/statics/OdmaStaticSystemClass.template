@@ -35,7 +35,7 @@ public abstract class OdmaStaticSystemClass extends OdmaStaticSystemObject imple
                 props.add(itSuperClassProps.next());
             }
         }
-        for(OdmaClass aspect : getAspects()) {
+        for(OdmaClass aspect : getIncludedAspects()) {
             Iterable<OdmaPropertyInfo> aspectProps = aspect.getProperties();
             Iterator<OdmaPropertyInfo> itAspectProps = aspectProps.iterator();
             while(itAspectProps.hasNext()) {
