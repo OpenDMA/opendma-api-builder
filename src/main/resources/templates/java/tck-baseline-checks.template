@@ -76,9 +76,40 @@
         if(obj.getOdmaClass().isAspect() == true) {
             result.add(debugDescribe(obj)+".getOdmaClass().isAspect() == true");
         }
+        if(obj.getAspects() == null) {
+            result.add(debugDescribe(obj)+".getAspects() returns null");
+            result.add(debugDescribe(obj)+" ABORT baseline verification");
+            return result;
+        }
+        for(OdmaClass aspect : obj.getAspects()) {
+            if(aspect.getProperties() == null) {
+                result.add(debugDescribe(obj)+".getAspects()["+debugDescribe(aspect)+"].getProperties() returns null");
+                result.add(debugDescribe(obj)+" ABORT baseline verification");
+                return result;
+            }
+            if(aspect.isAspect() == false) {
+                result.add(debugDescribe(obj)+".getAspects()["+debugDescribe(aspect)+"].isAspect() == false");
+            }
+        }
+        // collect all property infos and check uniqueness
+        LinkedList<OdmaPropertyInfo> allPropertyInfos = new LinkedList<OdmaPropertyInfo>();
+        HashSet<OdmaQName> propertyInfoNames = new HashSet<OdmaQName>();
+        for(OdmaPropertyInfo pi : obj.getOdmaClass().getProperties()) {
+            // Note: uniqueness of property names within the class is checked as part of verifyClassBaseline()
+            allPropertyInfos.add(pi);
+            propertyInfoNames.add(pi.getQName());
+        }
+        for(OdmaClass aspect : obj.getAspects()) {
+            for(OdmaPropertyInfo pi : aspect.getProperties()) {
+                if(propertyInfoNames.contains(pi.getQName())) {
+                    result.add(debugDescribe(obj)+" naming conflict in properties. Duplicate name "+pi.getQName());
+                }
+                allPropertyInfos.add(pi);
+                propertyInfoNames.add(pi.getQName());
+            }
+        }
         // check we have all properties
-        OdmaClass clazz = obj.getOdmaClass();
-        for(OdmaPropertyInfo pi : clazz.getProperties()) {
+        for(OdmaPropertyInfo pi : allPropertyInfos) {
             OdmaProperty prop;
             try
             {
@@ -127,7 +158,7 @@
             while(itAvailableProperties.hasNext()) {
                 availablePropertyNames.add(itAvailableProperties.next().getName());
             }
-            for(OdmaPropertyInfo pi : clazz.getProperties()) {
+            for(OdmaPropertyInfo pi : allPropertyInfos) {
                 if(!availablePropertyNames.contains(pi.getQName())) {
                     result.add(debugDescribe(obj)+": Marked as availablePropertiesComplete, but property is not available `"+pi.getQName()+"`");
                 }

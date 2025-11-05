@@ -60,6 +60,21 @@
         </Property>
 
         <Property namespace="opendma"
+                  name="Aspects"
+                  apiName="Aspects"
+                  readOnly="true"
+                  required="false"
+                  dataType="reference"
+                  multiValue="true"
+                  hidden="false"
+                  system="true"
+                  referenceNamespace="opendma"
+                  referenceName="Class">
+            <Abstract>References to valid aspect objects describing this object</Abstract>
+            <Description>The opendma:Aspects can augment the layout and features defined by opendma:Class for this object.</Description>
+        </Property>
+
+        <Property namespace="opendma"
                   name="Id"
                   apiName="Id"
                   readOnly="true"
