@@ -1,6 +1,6 @@
 # OpenDMA API Builder
 
-This Java tool reads the descriptions of abstract API objects from a XML
+This Java tool reads the descriptions of abstract API objects from an XML
 file and generates APIs for various programming languages.
 
 It currently supports:
