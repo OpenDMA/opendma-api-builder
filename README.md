@@ -34,3 +34,16 @@ without any errors.
 
 You can run the code generation with `mvn exec:java`. This will place
 the generated APIs in `./src.generated`.
+
+## License
+
+This project contains two kinds of content under different licenses:
+
+- **Code Generator** — GPL v3.0  
+  The Java code under `/src/main/java` and the relevant build files are licensed under the GNU General Public License v3.0.
+
+- **Templates** — Apache License 2.0  
+  Files under `/src/main/resources` are licensed under the Apache License 2.0.  
+  These templates are partially or fully copied into generated API code. Consequently, the generated APIs are licensed under the Apache License 2.0.
+
+This dual-license structure ensures that while the generator remains open under the GPL, the generated API code can be distributed under a permissive license.
