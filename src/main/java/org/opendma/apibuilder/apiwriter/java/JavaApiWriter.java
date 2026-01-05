@@ -279,6 +279,8 @@ public class JavaApiWriter extends AbstractApiWriter
         copyTemplateToStream("maven-opendma-api-pom", new FileOutputStream(new File(opendmaApiProjectFolder, "pom.xml")), resolver);
         // README.md
         copyTemplateToStream("README", new FileOutputStream(new File(opendmaApiProjectFolder, "README.md")), resolver);
+        // LICENSE
+        copyGlobalTemplateToStream("apache-license", new FileOutputStream(new File(opendmaApiProjectFolder, "LICENSE")), null,  true);
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

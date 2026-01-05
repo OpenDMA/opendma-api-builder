@@ -7,7 +7,7 @@ name = "opendma-api"
 version = "{{version}}"
 description = "Python API for OpenDMA"
 readme = "README.md"
-# license = {text = ""}
+license = {text = "Apache License (2.0)"}
 dependencies = []
 classifiers = [
     "Development Status :: 3 - Alpha",

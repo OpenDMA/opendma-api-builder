@@ -204,6 +204,8 @@ public class TypeScriptApiWriter extends AbstractApiWriter
         // opendma-api package.json and tsconfig.json
         copyTemplateToStream("opendma-api-package", new FileOutputStream(new File(opendmaApiProjectFolder, "package.json")), resolver);
         copyTemplateToStream("opendma-api-tsconfig", new FileOutputStream(new File(opendmaApiProjectFolder, "tsconfig.json")), resolver);
+        // LICENSE
+        copyGlobalTemplateToStream("apache-license", new FileOutputStream(new File(opendmaApiProjectFolder, "LICENSE")), null,  true);
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

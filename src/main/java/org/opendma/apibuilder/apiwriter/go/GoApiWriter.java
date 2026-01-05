@@ -246,6 +246,8 @@ public class GoApiWriter extends AbstractApiWriter
         opendmaApiProjectFolder.mkdirs();
         // go.mod
         copyTemplateToStream("opendma-api-go.mod", new FileOutputStream(new File(opendmaApiProjectFolder, "go.mod")), resolver);
+        // LICENSE
+        copyGlobalTemplateToStream("apache-license", new FileOutputStream(new File(opendmaApiProjectFolder, "LICENSE")), null,  true);
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

@@ -201,6 +201,8 @@ public class SwiftApiWriter extends AbstractApiWriter
         opendmaApiSourcesFolder.mkdirs();
         // opendma-api Package.swift
         copyTemplateToStream("opendma-api-package", new FileOutputStream(new File(opendmaApiProjectFolder, "Package.swift")), resolver);
+        // LICENSE
+        copyGlobalTemplateToStream("apache-license", new FileOutputStream(new File(opendmaApiProjectFolder, "LICENSE")), null,  true);
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

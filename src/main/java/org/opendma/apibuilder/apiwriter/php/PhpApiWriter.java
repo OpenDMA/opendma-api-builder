@@ -184,6 +184,8 @@ public class PhpApiWriter extends AbstractApiWriter
         opendmaApiFolder.mkdirs();
         // opendma-api composer file - see https://getcomposer.org/doc/
         copyTemplateToStream("opendma-api-composer", new FileOutputStream(new File(opendmaApiFolder, "composer.json")));
+        // LICENSE
+        copyGlobalTemplateToStream("apache-license", new FileOutputStream(new File(opendmaApiFolder, "LICENSE")), null,  true);
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

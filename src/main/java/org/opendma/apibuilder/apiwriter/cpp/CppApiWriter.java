@@ -202,6 +202,8 @@ public class CppApiWriter extends AbstractApiWriter
         includeFolder.mkdirs();
         templatesFolder = new File(baseFolder, "templates");
         templatesFolder.mkdirs();
+        // LICENSE
+        copyGlobalTemplateToStream("apache-license", new FileOutputStream(new File(baseFolder, "LICENSE")), null,  true);
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

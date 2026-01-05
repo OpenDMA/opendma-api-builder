@@ -175,6 +175,8 @@ public class JavaScriptApiWriter extends AbstractApiWriter
     {
         opendmaApiFOS = new FileOutputStream(new File(baseFolder, "opendma-api.js"));
         copyTemplateToStream("opendma-api-header", opendmaApiFOS, false);
+        // LICENSE
+        copyGlobalTemplateToStream("apache-license", new FileOutputStream(new File(baseFolder, "LICENSE")), null,  true);
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

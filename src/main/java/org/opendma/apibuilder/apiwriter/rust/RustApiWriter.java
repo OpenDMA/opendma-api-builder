@@ -251,6 +251,8 @@ public class RustApiWriter extends AbstractApiWriter
         opendmaApiSourceFolder.mkdirs();
         // opendma-api Cargo.toml
         copyTemplateToStream("opendma-api-cargo", new FileOutputStream(new File(opendmaApiProjectFolder, "Cargo.toml")), resolver);
+        // LICENSE
+        copyGlobalTemplateToStream("apache-license", new FileOutputStream(new File(opendmaApiProjectFolder, "LICENSE")), null,  true);
     }
     
     protected void registerApiModule(String moduleName)

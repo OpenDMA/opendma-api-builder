@@ -213,6 +213,8 @@ public class CsApiWriter extends AbstractApiWriter
         copyTemplateToStream("OpenDMA.Api.csproj", new FileOutputStream(new File(opendmaApiFolder, "OpenDMA.Api.csproj")), resolver);
         // README.md
         copyTemplateToStream("README", new FileOutputStream(new File(baseFolder, "README.md")), resolver);
+        // LICENSE
+        copyGlobalTemplateToStream("apache-license", new FileOutputStream(new File(baseFolder, "LICENSE")), null,  true);
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException

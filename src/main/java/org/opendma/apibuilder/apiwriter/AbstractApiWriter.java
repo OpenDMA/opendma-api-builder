@@ -209,6 +209,11 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
     {
         return internalGetResourceAsStream("/templates/"+getTargetFolderName()+"/"+templateName+".template");
     }
+
+    public InputStream getGlobalTemplateAsStream(String templateName)
+    {
+        return internalGetResourceAsStream("/templates/"+templateName+".template");
+    }
     
     public static void streamCopy(InputStream from, OutputStream to) throws IOException
     {
@@ -283,6 +288,36 @@ public abstract class AbstractApiWriter implements OdmaApiWriter
         try
         {
             InputStream from = getTemplateAsStream(templateName);
+            try
+            {
+                if(placeholderResolver != null)
+                {
+                    streamCopy(from, out, placeholderResolver);
+                }
+                else
+                {
+                    streamCopy(from, out);
+                }
+            }
+            finally
+            {
+                from.close();
+            }
+        }
+        finally
+        {
+            if(closeOutput)
+            {
+                out.close();
+            }
+        }
+    }
+    
+    public void copyGlobalTemplateToStream(String templateName, OutputStream out, PlaceholderResolver placeholderResolver, boolean closeOutput) throws IOException
+    {
+        try
+        {
+            InputStream from = getGlobalTemplateAsStream(templateName);
             try
             {
                 if(placeholderResolver != null)

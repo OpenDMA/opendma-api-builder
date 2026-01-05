@@ -214,6 +214,8 @@ public class Java14ApiWriter extends AbstractApiWriter
     
     protected void prepareProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
     {
+        // LICENSE
+        copyGlobalTemplateToStream("apache-license", new FileOutputStream(new File(baseFolder, "LICENSE")), null,  true);
     }
     
     protected void finaliseProjectStructureAndBuildFiles(ApiDescription apiDescription) throws IOException
