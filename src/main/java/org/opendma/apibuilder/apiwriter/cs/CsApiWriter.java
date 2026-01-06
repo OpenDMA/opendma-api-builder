@@ -301,7 +301,31 @@ public class CsApiWriter extends AbstractApiWriter
                         }
                         sb.append("                case OdmaType."+scalarType.getName().toUpperCase()+":");
                         sb.append(System.lineSeparator());
-                        sb.append("                    return property.Get"+scalarType.getName()+(scalarType.isReference()?"Enumerable":"List")+"();");
+                        if(scalarType.isReference()) {
+                            // in C#, we cannot simply cast IEnumerable<IOdmaObject> to sub interfaces like IEnumerable<IOdmaClass>
+                            // we need to handle covariance explicitly
+                            sb.append("                    var enumerable = property.Get"+scalarType.getName()+"Enumerable();");
+                            sb.append(System.lineSeparator());
+                            sb.append("                    if (returnType.IsGenericType &&");
+                            sb.append(System.lineSeparator());
+                            sb.append("                        returnType.GetGenericTypeDefinition() == typeof(IEnumerable<>) &&");
+                            sb.append(System.lineSeparator());
+                            sb.append("                        returnType.GetGenericArguments()[0] != typeof(IOdmaObject))");
+                            sb.append(System.lineSeparator());
+                            sb.append("                    {");
+                            sb.append(System.lineSeparator());
+                            sb.append("                        var targetElementType = returnType.GetGenericArguments()[0];");
+                            sb.append(System.lineSeparator());
+                            sb.append("                        var castMethod = typeof(Enumerable).GetMethod(\"Cast\").MakeGenericMethod(targetElementType);");
+                            sb.append(System.lineSeparator());
+                            sb.append("                        return castMethod.Invoke(null, new object[] { enumerable });");
+                            sb.append(System.lineSeparator());
+                            sb.append("                    }");
+                            sb.append(System.lineSeparator());
+                            sb.append("                    return enumerable;");
+                        } else {
+                            sb.append("                    return property.Get"+scalarType.getName()+"List();");
+                        }
                     }
                     return sb.toString();
                 }
