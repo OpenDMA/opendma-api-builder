@@ -76,6 +76,18 @@ public class CsApiWriter extends AbstractApiWriter
         }
         out.println("    }");
         out.println("");
+        out.println("    public enum OdmaTypeHelper");
+        out.println("    {");
+        out.println("        public static OdmaType FromString(string value)");
+        out.println("        {");
+        out.println("            if (Enum.TryParse<OdmaType>(value, ignoreCase: true, out var result))");
+        out.println("            {");
+        out.println("                return result;");
+        out.println("            }");
+        out.println("            throw new ArgumentException($\"Unknown OdmaType name: '{value}'\");");
+        out.println("        }");
+        out.println("    }");
+        out.println("");
         out.println("}");
         out.close();
     }
