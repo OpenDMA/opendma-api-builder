@@ -76,7 +76,7 @@ public class CsApiWriter extends AbstractApiWriter
         }
         out.println("    }");
         out.println("");
-        out.println("    public enum OdmaTypeHelper");
+        out.println("    public static class OdmaTypeHelper");
         out.println("    {");
         out.println("        public static OdmaType FromString(string value)");
         out.println("        {");
