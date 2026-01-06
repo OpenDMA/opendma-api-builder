@@ -57,7 +57,7 @@ namespace OpenDMA.Api
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
         /// <param name="repositoryId">The unique identifier of the repository.</param>
         /// <param name="objectId">The unique identifier of the object that was not found or null if the repository does not exist.</param>
-        public OdmaObjectNotFoundException(string message, Exception innerException, OdmaGuid objectGuid) 
+        public OdmaObjectNotFoundException(string message, Exception innerException, OdmaId repositoryId, OdmaId objectId) 
             : base(message, innerException)
         {
             this._repositoryId = repositoryId;
