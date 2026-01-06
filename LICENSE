@@ -12,6 +12,7 @@ However, note the following licensing distinctions:
   Apache License 2.0.
 
 - Templates for various programming languages (under `/src/main/resources`)
+  as well as the API Description files (`/OdmaApiDescription*.xml`)
   are therefore licensed under the Apache License 2.0.
 
 - Template fragments included in the generated code are therefore licensed
