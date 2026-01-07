@@ -23,7 +23,7 @@ This project is available on Maven Central. Add the following dependency to your
         <dependency>
             <groupId>org.opendma</groupId>
             <artifactId>opendma-api</artifactId>
-            <version>0.8-SNAPSHOT</version>
+            <version>{{version}}</version>
         </dependency>
     </dependencies>
 ```
