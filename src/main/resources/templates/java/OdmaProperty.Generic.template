@@ -12,8 +12,6 @@
      * class.
      * 
      * @return the data type of this property.
-     * 
-     * @see org.opendma.OdmaTypes
      */
     public OdmaType getType();
 

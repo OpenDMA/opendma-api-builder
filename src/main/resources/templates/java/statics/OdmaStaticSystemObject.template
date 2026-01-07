@@ -113,7 +113,7 @@ public class OdmaStaticSystemObject implements OdmaCoreObject {
     /**
      * Checks if there are pending changes to properties that have not been persisted to the server.
      * 
-     * @return <code>true<code> if there are pending changes that have not yet been persisted, <code>false<code> otherwise
+     * @return <code>true</code> if there are pending changes that have not yet been persisted, <code>false</code> otherwise
      */
     public boolean isDirty() {
         // we are static. properties can not be changed.
