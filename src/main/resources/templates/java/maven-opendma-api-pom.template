@@ -19,7 +19,7 @@
 
     <scm>
         <connection>scm:git:git://github.com/OpenDMA/opendma-java-api.git</connection>
-        <developerConnection>scm:git:ssh://github.com/OpenDMA/opendma-java-api.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@github.com/OpenDMA/opendma-java-api.git</developerConnection>
         <url>https://github.com/OpenDMA/opendma-java-api</url>
         <tag>HEAD</tag>
     </scm>
