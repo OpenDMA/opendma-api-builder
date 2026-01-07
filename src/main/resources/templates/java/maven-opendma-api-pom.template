@@ -18,9 +18,9 @@
     </properties>
 
     <scm>
-        <url>https://github.com/OpenDMA/opendma-java-api</url>
         <connection>scm:git:git://github.com/OpenDMA/opendma-java-api.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/OpenDMA/opendma-java-api.git</developerConnection>
+        <developerConnection>scm:git:ssh://github.com/OpenDMA/opendma-java-api.git</developerConnection>
+        <url>https://github.com/OpenDMA/opendma-java-api</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -45,6 +45,19 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <name>Stefan Kopf</name>
+            <organization>xaldon Technologies GmbH</organization>
+            <organizationUrl>https://www.xaldon.com</organizationUrl>
+        </developer>
+        <developer>
+            <name>OpenDMA Contributors</name>
+            <organization>OpenDMA</organization>
+            <organizationUrl>https://www.opendma.org</organizationUrl>
+        </developer>
+    </developers>
 
     <build>
         <plugins>
@@ -82,6 +95,51 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals><goal>jar-no-fork</goal></goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.3</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals><goal>jar</goal></goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.9.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                </configuration>
             </plugin>
         </plugins>
     </build>
