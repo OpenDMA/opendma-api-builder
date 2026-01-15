@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "opendma-api"
-version = "{{version}}"
+version = "{{version}}.0.dev0"
 description = "Python API for OpenDMA"
 readme = "README.md"
 license = "Apache-2.0"
