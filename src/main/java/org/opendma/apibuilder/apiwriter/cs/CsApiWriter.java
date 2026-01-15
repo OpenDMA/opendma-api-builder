@@ -219,7 +219,7 @@ public class CsApiWriter extends AbstractApiWriter
         // solution
         copyTemplateToStream("OpenDMA.sln", new FileOutputStream(new File(baseFolder, "OpenDMA.sln")), resolver);
         // OpenDMA.Api folder structure
-        opendmaApiFolder = new File(baseFolder, "OpenDMA.Api");
+        opendmaApiFolder = baseFolder; // new File(baseFolder, "OpenDMA.Api");
         opendmaApiFolder.mkdirs();
         // OpenDMA.Api project file
         copyTemplateToStream("OpenDMA.Api.csproj", new FileOutputStream(new File(opendmaApiFolder, "OpenDMA.Api.csproj")), resolver);
