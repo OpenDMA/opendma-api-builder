@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;netstandard2.0</TargetFrameworks>
+    <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <PackageId>OpenDMA.Api</PackageId>
     <Version>{{version}}</Version>
