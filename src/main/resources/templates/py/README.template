@@ -28,7 +28,7 @@ The OpenDMA API defines a set of interfaces (ABCs in python) that need to be imp
 OpenDMA Adaptor for an actual ECM system -- very similar to database drivers.
 
 There is a generic [OpenDMA REST Client for Python](https://github.com/OpenDMA/opendma-python-remote)
-implementing this API on top of the [OpenDMA REST API](https://github.com/OpenDMA/opendma-rest-server/blob/main/opendma-api-spec-070.yaml).
+implementing this API on top of the [OpenDMA REST API](https://github.com/OpenDMA/opendma-spec/blob/main/opendma-rest-api-spec.yaml).
 With the help of REST-ful servers and clients it is possible to bridge programming language and network boundaries.
 
 You can find multiple examples for Python in the [OpenDMA REST Client for Python](https://github.com/OpenDMA/opendma-python-remote) repository.
