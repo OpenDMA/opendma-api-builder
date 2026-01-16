@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.opendma</groupId>
   <artifactId>opendma-api-builder</artifactId>
-  <version>0.8</version>
+  <version>0.9-SNAPSHOT</version>
 
   <name>OpenDMA API Builder</name>
   <description>Generates the OpenDMA API for various programming languages from a class hierarchy spec file</description>
@@ -36,7 +36,7 @@
     <url>https://github.com/OpenDMA/opendma-api-builder</url>
     <connection>scm:git:git://github.com/OpenDMA/opendma-api-builder.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/OpenDMA/opendma-api-builder.git</developerConnection>
-    <tag>0.8</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <issueManagement>
